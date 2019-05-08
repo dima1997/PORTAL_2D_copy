@@ -8,6 +8,7 @@ set(COMMON_FOLDER "common")
 file(GLOB common_files
         "${COMMON_FOLDER}/socket_exception.cpp"
         "${COMMON_FOLDER}/socket.cpp"
+        "${COMMON_FOLDER}/blocking_queue.cpp"
         )
 
 # SERVER -----------------------
