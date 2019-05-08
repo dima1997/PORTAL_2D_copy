@@ -6,7 +6,8 @@ set(CMAKE_CXX_STANDARD 11)
 # COMMON -----------------------
 set(COMMON_FOLDER "common")
 file(GLOB common_files
-#        "${COMMON_FOLDER}/file.cpp"
+        "${COMMON_FOLDER}/socket_exception.cpp"
+        "${COMMON_FOLDER}/socket.cpp"
         )
 
 # SERVER -----------------------
