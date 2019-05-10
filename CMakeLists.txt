@@ -20,7 +20,7 @@ file(GLOB server_files
 
 add_executable(${SERVER_NAME} ${common_files} ${server_files})
 
-add_subdirectory(lib/Box2D)
+add_subdirectory(lib/Box2D-cmake)
 target_compile_features(${SERVER_NAME} PUBLIC cxx_std_17)
 target_link_libraries(${SERVER_NAME} TG::Box2D)
 
