@@ -6,7 +6,7 @@ Implementación del Portal 1 en 2D como TP final de la materia Taller de Program
 ### Crear nuevo juego
 El cliente le envía al servidor el comando _new_game_ (enum definido en common/protocol_code.h), seguido del _map_id_ que quiere utilizar (uint8_t).
 
-El servidor le responde un status (otro enum definido en el mismo archivo). Si el status es _command_ok_, le envía el _game_id_ (uint_8).
+El servidor le responde un status (otro enum definido en el mismo archivo). Si el status es _command_ok_, le envía el _game_id_ (uint8_t).
 
 ### Unirse a un juego
 El cliente le envía al servidor el comando _join_game_, seguido del _game_id_ al que se quiere unir (uint8_t).
