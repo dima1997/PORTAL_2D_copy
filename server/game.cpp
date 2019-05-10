@@ -17,7 +17,11 @@ Game::Game(Game &&other) noexcept {
     other.players = std::vector<Connector>();
 }
 
-Game::Game(int id): id(id), players(), mutex(), ready(false), numberOfPlayers(3) {}
+Game::Game(int id, Connector &connector): id(id), players(), mutex(), ready(false), numberOfPlayers(3) {
+    connector << command_ok;
+    connector << id;
+    players.push_back(std::move(connector));
+}
 
 bool Game::addPlayer(Connector &connector) {
     std::unique_lock<std::mutex> l(mutex);
@@ -25,10 +29,6 @@ bool Game::addPlayer(Connector &connector) {
         connector << command_ok;
         connector << (uint8_t) players.size(); // player id
         players.push_back(std::move(connector));
-        if (players.size() == numberOfPlayers) {
-            ready = true;
-//            thread = std::thread(&Game::start, this);
-        }
         return true;
     }
     return false;
@@ -43,4 +43,11 @@ Game::~Game() {
 //    if (ready) {
 //        thread.join();
 //    }
+}
+
+void Game::startIfReady() {
+    if (players.size() == numberOfPlayers && !ready) {
+        ready = true;
+//            thread = std::thread(&Game::start, this);
+    }
 }

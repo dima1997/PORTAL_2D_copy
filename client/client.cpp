@@ -16,6 +16,9 @@ void Client::operator()() {
         uint8_t status;
         connector >> status;
         std::cout << (unsigned) status << std::endl;
+        uint8_t game_id;
+        connector >> game_id;
+        std::cout << (unsigned) game_id << std::endl;
     }
     if (command == "join") {
         connector << join_game;

@@ -22,10 +22,11 @@ private:
     int numberOfPlayers;
     void start();
 public:
-    explicit Game(int id);
+    Game(int id, Connector &connector);
     ~Game();
     Game(Game &&other) noexcept;
     Game &operator=(Game &&other) noexcept;
+    void startIfReady();
     bool addPlayer(Connector &connector);
 };
 
