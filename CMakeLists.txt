@@ -9,6 +9,7 @@ file(GLOB common_files
         "${COMMON_FOLDER}/socket_exception.cpp"
         "${COMMON_FOLDER}/socket.cpp"
         "${COMMON_FOLDER}/blocking_queue.cpp"
+        "${COMMON_FOLDER}/connector.cpp"
         )
 
 # SERVER -----------------------
@@ -16,6 +17,12 @@ set(SERVER_NAME "PORTAL_server")
 set(SERVER_FOLDER "server")
 file(GLOB server_files
         "${SERVER_FOLDER}/main.cpp"
+        "${SERVER_FOLDER}/server.cpp"
+        "${SERVER_FOLDER}/thread_pool.cpp"
+        "${SERVER_FOLDER}/client_acceptor.cpp"
+        "${SERVER_FOLDER}/request_executor.cpp"
+        "${SERVER_FOLDER}/game.cpp"
+        "${SERVER_FOLDER}/game_manager.cpp"
         )
 
 add_executable(${SERVER_NAME} ${common_files} ${server_files})
@@ -32,6 +39,7 @@ set(CLIENT_NAME "PORTAL")
 set(CLIENT_FOLDER "client")
 file(GLOB client_files
         "${CLIENT_FOLDER}/main.cpp"
+        "${CLIENT_FOLDER}/client.cpp"
         )
 
 add_executable(${CLIENT_NAME} ${common_files} ${client_files})

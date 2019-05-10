@@ -1,0 +1,13 @@
+//
+// Created by franciscosicardi on 09/05/19.
+//
+
+#ifndef TP3_TALLER_PROTOCOL_CODE_H
+#define TP3_TALLER_PROTOCOL_CODE_H
+
+#include <cstdint>
+
+enum CommandName: uint8_t { new_game, join_game };
+enum JoinGameResponse: uint8_t { command_ok, game_is_full, non_existent_game };
+
+#endif
