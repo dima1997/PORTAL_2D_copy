@@ -8,14 +8,12 @@
 
 #include <string>
 #include "../common/connector.h"
+#include "game.h"
 
 class Client {
-private:
-    Connector connector;
-    std::string command;
 public:
-    Client(std::string &host, std::string &port, std::string &command);
-    void operator()();
+    Client();
+    void operator()(std::string &host, std::string &port, std::string &command, uint8_t id);
 };
 
 

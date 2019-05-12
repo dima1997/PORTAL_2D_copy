@@ -10,6 +10,7 @@ file(GLOB common_files
         "${COMMON_FOLDER}/socket.cpp"
         "${COMMON_FOLDER}/blocking_queue.cpp"
         "${COMMON_FOLDER}/connector.cpp"
+        "${COMMON_FOLDER}/portal_exception.cpp"
         )
 
 # SERVER -----------------------
@@ -40,6 +41,8 @@ set(CLIENT_FOLDER "client")
 file(GLOB client_files
         "${CLIENT_FOLDER}/main.cpp"
         "${CLIENT_FOLDER}/client.cpp"
+        "${CLIENT_FOLDER}/game.cpp"
+        "${CLIENT_FOLDER}/game_factory.cpp"
         )
 
 add_executable(${CLIENT_NAME} ${common_files} ${client_files})

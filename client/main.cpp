@@ -4,17 +4,17 @@
 
 #include <string>
 #include "client.h"
+#include "game_factory.h"
 
 int main(int argc, char **argv) {
-    std::string host = "localhost";
-    std::string port = "8082";
-    std::string command = "new";
-    if (argc == 4) {
-        host = argv[1];
-        port = argv[2];
-        command = argv[3];
+    if (argc != 5) {
+        exit(1);
     }
-    Client client(host, port, command);
-    client();
+    std::string host = argv[1];
+    std::string port = argv[2];
+    std::string command = argv[3];
+    uint8_t id = (uint8_t)std::stoul(argv[4]);
+    Client client;
+    client(host, port, command, id);
     return 0;
 }
