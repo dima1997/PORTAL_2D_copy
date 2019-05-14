@@ -3,11 +3,13 @@
 //
 
 #include <string>
+#include <iostream>
 #include "client.h"
 #include "game_factory.h"
 
 int main(int argc, char **argv) {
     if (argc != 5) {
+        std::cerr << "Usage:\n\t" << argv[0] << " host port command id" << std::endl;
         exit(1);
     }
     std::string host = argv[1];
