@@ -1,0 +1,9 @@
+# Coordinates and dimensions in pixels
+
+ShootBlock : 
+{
+	x : 1,
+	y : 21,
+	width : 129
+	height : 130
+}
