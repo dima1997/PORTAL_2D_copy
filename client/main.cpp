@@ -1,9 +1,10 @@
 #include "src/window.h"
+#include "src/area.h"
 
 #include <SDL2/SDL.h>
 
-#define WIDTH_SCREEN 680
-#define HEIGHT_SCREEN 480
+#define WIDTH_WINDOW 680
+#define HEIGHT_WINDOW 480
 
 #define PATH_IMAGE "all_blocks.png"
 #define X_IMAGE 1
@@ -11,28 +12,43 @@
 #define WIDTH_IMAGE 129
 #define HEIGHT_IMAGE 130
 
+#define METERS_EQ_WIDTH_WINDOW 4
+#define METERS_EQ_SIDE_BLOCK 1
+
+#define SLEEP 5000
 
 void testShowOneBlock(){
-    Window window(680, 480);
+    float adjuster = WIDTH_WINDOW/METERS_EQ_WIDTH_WINDOW; 
+    Window window(WIDTH_WINDOW, HEIGHT_WINDOW, METERS_EQ_WIDTH_WINDOW);
     window.fill();
-    window.add_static_texture(PATH_IMAGE, X_IMAGE, Y_IMAGE, WIDTH_IMAGE, HEIGHT_IMAGE, WIDTH_SCREEN/2, HEIGHT_SCREEN/2);
+    Area areaSprite(X_IMAGE, Y_IMAGE, WIDTH_IMAGE, HEIGHT_IMAGE);
+    int xCoord = METERS_EQ_WIDTH_WINDOW/2;
+    int yCoord = (HEIGHT_WINDOW/adjuster)/2;
+    Area areaMap(xCoord, yCoord, METERS_EQ_SIDE_BLOCK, METERS_EQ_SIDE_BLOCK);
+    window.add_static_texture(PATH_IMAGE, areaSprite, areaMap);
     window.render();
-    SDL_Delay(3000);
+    SDL_Delay(SLEEP);
 }
 
 void testShowThreeBlocks(){
-    Window window(680, 480);
+    float adjuster = WIDTH_WINDOW/METERS_EQ_WIDTH_WINDOW; 
+    Window window(WIDTH_WINDOW, HEIGHT_WINDOW, METERS_EQ_WIDTH_WINDOW);
     window.fill();
-    window.add_static_texture(PATH_IMAGE, X_IMAGE, Y_IMAGE, WIDTH_IMAGE, HEIGHT_IMAGE, WIDTH_SCREEN/2 - WIDTH_IMAGE, HEIGHT_SCREEN/2);
-    window.add_static_texture(PATH_IMAGE, X_IMAGE, Y_IMAGE, WIDTH_IMAGE, HEIGHT_IMAGE, WIDTH_SCREEN/2, HEIGHT_SCREEN/2);
-    window.add_static_texture(PATH_IMAGE, X_IMAGE, Y_IMAGE, WIDTH_IMAGE, HEIGHT_IMAGE, WIDTH_SCREEN/2 + WIDTH_IMAGE, HEIGHT_SCREEN/2);
-    // TODO : Arreglar espaciado por redimension 
+    Area areaSprite(X_IMAGE, Y_IMAGE, WIDTH_IMAGE, HEIGHT_IMAGE);
+    int xCoord = METERS_EQ_WIDTH_WINDOW/2;
+    int yCoord = (HEIGHT_WINDOW/adjuster)/2;
+    Area areaMapLeft(xCoord - METERS_EQ_SIDE_BLOCK, yCoord, METERS_EQ_SIDE_BLOCK, METERS_EQ_SIDE_BLOCK);
+    Area areaMapCenter(xCoord, yCoord, METERS_EQ_SIDE_BLOCK, METERS_EQ_SIDE_BLOCK);
+    Area areaMapRight(xCoord + METERS_EQ_SIDE_BLOCK, yCoord, METERS_EQ_SIDE_BLOCK, METERS_EQ_SIDE_BLOCK);
+    window.add_static_texture(PATH_IMAGE, areaSprite, areaMapLeft);
+    window.add_static_texture(PATH_IMAGE, areaSprite, areaMapCenter);
+    window.add_static_texture(PATH_IMAGE, areaSprite, areaMapRight);
     window.render();
-    SDL_Delay(3000);
+    SDL_Delay(SLEEP);
 }
 
 int main(int argc, char **argv) {
-    //testShowOneBlock();
-    testShowThreeBlocks();
+    testShowOneBlock();
+    //testShowThreeBlocks();
     return 0;
 }

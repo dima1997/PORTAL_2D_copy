@@ -5,14 +5,17 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 
-#define  SCALE 0.25
 /*
-PRE: Recibe una longitud y altura (ambos int).
+PRE: Recibe:
+    La longitud y altura del ventanta en pixeles (ambos int).
+    La longitud de la ventana en la medida en que se ubican y 
+    dimensionan los objetos del mapa representados en la 
+    primera.
 POST: Inicializa una ventana de las medidas recibidas.
 Levanta SDLException en caso de error.
 */
-Window::Window(int width, int height) 
-: width(width), height(height) {
+Window::Window(int width, int height, int widthEquivalent)
+: width(width), height(height), widthEquivalent(widthEquivalent) {
     int errCode = SDL_Init(SDL_INIT_VIDEO);
     if (errCode) {
         throw SdlException("Error en la inicialización", SDL_GetError());
@@ -31,7 +34,6 @@ Window::~Window() {
         SDL_DestroyRenderer(this->renderer);
         this->renderer = nullptr;
     }
-
     if (this->window) {
         SDL_DestroyWindow(this->window);
         this->window = nullptr;
@@ -61,34 +63,34 @@ en el orden en que fueron agregadas; y por la ultimo la ventana
 en si.
 */
 void Window::render() {
+    float adjuster = this->width/this->widthEquivalent;
     for (int i = 0; i < this->staticTextures.size(); ++i){
-        this->staticTextures[i].render(this->width, this->height, SCALE, SCALE);
+        this->staticTextures[i].render(adjuster);
     }
     SDL_RenderPresent(this->renderer);
 }
 
 /*
 PRE: Recibe:
-    Una ruta (const std::string &) a una gran imagen que contiene el sprite de
-    que utilizara la textura estatica a agregar.
-    La coordenada x,y en pixeles (unsigned int) de la esquina superior 
-    izquierda del extracto rectangular de la image que se va a utilizar.
-    El ancho y alto en pixeles (unsigned int) del extracto rectangular.
-    Y la posicion x,y en metros (unsigned int) de la esquina superior 
-    izquierda del extracto rectangular en el mapa de juego.
+    Una ruta (const std::string &) a una gran imagen que contiene el sprite
+    de que utilizara la textura estatica a agregar.
+    Un area (Area) con las coordenadas y dimensiones del sprite a usar de 
+    la gran imagen (en pixeles).
+    Un area (Area) con las coordenadas y dimensiones del objeto que 
+    representa la textura en el mapa de juego (en la unidad del largo 
+    equivalente de la ventanta).
 POST: Agrega un nueva textura estatica a la ventana, bajo las condiciones 
 anteriores.
 */
 void Window::add_static_texture(const std::string & pathImage, 
-                                unsigned int xImage, unsigned int yImage,
-                                unsigned int width, unsigned int height,
-                                unsigned int xPos, unsigned int yPos) {
+                                Area areaSprite,
+                                Area areaMap) {
     if (this->bigTextures.count(pathImage) == 0){
         BigTexture newBigTexture(this->renderer, pathImage);
-        this->bigTextures.insert(mapStrBigTexture_t::value_type(pathImage, std::move(newBigTexture)));
+        this->bigTextures.insert(mapStrBigTexture_t::value_type(
+                                        pathImage, std::move(newBigTexture)));
     }
     StaticTexture newStaticTexture(this->bigTextures.at(pathImage), 
-                                    xImage, yImage, width, height, 
-                                    xPos, yPos);
-    this->staticTextures.push_back(std::move(newStaticTexture)); //std::move()
+                                    std::move(areaSprite), std::move(areaMap));
+    this->staticTextures.push_back(std::move(newStaticTexture));
 }

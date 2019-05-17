@@ -5,20 +5,17 @@
 /*
 PRE: Recibe:
     Una gran textura (BigTexture &).
-    La coordenada x,y en pixeles (unsigned int) de la esquina superior 
-    izquierda del extracto rectangular de la gran textura que se va a utilizar.
-    El ancho y alto en pixeles (unsigned int) del extracto rectangular.
-    Y la posicion x,y en metros (unsigned int) de la esquina superior 
-    izquierda del extracto rectangular en el mapa de juego.
+    Un area (Area) con las coordenadas y dimensiones del sprite a usar de 
+    la gran textura (en pixeles).
+    Un area (Area) con las coordenadas y dimensiones del objeto que 
+    representa la textura en el mapa de juego (en metros).
 POST: Inicializa un textura estatica.
 */
-StaticTexture::StaticTexture(BigTexture &bigTexture,
-                                unsigned int xImage, unsigned int yImage, 
-                                unsigned int widthImage, unsigned int heightImage, 
-                                unsigned int xPos, unsigned int yPos) 
-: bigTexture(bigTexture), xImage(xImage), yImage(yImage), 
-widthImage(widthImage), heightImage(heightImage), 
-xPos(xPos), yPos(yPos) {}
+StaticTexture::StaticTexture(BigTexture &bigTexture, Area areaSprite, 
+                                Area areaMap) 
+: bigTexture(bigTexture), areaSprite(std::move(areaSprite)), 
+areaMap(std::move(areaMap)) {}
+
 
 /*Destruye un textura estatica.*/
 StaticTexture::~StaticTexture(){}
@@ -30,18 +27,8 @@ POST: Contruye un nueva textura estatica por movimiento semantico.
 */
 StaticTexture::StaticTexture(StaticTexture && otherStaticTexture) 
 : bigTexture(otherStaticTexture.bigTexture) {
-    this->xImage = otherStaticTexture.xImage;
-    this->yImage = otherStaticTexture.yImage;
-    this->widthImage = otherStaticTexture.widthImage;
-    this->heightImage = otherStaticTexture.heightImage;
-    this->xPos = otherStaticTexture.xPos;
-    this->yPos = otherStaticTexture.yPos;
-    otherStaticTexture.xImage = 0;
-    otherStaticTexture.yImage = 0;
-    otherStaticTexture.widthImage = 0;
-    otherStaticTexture.heightImage = 0;
-    otherStaticTexture.xPos = 0;
-    otherStaticTexture.yPos = 0;
+    this->areaSprite = std::move(otherStaticTexture.areaSprite);
+    this->areaMap = std::move(otherStaticTexture.areaMap);
 }
 
 /*
@@ -52,36 +39,17 @@ POST: Construye una nueva textura statica por copia.
 */
 StaticTexture::StaticTexture(const StaticTexture & otherStaticTexture)
 : bigTexture(otherStaticTexture.bigTexture) {
-    this->xImage = otherStaticTexture.xImage;
-    this->yImage = otherStaticTexture.yImage;
-    this->widthImage = otherStaticTexture.widthImage;
-    this->heightImage = otherStaticTexture.heightImage;
-    this->xPos = otherStaticTexture.xPos;
-    this->yPos = otherStaticTexture.yPos;
+    this->areaSprite = otherStaticTexture.areaSprite;
+    this->areaMap = otherStaticTexture.areaMap;
 }
 
-
-/*
-PRE: Recibe el ancho y alto de la ventana donde se renderiza la textura 
-estatica actual (unsigned int), y la escalas maximas (float positivos) 
-en ancho y alto con respecto a las dimensiones de la imagen a renderizar:
-    widthWindow >= scaleWidth * <static texture width>
-    heightWindow >= scaleHeight * <static texture height> 
-POST: Renderizala textura en la ventana
+/* 
+PRE: Recibe un factor de ajuste (float) que corresponde a la cantidad pixeles
+por unidad de medida del area donde se ubica la textura (pixeles/unidad).
+POST: Renderizala textura ajustandola.
 */
-void StaticTexture::render(unsigned int widthWindow, unsigned int heightWindow, 
-                            float scaleWidth, float scaleHeight) {
-    Area src(this->xImage, this->yImage, this->widthImage, this->heightImage);
-    float adjusterWidth = (scaleWidth * widthWindow)/this->widthImage;
-    float adjusterHeight = (scaleHeight * heightWindow)/this->heightImage;
-    float adjuster = 1;
-    if (adjusterWidth < adjusterHeight){
-        adjuster = adjusterWidth;
-    } else {
-        adjuster = adjusterHeight;
-    }
-    unsigned int widthImageRect = this->widthImage * adjuster;
-    unsigned int heightImageRect = this->heightImage * adjuster;
-    Area dest(this->xPos, this->yPos, widthImageRect, heightImageRect);
+void StaticTexture::render(float adjuster) {
+    Area &src = this->areaSprite;
+    Area dest = this->areaMap.adjust(adjuster);
     this->bigTexture.render(src, dest);
 }

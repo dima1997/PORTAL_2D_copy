@@ -6,27 +6,19 @@
 class StaticTexture {
 private:
     BigTexture & bigTexture;
-    unsigned int xImage;
-    unsigned int yImage;
-    unsigned int widthImage;
-    unsigned int heightImage;
-    unsigned int xPos;
-    unsigned int yPos;
+    Area areaSprite;
+    Area areaMap;
 public:
     /*
     PRE: Recibe:
         Una gran textura (BigTexture &).
-        La coordenada x,y en pixeles (unsigned int) de la esquina superior 
-        izquierda del extracto rectangular de la gran textura que se va a utilizar.
-        El ancho y alto en pixeles (unsigned int) del extracto rectangular.
-        Y la posicion x,y en metros (unsigned int) de la esquina superior 
-        izquierda del extracto rectangular en el mapa de juego.
+        Un area (Area) con las coordenadas y dimensiones del sprite a usar de 
+        la gran textura (en pixeles).
+        Un area (Area) con las coordenadas y dimensiones del objeto que 
+        representa la textura en el mapa de juego (en metros).
     POST: Inicializa un textura estatica.
     */
-    StaticTexture(BigTexture &bigTexture, 
-                    unsigned int xImage, unsigned int yImage, 
-                    unsigned int widthImage, unsigned int heightImage, 
-                    unsigned int xPos, unsigned int yPos);
+    StaticTexture(BigTexture &bigTexture, Area areaSprite, Area areaMap);
 
     /*Destruye un textura estatica.*/
     virtual ~StaticTexture();
@@ -53,12 +45,11 @@ public:
     StaticTexture & operator=(const StaticTexture & otherStaticTexture) = delete;
 
     /* 
-    PRE: Recibe el ancho y largo de la ventana donde ser renderiza (unsigned int), y
-    la escala de que porcentaje de la ventana deberia ocupar .
-    POST: Renderizala textura 
+    PRE: Recibe un factor de ajuste (float) que corresponde a la cantidad pixeles
+    por unidad de medida del area donde se ubica la textura (pixeles/unidad).
+    POST: Renderizala textura ajustandola.
     */
-    virtual void render(unsigned int widthScreen, unsigned int heightScreen, 
-                        float scaleWidth = 1, float scaleHeight = 1);
+    virtual void render(float adjuster);
 };
 
 #endif // STATIC_TEXTURE_H

@@ -16,17 +16,22 @@ class Window {
 private:
     int width;
     int height;
+    int widthEquivalent;
     SDL_Window* window;
     SDL_Renderer* renderer;
     mapStrBigTexture_t bigTextures;
     std::vector<StaticTexture> staticTextures;
 public:
     /*
-    PRE: Recibe una longitud y altura (ambos int).
+    PRE: Recibe:
+        La longitud y altura del ventanta en pixeles (ambos int).
+        La longitud de la ventana equivalente en la medida en que
+        se ubican y dimensionan los objetos son representados en la 
+        misma.
     POST: Inicializa una ventana de las medidas recibidas.
     Levanta SDLException en caso de error.
     */
-    Window(int width, int height);
+    Window(int width, int height, int widthEquivalent);
 
     /*Destruye la ventana.*/
     ~Window();
@@ -40,21 +45,29 @@ public:
 
     /*Pinta a la ventana de color gris*/
     void fill();
+
     /*
     Renderiza todas las texturas que se agregaron a la ventana, 
     en el orden en que fueron agregadas; y por la ultimo la ventana 
     en si.
     */
     void render();
-    /*
-    PRE: Recibe una ruta a una imagen de la cual crear un textura
-    POST: Agrega un nueva textura statica en la posicion indicada.
-    */
 
+    /*
+    PRE: Recibe:
+        Una ruta (const std::string &) a una gran imagen que contiene el sprite
+        de que utilizara la textura estatica a agregar.
+        Un area (Area) con las coordenadas y dimensiones del sprite a usar de 
+        la gran imagen (en pixeles).
+        Un area (Area) con las coordenadas y dimensiones del objeto que 
+        representa la textura en el mapa de juego (en la unidad del largo 
+        equivalente de la ventanta).
+    POST: Agrega un nueva textura estatica a la ventana, bajo las condiciones 
+    anteriores.
+    */
     void add_static_texture(const std::string & pathImage, 
-                            unsigned int xImage, unsigned int yImage,
-                            unsigned int width, unsigned int height,
-                            unsigned int xPos, unsigned int yPos);
+                                    Area areaSprite,
+                                    Area areaMap); 
 };
 
 #endif // WINDOW_H
