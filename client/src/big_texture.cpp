@@ -14,7 +14,7 @@ SDL_Texture* BigTexture::loadTexture(const std::string & pathImage) {
     SDL_Texture* texture = IMG_LoadTexture(this->renderer,
                                            pathImage.c_str());
     if (!texture) {
-        throw SdlException("Error al cargar la textura", SDL_GetError());
+        throw SdlException("Error al cargar la textura.", SDL_GetError());
     }
     return texture;
 }
@@ -66,21 +66,34 @@ BigTexture & BigTexture::operator=(BigTexture && otherBigTexture) {
 
 /*
 PRE: Recibe dos areas (Area &):
-    La primera correspondiente al pedazo de textura actual 
-    que se desea mostrar.
-    La segunda corresponde al lugar y espacio (de la ventana) 
-    donde se va a ajustar la imagen definida por la primer area.
+        La primera correspondiente al pedazo de textura actual 
+        que se desea mostrar.
+        La segunda corresponde al lugar y espacio (de la ventana) 
+        donde se va a ajustar la imagen definida por la primer area.
+    Tambien recibe un flip a realizar sobre el sprite a renderizar 
+    (textureFlip_t)
 POST: Renderiza la textura bajo las condiciones anteriores.
+Levanta SdlException en caso de error.
 */
-int BigTexture::render(const Area & src, const Area & dest){
+void BigTexture::render(const Area & src, const Area & dest, textureFlip_t flip){
     SDL_Rect sdlSrc = {
-            src.getX(), src.getY(),
-            src.getWidth(), src.getHeight()
+            (int)src.getX(), (int)src.getY(),
+            (int)src.getWidth(), (int)src.getHeight()
     };
     SDL_Rect sdlDest = {
-            dest.getX(), dest.getY(),
-            dest.getWidth(), dest.getHeight()
+            (int)dest.getX(), (int)dest.getY(),
+            (int)dest.getWidth(), (int)dest.getHeight()
     };
-    return SDL_RenderCopy(this->renderer, this->texture, & sdlSrc, & sdlDest);
+    SDL_RendererFlip sdlFlip = SDL_FLIP_NONE;
+    if (flip == FLIP_HORIZONTAL) {
+        sdlFlip = SDL_FLIP_HORIZONTAL;
+    }
+    //return SDL_RenderCopy(this->renderer, this->texture, & sdlSrc, & sdlDest);
+    int sdlError = SDL_RenderCopyEx(this->renderer,this->texture, 
+                                    & sdlSrc, & sdlDest, 
+                                    0, NULL, sdlFlip);
+    if (sdlError != 0){
+        throw SdlException("Error al renderizar gran textura.",SDL_GetError());
+    }
 }
 

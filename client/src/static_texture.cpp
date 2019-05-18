@@ -10,6 +10,7 @@ PRE: Recibe:
     Un area (Area) con las coordenadas y dimensiones del objeto que 
     representa la textura en el mapa de juego (en metros).
 POST: Inicializa un textura estatica.
+Levanta SdlException en caso de error.
 */
 StaticTexture::StaticTexture(BigTexture &bigTexture, Area areaSprite, 
                                 Area areaMap) 
@@ -47,9 +48,10 @@ StaticTexture::StaticTexture(const StaticTexture & otherStaticTexture)
 PRE: Recibe un factor de ajuste (float) que corresponde a la cantidad pixeles
 por unidad de medida del area donde se ubica la textura (pixeles/unidad).
 POST: Renderizala textura ajustandola.
+Levanta SdlException en caso de error.
 */
 void StaticTexture::render(float adjuster) {
     Area &src = this->areaSprite;
     Area dest = this->areaMap.adjust(adjuster);
-    this->bigTexture.render(src, dest);
+    this->bigTexture.render(src, dest, NO_FLIP);
 }

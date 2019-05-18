@@ -14,6 +14,8 @@ file(GLOB client_files
         "${SRC_FOLDER}/big_texture.cpp"
         "${SRC_FOLDER}/static_texture.cpp"
         "${SRC_FOLDER}/window.cpp"
+        "${SRC_FOLDER}/animation_tests.cpp"
+	"${SRC_FOLDER}/player_sense.cpp"
         )
 
 add_executable(${CLIENT_NAME} ${client_files})

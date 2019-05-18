@@ -13,7 +13,7 @@ posicionara el area, y el ancho y largo
 del mismo (todos int).
 POST: Inicializa un area.
 */
-Area::Area(int x, int y, int width, int height) :
+Area::Area(float x, float y, float width, float height) :
 	x(x), y(y), width(width), height(height){
 }
 
@@ -89,30 +89,47 @@ PRE: Recibe un factor de ajuste (<nueva unidad>/<unidad actual>)
 POST: Devuelve un nuevo area (Area) que ajusta la medidas del actual.
 */
 Area Area::adjust(float adjuster){
-    int newX = this->x * adjuster;
-    int newY = this->y * adjuster;
-    int newWidth = this->width * adjuster;
-    int newHeight = this->height * adjuster;
+    float newX = this->x * adjuster;
+    float newY = this->y * adjuster;
+    float newWidth = this->width * adjuster;
+    float newHeight = this->height * adjuster;
     return std::move(Area(newX, newY, newWidth, newHeight)); 
 }
 
-/*Devuelve la coordenada (int) x del area*/
-int Area::getX() const {
+/*Devuelve la coordenada (float) x del area*/
+float Area::getX() const {
 	return this->x;
 }
 
-/*Devuelve la coordenada (int) y del area*/
-int Area::getY() const {
+/*Devuelve la coordenada (float) y del area*/
+float Area::getY() const {
 	return this->y;
 }
 
-/*Devuelve el ancho (int) del area*/
-int Area::getWidth() const {
+/*Devuelve el ancho (float) del area*/
+float Area::getWidth() const {
 	return this->width;
 }
 
-/*Devuelve la altura (int) del area*/
-int Area::getHeight() const {
+/*Devuelve la altura (float) del area*/
+float Area::getHeight() const {
 	return this->height;
 }
 
+/*
+PRE: Recibe una nueva coordanada (float) x.
+POST: Cambia el valor de coordenada x del area 
+por el recibido.
+*/
+void Area::setX(float x) {
+    this-> x = x;
+}
+
+/*
+PRE: Recibe una nueva coordanada (float) y.
+POST: Cambia el valor de coordenada y del area 
+por el recibido.
+*/
+void Area::setY(float y) {
+    this->y = y;
+}

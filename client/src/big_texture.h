@@ -7,9 +7,10 @@
 #include <SDL2/SDL_image.h>
 #include <string>
 
-// o 
-//class SDL_Texture
-//class SDL_Renderer 
+enum textureFlip_t {
+    NO_FLIP,
+    FLIP_HORIZONTAL
+};
 
 class BigTexture {
 private:
@@ -57,14 +58,16 @@ public:
 
     /*
     PRE: Recibe dos areas (Area &):
-        La primera corresponde al pedazo de textura actual 
-        que se desea mostrar.
-        La segunda corresponde al lugar y espacio (de la ventana) 
-        donde se va a ajustar la imagen definida por la primer area.
+            La primera corresponde al pedazo de textura actual 
+            que se desea mostrar.
+            La segunda corresponde al lugar y espacio (de la ventana) 
+            deonde se va a ajustar la imagen definida por la primer area.
+        Tambien recibe un flip a realizar sobre el sprite a renderizar 
+        (textureFlip_t)
     POST: Renderiza la textura bajo las condiciones anteriores.
+    Levanta SdlException en caso de error.
     */
-    int render(const Area & src, const Area & dest); 
-    //Aqui podemos agregar angulo y flip
+    void render(const Area & src, const Area & dest, textureFlip_t flip); 
 };
 
 #endif // BIG_TEXTURA_H

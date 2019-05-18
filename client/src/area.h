@@ -3,8 +3,8 @@
 
 class Area {
 private:
-	int x, y;
-	int width, height;
+	float x, y;
+	float width, height;
 public:
     /*
     Construye un area de coordenadas y dimensiones cero.
@@ -14,10 +14,10 @@ public:
     /*
     PRE: Recibe unas coordenadas x,y donde se 
     posicionara el area, y el ancho y largo 
-    del mismo (todo int).
+    del mismo (todos float).
     POST: Inicializa un area.
     */
-    Area(int x, int y, int width, int height);
+    Area(float x, float y, float width, float height);
 
     /*Destruye un area*/
     ~Area();
@@ -55,17 +55,31 @@ public:
     */
     Area adjust(float adjuster);
 
-    /*Devuelve la coordenada (int) x del area*/
-    int getX() const;
+    /*Devuelve la coordenada (float) x del area*/
+    float getX() const;
 
-    /*Devuelve la coordenada (int) y del area*/
-    int getY() const;
+    /*Devuelve la coordenada (float) y del area*/
+    float getY() const;
 
-    /*Devuelve el ancho (int) del area*/
-    int getWidth() const; 
+    /*Devuelve el ancho (float) del area*/
+    float getWidth() const; 
 
-    /*Devuelve la altura (int) del area*/
-    int getHeight() const;
+    /*Devuelve la altura (float) del area*/
+    float getHeight() const;
+    
+    /*
+    PRE: Recibe una nueva coordanada (float) x.
+    POST: Cambia el valor de coordenada x del area 
+    por el recibido.
+    */
+    void setX(float x);
+    
+    /*
+    PRE: Recibe una nueva coordanada (float) y.
+    POST: Cambia el valor de coordenada y del area 
+    por el recibido.
+    */
+    void setY(float y);
 };
 
 #endif
