@@ -49,4 +49,9 @@ Muetra un chell en el centro de la ventana.
 */
 void testShowChell();
 
+/*
+Muestra una chell sudando
+*/
+void testAnimateChellSweat();
+
 #endif // ANIMATION_TESTS_H

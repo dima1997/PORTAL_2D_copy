@@ -21,6 +21,7 @@ file(GLOB client_files
         "${SRC_FOLDER}/dynamic_sprite.cpp"
         "${SRC_FOLDER}/chell_running_sprite.cpp"
         "${SRC_FOLDER}/chell_sweat_sprite.cpp"
+        "${SRC_FOLDER}/os_exception.cpp"
         )
 
 add_executable(${CLIENT_NAME} ${client_files})

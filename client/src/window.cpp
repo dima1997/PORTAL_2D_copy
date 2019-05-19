@@ -1,11 +1,14 @@
 #include "window.h"
 
 #include "sdl_exception.h"
+#include "os_exception.h"
 #include "images_paths.h"
 #include "chell_texture.h"
 
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
+
+#include <sstream>
 
 /*
 PRE: Recibe:
@@ -68,7 +71,7 @@ void Window::render() {
     float adjuster = this->width/this->widthEquivalent;
     for (int i = 0; i < this->ids.size(); ++i){
         uint32_t actualId = this->ids[i];
-        Renderizable & actualTexture = *(this->renderizables.at(actualId));
+        Renderizable & actualTexture = *(this->allTextures.at(actualId));
         actualTexture.render(adjuster);
     }
     SDL_RenderPresent(this->renderer);
@@ -107,15 +110,18 @@ void Window::add_static_texture(uint32_t id,
                                 const std::string & pathImage, 
                                 Area areaSprite,
                                 Area areaMap) {
+    if (this->allTextures.count(id) != 0){
+        throw OSException("Error en ventana:","No puede haber dos texturas con el mismo id.");
+    }
     this->add_big_texture(pathImage);
-    this->ids.push_back(id); // Deberia verificar si la id, no existe ya, y levantar error
+    this->ids.push_back(id); 
     std::unique_ptr<Renderizable> ptrTexture(
                                     new StaticTexture(
                                         this->bigTextures.at(pathImage), 
                                         std::move(areaSprite), 
                                         std::move(areaMap))
                                     );
-    this->renderizables.insert(std::make_pair(id,std::move(ptrTexture)));
+    this->allTextures.insert(std::make_pair(id,std::move(ptrTexture)));
 }
 
 /*
@@ -125,17 +131,54 @@ PRE: Recibe :
     que representa la textura en el mapa de juego (en unidades de distancia del 
     juego).
 POST: Agrega un nueva textura de Chell a la ventana, bajo las condiciones anteriores.
-Levanta SdlException en caso de error.
+Levanta OSException o SdlException en caso de error.
 */
 void Window::add_chell_texture(uint32_t id, Area areaMap){
+    if (this->allTextures.count(id) != 0){
+        throw OSException("Error en ventana:","No puede haber dos texturas con el mismo id.");
+    }
     this->add_big_texture(ALL_CHELL_SPRITES_PART_1);
-    this->ids.push_back(id); // Deberia verificar si la id, no existe ya, y levantar error
-    std::unique_ptr<Renderizable> ptrTexture(
+    this->ids.push_back(id); 
+    /*
+    std::shared_ptr<Renderizable> ptrRenderTexture(
                                     new ChellTexture(
                                         this->bigTextures.at(
                                                 ALL_CHELL_SPRITES_PART_1
                                             ), 
                                         std::move(areaMap))
                                     );
-    this->renderizables.insert(std::make_pair(id,std::move(ptrTexture)));
+    */
+    std::shared_ptr<Renderizable> ptrRenderTexture(
+                                    new ChellTexture(
+                                        this->bigTextures.at(
+                                            ALL_CHELL_SPRITES_PART_1
+                                        ), 
+                                        std::move(areaMap)
+                                    )
+                                );
+    std::shared_ptr<Movable> ptrMovableTexture;
+    ptrMovableTexture = std::dynamic_pointer_cast<Movable>(ptrRenderTexture);
+    this->allTextures.insert(std::make_pair(id,std::move(ptrRenderTexture)));
+    this->movingTextures.insert(std::make_pair(
+                                    id,std::move(ptrMovableTexture)
+                                )
+                        );
+}
+
+/*
+PRE: Recibe un identificador de una textura movible, 
+y nuevas coordenadas (float) x,y a donde desplazar la 
+textura.
+POST: Mueve la textura indicada en las coordenadas 
+recibidas.
+Levanta OSException en caso de error. 
+*/
+void Window::move_texture(uint32_t id, float x, float y){
+    if (this->allTextures.count(id) == 0){
+        std::stringstream errDescription; 
+        errDescription << "No existe textura con id : " << std::dec << id << ".";
+        throw OSException("Error en ventana:",errDescription.str().c_str());
+    }
+    Movable & idTexture = *(this->movingTextures.at(id));
+    idTexture.move_to(x,y);
 }

@@ -175,7 +175,7 @@ void testShowPartOfBlockFarBeferoOrigin(){
 }
 
 /*
-Muetra un chell en el centro de la ventana.
+Muetra una chell en el centro de la ventana.
 */
 void testShowChell(){
     int windowWidthPixels = WIDTH_WINDOW;
@@ -192,4 +192,84 @@ void testShowChell(){
     window.add_chell_texture(0,areaMap);
     window.render();
     SDL_Delay(SLEEP);
+}
+
+/*
+Muestra una chell sudando
+*/
+void testAnimateChellSweat(){
+    int windowWidthPixels = WIDTH_WINDOW;
+    int windowHeightPixels = HEIGHT_WINDOW;
+    float windowWidthMeters = 5;
+    float windowHeightMeters = windowHeightPixels * (windowWidthMeters/windowWidthPixels);
+    float chellWidthMeters = 1;
+    float chellHeightMeters = 1.5;
+    float chellXCoord = windowWidthMeters/2;
+    float chellYCoord = windowHeightMeters/2;
+    Area areaMap(chellXCoord, chellYCoord, chellWidthMeters, chellHeightMeters);
+    Window window(windowWidthPixels, windowHeightPixels, windowWidthMeters);
+    window.add_chell_texture(0,areaMap);
+    bool quit = false;
+    SDL_Event event;
+    unsigned t0, t1;
+    double maxSleepMS = 75;
+    while( !quit ){
+        //Handle events on queue
+        while( SDL_PollEvent( &event ) != 0 )
+        {
+            //User requests quit
+            if( event.type == SDL_QUIT )
+            {
+                quit = true;
+            }
+        }
+        window.fill();
+
+        t0=clock();
+        window.render();
+        t1 = clock();
+        double timeSeconds = (double(t1-t0)/CLOCKS_PER_SEC);
+        double timeMiliSeconds = timeSeconds * 1000;
+        SDL_Delay(maxSleepMS - timeMiliSeconds);
+    }
+}
+
+/*
+Muestra a Chell desplazandose de hacia derecha y deteniendose.
+*/
+void testAnimateChellRunning(){
+    int windowWidthPixels = WIDTH_WINDOW;
+    int windowHeightPixels = HEIGHT_WINDOW;
+    float windowWidthMeters = 5;
+    float windowHeightMeters = windowHeightPixels * (windowWidthMeters/windowWidthPixels);
+    float chellWidthMeters = 1;
+    float chellHeightMeters = 1.5;
+    float chellXCoord = windowWidthMeters/2;
+    float chellYCoord = windowHeightMeters/2;
+    Area areaMap(chellXCoord, chellYCoord, chellWidthMeters, chellHeightMeters);
+    Window window(windowWidthPixels, windowHeightPixels, windowWidthMeters);
+    window.add_chell_texture(0,areaMap);
+    bool quit = false;
+    SDL_Event event;
+    unsigned t0, t1;
+    double maxSleepMS = 75;
+    while( !quit ){
+        //Handle events on queue
+        while( SDL_PollEvent( &event ) != 0 )
+        {
+            //User requests quit
+            if( event.type == SDL_QUIT )
+            {
+                quit = true;
+            }
+        }
+        window.fill();
+
+        t0=clock();
+        window.render();
+        t1 = clock();
+        double timeSeconds = (double(t1-t0)/CLOCKS_PER_SEC);
+        double timeMiliSeconds = timeSeconds * 1000;
+        SDL_Delay(maxSleepMS - timeMiliSeconds);
+    }
 }

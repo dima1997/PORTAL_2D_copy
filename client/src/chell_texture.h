@@ -6,8 +6,9 @@
 #include "move_sense.h"
 #include "area.h"
 #include "renderizable.h"
+#include "movable.h"
 
-class ChellTexture : public Renderizable {
+class ChellTexture : public Renderizable, public Movable {
 private:
     BigTexture &bigTexture;
     MoveSense moveSense;
@@ -28,11 +29,11 @@ public:
     ~ChellTexture();
 
     /*
-    PRE: Recibe una nueva coordenada x,y .
+    PRE: Recibe una nueva coordenada (float) x,y .
     POST: Mueve la textura de Chell a la coordenada 
     indicada.
     */
-    void move_to(int x, int y);
+    void move_to(float x, float y);
 
     /*
     PRE: Recibe un factor de ajuster para redimensionar el area 

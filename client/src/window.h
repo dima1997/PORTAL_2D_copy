@@ -4,6 +4,7 @@
 #include "big_texture.h"
 #include "static_texture.h"
 #include "renderizable.h"
+#include "movable.h"
 
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
@@ -24,7 +25,8 @@ private:
     SDL_Renderer* renderer;
     mapStrBigTexture_t bigTextures;
     std::vector<uint32_t> ids;
-    std::map<uint32_t, std::unique_ptr<Renderizable>> renderizables;
+    std::map<uint32_t, std::shared_ptr<Renderizable>> allTextures;
+    std::map<uint32_t, std::shared_ptr<Movable>> movingTextures;
 public:
     /*
     PRE: Recibe:
@@ -94,6 +96,16 @@ public:
     Levanta SdlException en caso de error.
     */
     void add_chell_texture(uint32_t id, Area areaMap);
+
+    /*
+    PRE: Recibe un identificador de una textura movible, 
+    y nuevas coordenadas (float) x,y a donde desplazar la 
+    textura.
+    POST: Mueve la textura indicada en las coordenadas 
+    recibidas.
+    Levanta OSException en caso de error. 
+    */
+    void move_texture(uint32_t id, float x, float y);
 
 };
 

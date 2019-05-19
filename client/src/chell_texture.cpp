@@ -24,11 +24,11 @@ ChellTexture::ChellTexture(BigTexture &bigTextureChell, Area areaMap)
 ChellTexture::~ChellTexture() {}
 
 /*
-PRE: Recibe una nueva coordenada x,y .
+PRE: Recibe una nueva coordenada (float) x,y .
 POST: Mueve la textura de Chell a la coordenada 
 indicada.
 */
-void ChellTexture::move_to(int x, int y) {
+void ChellTexture::move_to(float x, float y) {
     float xBefore = this->areaMap.getX();
     float yBefore = this->areaMap.getY();
     float xNow = x;
