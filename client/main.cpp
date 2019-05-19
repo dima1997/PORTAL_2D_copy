@@ -12,7 +12,8 @@ int main(int argc, char **argv) {
         //testShowFrameOfBlocks();
         //testShowPartOfBlockFarBeferoOrigin();
         //testShowChell();
-        testAnimateChellSweat();
+        //testAnimateChellSweat();
+        testAnimateChellRunning();
     } catch (SdlException &error){
         std::cout << error.what() << "\n";
         return 1;

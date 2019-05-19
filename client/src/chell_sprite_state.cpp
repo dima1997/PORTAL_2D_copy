@@ -5,12 +5,13 @@
 
 /*Inicializa el estado de sprite de Chell.*/
 ChellSpriteState::ChellSpriteState()
-:   actualSprite(SWEAT), 
+:   spriteName(SWEAT), 
     ptrDynamicSprite(
         std::move(
             std::unique_ptr<DynamicSprite>(new ChellSweatSprite())
         )
-    ) 
+    ),
+    keepMoving(false) 
     {}
 
 /*Destruye el estado de sprite de Chell*/
@@ -23,17 +24,19 @@ PRE: Recibe :
 POST: actualiza el sprite actual de Chell.
 */
 void ChellSpriteState::move(float xBefore, float yBefore,float xNow, float yNow){
-    spriteStrategy_t spriteBefore = this->actualSprite; 
+    spriteNameStrategy_t spriteBefore = this->spriteName; 
     if (xBefore != xNow){
-        this->actualSprite = RUNNING;
-        if (spriteBefore != this->actualSprite){
+        this->spriteName = RUNNING;
+        if (spriteBefore != this->spriteName){
             this->ptrDynamicSprite.reset(new ChellRunningSprite());
         }
+        this->keepMoving = true; //Tal vez necesite mutex
     } else {
-        this->actualSprite = SWEAT;
-        if (spriteBefore != this->actualSprite){
+        this->spriteName = SWEAT;
+        if (spriteBefore != this->spriteName){
             this->ptrDynamicSprite.reset(new ChellSweatSprite());
         }
+        this->keepMoving = false; //Tal vez necesite mutex
     }
 }
 
@@ -42,6 +45,15 @@ Devuelve el area correspondiente al siguiente sprite de Chell,
 en la imagen ALL_CHELL_IMAGE de images_path.h .
 */
 Area ChellSpriteState::getNextArea(){
+    // Si se usa en distintos hilos necesitare colocar mutex
+    if (this->keepMoving) { 
+        keepMoving = false; 
+    } else {
+        if (this->spriteName != SWEAT){
+            this->spriteName = SWEAT;
+            this->ptrDynamicSprite.reset(new ChellSweatSprite()); 
+        }
+    }
     DynamicSprite & actualSprite = *(this->ptrDynamicSprite);
     return std::move(actualSprite.getNextArea());
 }

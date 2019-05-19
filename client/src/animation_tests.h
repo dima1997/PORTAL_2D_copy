@@ -54,4 +54,9 @@ Muestra una chell sudando
 */
 void testAnimateChellSweat();
 
+/*
+Muestra a Chell desplazandose de hacia derecha y deteniendose.
+*/
+void testAnimateChellRunning();
+
 #endif // ANIMATION_TESTS_H

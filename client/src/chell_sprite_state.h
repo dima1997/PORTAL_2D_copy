@@ -6,15 +6,16 @@
 
 #include <memory>
 
-enum spriteStrategy_t {
+enum spriteNameStrategy_t {
     SWEAT,
     RUNNING
 };
 
 class ChellSpriteState {
 private:
-    spriteStrategy_t actualSprite;
+    spriteNameStrategy_t spriteName;
     std::unique_ptr<DynamicSprite> ptrDynamicSprite;
+    bool keepMoving;
 public:
     /*Inicializa el estado de sprite de Chell.*/
     ChellSpriteState();

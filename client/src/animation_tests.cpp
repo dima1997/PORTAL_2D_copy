@@ -247,24 +247,38 @@ void testAnimateChellRunning(){
     float chellXCoord = windowWidthMeters/2;
     float chellYCoord = windowHeightMeters/2;
     Area areaMap(chellXCoord, chellYCoord, chellWidthMeters, chellHeightMeters);
+    uint32_t idChell = 0;
+    float chellMetersPerFrame = 0.2;
     Window window(windowWidthPixels, windowHeightPixels, windowWidthMeters);
-    window.add_chell_texture(0,areaMap);
+    window.add_chell_texture(idChell,areaMap);
     bool quit = false;
     SDL_Event event;
     unsigned t0, t1;
     double maxSleepMS = 75;
     while( !quit ){
         //Handle events on queue
-        while( SDL_PollEvent( &event ) != 0 )
-        {
-            //User requests quit
-            if( event.type == SDL_QUIT )
-            {
-                quit = true;
+        while( SDL_PollEvent( &event ) != 0 ){
+            switch(event.type) {
+                case SDL_KEYDOWN: {
+                    SDL_KeyboardEvent& keyEvent = (SDL_KeyboardEvent&) event;
+                    switch (keyEvent.keysym.sym) {
+                        case SDLK_LEFT:
+                            chellXCoord -= chellMetersPerFrame;
+                            window.move_texture(idChell,chellXCoord, chellYCoord);
+                            break;
+                        case SDLK_RIGHT:
+                            chellXCoord += chellMetersPerFrame;
+                            window.move_texture(idChell,chellXCoord, chellYCoord);
+                            break;
+                        }
+                    } // Fin KEY_DOWN
+                    break;
+                case SDL_QUIT:
+                    quit = true;
+                    break;
             }
         }
         window.fill();
-
         t0=clock();
         window.render();
         t1 = clock();
