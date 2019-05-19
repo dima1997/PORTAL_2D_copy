@@ -116,3 +116,7 @@ void Game::finish() {
     std::unique_lock<std::mutex> l(mutex);
     cv.wait(l, [this]{ return finished; });
 }
+
+bool Game::isFinished() {
+    return finished;
+}

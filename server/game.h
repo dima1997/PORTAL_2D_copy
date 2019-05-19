@@ -32,6 +32,7 @@ public:
     Game &operator=(Game &&other) noexcept;
     void startIfReady();
     void finish();
+    bool isFinished();
     bool addPlayer(Connector &connector);
 };
 

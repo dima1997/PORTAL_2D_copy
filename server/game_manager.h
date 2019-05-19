@@ -6,7 +6,7 @@
 #define PORTAL_GAMEMANAGER_H
 
 
-#include <vector>
+#include <unordered_map>
 #include <cstdint>
 #include <mutex>
 #include "game.h"
@@ -14,8 +14,11 @@
 
 class GameManager {
 private:
-    std::vector<Game> games;
+    std::unordered_map<uint8_t, Game> games;
     std::mutex mutex;
+    uint8_t biggestKey;
+    uint8_t getKey();
+    void eraseFinished();
 public:
     GameManager();
     ~GameManager();
