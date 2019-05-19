@@ -13,7 +13,8 @@ public:
     /*
     Inicializa un sentido de movimiento hacia las x positivas.
     */
-    MoveSense::MoveSense();
+    MoveSense();
+    
     /*Destruye el sentido de movimiento */
     ~MoveSense();
 

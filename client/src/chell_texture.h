@@ -5,17 +5,13 @@
 #include "chell_sprite_state.h"
 #include "move_sense.h"
 #include "area.h"
+#include "renderizable.h"
 
-enum statesSprites_t {
-    SWEAT,
-    RUNNING
-}
-
-class ChellTexture {
+class ChellTexture : public Renderizable {
 private:
     BigTexture &bigTexture;
-    ChellSpriteState spriteState;
     MoveSense moveSense;
+    ChellSpriteState spriteState;
     Area areaMap;
 
 public:
@@ -29,7 +25,7 @@ public:
     ChellTexture(BigTexture &bigTextureChell, Area areaMap);
 
     /*Destruye la textura dinamica de Chell.*/
-    ~ChellTexture() {}
+    ~ChellTexture();
 
     /*
     PRE: Recibe una nueva coordenada x,y .
@@ -44,5 +40,6 @@ public:
     POST: Renderiza la textura de Chell.
     */
     void render(float adjuster);
+};
 
 #endif // CHELL_TEXTURE_H

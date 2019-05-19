@@ -1,3 +1,9 @@
+#include "dynamic_sprite.h"
+
+#include "area.h"
+
+#include <vector>
+
 /*
 PRE: Recibe un vector de coordenadas x,y (std::vector<std::pair<int, int>>) de
 las esquinas superior izquierda de cada sprite a utilizar, en el orden a ser

@@ -1,6 +1,10 @@
 #ifndef DYNAMIC_SPRITE_H
 #define DYNAMIC_SPRITE_H
 
+#include "area.h"
+
+#include <vector>
+
 class DynamicSprite {
 private:
     int width;

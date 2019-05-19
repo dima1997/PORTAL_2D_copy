@@ -44,4 +44,9 @@ origen de la ventana.
 */
 void testShowPartOfBlockFarBeferoOrigin();
 
+/*
+Muetra un chell en el centro de la ventana.
+*/
+void testShowChell();
+
 #endif // ANIMATION_TESTS_H

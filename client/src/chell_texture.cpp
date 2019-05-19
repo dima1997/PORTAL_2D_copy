@@ -1,9 +1,10 @@
 #include "chell_texture.h"
 
 #include "big_texture.h"
+#include "chell_sprite_state.h"
 #include "move_sense.h"
-#include "dynamic_sprite.h"
 #include "area.h"
+#include "renderizable.h"
 
 #include <map>
 
@@ -15,8 +16,8 @@ PRE: Recibe :
 POST: Inicializa una textura dinamica de Chell.
 */
 ChellTexture::ChellTexture(BigTexture &bigTextureChell, Area areaMap) 
-:   bigTexture(bigTexture),
-    areaMap(std::move(areaMap)), 
+:   bigTexture(bigTextureChell),
+    areaMap(std::move(areaMap))
     {}
 
 /*Destruye la textura dinamica de Chell.*/
@@ -31,7 +32,7 @@ void ChellTexture::move_to(int x, int y) {
     float xBefore = this->areaMap.getX();
     float yBefore = this->areaMap.getY();
     float xNow = x;
-    float ynow = y;
+    float yNow = y;
     this->areaMap.setX(xNow);
     this->areaMap.setY(yNow);
     this->moveSense.move(xBefore, yBefore, xNow, yNow);

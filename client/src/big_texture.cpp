@@ -92,7 +92,7 @@ void BigTexture::render(const Area & src, const Area & dest, textureFlip_t flip)
     int sdlError = SDL_RenderCopyEx(this->renderer,this->texture, 
                                     & sdlSrc, & sdlDest, 
                                     0, NULL, sdlFlip);
-    if (sdlError != 0){
+    if (sdlError < 0){
         throw SdlException("Error al renderizar gran textura.",SDL_GetError());
     }
 }

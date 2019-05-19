@@ -36,7 +36,7 @@ void testShowOneBlock(){
     float xCoord = windowWidthMeters/(float)2;
     float yCoord = windowHeightMeters/(float)2;
     Area areaMap(xCoord, yCoord, blockSideMeters, blockSideMeters);
-    window.add_static_texture(IMAGE_BLOCK_PATH, areaSprite, areaMap);
+    window.add_static_texture(0,IMAGE_BLOCK_PATH, areaSprite, areaMap);
     window.render();
     SDL_Delay(SLEEP);
 }
@@ -60,7 +60,7 @@ void testShowThreeBlocks(){
         float xCoord = windowWidthMeters/(float)2 + (i * blockSideMeters);
         float yCoord = windowHeightMeters/(float)2;
         Area areaMap(xCoord,yCoord,blockSideMeters,blockSideMeters);
-        window.add_static_texture(IMAGE_BLOCK_PATH, areaSprite, areaMap);
+        window.add_static_texture(i+1,IMAGE_BLOCK_PATH, areaSprite, areaMap);
     }
     window.render();
     SDL_Delay(SLEEP);
@@ -85,7 +85,7 @@ void testShowGroundOfBlocks(){
         float xCoord = i * blockSideMeters;
         float yCoord = windowHeightMeters - blockSideMeters; 
         Area areaMap(xCoord, yCoord, blockSideMeters, blockSideMeters);
-        window.add_static_texture(IMAGE_BLOCK_PATH, areaSprite, areaMap);
+        window.add_static_texture(i,IMAGE_BLOCK_PATH, areaSprite, areaMap);
     }
     window.render();
     SDL_Delay(SLEEP);
@@ -110,33 +110,38 @@ void testShowFrameOfBlocks(){
     int manyBlocksHorizontal = windowWidthMeters / blockSideMeters;
     int manyBlocksVertical = windowHeightMeters / blockSideMeters;
     Area areaSprite(IMAGE_BLOCK_X, IMAGE_BLOCK_Y, IMAGE_BLOCK_WIDTH, IMAGE_BLOCK_HEIGHT);
+    uint32_t id = 0;
     //Techo
     for (int i = 0; i < manyBlocksHorizontal; ++i){
         float xCoord = i * blockSideMeters;
         float yCoord = 0; //Techo 
         Area areaMap(xCoord, yCoord, blockSideMeters, blockSideMeters);
-        window.add_static_texture(IMAGE_BLOCK_PATH, areaSprite, areaMap);
+        window.add_static_texture(id,IMAGE_BLOCK_PATH, areaSprite, areaMap);
+        ++id;
     }
     //Izquierda
     for (int i = 1; i < manyBlocksVertical; ++i){ //Techo y piso ya estan
         float xCoord = 0;
         float yCoord = i * blockSideMeters; 
         Area areaMap(xCoord, yCoord, blockSideMeters, blockSideMeters);
-        window.add_static_texture(IMAGE_BLOCK_PATH, areaSprite, areaMap);
+        window.add_static_texture(id,IMAGE_BLOCK_PATH, areaSprite, areaMap);
+        ++id;
     }
     //Derecha
     for (int i = 1; i < manyBlocksVertical; ++i){ //Techo y piso ya estan
         float xCoord = windowWidthMeters - blockSideMeters;
         float yCoord = i * blockSideMeters; 
         Area areaMap(xCoord, yCoord, blockSideMeters, blockSideMeters);
-        window.add_static_texture(IMAGE_BLOCK_PATH, areaSprite, areaMap);
+        window.add_static_texture(id,IMAGE_BLOCK_PATH, areaSprite, areaMap);
+        ++id;
     }
     //Piso
     for (int i = 0; i < manyBlocksHorizontal; ++i){
         float xCoord = i * blockSideMeters;
         float yCoord = manyBlocksVertical * blockSideMeters; //Piso
         Area areaMap(xCoord, yCoord, blockSideMeters, blockSideMeters);
-        window.add_static_texture(IMAGE_BLOCK_PATH, areaSprite, areaMap);
+        window.add_static_texture(id,IMAGE_BLOCK_PATH, areaSprite, areaMap);
+        ++id;
     }
     window.render();
     SDL_Delay(SLEEP);
@@ -164,7 +169,27 @@ void testShowPartOfBlockFarBeferoOrigin(){
     int manyBlocksVertical = windowHeightMeters / blockSideMeters;
     Area areaSprite(IMAGE_BLOCK_X, IMAGE_BLOCK_Y, IMAGE_BLOCK_WIDTH, IMAGE_BLOCK_HEIGHT);
     Area areaMap(- blockSideMeters/2, - blockSideMeters/2, blockSideMeters, blockSideMeters);
-    window.add_static_texture(IMAGE_BLOCK_PATH, areaSprite, areaMap);
+    window.add_static_texture(0,IMAGE_BLOCK_PATH, areaSprite, areaMap);
+    window.render();
+    SDL_Delay(SLEEP);
+}
+
+/*
+Muetra un chell en el centro de la ventana.
+*/
+void testShowChell(){
+    int windowWidthPixels = WIDTH_WINDOW;
+    int windowHeightPixels = HEIGHT_WINDOW;
+    float windowWidthMeters = 5;
+    float windowHeightMeters = windowHeightPixels * (windowWidthMeters/windowWidthPixels);
+    float chellWidthMeters = 1;
+    float chellHeightMeters = 1.5;
+    float chellXCoord = windowWidthMeters/2;
+    float chellYCoord = windowHeightMeters/2;
+    Area areaMap(chellXCoord, chellYCoord, chellWidthMeters, chellHeightMeters);
+    Window window(windowWidthPixels, windowHeightPixels, windowWidthMeters);
+    window.fill();
+    window.add_chell_texture(0,areaMap);
     window.render();
     SDL_Delay(SLEEP);
 }

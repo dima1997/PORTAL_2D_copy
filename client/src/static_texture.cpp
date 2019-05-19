@@ -1,6 +1,7 @@
 #include "static_texture.h"
 
 #include "big_texture.h"
+#include "renderizable.h"
 
 /*
 PRE: Recibe:

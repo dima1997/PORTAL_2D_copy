@@ -1,9 +1,10 @@
 #ifndef STATIC_TEXTURE_H
 #define STATIC_TEXTURE_H
 
+#include "renderizable.h"
 #include "big_texture.h"
 
-class StaticTexture {
+class StaticTexture : public Renderizable {
 private:
     BigTexture & bigTexture;
     Area areaSprite;

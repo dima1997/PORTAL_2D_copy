@@ -9,6 +9,7 @@ Inicializa un sentido de movimiento hacia las x positivas.
 MoveSense::MoveSense() {
     this->flip = NO_FLIP;
 }
+
 /*Destruye el sentido de movimiento */
 MoveSense::~MoveSense(){}
 

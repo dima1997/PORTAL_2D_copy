@@ -1,20 +1,20 @@
-#ifndef CHELL_SṔRITE_STATE_H
-#define CHELL_SṔRITE_STATE_H
+#ifndef CHELL_SPRITE_STATE_H
+#define CHELL_SPRITE_STATE_H
 
-#include "dynamic_sprites.h"
+#include "dynamic_sprite.h"
 #include "area.h"
 
-#include <map>
+#include <memory>
 
-enum spriteState_t {
+enum spriteStrategy_t {
     SWEAT,
     RUNNING
-}
+};
 
 class ChellSpriteState {
 private:
-    std::map<statesSprites_t, DynamicSprite> dynamicSprites;
-    spriteState_t actualState;
+    spriteStrategy_t actualSprite;
+    std::unique_ptr<DynamicSprite> ptrDynamicSprite;
 public:
     /*Inicializa el estado de sprite de Chell.*/
     ChellSpriteState();
@@ -37,4 +37,4 @@ public:
     Area getNextArea();    
 };
 
-#endif // CHELL_SṔRITE_STATE_H
+#endif // CHELL_SPRITE_STATE_H

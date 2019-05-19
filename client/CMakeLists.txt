@@ -15,7 +15,12 @@ file(GLOB client_files
         "${SRC_FOLDER}/static_texture.cpp"
         "${SRC_FOLDER}/window.cpp"
         "${SRC_FOLDER}/animation_tests.cpp"
-	"${SRC_FOLDER}/player_sense.cpp"
+        "${SRC_FOLDER}/chell_texture.cpp"
+        "${SRC_FOLDER}/move_sense.cpp"
+        "${SRC_FOLDER}/chell_sprite_state.cpp"
+        "${SRC_FOLDER}/dynamic_sprite.cpp"
+        "${SRC_FOLDER}/chell_running_sprite.cpp"
+        "${SRC_FOLDER}/chell_sweat_sprite.cpp"
         )
 
 add_executable(${CLIENT_NAME} ${client_files})
@@ -23,3 +28,4 @@ add_executable(${CLIENT_NAME} ${client_files})
 target_link_libraries(${CLIENT_NAME} SDL2 SDL2_image)
 
 install(FILES assets/all_blocks.png DESTINATION ${CMAKE_BINARY_DIR})
+install(FILES assets/all_chells_part_1.png DESTINATION ${CMAKE_BINARY_DIR})

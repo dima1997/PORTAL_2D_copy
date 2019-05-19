@@ -1,6 +1,8 @@
 #include "window.h"
 
 #include "sdl_exception.h"
+#include "images_paths.h"
+#include "chell_texture.h"
 
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
@@ -64,33 +66,76 @@ en si.
 */
 void Window::render() {
     float adjuster = this->width/this->widthEquivalent;
-    for (int i = 0; i < this->staticTextures.size(); ++i){
-        this->staticTextures[i].render(adjuster);
+    for (int i = 0; i < this->ids.size(); ++i){
+        uint32_t actualId = this->ids[i];
+        Renderizable & actualTexture = *(this->renderizables.at(actualId));
+        actualTexture.render(adjuster);
     }
     SDL_RenderPresent(this->renderer);
 }
 
 /*
-PRE: Recibe:
-    Una ruta (const std::string &) a una gran imagen que contiene el sprite
-    de que utilizara la textura estatica a agregar.
-    Un area (Area) con las coordenadas y dimensiones del sprite a usar de 
-    la gran imagen (en pixeles).
-    Un area (Area) con las coordenadas y dimensiones del objeto que 
-    representa la textura en el mapa de juego (en la unidad del largo 
-    equivalente de la ventanta).
-POST: Agrega un nueva textura estatica a la ventana, bajo las condiciones 
-anteriores.
+PRE: Recibe la ruta (const std::string &) de un gran textura 
+(imagen con varios sprites en ella).
+POST: Agrega la gran textura a la ventana, si que no se fue 
+ya agregada.
+Levanta SdlException en caso de error.
 */
-void Window::add_static_texture(const std::string & pathImage, 
-                                Area areaSprite,
-                                Area areaMap) {
+void Window::add_big_texture(const std::string & pathImage){
     if (this->bigTextures.count(pathImage) == 0){
         BigTexture newBigTexture(this->renderer, pathImage);
         this->bigTextures.insert(mapStrBigTexture_t::value_type(
                                         pathImage, std::move(newBigTexture)));
     }
-    StaticTexture newStaticTexture(this->bigTextures.at(pathImage), 
-                                    std::move(areaSprite), std::move(areaMap));
-    this->staticTextures.push_back(std::move(newStaticTexture));
+}
+
+/*
+PRE: Recibe:
+    El id (const std::string &) de la textura a agregar.
+    Una ruta (const std::string &) a una gran imagen que contiene el sprite
+    de que utilizara la textura estatica a agregar.
+    Un area (Area) con las coordenadas y dimensiones del sprite a usar de 
+    la gran imagen (en pixeles).
+    Un area (Area) con las coordenadas y dimensiones del objeto que 
+    representa la textura en el mapa de juego (en unidades de distancia del 
+    juego)
+POST: Agrega un nueva textura estatica a la ventana, bajo las condiciones 
+anteriores.
+Levanta SdlException en caso de error.
+*/
+void Window::add_static_texture(uint32_t id, 
+                                const std::string & pathImage, 
+                                Area areaSprite,
+                                Area areaMap) {
+    this->add_big_texture(pathImage);
+    this->ids.push_back(id); // Deberia verificar si la id, no existe ya, y levantar error
+    std::unique_ptr<Renderizable> ptrTexture(
+                                    new StaticTexture(
+                                        this->bigTextures.at(pathImage), 
+                                        std::move(areaSprite), 
+                                        std::move(areaMap))
+                                    );
+    this->renderizables.insert(std::make_pair(id,std::move(ptrTexture)));
+}
+
+/*
+PRE: Recibe :
+    El id (uint32_t) de indentificacion de la chell a agregar.
+    El area (Area) con las coordenadas y dimensiones del Chell del objeto
+    que representa la textura en el mapa de juego (en unidades de distancia del 
+    juego).
+POST: Agrega un nueva textura de Chell a la ventana, bajo las condiciones anteriores.
+Levanta SdlException en caso de error.
+*/
+void Window::add_chell_texture(uint32_t id, Area areaMap){
+    this->add_big_texture(ALL_CHELL_SPRITES_PART_1);
+    this->ids.push_back(id); // Deberia verificar si la id, no existe ya, y levantar error
+    std::unique_ptr<Renderizable> ptrTexture(
+                                    new ChellTexture(
+                                        this->bigTextures.at(
+                                                ALL_CHELL_SPRITES_PART_1
+                                            ), 
+                                        std::move(areaMap))
+                                    );
+    this->renderizables.insert(std::make_pair(id,std::move(ptrTexture)));
 }
