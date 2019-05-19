@@ -15,6 +15,7 @@ private:
     uint8_t  playerId;
 public:
     Game(Connector &connector, uint8_t game_id, uint8_t player_id);
+    void operator()();
 };
 
 

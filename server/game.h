@@ -8,7 +8,9 @@
 
 #include <vector>
 #include <mutex>
+#include <condition_variable>
 #include <thread>
+#include <Box2D/Common/b2Math.h>
 #include "../common/connector.h"
 
 class Game {
@@ -16,7 +18,9 @@ private:
     int id;
     std::vector<Connector> players;
     std::mutex mutex;
+    std::condition_variable cv;
     bool ready;
+    bool finished;
     std::thread thread;
     // TODO: number of players should depend on a map, map should be an attribute
     int numberOfPlayers;
@@ -27,6 +31,7 @@ public:
     Game(Game &&other) noexcept;
     Game &operator=(Game &&other) noexcept;
     void startIfReady();
+    void finish();
     bool addPlayer(Connector &connector);
 };
 
