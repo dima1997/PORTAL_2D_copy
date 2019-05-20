@@ -1,10 +1,10 @@
 #ifndef WINDOW_H
 #define WINDOW_H
 
-#include "big_texture.h"
-#include "static_texture.h"
-#include "renderizable.h"
-#include "movable.h"
+#include "../common_texture/big_texture.h"
+#include "../common_texture/renderizable.h"
+#include "../common_texture/movable.h"
+#include "../static_texture/static_texture.h"
 
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>

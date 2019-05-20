@@ -1,9 +1,9 @@
 #include "window.h"
 
-#include "sdl_exception.h"
 #include "os_exception.h"
-#include "images_paths.h"
-#include "chell_texture.h"
+#include "../common_texture/sdl_exception.h"
+#include "../common_texture/images_paths.h"
+#include "../chell_texture/chell_texture.h"
 
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>

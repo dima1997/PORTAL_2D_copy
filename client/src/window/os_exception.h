@@ -1,5 +1,6 @@
 #ifndef OS_EXCEPTION_H
 #define OS_EXCEPTION_H
+
 #include <string>
 #include <exception>
 

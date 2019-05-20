@@ -59,4 +59,9 @@ Muestra a Chell desplazandose de hacia derecha y deteniendose.
 */
 void testAnimateChellRunning();
 
+/*
+Muestra a Chell saltando verticalmente y hacia la derecha.
+*/
+void testAnimateChellJumping();
+
 #endif // ANIMATION_TESTS_H

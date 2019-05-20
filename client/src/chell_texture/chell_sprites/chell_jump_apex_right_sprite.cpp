@@ -1,6 +1,6 @@
 #include "chell_jump_apex_right_sprite.h"
 
-#include "dynamic_sprite.h"
+#include "../../common_texture/dynamic_sprite.h"
 
 /*
 Inicializa un sprite dinamico de Chell saltando 

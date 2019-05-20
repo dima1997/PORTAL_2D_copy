@@ -1,5 +1,7 @@
 #include "chell_sweat_right_sprite.h"
 
+#include "../../common_texture/dynamic_sprite.h"
+
 /*
 Inicializa un sprite dinamico de Chell sudando 
 (mirando hacia la derecha).

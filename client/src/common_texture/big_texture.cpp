@@ -1,7 +1,7 @@
 #include "big_texture.h"
 
-#include "sdl_exception.h"
 #include "area.h"
+#include "sdl_exception.h"
 
 #include <SDL2/SDL_image.h>
 

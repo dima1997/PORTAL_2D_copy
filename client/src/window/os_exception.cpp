@@ -1,4 +1,5 @@
 #include "os_exception.h"
+
 #include <string>
 
 /*

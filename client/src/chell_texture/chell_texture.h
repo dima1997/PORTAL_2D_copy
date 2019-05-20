@@ -1,12 +1,12 @@
 #ifndef CHELL_TEXTURE_H
 #define CHELL_TEXTURE_H
 
-#include "big_texture.h"
-#include "chell_sprite_strategy.h"
 #include "move_sense.h"
-#include "area.h"
-#include "renderizable.h"
-#include "movable.h"
+#include "chell_sprites/chell_sprite_strategy.h"
+#include "../common_texture/area.h"
+#include "../common_texture/big_texture.h"
+#include "../common_texture/renderizable.h"
+#include "../common_texture/movable.h"
 
 class ChellTexture : public Renderizable, public Movable {
 private:

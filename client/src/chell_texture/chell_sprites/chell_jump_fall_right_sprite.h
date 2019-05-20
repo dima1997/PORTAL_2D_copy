@@ -1,7 +1,7 @@
 #ifndef CHELL_JUMP_FALL_RIGHT_SPRITE_H
 #define CHELL_JUMP_FALL_RIGHT_SPRITE_H
 
-#include "dynamic_sprite.h"
+#include "../../common_texture/dynamic_sprite.h"
 
 class ChellJumpFallRightSprite : public DynamicSprite {
 public:

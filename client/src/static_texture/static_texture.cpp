@@ -1,7 +1,7 @@
 #include "static_texture.h"
 
-#include "big_texture.h"
-#include "renderizable.h"
+#include "../common_texture/renderizable.h"
+#include "../common_texture/big_texture.h"
 
 /*
 PRE: Recibe:

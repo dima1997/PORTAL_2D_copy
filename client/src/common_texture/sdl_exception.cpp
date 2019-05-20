@@ -1,6 +1,8 @@
 #include "sdl_exception.h"
-#include <string>
+
 #include <SDL2/SDL_image.h>
+
+#include <string>
 
 /*
 PRE: Recibe una descripcion propia (const char *) del error, y una descripcion

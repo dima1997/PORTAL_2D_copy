@@ -1,8 +1,8 @@
 #ifndef MOVE_SENSE_H
 #define MOVE_SENSE_H
 
-#include "area.h"
-#include "big_texture.h" 
+#include "../common_texture/area.h"
+#include "../common_texture/big_texture.h" 
 
 class MoveSense {
 private:

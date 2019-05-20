@@ -1,8 +1,8 @@
 #ifndef STATIC_TEXTURE_H
 #define STATIC_TEXTURE_H
 
-#include "renderizable.h"
-#include "big_texture.h"
+#include "../common_texture/renderizable.h"
+#include "../common_texture/big_texture.h"
 
 class StaticTexture : public Renderizable {
 private:

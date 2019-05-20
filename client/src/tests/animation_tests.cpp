@@ -1,7 +1,7 @@
 #include "animation_tests.h"
 
-#include "window.h"
-#include "area.h"
+#include "../window/window.h"
+#include "../common_texture/area.h"
 
 #include <SDL2/SDL.h>
 
@@ -286,4 +286,58 @@ void testAnimateChellRunning(){
         double timeMiliSeconds = timeSeconds * 1000;
         SDL_Delay(maxSleepMS - timeMiliSeconds);
     }
+}
+
+/*
+Muestra a Chell saltando verticalmente y hacia la derecha.
+*/
+void testAnimateChellJumping(){
+    int windowWidthPixels = WIDTH_WINDOW;
+    int windowHeightPixels = HEIGHT_WINDOW;
+    float windowWidthMeters = 5;
+    float windowHeightMeters = windowHeightPixels * (windowWidthMeters/windowWidthPixels);
+    float chellWidthMeters = 1;
+    float chellHeightMeters = 1.5;
+    float chellXCoord = 0;
+    float chellYCoord = windowHeightMeters - chellHeightMeters;
+    Area areaMap(chellXCoord, chellYCoord, chellWidthMeters, chellHeightMeters);
+    uint32_t idChell = 0;
+    float chellMetersPerFrame = 0.1;
+    Window window(windowWidthPixels, windowHeightPixels, windowWidthMeters);
+    window.add_chell_texture(idChell,areaMap);
+    unsigned t0, t1;
+    std::vector<std::pair<float,float>> moves;
+    int manyJumps = 20;
+    int i = 0;
+    for (; i < manyJumps; ++i){
+        moves.push_back({chellXCoord, chellYCoord - i*chellMetersPerFrame});
+    }
+    for (; i >= 0; --i){
+        moves.push_back({chellXCoord, chellYCoord - i*chellMetersPerFrame});
+    }
+    for (i = 0; i < manyJumps/2; ++i){
+        moves.push_back({chellXCoord + i*chellMetersPerFrame, chellYCoord - i*chellMetersPerFrame});
+    }
+    for (i; i < manyJumps; ++i){
+        moves.push_back({chellXCoord + i*chellMetersPerFrame, chellYCoord - (manyJumps - i)*chellMetersPerFrame});
+    }
+    float animationTimeMS = 2000; //miliSeconds
+    float miliSecondsPerFrame = animationTimeMS/moves.size(); 
+    for (int i = 0; i < moves.size(); ++i){
+        window.move_texture(idChell, moves[i].first, moves[i].second);
+        t0=clock();
+        window.fill();
+        window.render();
+        t1 = clock();
+        double timeSeconds = (double(t1-t0)/CLOCKS_PER_SEC);
+        double timeMiliSeconds = timeSeconds * 1000;
+        SDL_Delay(miliSecondsPerFrame - timeMiliSeconds);
+    }
+    t0=clock();
+    window.fill();
+    window.render();
+    t1 = clock();
+    double timeSeconds = (double(t1-t0)/CLOCKS_PER_SEC);
+    double timeMiliSeconds = timeSeconds * 1000;
+    SDL_Delay(miliSecondsPerFrame - timeMiliSeconds);
 }

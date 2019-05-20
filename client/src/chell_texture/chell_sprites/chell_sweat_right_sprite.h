@@ -1,7 +1,7 @@
 #ifndef CHELL_SWEAT_RIGHT_SPRITE_H
 #define CHELL_SWEAT_RIGHT_SPRITE_H
 
-#include "dynamic_sprite.h"
+#include "../../common_texture/dynamic_sprite.h"
 
 class ChellSweatRightSprite : public DynamicSprite {
 public:

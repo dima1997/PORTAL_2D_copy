@@ -1,14 +1,17 @@
 #ifndef CHELL_SPRITE_STRATEGY_H
 #define CHELL_SPRITE_STRATEGY_H
 
-#include "dynamic_sprite.h"
-#include "area.h"
+#include "../../common_texture/dynamic_sprite.h"
+#include "../../common_texture/area.h"
 
 #include <memory>
 
 enum spriteNameStrategy_t {
-    SWEAT,
-    RUNNING
+    SWEAT_RIGHT,
+    RUN_RIGHT,
+    JUMP_APEX_RIGHT,
+    JUMP_RISE_RIGHT,
+    JUMP_FALL_RIGHT,
 };
 
 class ChellSpriteStrategy {
@@ -16,6 +19,11 @@ private:
     spriteNameStrategy_t spriteName;
     std::unique_ptr<DynamicSprite> ptrDynamicSprite;
     bool keepMoving;
+    /*
+    PRE: Recibe un nombre de sprite strategy (spriteNameStrategy_t).
+    POST: Setea el sprite actual al recibido, si que no esta ya seteado.
+    */
+    void setSpriteStrategy(spriteNameStrategy_t newSpriteName);
 public:
     /*Inicializa el estado de sprite de Chell.*/
     ChellSpriteStrategy();
