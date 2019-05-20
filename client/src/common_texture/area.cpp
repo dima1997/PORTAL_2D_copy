@@ -96,6 +96,38 @@ Area Area::adjust(float adjuster){
     return std::move(Area(newX, newY, newWidth, newHeight)); 
 }
 
+/*
+Devuelve un nuevo area con las coordenadas de su 
+actual esquina superior izquierda (relativo 
+al sistema de referencia usado).
+(Superior => y mas grande)
+(Izquieda => x mas chico)
+*/
+Area Area::from_center_to_top_left() {
+    float xCenter = this->getX();
+    float yCenter = this->getY();
+    float width = this->getWidth();
+    float height = this->getHeight();
+    float xTopLeft = xCenter - (width/2);
+    float yTopLeft = yCenter + (height/2);
+    return std::move(Area(xTopLeft,yTopLeft,width,height)); 
+}
+
+/*
+PRE: Recibe las coordenadas (float) x,y del sistema de 
+referencia actual, que seran utilizadas como origen de 
+coordenadas del nuevo sistema de referencia, que tiene
+el eje de coordenadas Y, al reves del actual.
+POST: Devuelve un nuevo area (Area) con las coordenadas
+adaptadas al nuevo sistema de referencia.
+*/
+Area Area::to_y_axis_down_reference_system
+(float xOrigin, float yOrigin){
+    float newX = this->x - xOrigin;
+    float newY = - (this->y - yOrigin);
+    return std::move(Area(newX, newY, this->width, this->height));
+}
+
 /*Devuelve la coordenada (float) x del area*/
 float Area::getX() const {
 	return this->x;
@@ -133,3 +165,4 @@ por el recibido.
 void Area::setY(float y) {
     this->y = y;
 }
+

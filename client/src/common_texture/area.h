@@ -20,7 +20,7 @@ public:
     Area(float x, float y, float width, float height);
 
     /*Destruye un area*/
-    ~Area();
+    virtual ~Area();
 
     /*
     PRE: Recibe una doble referencia a otra area (Area &&).
@@ -42,6 +42,7 @@ public:
     POST: Inicializa una nueva area por copia.
     */
     Area(const Area &otherArea);
+    
     /*
     PRE: Recibe una referencia constante a otra area (const Area &).
     POST: Realiza una asignacion por copia. Devuelve una referencia al
@@ -51,9 +52,29 @@ public:
 
     /*
     PRE: Recibe un factor de ajuste (<nueva unidad>/<unidad actual>)
-    POST: Devuelve un nuevo area (Area) que ajusta la medidas del actual.
+    POST: Devuelve un nuevo area (Area) que ajusta la medidas 
+    (coordenadas y dimensiones) del actual.
     */
     Area adjust(float adjuster);
+
+    /*
+    Devuelve un nuevo area con las coordenadas de su 
+    actual esquina superior izquierda (relativo 
+    al sistema de referencia usado).
+    (Superior => y mas grande)
+    (Izquieda => x mas chico)
+    */
+    Area from_center_to_top_left();
+
+    /*
+    PRE: Recibe las coordenadas (float) x,y del sistema de 
+    referencia actual, que seran utilizadas como origen de 
+    coordenadas del nuevo sistema de referencia, que tiene
+    el eje de coordenadas Y, al reves del actual.
+    POST: Devuelve un nuevo area (Area) con las coordenadas
+    adaptadas al nuevo sistema de referencia.
+    */
+    Area to_y_axis_down_reference_system(float xOrigin, float yOrigin);
 
     /*Devuelve la coordenada (float) x del area*/
     float getX() const;
