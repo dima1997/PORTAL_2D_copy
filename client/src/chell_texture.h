@@ -2,7 +2,7 @@
 #define CHELL_TEXTURE_H
 
 #include "big_texture.h"
-#include "chell_sprite_state.h"
+#include "chell_sprite_strategy.h"
 #include "move_sense.h"
 #include "area.h"
 #include "renderizable.h"
@@ -10,9 +10,9 @@
 
 class ChellTexture : public Renderizable, public Movable {
 private:
-    BigTexture &bigTexture;
+    BigTexture & bigTexture;
     MoveSense moveSense;
-    ChellSpriteState spriteState;
+    ChellSpriteStrategy spriteStrategy;
     Area areaMap;
 
 public:
@@ -27,6 +27,10 @@ public:
 
     /*Destruye la textura dinamica de Chell.*/
     ~ChellTexture();
+
+    // Anulamos las copias
+    ChellTexture(const ChellTexture & otherChellTextura) = delete;
+    ChellTexture & operator=(const ChellTexture & otherChellTextura) = delete;
 
     /*
     PRE: Recibe una nueva coordenada (float) x,y .

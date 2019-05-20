@@ -1,5 +1,5 @@
-#ifndef CHELL_SPRITE_STATE_H
-#define CHELL_SPRITE_STATE_H
+#ifndef CHELL_SPRITE_STRATEGY_H
+#define CHELL_SPRITE_STRATEGY_H
 
 #include "dynamic_sprite.h"
 #include "area.h"
@@ -11,17 +11,17 @@ enum spriteNameStrategy_t {
     RUNNING
 };
 
-class ChellSpriteState {
+class ChellSpriteStrategy {
 private:
     spriteNameStrategy_t spriteName;
     std::unique_ptr<DynamicSprite> ptrDynamicSprite;
     bool keepMoving;
 public:
     /*Inicializa el estado de sprite de Chell.*/
-    ChellSpriteState();
+    ChellSpriteStrategy();
 
     /*Destruye el estado de sprite de Chell*/
-    ~ChellSpriteState();
+    ~ChellSpriteStrategy();
 
     /*
     PRE: Recibe :

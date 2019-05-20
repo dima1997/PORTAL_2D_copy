@@ -1,7 +1,7 @@
 #include "chell_texture.h"
 
 #include "big_texture.h"
-#include "chell_sprite_state.h"
+#include "chell_sprite_strategy.h"
 #include "move_sense.h"
 #include "area.h"
 #include "renderizable.h"
@@ -36,7 +36,7 @@ void ChellTexture::move_to(float x, float y) {
     this->areaMap.setX(xNow);
     this->areaMap.setY(yNow);
     this->moveSense.move(xBefore, yBefore, xNow, yNow);
-    this->spriteState.move(xBefore, yBefore, xNow, yNow);
+    this->spriteStrategy.move(xBefore, yBefore, xNow, yNow);
     
 }   
 
@@ -46,7 +46,7 @@ de mapa que ocupa de Chell, a pixeles.
 POST: Renderiza la textura de Chell.
 */
 void ChellTexture::render(float adjuster) {
-    Area src = std::move(this->spriteState.getNextArea());
+    Area src = std::move(this->spriteStrategy.getNextArea());
     Area dest = std::move(this->areaMap.adjust(adjuster));
     this->moveSense.render(this->bigTexture, src, dest);
 }

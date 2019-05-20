@@ -9,19 +9,19 @@ set(SRC_FOLDER "src")
 
 file(GLOB client_files
         "main.cpp"
+        "${SRC_FOLDER}/animation_tests.cpp"
+        "${SRC_FOLDER}/window.cpp"
         "${SRC_FOLDER}/area.cpp"
         "${SRC_FOLDER}/sdl_exception.cpp"
+        "${SRC_FOLDER}/os_exception.cpp"
         "${SRC_FOLDER}/big_texture.cpp"
         "${SRC_FOLDER}/static_texture.cpp"
-        "${SRC_FOLDER}/window.cpp"
-        "${SRC_FOLDER}/animation_tests.cpp"
         "${SRC_FOLDER}/chell_texture.cpp"
         "${SRC_FOLDER}/move_sense.cpp"
-        "${SRC_FOLDER}/chell_sprite_state.cpp"
+        "${SRC_FOLDER}/chell_sprite_strategy.cpp"
         "${SRC_FOLDER}/dynamic_sprite.cpp"
-        "${SRC_FOLDER}/chell_running_sprite.cpp"
-        "${SRC_FOLDER}/chell_sweat_sprite.cpp"
-        "${SRC_FOLDER}/os_exception.cpp"
+        "${SRC_FOLDER}/chell_run_right_sprite.cpp"
+        "${SRC_FOLDER}/chell_sweat_right_sprite.cpp"
         )
 
 add_executable(${CLIENT_NAME} ${client_files})

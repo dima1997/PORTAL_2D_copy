@@ -6,8 +6,6 @@
 
 class MoveSense {
 private:
-    int lastX;
-    int lastY;
     textureFlip_t flip;
 public:
     /*
@@ -24,7 +22,7 @@ public:
         las nuevas coordenadas (int) x,y .
     POST: Actualiza el sentido de moviemiento. 
     */
-    void move(float xBefore, float yBefore,float xNow, float yNow);
+    void move(float xBefore, float yBefore, float xNow, float yNow);
 
     /*
     PRE: Recibe:
