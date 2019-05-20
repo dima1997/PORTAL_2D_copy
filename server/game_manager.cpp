@@ -8,11 +8,10 @@
 
 GameManager::GameManager(): games(), mutex(), biggestKey(0) {}
 
-void GameManager::addGame(Connector &connector, uint8_t mapId) {
+void GameManager::addGame(Connector &connector, uint8_t map_id) {
     std::unique_lock<std::mutex> l(mutex);
-    // TODO: capaz usar un GameFactory según el mapId
     uint8_t game_id = this->getKey();
-    Game game(game_id, connector);
+    Game game(game_id, map_id, connector);
     game.startIfReady();
     games.insert({game_id, std::move(game)});
     this->eraseFinished();
@@ -37,6 +36,7 @@ void GameManager::eraseFinished() {
     for (uint8_t i = 0; i <= biggestKey; i++) {
         if (games.count(i) > 0) {
             if (games.at(i).isFinished()) {
+                games.at(i).join();
                 games.erase(i);
             } else {
                 if (i > biggest) biggest = i;
@@ -58,4 +58,8 @@ uint8_t GameManager::getKey() {
     throw PortalException("A new game can't be added in this moment.");
 }
 
-GameManager::~GameManager() = default;
+GameManager::~GameManager() {
+    for (auto &it: games) {
+        it.second.join();
+    }
+}

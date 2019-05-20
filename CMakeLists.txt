@@ -24,6 +24,8 @@ file(GLOB server_files
         "${SERVER_FOLDER}/request_executor.cpp"
         "${SERVER_FOLDER}/game.cpp"
         "${SERVER_FOLDER}/game_manager.cpp"
+        "${SERVER_FOLDER}/world.cpp"
+        "${SERVER_FOLDER}/body.cpp"
         )
 
 add_executable(${SERVER_NAME} ${common_files} ${server_files})
