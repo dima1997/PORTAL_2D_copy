@@ -47,9 +47,13 @@ bool Game::addPlayer(Connector &connector) {
 
 void Game::start() {
     printf("Game id: %d\n", id);
-    std::list<Body *> updated;
-    for (int32 i = 0; i < 120; ++i) {
+    std::list<BodyInfo *> updated;
+    for (int32 i = 0; i < 60; ++i) {
         world.step(updated);
+        for(auto *bodyInfo : updated) {
+            b2Vec2 position = bodyInfo->getPosition();
+            printf("x: %4.2f, y: %4.2f\n", position.x, position.y);
+        }
     }
     printf("\n\n");
 

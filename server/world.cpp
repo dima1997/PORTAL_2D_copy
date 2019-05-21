@@ -15,7 +15,7 @@ World::World(uint8_t map_id): gravity(0.0f, -9.8f), world(new b2World(gravity)) 
     loadMap(map_id);
 }
 
-void World::step(std::list<Body *> &updated) {
+void World::step(std::list<BodyInfo *> &updated) {
 
     float32 timeStep = TIME_STEP;
 
@@ -25,9 +25,10 @@ void World::step(std::list<Body *> &updated) {
     world->Step(timeStep, velocityIterations, positionIterations);
     b2Body *body = world->GetBodyList();
     while(body != nullptr) {
-        b2Vec2 position = body->GetPosition();
-        if (body->IsAwake()) {
-            printf("x: %4.2f, y: %4.2f\n", position.x, position.y);
+        auto *bodyInfo = (BodyInfo *) body->GetUserData();
+        bodyInfo->update(body->GetPosition());
+        if (body->IsAwake() && bodyInfo->isUpdated()) {
+            updated.push_back(bodyInfo);
         }
         body = body->GetNext();
     }
@@ -49,31 +50,35 @@ World::~World() {
 }
 
 void World::loadMap(uint8_t mapId) {
-    b2BodyDef groundBodyDef;
-    groundBodyDef.position.Set(0.0f, -10.0f);
-    b2Body * groundBody = world->CreateBody(&groundBodyDef);
+    createRockBlock(0, -1.5);
+    createChell(0, 4, 0);
+}
 
-    b2PolygonShape groundBox;
-    groundBox.SetAsBox(50.0f, 10.0f);
+void World::createRockBlock(float32 x_pos, float32 y_pos) {
+    b2BodyDef bodyDef;
+    bodyDef.position.Set(x_pos, y_pos);
+    auto *bodyInfo = new BodyInfo(bodies.size(), bodyDef.position);
+    bodies.push_back(bodyInfo);
+    bodyDef.userData = bodies.at(bodies.size() - 1);
+    b2Body *body = world->CreateBody(&bodyDef);
 
-    groundBody->CreateFixture(&groundBox, 0.0f);
+    b2PolygonShape box;
+    box.SetAsBox(1.5f, 1.5f);
 
-    b2BodyDef elementBodyDef;
-    elementBodyDef.position.Set(-1.3f, 1.0f);
-    b2Body * elementBody = world->CreateBody(&elementBodyDef);
+    body->CreateFixture(&box, 0.0f);
+}
 
-    b2PolygonShape elementBox;
-    elementBox.SetAsBox(1.0f, 1.0f);
-
-    elementBody->CreateFixture(&elementBox, 0.0f);
-
+void World::createChell(float32 x_pos, float32 y_pos, uint8_t playerId) {
     b2BodyDef bodyDef;
     bodyDef.type = b2_dynamicBody;
-    bodyDef.position.Set(0.0f, 4.0f);
+    bodyDef.position.Set(x_pos, y_pos);
+    auto *bodyInfo = new BodyInfo(bodies.size(), bodyDef.position);
+    bodies.push_back(bodyInfo);
+    bodyDef.userData = bodies.at(bodies.size() - 1);
     b2Body *body = world->CreateBody(&bodyDef);
 
     b2PolygonShape dynamicBox;
-    dynamicBox.SetAsBox(1.0f, 1.0f);
+    dynamicBox.SetAsBox(1.5f, 0.5f);
 
     b2FixtureDef fixtureDef;
     fixtureDef.shape = &dynamicBox;
