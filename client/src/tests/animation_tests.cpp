@@ -2,6 +2,8 @@
 
 #include "../window/window.h"
 #include "../common_texture/area.h"
+#include "../threads/animation_loop_thread.h"
+#include "../threads/key_reader_thread.h"
 
 #include <SDL2/SDL.h>
 
@@ -341,3 +343,31 @@ void testAnimateChellJumping(){
     double timeMiliSeconds = timeSeconds * 1000;
     SDL_Delay(miliSecondsPerFrame - timeMiliSeconds);
 }
+
+/*
+Ejecuta la animacion de chell sudando, renderizandola desde el 
+AnimationLoopThread; y controlando la entrada del usuario a traves
+del KeyReaderThread. 
+(En este caso , la entrada del usuario es solo cerrar la ventana)
+*/
+/*
+void testAnimationLoopKeyReader(){
+    int windowWidthPixels = WIDTH_WINDOW;
+    int windowHeightPixels = HEIGHT_WINDOW;
+    float windowWidthMeters = 5;
+    float windowHeightMeters = windowHeightPixels * (windowWidthMeters/windowWidthPixels);
+    float chellWidthMeters = 1;
+    float chellHeightMeters = 1.5;
+    float chellXCoord = windowWidthMeters/2;
+    float chellYCoord = windowHeightMeters/2;
+    Area areaMap(chellXCoord, chellYCoord, chellWidthMeters, chellHeightMeters);
+    Window window(windowWidthPixels, windowHeightPixels, windowWidthMeters);
+    window.add_chell_texture(0,areaMap);
+    AnimationLoopThread animationLoop(window);
+    KeyReaderThread keyReader;
+    animationLoop.start(); //Ejecuto hilo
+    keyReader.run(); // No ejecuto hilo separado, corre sobre hilo actual.
+    animationLoop.stop();
+    animationLoop.join();
+}
+*/

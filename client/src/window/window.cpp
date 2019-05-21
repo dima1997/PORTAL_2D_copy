@@ -139,15 +139,6 @@ void Window::add_chell_texture(uint32_t id, Area areaMap){
     }
     this->add_big_texture(ALL_CHELL_SPRITES_PART_1);
     this->ids.push_back(id); 
-    /*
-    std::shared_ptr<Renderizable> ptrRenderTexture(
-                                    new ChellTexture(
-                                        this->bigTextures.at(
-                                                ALL_CHELL_SPRITES_PART_1
-                                            ), 
-                                        std::move(areaMap))
-                                    );
-    */
     std::shared_ptr<Renderizable> ptrRenderTexture(
                                     new ChellTexture(
                                         this->bigTextures.at(

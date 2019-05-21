@@ -64,4 +64,12 @@ Muestra a Chell saltando verticalmente y hacia la derecha.
 */
 void testAnimateChellJumping();
 
+/*
+Ejecuta la animacion de chell sudando, renderizandola desde el 
+AnimationLoopThread; y controlando la entrada del usuario a traves
+del KeyReaderThread. 
+(En este caso , la entrada del usuario es solo cerrar la ventana)
+*/
+//void testAnimationLoopKeyReader();
+
 #endif // ANIMATION_TESTS_H

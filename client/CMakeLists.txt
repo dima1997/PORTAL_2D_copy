@@ -9,6 +9,11 @@ set(SRC_FOLDER "src")
 
 file(GLOB client_files
         "main.cpp"
+	"../common/blocking_queue.cpp"
+        "${SRC_FOLDER}/threads/blocking_queue_changes.cpp"
+        "${SRC_FOLDER}/threads/game_proxy_thread.cpp"
+        "${SRC_FOLDER}/threads/key_reader_thread.cpp"
+        "${SRC_FOLDER}/threads/animation_loop_thread.cpp"
         "${SRC_FOLDER}/tests/animation_tests.cpp"
         "${SRC_FOLDER}/window/window.cpp"
         "${SRC_FOLDER}/window/os_exception.cpp"
@@ -30,6 +35,9 @@ file(GLOB client_files
 add_executable(${CLIENT_NAME} ${client_files})
 
 target_link_libraries(${CLIENT_NAME} SDL2 SDL2_image)
+
+find_package(Threads REQUIRED)
+target_link_libraries(${CLIENT_NAME} ${CMAKE_THREAD_LIBS_INIT})
 
 install(FILES assets/all_blocks.png DESTINATION ${CMAKE_BINARY_DIR})
 install(FILES assets/all_chells_part_1.png DESTINATION ${CMAKE_BINARY_DIR})
