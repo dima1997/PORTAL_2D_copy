@@ -15,14 +15,14 @@ class World {
 private:
     b2Vec2 gravity;
     b2World *world;
-    std::vector<BodyInfo*> bodies;
+    std::vector<b2Body *> bodies;
     void loadMap(uint8_t mapId);
 public:
     explicit World(uint8_t map_id);
     World(World &&other) noexcept;
     World &operator=(World &&other) noexcept;
     ~World();
-    void step(std::list<BodyInfo *> &updated);
+    void step(std::list<b2Body *> &updated);
     void createRockBlock(float32 x_pos, float32 y_pos);
     void createChell(float32 x_pos, float32 y_pos, uint8_t playerId);
 };

@@ -15,7 +15,7 @@ World::World(uint8_t map_id): gravity(0.0f, -9.8f), world(new b2World(gravity)) 
     loadMap(map_id);
 }
 
-void World::step(std::list<BodyInfo *> &updated) {
+void World::step(std::list<b2Body *> &updated) {
 
     float32 timeStep = TIME_STEP;
 
@@ -28,7 +28,7 @@ void World::step(std::list<BodyInfo *> &updated) {
         auto *bodyInfo = (BodyInfo *) body->GetUserData();
         bodyInfo->update(body->GetPosition());
         if (body->IsAwake() && bodyInfo->isUpdated()) {
-            updated.push_back(bodyInfo);
+            updated.push_back(body);
         }
         body = body->GetNext();
     }
@@ -58,9 +58,9 @@ void World::createRockBlock(float32 x_pos, float32 y_pos) {
     b2BodyDef bodyDef;
     bodyDef.position.Set(x_pos, y_pos);
     auto *bodyInfo = new BodyInfo(bodies.size(), bodyDef.position);
-    bodies.push_back(bodyInfo);
-    bodyDef.userData = bodies.at(bodies.size() - 1);
+    bodyDef.userData = bodyInfo;
     b2Body *body = world->CreateBody(&bodyDef);
+    bodies.push_back(body);
 
     b2PolygonShape box;
     box.SetAsBox(1.5f, 1.5f);
@@ -73,9 +73,9 @@ void World::createChell(float32 x_pos, float32 y_pos, uint8_t playerId) {
     bodyDef.type = b2_dynamicBody;
     bodyDef.position.Set(x_pos, y_pos);
     auto *bodyInfo = new BodyInfo(bodies.size(), bodyDef.position);
-    bodies.push_back(bodyInfo);
-    bodyDef.userData = bodies.at(bodies.size() - 1);
+    bodyDef.userData = bodyInfo;
     b2Body *body = world->CreateBody(&bodyDef);
+    bodies.push_back(body);
 
     b2PolygonShape dynamicBox;
     dynamicBox.SetAsBox(1.5f, 0.5f);

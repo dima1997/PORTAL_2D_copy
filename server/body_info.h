@@ -21,7 +21,6 @@ public:
     virtual ~BodyInfo();
     void update(b2Vec2 pos);
     bool isUpdated();
-    b2Vec2 getPosition();
 };
 
 

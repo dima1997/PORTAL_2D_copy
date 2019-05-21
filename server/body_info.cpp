@@ -20,10 +20,6 @@ void BodyInfo::update(b2Vec2 pos) {
     }
 }
 
-b2Vec2 BodyInfo::getPosition() {
-    return position;
-}
-
 BodyInfo::~BodyInfo() = default;
 
 
