@@ -38,3 +38,4 @@ void BlockingQueue<T>::close() {
 
 // To use this template just add here, for example:
 //template class BlockingQueue<int>;
+

@@ -47,7 +47,7 @@ de mapa que ocupa de Chell, a pixeles.
 POST: Renderiza la textura de Chell.
 */
 void ChellTexture::render(float adjuster) {
-    Area src = std::move(this->spriteStrategy.getNextArea());
+    Area src = std::move(this->spriteStrategy.getNextArea()); //copiar
     Area dest = std::move(this->areaMap.adjust(adjuster));
     this->moveSense.render(this->bigTexture, src, dest);
 }

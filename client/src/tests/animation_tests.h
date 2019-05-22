@@ -70,6 +70,6 @@ AnimationLoopThread; y controlando la entrada del usuario a traves
 del KeyReaderThread. 
 (En este caso , la entrada del usuario es solo cerrar la ventana)
 */
-//void testAnimationLoopKeyReader();
+void testAnimationLoopKeyReader();
 
 #endif // ANIMATION_TESTS_H

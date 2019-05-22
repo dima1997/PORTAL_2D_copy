@@ -1,14 +1,16 @@
 #ifndef ANIMATION_LOOP_THREAD_H
 #define ANIMATION_LOOP_THREAD_H
 
-#include "blocking_queue_changes.h"
+
+#include "../../../common/thread_safe_queue.h"
 #include "../window/window.h"
 #include "../../../common/thread.h"
+
 
 class AnimationLoopThread : public Thread{
 private:
     Window & window;
-    blockingQueueChangesMade_t & changesMade;
+    TSQueueChangesMade_t & changesMade;
     bool isDead;
 public:
     /*
@@ -18,7 +20,11 @@ public:
     POST: Inicializa un loop de animaciones.
     */
     AnimationLoopThread(Window &window, 
-        blockingQueueChangesMade_t & changesMade);
+        TSQueueChangesMade_t & changesMade);
+    /*
+    AnimationLoopThread(Window &window, 
+        queueChangesMade_t & changesMade);
+    */
     /*
     Destruye el hilo: loop de animaciones. 
     */

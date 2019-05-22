@@ -4,6 +4,11 @@
 #include "../common_texture/area.h"
 #include "../threads/animation_loop_thread.h"
 #include "../threads/key_reader_thread.h"
+#include "../threads/game_proxy_thread.h"
+
+#include "../../../common/thread_safe_queue.h"
+
+#include <map>
 
 #include <SDL2/SDL.h>
 
@@ -350,8 +355,9 @@ AnimationLoopThread; y controlando la entrada del usuario a traves
 del KeyReaderThread. 
 (En este caso , la entrada del usuario es solo cerrar la ventana)
 */
-/*
 void testAnimationLoopKeyReader(){
+    TSQueueChangesMade_t changesMade;
+    TSQueueChangesAsk_t changesAsk;
     int windowWidthPixels = WIDTH_WINDOW;
     int windowHeightPixels = HEIGHT_WINDOW;
     float windowWidthMeters = 5;
@@ -361,13 +367,18 @@ void testAnimationLoopKeyReader(){
     float chellXCoord = windowWidthMeters/2;
     float chellYCoord = windowHeightMeters/2;
     Area areaMap(chellXCoord, chellYCoord, chellWidthMeters, chellHeightMeters);
+    uint32_t idChell = 0;
     Window window(windowWidthPixels, windowHeightPixels, windowWidthMeters);
-    window.add_chell_texture(0,areaMap);
-    AnimationLoopThread animationLoop(window);
-    KeyReaderThread keyReader;
+    window.add_chell_texture(idChell,areaMap);
+    std::map<uint32_t,Area> gameMap({{idChell,areaMap}});
+    GameProxyThread game(gameMap, changesMade, changesAsk);
+    AnimationLoopThread animationLoop(window, changesMade);
+    KeyReaderThread keyReader(idChell,changesAsk);
+    game.start();
     animationLoop.start(); //Ejecuto hilo
     keyReader.run(); // No ejecuto hilo separado, corre sobre hilo actual.
     animationLoop.stop();
     animationLoop.join();
+    game.stop();
+    game.join();
 }
-*/

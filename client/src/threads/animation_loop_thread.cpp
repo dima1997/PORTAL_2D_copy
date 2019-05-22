@@ -1,8 +1,9 @@
 #include "animation_loop_thread.h"
 
-#include "blocking_queue_changes.h"
 #include "../../../common/thread.h"
 #include "../window/window.h"
+
+#include "../../../common/thread_safe_queue.h"
 
 #include <SDL2/SDL.h>
 
@@ -11,12 +12,18 @@
 /*
 PRE: Recibe donde ventana (Window &) donde se renderizan las texturas; 
 y una cola bloqueante de cambios a realizar sobre las texturas de la 
-ventana (blockingQueueChanges_t &).
+ventana (TSQueueChangesMade_t &).
 POST: Inicializa un loop de animaciones.
 */
 AnimationLoopThread::AnimationLoopThread(Window &window, 
-blockingQueueChangesMade_t & changesMade)
+TSQueueChangesMade_t & changesMade)
 : window(window), changesMade(changesMade), isDead(true) {}
+
+/*
+AnimationLoopThread::AnimationLoopThread(Window &window, 
+queueChangesMade_t & changesMade)
+: window(window), changesMade(changesMade), isDead(true) {}
+*/
 
 /*
 Destruye el hilo: loop de animaciones. 
@@ -35,8 +42,8 @@ void AnimationLoopThread::run(){
     while( ! this->is_dead() ){
         t0=clock();
         t2=clock();
-        double timeProcessMiliSeconds = (double(t1-t0)/CLOCKS_PER_SEC) * 1000;
-        while (! timeProcessMiliSeconds > timeWaitMiliSeconds ){
+        double timeProcessMiliSeconds = (double(t2-t0)/CLOCKS_PER_SEC) * 1000;
+        while (! (timeProcessMiliSeconds > timeWaitMiliSeconds) ){
             std::unique_ptr<TextureMoveChange> ptrChange;
             if (! this->changesMade.pop(ptrChange)){
                 break;
@@ -44,7 +51,7 @@ void AnimationLoopThread::run(){
             TextureMoveChange change = *(ptrChange);
             change.change(this->window);
             t2=clock();
-            timeProcessMiliSeconds = (double(t1-t0)/CLOCKS_PER_SEC) * 1000;
+            timeProcessMiliSeconds = (double(t2-t0)/CLOCKS_PER_SEC) * 1000;
         }
         window.fill();
         window.render();

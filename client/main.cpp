@@ -7,7 +7,7 @@
 
 int main(int argc, char **argv) {
     try {
-        testShowOneBlock();
+        //testShowOneBlock();
         //testShowThreeBlocks();
         //testShowGroundOfBlocks();
         //testShowFrameOfBlocks();
@@ -16,7 +16,7 @@ int main(int argc, char **argv) {
         //testAnimateChellSweat();
         //testAnimateChellRunning();
         //testAnimateChellJumping();
-        //testAnimationLoopKeyReader();
+        testAnimationLoopKeyReader();
     } catch (SdlException &error){
         std::cout << error.what() << "\n";
         return 1;

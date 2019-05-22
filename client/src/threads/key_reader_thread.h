@@ -2,16 +2,16 @@
 #define KEY_READER_THREAD_H
 
 #include "../../../common/thread.h"
-#include "blocking_queue_changes.h"
+#include "../../../common/thread_safe_queue.h"
 
 class KeyReaderThread : public Thread {
 private:
     bool isDead;
     uint32_t idObject;
-    blockingQueueChangesAsk_t & changesAsk;
+    TSQueueChangesAsk_t & changesAsk;
 public:
     /*Inicializa un lector de eventos.*/
-    KeyReaderThread();
+    KeyReaderThread(uint32_t idObject, TSQueueChangesAsk_t & changesAsk);
     // Faltaria que reciba el socket y el id de la textura que controla
 
     /*Destruye el lector de eventos.*/

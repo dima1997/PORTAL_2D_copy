@@ -1,13 +1,13 @@
 #include "key_reader_thread.h"
 
-#include "blocking_queue_changes.h"
+#include "../../../common/thread_safe_queue.h"
 #include "../../../common/thread.h"
 
 #include <SDL2/SDL.h>
 
 /*Inicializa un lector de eventos.*/
 KeyReaderThread::KeyReaderThread(uint32_t idObject, 
-blockingQueueChangesAsk_t & changesAsk)
+TSQueueChangesAsk_t & changesAsk)
 :  isDead(true), idObject(idObject), changesAsk(changesAsk) {} 
 // Faltaria que reciba el socket y el id de la textura que controla
 
@@ -58,12 +58,6 @@ bool KeyReaderThread::is_dead(){
 Envia al juego la accion a realizar.
 */
 void KeyReaderThread::send(gameObjectAction_t action){
-    switch (action){
-        case MOVE_LEFT:
-            this->changesAsk.push(std::pair(this->id, MOVE_LEFT));
-            break;
-        case MOVE_RIGHT:
-            this->changesAsk.push(std::pair(this->id, MOVE_RIGHT));
-            break;
-    }
+    std::pair<uint32_t,gameObjectAction_t> change(this->idObject, action);
+    this->changesAsk.push(change);
 }

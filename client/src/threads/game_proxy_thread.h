@@ -1,17 +1,22 @@
 #ifndef GAME_PROXY_THREAD_H
 #define GAME_PROXY_THREAD_H
 
-#include "blocking_queue_changes.h" 
+#include "../../../common/thread_safe_queue.h"
+#include "../../../common/thread.h"
 #include "../common_texture/area.h"
 
 #include <cstdint>
 
 
-class GameProxyThread{
+class GameProxyThread : public Thread{
 private:
     std::map<uint32_t,Area> & gameMap;
-    blockingQueueChangesMade_t & changesMade;
-    blockingQueueChangesAsk_t & changesAsk;
+    TSQueueChangesMade_t & changesMade;
+    TSQueueChangesAsk_t & changesAsk;
+    /*
+    queueChangesMade_t & changesMade;
+    queueChagesAsk_t & changesAsk;
+    */
     bool isDead;
 public:
     /*
@@ -22,9 +27,9 @@ public:
     POST: Inicializa un hilo proxy de juego.
     */
     GameProxyThread(std::map<uint32_t,Area> & gameMap,  
-                    blockingQueueChangesMade_t & changesMade, 
-                    blockingQueueChangesAsk_t & changesAsk);
-
+                    TSQueueChangesMade_t & changesMade, 
+                    TSQueueChangesAsk_t & changesAsk);
+    
     /*Destruye el hilo de juego proxy juego*/
     ~GameProxyThread();
 

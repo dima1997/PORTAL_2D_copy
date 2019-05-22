@@ -7,7 +7,7 @@ POST: Inicializa un cambio en la ubicacion de la
 textura, bajo las condiciones indicadas.
 */
 TextureMoveChange::TextureMoveChange(uint32_t idTexture, float newX, float newY)
-: idTexture(id), newX(x), newY(y) {}
+: idTexture(idTexture), newX(newX), newY(newY) {}
 
 /*
 Destruye el cambio de ubicacion de la textura.
@@ -21,3 +21,4 @@ POST: Realiza el cambio que representa en la ventan recibida.
 void TextureMoveChange::change(Window &window){
     window.move_texture(this->idTexture, this->newX, this->newY);
 }
+
