@@ -76,6 +76,13 @@ public:
     */
     Area to_y_axis_down_reference_system(float xOrigin, float yOrigin);
 
+    /*
+    PRE: Recibe una referencia constante a otra area (const Area &).
+    POST: Devuele true, si ambas areas se intersecan en algun punto;
+    false en caso contrario.
+    */
+    bool isIntersectedBy(const Area & otherArea);
+
     /*Devuelve la coordenada (float) x del area*/
     float getX() const;
 

@@ -128,6 +128,16 @@ Area Area::to_y_axis_down_reference_system
     return std::move(Area(newX, newY, this->width, this->height));
 }
 
+/*
+PRE: Recibe una referencia constante a otra area (const Area &).
+POST: Devuele true, si ambas areas se intersecan en algun punto;
+false en caso contrario.
+*/
+bool isIntersectedBy(const Area & otherArea) {
+    //Faltan evaluar casos donde no es cierto.
+    return true;    
+}
+
 /*Devuelve la coordenada (float) x del area*/
 float Area::getX() const {
 	return this->x;

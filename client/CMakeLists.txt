@@ -10,7 +10,6 @@ set(SRC_FOLDER "src")
 file(GLOB client_files
         "main.cpp"
 	"../common/thread_safe_queue.cpp"
-#        "${SRC_FOLDER}/threads/blocking_queue_changes.cpp"
         "${SRC_FOLDER}/threads/game_proxy_thread.cpp"
         "${SRC_FOLDER}/threads/key_reader_thread.cpp"
         "${SRC_FOLDER}/threads/animation_loop_thread.cpp"
