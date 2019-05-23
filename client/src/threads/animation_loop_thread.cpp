@@ -1,9 +1,8 @@
-#include "animation_loop_thread.h"
+#include "../../includes/threads/animation_loop_thread.h"
 
 #include "../../../common/thread.h"
-#include "../window/window.h"
-
 #include "../../../common/thread_safe_queue.h"
+#include "../../includes/window/window.h"
 
 #include <SDL2/SDL.h>
 

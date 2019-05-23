@@ -4,7 +4,7 @@
 #include <queue>
 #include <mutex>
 
-#include "../client/src/common_texture/texture_move_change.h"
+#include "../client/includes/textures/common_texture/texture_move_change.h"
 #include <memory>
 
 template <class T>

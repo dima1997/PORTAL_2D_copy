@@ -1,10 +1,10 @@
-#include "animation_tests.h"
+#include "../../includes/tests/animation_tests.h"
 
-#include "../window/window.h"
-#include "../common_texture/area.h"
-#include "../threads/animation_loop_thread.h"
-#include "../threads/key_reader_thread.h"
-#include "../threads/game_proxy_thread.h"
+#include "../../includes/window/window.h"
+#include "../../includes/textures/common_texture/area.h"
+#include "../../includes/threads/animation_loop_thread.h"
+#include "../../includes/threads/key_reader_thread.h"
+#include "../../includes/threads/game_proxy_thread.h"
 
 #include "../../../common/thread_safe_queue.h"
 

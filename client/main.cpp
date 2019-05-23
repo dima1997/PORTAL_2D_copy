@@ -1,6 +1,6 @@
-#include "src/tests/animation_tests.h"
-#include "src/common_texture/sdl_exception.h"
-#include "src/window/os_exception.h"
+#include "includes/tests/animation_tests.h"
+#include "includes/textures/common_texture/sdl_exception.h"
+#include "includes/window/os_exception.h"
 
 #include <iostream>
 #include <exception> 

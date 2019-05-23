@@ -1,6 +1,6 @@
-#include "game_proxy_thread.h"
+#include "../../includes/threads/game_proxy_thread.h"
 
-#include "../common_texture/texture_move_change.h"
+#include "../../includes/textures/common_texture/texture_move_change.h"
 #include "../../../common/thread_safe_queue.h"
 
 #include <SDL2/SDL.h>
