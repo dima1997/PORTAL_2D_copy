@@ -55,7 +55,7 @@ public:
     Retorna una referencia constante de su area en 
     el mapa de juego.
     */
-    const Area & getMovingArea();
+    //const Area & getMovingArea();
 };
 
 #endif // CHELL_TEXTURE_H

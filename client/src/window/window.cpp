@@ -26,7 +26,7 @@ Levanta SdlException en caso de error.
 void Window::add_big_texture(const std::string & pathImage){
     if (this->bigTextures.count(pathImage) == 0){
         BigTexture newBigTexture(this->renderer, pathImage);
-        this->bigTextures.insert(mapStrBigTexture_t::value_type(
+        this->bigTextures.insert(std::map<std::string, BigTexture>::value_type(
                                         pathImage, std::move(newBigTexture)));
     }
 }
@@ -60,7 +60,7 @@ void Window::add_map(){
     float widthBlockMap = BLOCK_WIDTH;
     float heightBlockMap = BLOCK_HEIGHT;
     float xBlockFirst = -7.5;
-    float xBlockLast = 9.5;
+    float xBlockLast = 9.5; 
     float yBlockFirst = 0.5;
     float yBlockLast = 8.5;
     float xBlock, yBlock;
@@ -70,7 +70,7 @@ void Window::add_map(){
     ++id;
     // Agrego techo
     for (float i = 0; i < manyBlocksHorizontal ; ++i){
-        xBlock = i - xBlockFirst;
+        xBlock = i + xBlockFirst;
         yBlock = yBlockLast;
         this->add_block_metal_texture(id, Area(xBlock, yBlock, 
                                                 widthBlockMap, 
@@ -80,8 +80,8 @@ void Window::add_map(){
     manyBlocksVertical--;
     yBlockLast -= heightBlockMap;
     // Agrego piso
-    for (float i = 0; i < manyBlocksHorizontal; ++id){
-        xBlock = i - xBlockFirst;
+    for (float i = 0; i < manyBlocksHorizontal; ++i){
+        xBlock = i + xBlockFirst;
         yBlock = yBlockFirst;
         this->add_block_metal_texture(id, Area(xBlock, yBlock, 
                                                 widthBlockMap, 
@@ -91,25 +91,25 @@ void Window::add_map(){
     manyBlocksVertical--;
     yBlockFirst += heightBlockMap;
     // Agrego lado izquierdo
-    for (float i = 0; i < manyBlocksVertical; ++id){
+    for (float i = 0; i < manyBlocksVertical; ++i){
         xBlock = xBlockFirst;
-        yBlock = i - yBlockFirst;
+        yBlock = i + yBlockFirst;
         this->add_block_metal_texture(id, Area(xBlock, yBlock, 
                                                 widthBlockMap, 
                                                 heightBlockMap));
         ++id;
     }
     // Agrega lado derecho
-    for (float i = 0; i < manyBlocksVertical; ++id){
-        xBlock = xBlockFirst;
-        yBlock = i - yBlockLast;
+    for (float i = 0; i < manyBlocksVertical; ++i){
+        xBlock = xBlockLast;
+        yBlock = i + yBlockLast;
         this->add_block_metal_texture(id, Area(xBlock, yBlock, 
                                                 widthBlockMap, 
                                                 heightBlockMap));
         ++id;
     }
 
-    Area areaChellMap(0, 1.75, CHELL_WIDTH, CHELL_HEIGHT);
+    Area areaChellMap(0.5, 1.75, CHELL_WIDTH, CHELL_HEIGHT);
     this->add_chell_texture(this->idMainTexture,areaChellMap);
 }
 
@@ -195,7 +195,7 @@ en el orden en que fueron agregadas; y por la ultimo la ventana
 en si.
 */
 void Window::render() {
-    Texture & mainTexture = *(this->movingTextures.at(this->idMainTexture));
+    Texture & mainTexture = *(this->allTextures.at(this->idMainTexture));
     Area areaCamera = mainTexture.getVisionArea();
     float adjuster = this->width/areaCamera.getWidth();
     for (int i = 0; i < this->ids.size(); ++i){
@@ -301,7 +301,7 @@ void Window::move_texture(uint32_t id, float x, float y){
         errDescription << "No existe textura con id : " << std::dec << id << ".";
         throw OSException("Error en ventana:",errDescription.str().c_str());
     }
-    Texture & textureOfId = *(this->movingTextures.at(id));
+    Texture & textureOfId = *(this->allTextures.at(id));
     textureOfId.move_to(x,y);
 }
 
@@ -310,6 +310,5 @@ Devuelve una referencia constante al area (const Area &)
 de la textura de Chell principal de la ventana.
 */
 const Area Window::getMainTextureArea() {
-    ChellTexture & mainChellTexture = (ChellTexture)*(this->movingTextures.at(id));
-    return mainChellTexture.getMovingArea();
+    return (*(this->allTextures.at(this->idMainTexture))).getAreaMap();
 }

@@ -7,7 +7,7 @@
 #include <memory>
 
 class SpriteStrategy {
-private:
+protected:
     std::unique_ptr<DynamicSprite> ptrDynamicSprite;
 
 public:

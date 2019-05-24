@@ -8,7 +8,7 @@
 #include <memory>
 
 class Texture {
-private:
+protected:
     BigTexture & bigTexture;
     Area areaMap;
     std::unique_ptr<SpriteStrategy> ptrSpriteStrategy;
@@ -68,6 +68,12 @@ public:
     Retorna un area (Area) de vision nula.
     */
     virtual Area getVisionArea();
+
+    /*
+    Devuelve una referencia constante al area (const Area &) de la 
+    textura en el mapa del juego.
+    */
+    const Area & getAreaMap();
 };
 
 #endif // TEXTURE_H

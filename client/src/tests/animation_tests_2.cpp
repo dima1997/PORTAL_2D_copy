@@ -17,6 +17,10 @@
 #define WINDOW_WIDTH 640
 #define WINDOW_HEIGHT 480
 
+void testShowOneBlock(){
+    
+}
+
 /*
 Prueba 2.
 */
@@ -28,7 +32,7 @@ void testUserGameAnimationProxy(){
     uint32_t idChell = 0;
     Window window(windowWidthPixels, windowHeightPixels, idChell);
     const Area & areaChell = window.getMainTextureArea();
-    std::map<uint32_t,Area> gameMap({{idChell,areaChell}});
+    std::map<uint32_t,Area> gameMap({{idChell,Area(areaChell)}});
     GameProxyThread game(gameMap, changesMade, changesAsk);
     AnimationLoopThread animationLoop(window, changesMade);
     KeyReaderThread keyReader(idChell,changesAsk);

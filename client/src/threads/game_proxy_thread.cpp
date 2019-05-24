@@ -17,7 +17,7 @@ de cambio solicitados al juego, y una cola bloqueante (TSQueueChangesMade_t)
 de cambios realizados por el juego.
 POST: Inicializa un hilo proxy de juego.
 */
-GameProxyThread::GameProxyThread(std::map<uint32_t,const Area &> & gameMap,  
+GameProxyThread::GameProxyThread(std::map<uint32_t,Area> & gameMap,  
                                     TSQueueChangesMade_t & changesMade, 
                                     TSQueueChangesAsk_t & changesAsk)
 : gameMap(gameMap), changesMade(changesMade), changesAsk(changesAsk), 
@@ -42,19 +42,17 @@ void GameProxyThread::run(){
             }
             uint32_t id = idAction.first;
             gameObjectAction_t action = idAction.second;
-            Area &idArea = this->gameMap[id];
-            float xArea = 0;
+            Area & areaOfId = this->gameMap[id];
+            float xArea = areaOfId.getX();
             switch (action){
                 case MOVE_LEFT:
-                    xArea = idArea.getX();
-                    idArea.setX(xArea - METERS_MOVE);
+                    areaOfId.setX(xArea - METERS_MOVE);
                     break;
                 case MOVE_RIGHT:
-                    xArea = idArea.getX();
-                    idArea.setX(xArea + METERS_MOVE);
+                    areaOfId.setX(xArea + METERS_MOVE);
                     break;
             }
-            std::unique_ptr<TextureMoveChange> ptrChange(new TextureMoveChange(id, idArea.getX(), idArea.getY()));
+            std::unique_ptr<TextureMoveChange> ptrChange(new TextureMoveChange(id, areaOfId.getX(), areaOfId.getY()));
             this->changesMade.push(ptrChange);
             t1 = clock();
             timeProcessMiliSeconds = (double(t2-t0)/CLOCKS_PER_SEC) * 1000;

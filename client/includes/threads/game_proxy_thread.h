@@ -10,7 +10,7 @@
 
 class GameProxyThread : public Thread{
 private:
-    std::map<uint32_t,const Area &>  & gameMap;
+    std::map<uint32_t,Area>  & gameMap;
     TSQueueChangesMade_t & changesMade;
     TSQueueChangesAsk_t & changesAsk;
     /*
@@ -26,7 +26,7 @@ public:
     de cambios realizados por el juego.
     POST: Inicializa un hilo proxy de juego.
     */
-    GameProxyThread(std::map<uint32_t,const Area &> & gameMap,  
+    GameProxyThread(std::map<uint32_t,Area> & gameMap,  
                     TSQueueChangesMade_t & changesMade, 
                     TSQueueChangesAsk_t & changesAsk);
     

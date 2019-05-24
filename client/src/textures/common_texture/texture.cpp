@@ -91,3 +91,11 @@ Retorna un area (Area) de vision nula.
 Area Texture::getVisionArea() {
     return std::move(Area(0,0,0,0));
 }
+
+/*
+Devuelve una referencia constante al area (const Area &) de la 
+textura en el mapa del juego.
+*/
+const Area & Texture::getAreaMap(){
+    return this->areaMap;
+}

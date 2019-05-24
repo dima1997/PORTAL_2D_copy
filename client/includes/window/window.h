@@ -64,7 +64,17 @@ public:
     POST: Inicializa una ventana de las medidas recibidas.
     Levanta SDLException en caso de error.
     */
-    Window(int width, int height, int widthEquivalent);
+    //Window(int width, int height, int widthEquivalent);
+    
+    /*
+    PRE: Recibe:
+        La longitud y altura del ventanta en pixeles (ambos int).
+        El id de la textura en la que se centrara e indicarara que mostrar 
+        en la ventana.
+    POST: Inicializa una ventana de las medidas recibidas.
+    Levanta SDLException en caso de error.
+    */
+    Window(int width, int height, uint32_t idMainTexture);
 
     /*Destruye la ventana.*/
     ~Window();

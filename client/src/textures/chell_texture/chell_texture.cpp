@@ -9,8 +9,8 @@
 
 #include <map>
 
-#define VISION_AREA_METER_WIDTH = 10;
-#define VISION_AREA_METER_HEIGHT = 8;
+#define VISION_AREA_METER_WIDTH 10;
+#define VISION_AREA_METER_HEIGHT 8;
 
 /*Actualiza el area de vision de Chell.*/
 void ChellTexture::updateVisionArea(){
@@ -47,12 +47,12 @@ indicada.
 */
 void ChellTexture::move_to(float x, float y) {
     float xBefore = this->areaMap.getX();
-    float yBefere = this->areaMap.getY();
+    float yBefore = this->areaMap.getY();
     float xNow = x;
     float yNow = y;
     this->areaMap.setX(xNow);
-    this->areaMap.setX(yNow);
-    (*this->ptrSpriteStrategy).move(xBefore, yBefere, xNow, yNow);
+    this->areaMap.setY(yNow);
+    (*this->ptrSpriteStrategy).move(xBefore, yBefore, xNow, yNow);
     this->moveSense.move(xBefore, yBefore, xNow, yNow);
 }   
 
@@ -86,6 +86,8 @@ Area ChellTexture::getVisionArea() {
 Retorna una referencia constante de su area en 
 el mapa de juego.
 */
+/*
 const Area & ChellTexture::getMovingArea(){
-    return &(this->areaMap);
+    return this->areaMap;
 }
+*/

@@ -14,10 +14,10 @@
 
 /*Inicializa el estado de sprite de Chell.*/
 ChellSpriteStrategy::ChellSpriteStrategy()
-    SpriteStrategy(
+:   SpriteStrategy(
         std::move(std::unique_ptr<DynamicSprite>(new ChellSweatRightSprite()))
     ),
-:   spriteName(SWEAT_RIGHT), 
+    spriteName(SWEAT_RIGHT), 
     keepMoving(false) 
     {}
 
@@ -94,7 +94,7 @@ void ChellSpriteStrategy::move(float xBefore, float yBefore,float xNow, float yN
 }
 
 /*Por ahora no hace nada.*/
-void switch_sprite() {}
+void ChellSpriteStrategy::switch_sprite() {}
 
 /*
 Devuelve el area correspondiente al siguiente sprite de Chell, 
