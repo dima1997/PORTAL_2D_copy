@@ -66,7 +66,7 @@ void Window::add_map(){
     float xBlock, yBlock;
     float manyBlocksHorizontal = xBlockLast - xBlockFirst + widthBlockMap;
     float manyBlocksVertical = yBlockLast - yBlockFirst + heightBlockMap;
-    uint32_t id = this->idMainTexture + 1;
+    uint32_t id = this->idMainTexture;
     ++id;
     // Agrego techo
     for (float i = 0; i < manyBlocksHorizontal ; ++i){
@@ -102,7 +102,7 @@ void Window::add_map(){
     // Agrega lado derecho
     for (float i = 0; i < manyBlocksVertical; ++i){
         xBlock = xBlockLast;
-        yBlock = i + yBlockLast;
+        yBlock = i + yBlockFirst;
         this->add_block_metal_texture(id, Area(xBlock, yBlock, 
                                                 widthBlockMap, 
                                                 heightBlockMap));
