@@ -6,6 +6,7 @@
 #include "../../../includes/textures/chell_texture/chell_jump_rise_right_sprite.h"
 #include "../../../includes/textures/chell_texture/chell_jump_fall_right_sprite.h"
 
+#include "../../../includes/textures/common_texture/sprite_strategy.h"
 #include "../../../includes/textures/common_texture/dynamic_sprite.h"
 #include "../../../includes/textures/common_texture/area.h"
 
@@ -13,12 +14,10 @@
 
 /*Inicializa el estado de sprite de Chell.*/
 ChellSpriteStrategy::ChellSpriteStrategy()
-:   spriteName(SWEAT_RIGHT), 
-    ptrDynamicSprite(
-        std::move(
-            std::unique_ptr<DynamicSprite>(new ChellSweatRightSprite())
-        )
+    SpriteStrategy(
+        std::move(std::unique_ptr<DynamicSprite>(new ChellSweatRightSprite()))
     ),
+:   spriteName(SWEAT_RIGHT), 
     keepMoving(false) 
     {}
 
@@ -93,6 +92,9 @@ void ChellSpriteStrategy::move(float xBefore, float yBefore,float xNow, float yN
     this->keepMoving = false;
     return;
 }
+
+/*Por ahora no hace nada.*/
+void switch_sprite() {}
 
 /*
 Devuelve el area correspondiente al siguiente sprite de Chell, 

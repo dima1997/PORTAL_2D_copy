@@ -5,16 +5,15 @@
 #include "chell_sprite_strategy.h"
 #include "../common_texture/area.h"
 #include "../common_texture/big_texture.h"
-#include "../common_texture/renderizable.h"
-#include "../common_texture/movable.h"
+#include "../common_texture/texture.h"
 
-class ChellTexture : public Renderizable, public Movable {
+class ChellTexture : public Texture {
 private:
-    BigTexture & bigTexture;
     MoveSense moveSense;
-    ChellSpriteStrategy spriteStrategy;
-    Area areaMap;
+    Area areaVision;
 
+    /*Actualiza el area de vision de Chell.*/
+    void updateVisionArea();
 public:
     /*
     PRE: Recibe :
@@ -37,14 +36,26 @@ public:
     POST: Mueve la textura de Chell a la coordenada 
     indicada.
     */
-    void move_to(float x, float y);
+    virtual void move_to(float x, float y) override;
 
     /*
     PRE: Recibe un factor de ajuster para redimensionar el area 
     de mapa que ocupa de Chell, a pixeles.
     POST: Renderiza la textura de Chell.
     */
-    void render(float adjuster);
+    virtual void render(float adjuster, const Area & areaCamera) override;
+
+    /*
+    Devuelve el area de vision actual del 
+    Chell en el mapa de juego.
+    */
+    virtual Area getVisionArea() override;
+
+    /*
+    Retorna una referencia constante de su area en 
+    el mapa de juego.
+    */
+    const Area & getMovingArea();
 };
 
 #endif // CHELL_TEXTURE_H

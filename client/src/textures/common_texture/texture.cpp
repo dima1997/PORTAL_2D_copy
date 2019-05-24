@@ -77,10 +77,10 @@ se encuentra en el area de la camera recibida, ajustando las
 dimensiones de la textura a pixeles, con el factor recibido.
 */
 void Texture::render(float adjuster, const Area & areaCamera) {
+    Area src = (*this->ptrSpriteStrategy).getNextArea();
     if (! this->areaMap.isIntersectedBy(areaCamera)){
         return;
     }
-    Area src = (*this->ptrSpriteStrategy).getNextArea();
     Area dest = this->getAreaDest(adjuster, areaCamera);
     this->bigTexture.render(src, dest, NO_FLIP);
 }

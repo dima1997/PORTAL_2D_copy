@@ -17,7 +17,7 @@ de cambio solicitados al juego, y una cola bloqueante (TSQueueChangesMade_t)
 de cambios realizados por el juego.
 POST: Inicializa un hilo proxy de juego.
 */
-GameProxyThread::GameProxyThread(std::map<uint32_t,Area> & gameMap,  
+GameProxyThread::GameProxyThread(std::map<uint32_t,const Area &> & gameMap,  
                                     TSQueueChangesMade_t & changesMade, 
                                     TSQueueChangesAsk_t & changesAsk)
 : gameMap(gameMap), changesMade(changesMade), changesAsk(changesAsk), 

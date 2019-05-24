@@ -13,7 +13,7 @@ file(GLOB client_files
         "${SRC_FOLDER}/threads/game_proxy_thread.cpp"
         "${SRC_FOLDER}/threads/key_reader_thread.cpp"
         "${SRC_FOLDER}/threads/animation_loop_thread.cpp"
-        "${SRC_FOLDER}/tests/animation_tests.cpp"
+        "${SRC_FOLDER}/tests/animation_tests_2.cpp"
         "${SRC_FOLDER}/window/window.cpp"
         "${SRC_FOLDER}/window/os_exception.cpp"
         "${SRC_FOLDER}/textures/common_texture/area.cpp"

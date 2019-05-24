@@ -2,9 +2,8 @@
 #define WINDOW_H
 
 #include "../textures/common_texture/big_texture.h"
-#include "../textures/common_texture/renderizable.h"
-#include "../textures/common_texture/movable.h"
-#include "../textures/static_texture/static_texture.h"
+#include "../textures/common_texture/texture.h"
+//#include "../textures/static_texture/static_texture.h"
 
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
@@ -14,19 +13,47 @@
 #include <cstdint>
 #include <memory>
 
-typedef std::map<std::string, BigTexture> mapStrBigTexture_t;
-
 class Window {
 private:
     int width;
     int height;
-    int widthEquivalent;
+    uint32_t idMainTexture;
+    //int widthEquivalent;
     SDL_Window* window;
     SDL_Renderer* renderer;
-    mapStrBigTexture_t bigTextures;
+    std::map<std::string, BigTexture> bigTextures;
     std::vector<uint32_t> ids;
-    std::map<uint32_t, std::shared_ptr<Renderizable>> allTextures;
-    std::map<uint32_t, std::shared_ptr<Movable>> movingTextures;
+    std::map<uint32_t, std::unique_ptr<Texture>> allTextures;
+    
+    /*
+    PRE: Recibe la ruta (const std::string &) de un gran textura 
+    (imagen con varios sprites en ella).
+    POST: Agrega la gran textura a la ventana, si que no se fue 
+    ya agregada.
+    Levanta SdlException en caso de error.
+    */
+    void add_big_texture(const std::string & pathImage);
+
+    /*
+    PRE: Recibe el id de la textura a agregar.
+    POST: Agrega la textura al la ventana.
+    Levanta OSError si el id recibdo ya fue previamente agregado.
+    */
+    void add_id_texture(uint32_t id);
+
+    /*
+    PRE: Recibe el id (uint32_t) de la textura a agregar, y un puntero
+    unico a textura (std::unique_ptr<Texture>) de la textura a agregar.
+    POST: Agrega la textura recibida.
+    */
+    void add_texture(uint32_t id, std::unique_ptr<Texture> ptrTexture);
+    
+    /*
+    Agrega el mapa de juego inicial, con todas sus texturas.
+    Levanta SdlError o OSError en caso de error.
+    */
+    void add_map();
+
 public:
     /*
     PRE: Recibe:
@@ -60,15 +87,6 @@ public:
     void render();
 
     /*
-    PRE: Recibe la ruta (const std::string &) de un gran textura 
-    (imagen con varios sprites en ella).
-    POST: Agrega la gran textura a la ventana, si que no se fue 
-    ya agregada.
-    Levanta SdlException en caso de error.
-    */
-    void add_big_texture(const std::string & pathImage);
-
-    /*
     PRE: Recibe:
         El id (uint32_t) de la textura a agregar.
         Una ruta (const std::string &) a una gran imagen que contiene el sprite
@@ -81,18 +99,33 @@ public:
     POST: Agrega un nueva textura estatica a la ventana, bajo las condiciones 
     anteriores.
     */
+    /*
     void add_static_texture(uint32_t id, 
                             const std::string & pathImage, 
                             Area areaSprite,
                             Area areaMap);
+    */
+
+    /*
+    PRE: Recibe :
+        El id (uint32_t) de indentificacion del bloque de metal a agregar.
+        El area (Area) con las coordenadas y dimensiones del objeto
+        que representa la textura en el mapa de juego (en unidades de 
+        distancia del juego).
+    POST: Agrega un nueva textura de bloque de metal a la ventana, bajo las 
+    condiciones anteriores.
+    Levanta SdlException en caso de error.
+    */
+    void add_block_metal_texture(uint32_t id, Area areaMap);
 
     /*
     PRE: Recibe :
         El id (uint32_t) de indentificacion de la chell a agregar.
-        El area (Area) con las coordenadas y dimensiones del Chell del objeto
-        que representa la textura en el mapa de juego (en unidades de distancia del 
-        juego).
-    POST: Agrega un nueva textura de Chell a la ventana, bajo las condiciones anteriores.
+        El area (Area) con las coordenadas y dimensiones del objeto
+        que representa la textura en el mapa de juego (en unidades 
+        de distancia del juego).
+    POST: Agrega un nueva textura de bloque de metal a la ventana, 
+    bajo las condiciones anteriores.
     Levanta SdlException en caso de error.
     */
     void add_chell_texture(uint32_t id, Area areaMap);
@@ -106,6 +139,12 @@ public:
     Levanta OSException en caso de error. 
     */
     void move_texture(uint32_t id, float x, float y);
+
+    /*
+    Devuelve una referencia constante al area (const Area &) 
+    de la textura de Chell principal de la ventana.
+    */
+    const Area getMainTextureArea();
 
 };
 
