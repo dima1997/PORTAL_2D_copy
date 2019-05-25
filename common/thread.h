@@ -8,17 +8,13 @@ private:
 
 public:
     /*Inicializa un Thread*/
-    Thread() {}
+    Thread();
     
     /*Inicia un nuevo hilo de ejecucion*/
-    void start() {
-        thread = std::thread(&Thread::run, this);
-    }
+    void start();
     
     /*Espera a que el hilo en ejecucion termine*/
-    void join() {
-        thread.join();
-    }
+    void join();
         
     /*Ejecuta la funcion del hilo*/
     virtual void run() = 0;
@@ -33,7 +29,7 @@ public:
     virtual bool is_dead() = 0;
 
     /*Destruye el Thread*/
-    virtual ~Thread() {}
+    virtual ~Thread();
         
     /*Impide que se copien hilos por parametro*/
     Thread(const Thread&) = delete;
@@ -45,18 +41,13 @@ public:
     Mueve semanticamente los recursos de un Thread a otro,
     por parametro.
     */
-    Thread(Thread&& other) {
-        this->thread = std::move(other.thread);
-    }
+    Thread(Thread&& other);
         
     /*
     Mueve semanticamente los recursos de un Thread a otro, 
     por asignacion.
     */
-    Thread& operator=(Thread&& other) {
-        this->thread = std::move(other.thread);
-        return *this;
-    }
+    Thread& operator=(Thread&& other);
 };
 
 #endif // THREAD_H

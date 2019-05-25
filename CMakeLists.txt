@@ -10,10 +10,11 @@ file(GLOB common_files
         "${COMMON_FOLDER}/socket_exception.cpp"
         "${COMMON_FOLDER}/socket.cpp"
         "${COMMON_FOLDER}/blocking_queue.cpp"
-	"${COMMON_FOLDER}/object_move_change.cpp"
-        "${COMMON_FOLDER}/thread_safe_queue.cpp"
         "${COMMON_FOLDER}/connector.cpp"
         "${COMMON_FOLDER}/portal_exception.cpp"
+	"${COMMON_FOLDER}/object_move_change.cpp"
+        "${COMMON_FOLDER}/thread_safe_queue.cpp"
+        "${COMMON_FOLDER}/thread.cpp"
         )
 
 # SERVER -----------------------
