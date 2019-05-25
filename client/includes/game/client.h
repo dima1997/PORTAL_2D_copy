@@ -5,10 +5,7 @@
 #ifndef PORTAL_CLIENT_H
 #define PORTAL_CLIENT_H
 
-
 #include <string>
-#include "../../../common/connector.h"
-#include "game.h"
 
 class Client {
 public:

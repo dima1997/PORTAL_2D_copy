@@ -2,8 +2,9 @@
 // Created by franciscosicardi on 29/04/19.
 //
 
+#include <protocol/event.h>
+#include <connector/connector.h>
 #include "blocking_queue.h"
-#include "connector.h"
 #include "game_action.h"
 #include <memory>
 
@@ -42,3 +43,5 @@ void BlockingQueue<T>::close() {
 // To use this template just add here, for example:
 template class BlockingQueue<Connector>;
 template class BlockingQueue<std::unique_ptr<GameAction>>;
+//template class BlockingQueue<GameObjectAction>;
+template class BlockingQueue<Event *>;

@@ -5,8 +5,8 @@
 #ifndef PORTAL_GAME_H
 #define PORTAL_GAME_H
 
-#include "../../../common/connector.h"
-#include "../../../common/thread.h"
+#include <connector/connector.h>
+//#include <thread.h>
 
 #include <mutex>
 #include <condition_variable>
@@ -22,6 +22,8 @@ private:
     std::vector<std::unique_ptr<Thread>> threads;
 public:
     Game(Connector &connector, uint8_t game_id, uint8_t player_id);
+    
+    void operator()();
     
     /*Ejecuta el juego.*/
     void run();

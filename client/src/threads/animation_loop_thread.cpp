@@ -2,7 +2,6 @@
 
 #include "../../../common/thread.h"
 #include "../../../common/thread_safe_queue.h"
-#include "../../../common/object_move_change.h"
 #include "../../includes/window/window.h"
 #include "../../includes/textures/common_texture/texture_move_change.h"
 
@@ -39,11 +38,11 @@ void AnimationLoopThread::run(){
         t2=clock();
         double timeProcessMiliSeconds = (double(t2-t0)/CLOCKS_PER_SEC) * 1000;
         while (! (timeProcessMiliSeconds > timeWaitMiliSeconds) ){
-            std::unique_ptr<ObjectMoveChange> ptrChange;
+            std::unique_ptr<ObjectMovesEvent> ptrChange;
             if (! this->changesMade.pop(ptrChange)){
                 break;
             }
-            ObjectMoveChange change = *(ptrChange);
+            ObjectMovesEvent change = *(ptrChange);
             TextureMoveChange textureChange(change);
             textureChange.change(this->window);
             t2=clock();

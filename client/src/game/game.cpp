@@ -20,6 +20,11 @@
 Game::Game(Connector &connector, uint8_t game_id, uint8_t player_id):
             connector(std::move(connector)), gameId(game_id), playerId(player_id) {}
 
+void Game::operator()() {
+    uint8_t finished;
+    connector >> finished;
+}
+
 /*Ejecuta el juego.*/
 void Game::run(){
     ThreadSafeQueue<std::unique_ptr<ObjectMoveChange>> changesMade;

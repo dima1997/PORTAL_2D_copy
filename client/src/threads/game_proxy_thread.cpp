@@ -1,8 +1,6 @@
 #include "../../includes/threads/game_proxy_thread.h"
 
 //#include "../../includes/textures/common_texture/texture_move_change.h"
-#include "../../../common/object_move_change.h"
-#include "../../../common/thread_safe_queue.h"
 
 #include <SDL2/SDL.h>
 
@@ -54,7 +52,7 @@ void GameProxyThread::run(){
                     areaOfId.setX(xArea + METERS_MOVE);
                     break;
             }
-            std::unique_ptr<ObjectMoveChange> ptrChange(new ObjectMoveChange(id, areaOfId.getX(), areaOfId.getY()));
+            std::unique_ptr<ObjectMovesEvent> ptrChange(new ObjectMovesEvent(id, areaOfId.getX(), areaOfId.getY()));
             this->changesMade.push(ptrChange);
             t1 = clock();
             timeProcessMiliSeconds = (double(t2-t0)/CLOCKS_PER_SEC) * 1000;

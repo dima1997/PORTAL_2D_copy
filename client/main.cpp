@@ -1,19 +1,20 @@
 #include "includes/tests/animation_tests_2.h"
 #include "includes/textures/common_texture/sdl_exception.h"
 #include "includes/window/os_exception.h"
+#include "includes/game/client.h"
 
 #include <iostream>
 #include <exception> 
-
 #include <string>
-#include "includes/game/client.h"
-#include "includes/game/game_factory.h"
+#include <iostream>
+
 
 int main(int argc, char **argv) {
+    if (argc != 5) {
+        std::cerr << "Usage:\n\t" << argv[0] << " host port command id" << std::endl;
+        exit(1);
+    }
     try {
-        if (argc != 5) {
-            exit(1);
-        }
         std::string host = argv[1];
         std::string port = argv[2];
         std::string command = argv[3];
