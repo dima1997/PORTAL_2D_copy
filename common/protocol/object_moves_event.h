@@ -7,11 +7,11 @@
 
 
 #include "event.h"
-#include "../connector.h"
+#include "../connector/connector.h"
 
 class ObjectMovesEvent: public Event {
 public:
-    int objectId;
+    uint32_t objectId;
     float xPos;
     float yPos;
     ObjectMovesEvent(int objectId, float xPos, float yPos);

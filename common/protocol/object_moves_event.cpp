@@ -10,9 +10,7 @@ ObjectMovesEvent::ObjectMovesEvent(int objectId, float xPos, float yPos):
                                    xPos(xPos), yPos(yPos) {}
 
 Connector &operator<<(Connector &out, const ObjectMovesEvent &event) {
-    // TODO: fix float serialization
-    out << event.eventType << event.objectId << event.xPos << event.yPos;
-    return out;
+    return out << (uint8_t) event.eventType << event.objectId << event.xPos << event.yPos;
 }
 
 ObjectMovesEvent::~ObjectMovesEvent() = default;

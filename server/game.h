@@ -11,7 +11,7 @@
 #include <condition_variable>
 #include <thread>
 #include <Box2D/Common/b2Math.h>
-#include "../common/connector.h"
+#include "../common/connector/connector.h"
 #include "world.h"
 
 class Game {

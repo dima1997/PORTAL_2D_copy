@@ -5,7 +5,7 @@
 #include <iostream>
 #include <sstream>
 #include "game_factory.h"
-#include "../common/connector.h"
+#include "../common/connector/connector.h"
 #include "../common/protocol/protocol_code.h"
 #include "../common/portal_exception.h"
 
@@ -14,8 +14,8 @@ GameFactory::GameFactory() = default;
 Game GameFactory::createGame(std::string &host, std::string &port, std::string &command, uint8_t id) {
     Connector connector(host, port);
     if (command == "new") {
-        connector << new_game;
-        connector << id;
+        connector << (uint8_t) new_game;
+        connector << (uint8_t) id;
         uint8_t status;
         connector >> status;
         std::cout << (unsigned) status << std::endl;
@@ -25,8 +25,8 @@ Game GameFactory::createGame(std::string &host, std::string &port, std::string &
         return std::move(Game(connector, game_id, 0));
     }
     if (command == "join") {
-        connector << join_game;
-        connector << id;
+        connector << (uint8_t) join_game;
+        connector << (uint8_t) id;
         uint8_t status;
         connector >> status;
         std::cout << (unsigned) status << std::endl;

@@ -24,10 +24,10 @@ void GameManager::joinToGame(uint8_t gameId, Connector &connector) {
         if (game.addPlayer(connector)) {
             game.startIfReady();
         } else {
-            connector << game_is_full;
+            connector << (uint8_t) game_is_full;
         }
     } catch (const std::out_of_range &e) {
-        connector << non_existent_game;
+        connector << (uint8_t) non_existent_game;
     }
 }
 

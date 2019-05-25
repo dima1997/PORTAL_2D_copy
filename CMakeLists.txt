@@ -6,10 +6,10 @@ set(CMAKE_CXX_STANDARD 11)
 # COMMON -----------------------
 set(COMMON_FOLDER "common")
 file(GLOB common_files
-        "${COMMON_FOLDER}/socket_exception.cpp"
-        "${COMMON_FOLDER}/socket.cpp"
+        "${COMMON_FOLDER}/connector/socket_exception.cpp"
+        "${COMMON_FOLDER}/connector/socket.cpp"
+        "${COMMON_FOLDER}/connector/connector.cpp"
         "${COMMON_FOLDER}/blocking_queue.cpp"
-        "${COMMON_FOLDER}/connector.cpp"
         "${COMMON_FOLDER}/portal_exception.cpp"
         "${COMMON_FOLDER}/protocol/event.cpp"
         "${COMMON_FOLDER}/protocol/object_moves_event.cpp"

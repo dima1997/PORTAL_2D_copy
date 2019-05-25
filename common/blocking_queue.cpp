@@ -3,7 +3,7 @@
 //
 
 #include "blocking_queue.h"
-#include "connector.h"
+#include "connector/connector.h"
 #include "protocol/event.h"
 
 template <class T>

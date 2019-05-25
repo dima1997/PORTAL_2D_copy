@@ -6,7 +6,7 @@
 #define PORTAL_GAME_H
 
 
-#include "../common/connector.h"
+#include "../common/connector/connector.h"
 
 class Game {
 private:

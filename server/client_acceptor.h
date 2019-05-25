@@ -8,9 +8,9 @@
 
 #include <string>
 #include <thread>
-#include "../common/socket.h"
+#include "../common/connector/socket.h"
 #include "../common/blocking_queue.h"
-#include "../common/connector.h"
+#include "../common/connector/connector.h"
 
 class ClientAcceptor {
 private:

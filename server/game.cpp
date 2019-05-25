@@ -29,15 +29,15 @@ Game::Game(Game &&other) noexcept: id(other.id), players(std::move(other.players
 Game::Game(uint8_t id, uint8_t map_id, Connector &connector): id(id), players(), mutex(), cv(), ready(false),
                                                               finished(false), thread(), numberOfPlayers(3),
                                                               world(map_id) {
-    connector << command_ok;
-    connector << id;
+    connector << (uint8_t) command_ok;
+    connector << (uint8_t) id;
     players.push_back(std::move(connector));
 }
 
 bool Game::addPlayer(Connector &connector) {
     std::unique_lock<std::mutex> l(mutex);
     if (!ready) {
-        connector << command_ok;
+        connector << (uint8_t) command_ok;
         connector << (uint8_t) players.size(); // player id
         players.push_back(std::move(connector));
         return true;
@@ -53,6 +53,7 @@ void Game::start() {
         world.step(moved);
         for(auto &event : moved) {
             printf("x: %4.2f, y: %4.2f\n", event.xPos, event.yPos);
+
         }
         moved.clear();
     }

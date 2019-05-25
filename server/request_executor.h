@@ -7,7 +7,7 @@
 
 #include <thread>
 #include "../common/blocking_queue.h"
-#include "../common/connector.h"
+#include "../common/connector/connector.h"
 #include "game_manager.h"
 
 class RequestExecutor {

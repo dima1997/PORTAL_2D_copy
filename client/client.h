@@ -7,7 +7,7 @@
 
 
 #include <string>
-#include "../common/connector.h"
+#include "../common/connector/connector.h"
 #include "game.h"
 
 class Client {

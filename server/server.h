@@ -7,7 +7,7 @@
 
 
 #include "../common/blocking_queue.h"
-#include "../common/connector.h"
+#include "../common/connector/connector.h"
 #include "thread_pool.h"
 #include "client_acceptor.h"
 #include "game.h"

@@ -10,7 +10,7 @@
 #include <cstdint>
 #include <mutex>
 #include "game.h"
-#include "../common/connector.h"
+#include "../common/connector/connector.h"
 
 class GameManager {
 private:
