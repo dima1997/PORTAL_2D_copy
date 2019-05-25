@@ -13,7 +13,7 @@ sobre objetos del juego.
 */
 KeySenderThread::KeySenderThread(Connector & connector, 
                     BlockingQueue<GameObjectAction> & actionsBlockQueue)
-: connector(connector), actionsBlockQueue(actionsBlockQueue) {}
+: connector(connector), actionsBlockQueue(actionsBlockQueue), isDead(true) {}
 
 /*
 Destruye un hilo enviador de acciones 
@@ -22,10 +22,14 @@ del usuario sobre objetos del juego.
 KeySenderThread::~KeySenderThread() = default;
 
 /*
-Ejecuta un hilo enviador de acciones 
-del usuario sobre objetos del juego.
+Ejecuta un hilo enviador de acciones del usuario 
+sobre objetos del juego.
+Recibe acciones de los objetos del juego desde cola 
+con que se inicializo, y los envia al servidor del 
+juego.
 */
 void KeySenderThread::run(){
+    this->isDead = false;
     while (! this.is_dead()){
         GameObjectAction action;
         if (! this->actionsBlockQueue.pop(action)){

@@ -20,6 +20,12 @@ public:
     Connector &operator=(Connector &&other) noexcept;
     Connector &operator<<(const uint8_t &number);
     Connector &operator>>(uint8_t &number);
+    
+    /*Cierra la conexion de lectura.*/
+    void shutDownRD();
+
+    /*Cierra la conexion de escritura.*/
+    void shuwDownWR();
 };
 
 

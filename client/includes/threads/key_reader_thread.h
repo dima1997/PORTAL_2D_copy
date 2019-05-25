@@ -2,17 +2,34 @@
 #define KEY_READER_THREAD_H
 
 #include "../../../common/thread.h"
-#include "../../../common/thread_safe_queue.h"
+#include "../../../common/blocking_queue.h"
+#include "../../../common/protocolo_code.h"
+
+#include <cstdint>
 
 class KeyReaderThread : public Thread {
 private:
     bool isDead;
     uint32_t idObject;
-    TSQueueChangesAsk_t & changesAsk;
+    BlockingQueue<GameObjectAction> & gameActions;
+    Game & game;
+
+    /*
+    PRE: Recibe un evento de sdl (SDL_Event &).
+    POST: Procesa el evento recibido. 
+    */
+    void process_event(SDL_Event & event);
+
+    /*
+    Envia al juego la accion a realizar.
+    */
+    void send(GameObjectAction action);
+
 public:
     /*Inicializa un lector de eventos.*/
-    KeyReaderThread(uint32_t idObject, TSQueueChangesAsk_t & changesAsk);
-    // Faltaria que reciba el socket y el id de la textura que controla
+    KeyReaderThread(uint32_t idObject, 
+        BlockingQueue<GameObjectAction> & gameActions, 
+        Game & game);
 
     /*Destruye el lector de eventos.*/
     ~KeyReaderThread();
@@ -29,10 +46,6 @@ public:
     */
     bool is_dead();
 
-    /*
-    Envia al juego la accion a realizar.
-    */
-    void send(gameObjectAction_t action);
     
 };
 

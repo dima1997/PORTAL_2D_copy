@@ -13,8 +13,36 @@ ObjectMoveChange::ObjectMoveChange(uint32_t idGameObject,
                                     float newX, float newY)
 : idGameObject(idGameObject), newX(newX), newY(newY) {}
 
+
 /*Destruye el cambio de un objeto del juego.*/
 ObjectMoveChange::~ObjectMoveChange() = default;
+
+/*
+Contructor por copia.
+PRE: Recibe una referencia constante a otro cambio de ubicacion 
+de un objeto del juego (const ObjectMoveChange &).
+POST: Inicializa un nuevo cambio de ubicacion de un objeto del 
+juego, por copia.
+*/
+ObjectMoveChange::ObjectMoveChange(const ObjectMoveChange & other)
+: idGameObject(other.idGameObject), newX(other.newX), newY(other.newY) {}
+
+/*
+Asignacion por copia.
+PRE: Recibe una referencia constante a otro cambio de ubicacion 
+de un objeto del juego (const ObjectMoveChange &).
+POST: Asigna los atributos del cambio de ubicacion de un objeto del 
+juego recibido, al actual.
+Devuelve una referencia al cambio actual (ObjectMoveChange &).
+*/
+ObjectMoveChange & ObjectMoveChange::operator=(const ObjectMoveChange & other){
+    if (this == & other){
+        return *this;
+    }
+    this->idGameObject = other.idGameObject;
+    this->newX = other.newX;
+    this->newY = other.newY;
+}
 
 /*
 Devuelve el id (uint32_t) del objeto de juego 

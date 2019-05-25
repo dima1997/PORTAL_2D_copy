@@ -8,6 +8,7 @@ private:
     uint32_t idGameObject;
     float newX;
     float newY;
+    
 public:
     /*
     PRE: Recibe el id de un objeto de juego donde se quiera 
@@ -17,8 +18,28 @@ public:
     juego.
     */
     ObjectMoveChange(uint32_t idGameObject, float newX, float newY);
+
     /*Destruye el cambio de un objeto del juego.*/
     ~ObjectMoveChange();
+
+    /*
+    Contructor por copia.
+    PRE: Recibe una referencia constante a otro cambio de ubicacion 
+    de un objeto del juego (const ObjectMoveChange &).
+    POST: Inicializa un nuevo cambio de ubicacion de un objeto del 
+    juego, por copia.
+    */
+    ObjectMoveChange(const ObjectMoveChange & other);
+
+    /*
+    Asignacion por copia.
+    PRE: Recibe una referencia constante a otro cambio de ubicacion 
+    de un objeto del juego (const ObjectMoveChange &).
+    POST: Asigna los atributos del cambio de ubicacion de un objeto del 
+    juego recibido, al actual.
+    Devuelve una referencia al cambio actual (ObjectMoveChange &).
+    */
+    ObjectMoveChange & operator=(const ObjectMoveChange & other);
 
     /*
     Devuelve el id (uint32_t) del objeto de juego 

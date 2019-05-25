@@ -34,3 +34,13 @@ Connector &Connector::operator>>(uint8_t &number) {
 }
 
 Connector::~Connector() = default;
+
+/*Cierra la conexion de lectura.*/
+void Connector::shutDownRD() {
+    this->socket.shutDownRD();
+}
+
+/*Cierra la conexion de escritura.*/
+void Connector::shuwDownWR() {
+    this->socket.shuwDownWR();
+}

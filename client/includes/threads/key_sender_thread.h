@@ -10,7 +10,7 @@ class KeySenderThread : public Thread {
 private:
     Connector & connector;
     BlockingQueue<GameObjectAction> & actionsBlockQueue;
-
+    bool isDead;
 public:
     /*
     PRE: Recibe una referencia a un conector (Connector &),
@@ -24,22 +24,22 @@ public:
     Destruye un hilo enviador de acciones 
     del usuario sobre objetos del juego.
     */
-    ~KeySenderThread() = default;
+    ~KeySenderThread();
 
     /*
     Ejecuta un hilo enviador de acciones 
     del usuario sobre objetos del juego.
     */
-    void run();
+    virtual void run();
 
     /*Detiene la ejecucion del hilo.*/
-    void stop();
+    virtual void stop();
 
     /*
     Devuelve true si el hilo esta muerto; 
     false en caso contrario.
     */
-    bool is_dead();
+    virtual bool is_dead();
 };
 
 #endif // KEY_SENDER_THREAD_H
