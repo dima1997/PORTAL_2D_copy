@@ -3,15 +3,18 @@
 
 #include "../../../common/thread.h"
 #include "../../../common/blocking_queue.h"
-#include "../../../common/protocolo_code.h"
+#include "../../../common/protocol_code.h"
+#include "../../../common/game_action.h"
+#include "../textures/common_texture/area.h"
+#include "../game/game.h"
 
 #include <cstdint>
 
 class KeyReaderThread : public Thread {
 private:
     bool isDead;
-    uint32_t idObject;
-    BlockingQueue<GameObjectAction> & gameActions;
+    const Area & areaMainObject;
+    BlockingQueue<GameAction> & gameActions;
     Game & game;
 
     /*
@@ -23,12 +26,19 @@ private:
     /*
     Envia al juego la accion a realizar.
     */
-    void send(GameObjectAction action);
+    void send(GameActionName action);
 
 public:
-    /*Inicializa un lector de eventos.*/
-    KeyReaderThread(uint32_t idObject, 
-        BlockingQueue<GameObjectAction> & gameActions, 
+    /*
+    PRE: Recibe un referencia constante al area (const Area &) 
+    el objecto al que el lector hace referencia en cada acccion 
+    leida; una cola bloqueante de punteros unicos a acciones del 
+    juego (BlockingQueue<std::unique_ptr<GameAction>> &), y una 
+    referencia al juego (Game &).
+    POST: Inicializa un lector de eventos.
+    */
+    KeyReaderThread(const Area & areaMainObject, 
+        BlockingQueue<GameAction> & gameActions, 
         Game & game);
 
     /*Destruye el lector de eventos.*/

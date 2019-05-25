@@ -1,5 +1,7 @@
 #include "object_move_change.h"
 
+#include "connector.h"
+
 #include <cstdint>
 
 /*
@@ -45,6 +47,27 @@ ObjectMoveChange & ObjectMoveChange::operator=(const ObjectMoveChange & other){
 }
 
 /*
+PRE: Recibe un conector (Connector &).
+POST: Se envia a traves del connector.
+*/
+void ObjectMoveChange::sendThrough(Connector &out) const {
+    const uint32_t idSend = this->idGameObject;
+    const float xSend = this->newX;
+    const float ySend = this->newY;
+    out << idSend << xSend << ySend;
+}
+
+/*
+PRE: Recibe un conector (Connector &).
+POST: Se recibe desde el conector.
+*/
+void ObjectMoveChange::receiveFromm(Connector &out) {
+    out >> this->idGameObject;
+    out >> this->newX;
+    out >> this->newY;
+}
+
+/*
 Devuelve el id (uint32_t) del objeto de juego 
 donde se aplica el cambio.
 */
@@ -67,3 +90,4 @@ del objeto de juego referido.
 float ObjectMoveChange::getY() const {
     return this->newY;
 }
+

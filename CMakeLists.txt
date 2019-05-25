@@ -15,6 +15,7 @@ file(GLOB common_files
 	"${COMMON_FOLDER}/object_move_change.cpp"
         "${COMMON_FOLDER}/thread_safe_queue.cpp"
         "${COMMON_FOLDER}/thread.cpp"
+        "${COMMON_FOLDER}/game_action.cpp"
         )
 
 # SERVER -----------------------
@@ -50,7 +51,9 @@ file(GLOB client_files
         "${CLIENT_FOLDER}/src/threads/game_proxy_thread.cpp"
         "${CLIENT_FOLDER}/src/threads/key_reader_thread.cpp"
         "${CLIENT_FOLDER}/src/threads/animation_loop_thread.cpp"
-        "${CLIENT_FOLDER}/src/tests/animation_tests_2.cpp"
+        "${CLIENT_FOLDER}/src/threads/key_sender_thread.cpp"
+        "${CLIENT_FOLDER}/src/threads/event_game_receiver_thread.cpp"
+#        "${CLIENT_FOLDER}/src/tests/animation_tests_2.cpp"
         "${CLIENT_FOLDER}/src/window/window.cpp"
         "${CLIENT_FOLDER}/src/window/os_exception.cpp"
         "${CLIENT_FOLDER}/src/textures/common_texture/area.cpp"

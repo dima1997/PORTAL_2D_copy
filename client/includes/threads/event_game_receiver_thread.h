@@ -5,10 +5,12 @@
 #include "../../../common/connector.h"
 #include "../../../common/protocol_code.h"
 #include "../../../common/thread_safe_queue.h"
+#include "../../../common/object_move_change.h"
+#include "../game/game.h"
 
 #include <memory> 
 
-class EventGameEeceiverThread : public Thread {
+class EventGameReceiverThread : public Thread {
 private:
     Connector & connector;
     ThreadSafeQueue<std::unique_ptr<ObjectMoveChange>> & changesQueue;

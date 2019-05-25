@@ -6,8 +6,8 @@
 #include <exception> 
 
 #include <string>
-#include "src/client.h"
-#include "src/game_factory.h"
+#include "includes/game/client.h"
+#include "includes/game/game_factory.h"
 
 int main(int argc, char **argv) {
     try {

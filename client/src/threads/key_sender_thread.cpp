@@ -12,7 +12,7 @@ POST: Inicializa un hilo enviador de acciones del usuario
 sobre objetos del juego.
 */
 KeySenderThread::KeySenderThread(Connector & connector, 
-                    BlockingQueue<GameObjectAction> & actionsBlockQueue)
+                BlockingQueue<std::unique_ptr<GameAction>> & actionsBlockQueue)
 : connector(connector), actionsBlockQueue(actionsBlockQueue), isDead(true) {}
 
 /*
@@ -31,12 +31,11 @@ juego.
 void KeySenderThread::run(){
     this->isDead = false;
     while (! this.is_dead()){
-        GameObjectAction action;
+        GameAction action;
         if (! this->actionsBlockQueue.pop(action)){
             break;
         }
-        uint8_t actionToSend = (uint8_t) action;
-        this->connector << actionToSend;
+        this->connector << action;
     }
     this->stop();
 }

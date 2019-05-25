@@ -6,6 +6,7 @@
 
 #include <SDL2/SDL.h>
 #include <ctime>
+#include <memory>
 
 #define TIME_WAIT_MILI_SECONDS 75
 
@@ -19,10 +20,10 @@ void KeyReaderThread::process_event(SDL_Event & event){
             SDL_KeyboardEvent& keyEvent = (SDL_KeyboardEvent&) event;
             switch (keyEvent.keysym.sym) {
                 case SDLK_LEFT:
-                    this->gameActions.push(move_left);
+                    this->gameActions.push_action(move_left);
                     break;
                 case SDLK_RIGHT:
-                    this->gameActions.push(move_right);
+                    this->gameActions.push_action(move_right);
                     break;
             } // Fin KEY_DOWN
             break;
@@ -35,16 +36,29 @@ void KeyReaderThread::process_event(SDL_Event & event){
 } 
 
 /*
-Envia al juego la accion a realizar.
+PRE: Recibe el nombre de una accion del juego (GamaActionName).
+POST: Encola en la cola de acciones del juego, la accion correspondiente
+al nombre de accion recibido.
 */
-void KeyReaderThread::send(GameObjectAction action){
-    this->gameActions.push(action);
+void KeyReaderThread::push_action(GameActionName actionName){
+    std::unique_ptr<GameAction> ptrGameAction(new GameAction(actionName));
+    this->gameActions.push(std::move(ptrGameAction));
 }
 
-/*Inicializa un lector de eventos.*/
-KeyReaderThread::KeyReaderThread(uint32_t idObject, 
-BlockingQueue<GameObjectAcion> & gameActions, Game & game)
-:  isDead(true), idObject(idObject), gameActions(gameActions), game(game) {} 
+/*
+PRE: Recibe un referencia constante al area (const Area &) 
+el objecto al que el lector hace referencia en cada acccion 
+leida; una cola bloqueante de punteros unicos a acciones del 
+juego (BlockingQueue<std::unique_ptr<GameAction>> &), y una 
+referencia al juego (Game &).
+POST: Inicializa un lector de eventos.
+*/
+KeyReaderThread::KeyReaderThread(const Area & areaMainObject, 
+BlockingQueue<std::unique_ptr<GameAction>> & gameActions, Game & game)
+:   isDead(true), 
+    areaMainObject(areaMainObject), 
+    gameActions(gameActions), 
+    game(game) {} 
 
 /*Destruye el lector de eventos.*/
 KeyReaderThread::~KeyReaderThread(){}

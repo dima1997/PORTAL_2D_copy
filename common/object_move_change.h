@@ -1,6 +1,8 @@
 #ifndef OBJECT_MOVE_CHANGE_H
 #define OBJECT_MOVE_CHANGE_H
 
+#include "connector.h"
+
 #include <cstdint>
 
 class ObjectMoveChange {
@@ -42,6 +44,18 @@ public:
     ObjectMoveChange & operator=(const ObjectMoveChange & other);
 
     /*
+    PRE: Recibe un conector (Connector &).
+    POST: Se envia a traves del connector.
+    */
+    virtual void sendThrough(Connector &out) const;
+
+    /*
+    PRE: Recibe un conector (Connector &).
+    POST: Se recibe desde el conector.
+    */
+    virtual void receiveFromm(Connector &out);
+
+    /*
     Devuelve el id (uint32_t) del objeto de juego 
     donde se aplica el cambio.
     */
@@ -58,6 +72,23 @@ public:
     del objeto de juego referido.
     */
     float getY() const;
+
+    /*
+    PRE: Recibe un conector (Connector &), y una referencia 
+    constante a una cambio de ubicacion de un objeto del juego 
+    (const ObjectMoveChange &).
+    POST: Envia el cambio a traves del conector.
+    */
+    friend Connector &operator<<(Connector &out, const ObjectMoveChange & change);
+
+    /*
+    PRE: Recibe un conector (Connector &), y una referencia 
+    una cambio de ubicacion de un objeto del juego 
+    (const ObjectMoveChange &).
+    POST: Recibe el cambio a traves del conector, lo guarda el 
+    cambio recibido.
+    */
+    friend Connector &operator>>(Connector &out, ObjectMoveChange & change);
 };
 
 #endif // OBJECT_MOVE_CHANGE_H

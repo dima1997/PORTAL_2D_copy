@@ -17,14 +17,8 @@ ventana (TSQueueChangesMade_t &).
 POST: Inicializa un loop de animaciones.
 */
 AnimationLoopThread::AnimationLoopThread(Window &window, 
-TSQueueChangesMade_t & changesMade)
+ThreadSafeQueue<std::unique_ptr<ObjectMoveChange>> & changesMade)
 : window(window), changesMade(changesMade), isDead(true) {}
-
-/*
-AnimationLoopThread::AnimationLoopThread(Window &window, 
-queueChangesMade_t & changesMade)
-: window(window), changesMade(changesMade), isDead(true) {}
-*/
 
 /*
 Destruye el hilo: loop de animaciones. 

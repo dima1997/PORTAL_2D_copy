@@ -1,9 +1,11 @@
 //
 // Created by franciscosicardi on 09/05/19.
 //
-
-#include <cstdint>
 #include "connector.h"
+#include <cstdint>
+
+#define FLT_DECIMAL_DIG_IEEE_754 23
+#define FLT_EXPO_SIZE_IEEE_754 8
 
 Connector::Connector() = default;
 
@@ -42,5 +44,5 @@ void Connector::shutDownRD() {
 
 /*Cierra la conexion de escritura.*/
 void Connector::shuwDownWR() {
-    this->socket.shuwDownWR();
+    this->socket.shutDownWR();
 }
