@@ -4,6 +4,7 @@
 
 #include "blocking_queue.h"
 #include "connector.h"
+#include "protocol_code.h"
 
 template <class T>
 BlockingQueue<T>::BlockingQueue(): mutex(), cv(), queue() {}
@@ -39,3 +40,4 @@ void BlockingQueue<T>::close() {
 
 // To use this template just add here, for example:
 template class BlockingQueue<Connector>;
+template class BlockingQueue<GameObjectAction>;

@@ -5,7 +5,6 @@
 #ifndef TP3_TALLER_BLOCKING_QUEUE_H
 #define TP3_TALLER_BLOCKING_QUEUE_H
 
-
 #include <queue>
 #include <mutex>
 #include <condition_variable>
@@ -24,6 +23,5 @@ public:
     bool pop(T &element);
     void close();
 };
-
 
 #endif //TP3_TALLER_BLOCKING_QUEUE_H
