@@ -9,12 +9,14 @@
 #include <list>
 #include <vector>
 #include <Box2D/Dynamics/b2World.h>
+#include "body/chell.h"
 
 class World {
 private:
     b2Vec2 gravity;
     b2World *world;
-    std::vector<b2Body *> bodies;
+    std::list<Chell *> chells;
+    std::list<Body *> staticBodies;
     void loadMap(uint8_t mapId);
 public:
     explicit World(uint8_t map_id);

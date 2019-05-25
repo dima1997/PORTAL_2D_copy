@@ -14,7 +14,7 @@ class RockBlock: public Body {
 private:
     void createBody(float32 xPos, float32 yPos) override;
 public:
-    RockBlock(uint32_t id, b2World &world, float32 xPos, float32 yPos);
+    RockBlock(b2World &world, float32 xPos, float32 yPos);
     ~RockBlock() override;
 };
 

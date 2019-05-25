@@ -14,7 +14,7 @@ void Chell::createBody(float32 xPos, float32 yPos) {
     body = world.CreateBody(&bodyDef);
 
     b2PolygonShape dynamicBox;
-    dynamicBox.SetAsBox(1.5f, 0.5f);
+    dynamicBox.SetAsBox(1.5f, 1.0f);
 
     b2FixtureDef fixtureDef;
     fixtureDef.shape = &dynamicBox;
@@ -24,8 +24,8 @@ void Chell::createBody(float32 xPos, float32 yPos) {
     body->CreateFixture(&fixtureDef);
 }
 
-Chell::Chell(uint32_t id, b2World &world, float32 xPos, float32 yPos, uint8_t playerId):
-             Body(id, world, xPos, yPos), playerId(playerId) {
+Chell::Chell(b2World &world, float32 xPos, float32 yPos, uint8_t playerId):
+             Body(world, xPos, yPos), playerId(playerId) {
     createBody(xPos, yPos);
 }
 

@@ -31,6 +31,7 @@ file(GLOB server_files
         "${SERVER_FOLDER}/body/body.cpp"
         "${SERVER_FOLDER}/body/rock_block.cpp"
         "${SERVER_FOLDER}/body/chell.cpp"
+        "${SERVER_FOLDER}/id_generator.cpp"
         )
 
 add_executable(${SERVER_NAME} ${common_files} ${server_files})

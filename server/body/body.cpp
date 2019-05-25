@@ -3,9 +3,10 @@
 //
 
 #include "body.h"
+#include "../id_generator.h"
 
-Body::Body(uint32_t id, b2World &world, float32 xPos, float32 yPos):
-           id(id), updated(false), lastPosition(xPos, yPos), world(world), body() {}
+Body::Body(b2World &world, float32 xPos, float32 yPos):
+           id(IdGenerator::getNewId()), updated(false), lastPosition(xPos, yPos), world(world), body() {}
 
 bool Body::isUpdated() {
     return updated;
@@ -18,6 +19,10 @@ void Body::update(b2Vec2 pos) {
     } else {
         updated = false;
     }
+}
+
+uint32_t Body::getId() {
+    return id;
 }
 
 Body::~Body() = default;

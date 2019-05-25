@@ -13,7 +13,7 @@ private:
     void createBody(float32 xPos, float32 yPos) override;
     uint8_t playerId;
 public:
-    Chell(uint32_t id, b2World &world, float32 xPos, float32 yPos, uint8_t playerId);
+    Chell(b2World &world, float32 xPos, float32 yPos, uint8_t playerId);
     ~Chell() override;
 
 };

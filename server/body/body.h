@@ -20,10 +20,11 @@ protected:
     b2World &world;
     b2Body *body;
 public:
-    explicit Body(uint32_t id, b2World &world, float32 xPos, float32 yPos);
+    Body(b2World &world, float32 xPos, float32 yPos);
     virtual ~Body();
     void update(b2Vec2 pos);
     bool isUpdated();
+    uint32_t getId();
 };
 
 

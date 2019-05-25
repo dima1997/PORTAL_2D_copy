@@ -6,6 +6,7 @@
 #include <Box2D/Collision/Shapes/b2PolygonShape.h>
 #include <Box2D/Dynamics/b2Fixture.h>
 #include "world.h"
+#include "body/rock_block.h"
 
 #define TIME_STEP 1.0f / 60.0f
 #define VELOCITY_ITERATIONS 8
@@ -45,6 +46,14 @@ World::~World() {
 }
 
 void World::loadMap(uint8_t mapId) {
-
+    for(int i = -8; i < 10; ++i) {
+        staticBodies.push_back(new RockBlock(*world, (float32) i + 0.5, 0.5));
+        staticBodies.push_back(new RockBlock(*world, (float32) i + 0.5, 8.5));
+    }
+    for(int i = 1; i < 8; ++i) {
+        staticBodies.push_back(new RockBlock(*world, 9.5, (float32) i + 0.5));
+        staticBodies.push_back(new RockBlock(*world, -7.5, (float32) i + 0.5));
+    }
+    chells.push_back(new Chell(*world, 0.5f, 1.75f, 0));
 }
 

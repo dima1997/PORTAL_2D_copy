@@ -5,8 +5,8 @@
 #include <Box2D/Collision/Shapes/b2PolygonShape.h>
 #include "rock_block.h"
 
-RockBlock::RockBlock(uint32_t id, b2World &world, float32 xPos, float32 yPos): 
-           Body(id, world, xPos, yPos) {
+RockBlock::RockBlock(b2World &world, float32 xPos, float32 yPos):
+           Body(world, xPos, yPos) {
     createBody(xPos, yPos);
 }
 
