@@ -44,11 +44,11 @@ void AnimationLoopThread::run(){
         t2=clock();
         double timeProcessMiliSeconds = (double(t2-t0)/CLOCKS_PER_SEC) * 1000;
         while (! (timeProcessMiliSeconds > timeWaitMiliSeconds) ){
-            std::unique_ptr<ObjectMoveChange> ptrChange;
+            std::unique_ptr<ObjectMovesEvent> ptrChange;
             if (! this->changesMade.pop(ptrChange)){
                 break;
             }
-            ObjectMoveChange change = *(ptrChange);
+            ObjectMovesEvent change = *(ptrChange);
             TextureMoveChange textureChange(change);
             textureChange.change(this->window);
             t2=clock();

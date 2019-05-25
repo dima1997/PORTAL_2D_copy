@@ -52,7 +52,7 @@ void Game::start() {
     for (int32 i = 0; i < 60; ++i) {
         world.step(moved);
         for(auto &event : moved) {
-            printf("x: %4.2f, y: %4.2f\n", event.xPos, event.yPos);
+            printf("x: %4.2f, y: %4.2f\n", event.getX(), event.getY());
 
         }
         moved.clear();

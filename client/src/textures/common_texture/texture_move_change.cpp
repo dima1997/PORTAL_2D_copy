@@ -11,10 +11,10 @@ textura, bajo las condiciones indicadas.
 TextureMoveChange::TextureMoveChange(uint32_t idTexture, float newX, float newY)
 : idTexture(idTexture), newX(newX), newY(newY) {}
 
-TextureMoveChange::TextureMoveChange(const ObjectMoveChange & objMoveChange) 
-:   idTexture(objMoveChange.getId()), 
-    newX(objMoveChange.getX()), 
-    newY(objMoveChange.getY()) {}
+TextureMoveChange::TextureMoveChange(const ObjectMovesEvent &objectMovesEvent)
+:   idTexture(objectMovesEvent.getId()),
+    newX(objectMovesEvent.getX()),
+    newY(objectMovesEvent.getY()) {}
 
 /*
 Destruye el cambio de ubicacion de la textura.

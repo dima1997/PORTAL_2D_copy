@@ -4,22 +4,6 @@ project(PORTAL)
 set(CMAKE_CXX_STANDARD 11)
 set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -ggdb")
 
-#<<<<<<< HEAD
-## COMMON -----------------------
-#set(COMMON_FOLDER "common")
-#file(GLOB common_files
-#        "${COMMON_FOLDER}/socket_exception.cpp"
-#        "${COMMON_FOLDER}/socket.cpp"
-#        "${COMMON_FOLDER}/blocking_queue.cpp"
-#        "${COMMON_FOLDER}/connector.cpp"
-#        "${COMMON_FOLDER}/portal_exception.cpp"
-#	    "${COMMON_FOLDER}/object_move_change.cpp"
-#        "${COMMON_FOLDER}/thread_safe_queue.cpp"
-#        "${COMMON_FOLDER}/thread.cpp"
-#        )
-#
-#=======
-#>>>>>>> server-box2d
 # SERVER -----------------------
 set(SERVER_NAME "PORTAL-server")
 set(SERVER_FOLDER "server")

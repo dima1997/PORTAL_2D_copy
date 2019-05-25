@@ -7,6 +7,7 @@
 //#include "../client/includes/textures/common_texture/texture_move_change.h"
 #include "object_move_change.h" 
 #include <memory>
+#include <protocol/object_moves_event.h>
 
 template <class T>
 class ThreadSafeQueue {
@@ -53,7 +54,7 @@ enum gameObjectAction_t : uint32_t {
     MOVE_RIGHT
 };
 
-typedef ThreadSafeQueue<std::unique_ptr<ObjectMoveChange>> 
+typedef ThreadSafeQueue<std::unique_ptr<ObjectMovesEvent>>
 TSQueueChangesMade_t;
 
 typedef ThreadSafeQueue<std::pair<uint32_t, gameObjectAction_t>> 

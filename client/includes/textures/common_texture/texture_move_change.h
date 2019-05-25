@@ -19,7 +19,7 @@ public:
     */
     TextureMoveChange(uint32_t idTexture, float newX, float newY);
 
-    TextureMoveChange(const ObjectMoveChange & objMoveChange);
+    TextureMoveChange(const ObjectMovesEvent &objectMovesEvent);
 
     /*
     Destruye el cambio de ubicacion de la textura.

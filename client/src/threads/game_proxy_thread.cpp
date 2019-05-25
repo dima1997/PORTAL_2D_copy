@@ -52,7 +52,7 @@ void GameProxyThread::run(){
                     areaOfId.setX(xArea + METERS_MOVE);
                     break;
             }
-            std::unique_ptr<ObjectMoveChange> ptrChange(new ObjectMoveChange(id, areaOfId.getX(), areaOfId.getY()));
+            std::unique_ptr<ObjectMovesEvent> ptrChange(new ObjectMovesEvent(id, areaOfId.getX(), areaOfId.getY()));
             this->changesMade.push(ptrChange);
             t1 = clock();
             timeProcessMiliSeconds = (double(t2-t0)/CLOCKS_PER_SEC) * 1000;

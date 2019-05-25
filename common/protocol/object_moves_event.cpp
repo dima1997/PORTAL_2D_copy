@@ -13,4 +13,16 @@ Connector &operator<<(Connector &out, const ObjectMovesEvent &event) {
     return out << (uint8_t) event.eventType << event.objectId << event.xPos << event.yPos;
 }
 
+uint32_t ObjectMovesEvent::getId() const {
+    return objectId;
+}
+
+float ObjectMovesEvent::getX() const {
+    return xPos;
+}
+
+float ObjectMovesEvent::getY() const {
+    return yPos;
+}
+
 ObjectMovesEvent::~ObjectMovesEvent() = default;
