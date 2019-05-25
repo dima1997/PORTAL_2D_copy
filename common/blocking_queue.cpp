@@ -3,6 +3,7 @@
 //
 
 #include "blocking_queue.h"
+#include "connector.h"
 
 template <class T>
 BlockingQueue<T>::BlockingQueue(): mutex(), cv(), queue() {}
@@ -37,5 +38,4 @@ void BlockingQueue<T>::close() {
 }
 
 // To use this template just add here, for example:
-//template class BlockingQueue<int>;
-
+template class BlockingQueue<Connector>;

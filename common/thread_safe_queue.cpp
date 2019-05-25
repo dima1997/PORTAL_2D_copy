@@ -1,6 +1,7 @@
 #include "thread_safe_queue.h"
 
-#include "../client/includes/textures/common_texture/texture_move_change.h"
+//#include "../client/includes/textures/common_texture/texture_move_change.h"
+#include "object_move_change.h" 
 #include <memory>
 
 /*
@@ -53,5 +54,6 @@ bool ThreadSafeQueue<T>::pop(T &element) {
 
 // To use this template just add here, for example:
 //template class ThreadSafaQueue<int>;
-template class ThreadSafeQueue<std::unique_ptr<TextureMoveChange>>;
+template class ThreadSafeQueue<std::unique_ptr<ObjectMoveChange>>;
 template class ThreadSafeQueue<std::pair<uint32_t, gameObjectAction_t>>;
+

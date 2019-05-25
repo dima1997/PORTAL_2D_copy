@@ -9,10 +9,6 @@
 #include <mutex>
 #include <condition_variable>
 
-#include <cstdint>
-#include "../client/src/common_texture/texture_move_change.h"
-#include <memory>
-
 template <class T>
 class BlockingQueue {
 private:

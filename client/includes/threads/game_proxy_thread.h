@@ -6,7 +6,7 @@
 #include "../../../common/thread_safe_queue.h"
 
 #include <cstdint>
-
+#include <map>
 
 class GameProxyThread : public Thread{
 private:
