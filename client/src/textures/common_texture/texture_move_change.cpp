@@ -1,7 +1,6 @@
 #include "../../../includes/textures/common_texture/texture_move_change.h"
 
 #include "../../../includes/window/window.h"
-#include "../../../../common/object_move_change.h"
 
 /*
 PRE: Recibe el id de una textura, y las nuevas 

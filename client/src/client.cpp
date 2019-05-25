@@ -4,11 +4,12 @@
 
 #include <iostream>
 #include "client.h"
-#include "../../common/protocol_code.h"
+#include "protocol/protocol_code.h"
 #include "game_factory.h"
 
 Client::Client() = default;
 
 void Client::operator()(std::string &host, std::string &port, std::string &command, uint8_t id) {
     Game game = GameFactory::createGame(host, port, command, id);
+    game();
 }

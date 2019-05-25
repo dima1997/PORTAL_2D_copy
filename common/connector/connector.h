@@ -20,6 +20,14 @@ public:
     Connector &operator=(Connector &&other) noexcept;
     Connector &operator<<(const uint8_t &number);
     Connector &operator>>(uint8_t &number);
+    Connector &operator<<(const std::string &string);
+    Connector &operator>>(std::string &string);
+    Connector &operator<<(const uint16_t &number);
+    Connector &operator>>(uint16_t &number);
+    Connector &operator<<(const uint32_t &number);
+    Connector &operator>>(uint32_t &number);
+    Connector &operator<<(const float &number);
+    Connector &operator>>(float &number);
 };
 
 

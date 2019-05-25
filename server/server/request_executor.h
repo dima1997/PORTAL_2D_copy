@@ -6,9 +6,9 @@
 #define PORTAL_REQUEST_EXECUTOR_H
 
 #include <thread>
-#include "../common/blocking_queue.h"
-#include "../common/connector.h"
-#include "game_manager.h"
+#include "blocking_queue.h"
+#include "connector/connector.h"
+#include "../game/game_manager.h"
 
 class RequestExecutor {
 private:

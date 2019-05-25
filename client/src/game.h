@@ -6,7 +6,7 @@
 #define PORTAL_GAME_H
 
 
-#include "../../common/connector.h"
+#include <connector/connector.h>
 
 class Game {
 private:
@@ -15,6 +15,7 @@ private:
     uint8_t  playerId;
 public:
     Game(Connector &connector, uint8_t game_id, uint8_t player_id);
+    void operator()();
 };
 
 

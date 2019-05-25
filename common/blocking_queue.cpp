@@ -2,9 +2,9 @@
 // Created by franciscosicardi on 29/04/19.
 //
 
+#include <protocol/event.h>
+#include <connector/connector.h>
 #include "blocking_queue.h"
-#include "connector.h"
-#include "protocol_code.h"
 
 template <class T>
 BlockingQueue<T>::BlockingQueue(): mutex(), cv(), queue() {}
@@ -41,3 +41,4 @@ void BlockingQueue<T>::close() {
 // To use this template just add here, for example:
 template class BlockingQueue<Connector>;
 template class BlockingQueue<GameObjectAction>;
+template class BlockingQueue<Event *>;

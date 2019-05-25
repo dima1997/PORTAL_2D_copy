@@ -2,7 +2,6 @@
 
 #include "../../../common/thread.h"
 #include "../../../common/thread_safe_queue.h"
-#include "../../../common/object_move_change.h"
 #include "../../includes/window/window.h"
 #include "../../includes/textures/common_texture/texture_move_change.h"
 
