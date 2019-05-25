@@ -6,7 +6,7 @@
 #include <sstream>
 #include "game_factory.h"
 #include "../common/connector.h"
-#include "../common/protocol_code.h"
+#include "../common/protocol/protocol_code.h"
 #include "../common/portal_exception.h"
 
 GameFactory::GameFactory() = default;

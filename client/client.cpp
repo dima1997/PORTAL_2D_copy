@@ -4,7 +4,7 @@
 
 #include <iostream>
 #include "client.h"
-#include "../common/protocol_code.h"
+#include "../common/protocol/protocol_code.h"
 #include "game_factory.h"
 
 Client::Client() = default;

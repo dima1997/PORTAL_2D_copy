@@ -7,7 +7,7 @@
 #include <Box2D/Collision/Shapes/b2PolygonShape.h>
 #include <Box2D/Dynamics/b2Fixture.h>
 #include "game.h"
-#include "../common/protocol_code.h"
+#include "../common/protocol/protocol_code.h"
 
 Game &Game::operator=(Game &&other) noexcept {
     this->id = other.id;
@@ -54,6 +54,7 @@ void Game::start() {
             b2Vec2 position = body->GetPosition();
             printf("x: %4.2f, y: %4.2f\n", position.x, position.y);
         }
+        updated.clear();
     }
     printf("\n\n");
 

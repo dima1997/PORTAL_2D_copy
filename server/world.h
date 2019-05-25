@@ -17,14 +17,14 @@ private:
     b2World *world;
     std::vector<b2Body *> bodies;
     void loadMap(uint8_t mapId);
+    void createRockBlock(float32 x_pos, float32 y_pos);
+    void createChell(float32 x_pos, float32 y_pos, uint8_t playerId);
 public:
     explicit World(uint8_t map_id);
     World(World &&other) noexcept;
     World &operator=(World &&other) noexcept;
     ~World();
     void step(std::list<b2Body *> &updated);
-    void createRockBlock(float32 x_pos, float32 y_pos);
-    void createChell(float32 x_pos, float32 y_pos, uint8_t playerId);
 };
 
 

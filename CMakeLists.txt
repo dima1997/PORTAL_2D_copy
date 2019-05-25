@@ -11,6 +11,8 @@ file(GLOB common_files
         "${COMMON_FOLDER}/blocking_queue.cpp"
         "${COMMON_FOLDER}/connector.cpp"
         "${COMMON_FOLDER}/portal_exception.cpp"
+        "${COMMON_FOLDER}/protocol/event.cpp"
+        "${COMMON_FOLDER}/protocol/object_moves_event.cpp"
         )
 
 # SERVER -----------------------
@@ -25,7 +27,10 @@ file(GLOB server_files
         "${SERVER_FOLDER}/game.cpp"
         "${SERVER_FOLDER}/game_manager.cpp"
         "${SERVER_FOLDER}/world.cpp"
-        "${SERVER_FOLDER}/body_info.cpp"
+        "${SERVER_FOLDER}/player.cpp"
+        "${SERVER_FOLDER}/body/body.cpp"
+        "${SERVER_FOLDER}/body/rock_block.cpp"
+        "${SERVER_FOLDER}/body/chell.cpp"
         )
 
 add_executable(${SERVER_NAME} ${common_files} ${server_files})
