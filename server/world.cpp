@@ -16,7 +16,7 @@ World::World(uint8_t map_id): gravity(0.0f, -9.8f), world(new b2World(gravity)) 
     loadMap(map_id);
 }
 
-void World::step(std::list<b2Body *> &updated) {
+void World::step(std::list<ObjectMovesEvent> &moved) {
 
     float32 timeStep = TIME_STEP;
 
@@ -25,8 +25,10 @@ void World::step(std::list<b2Body *> &updated) {
 
     world->Step(timeStep, velocityIterations, positionIterations);
 
-    for(b2Body *body = world->GetBodyList(); body != nullptr; body = body->GetNext()) {
-        updated.push_back(body);
+    for(Chell *chell : chells) {
+        if(chell->changedPosition()) {
+            moved.emplace_back(chell->getId(), chell->getXPos(), chell->getYPos());
+        }
     }
 }
 

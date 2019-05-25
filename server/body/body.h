@@ -22,9 +22,10 @@ protected:
 public:
     Body(b2World &world, float32 xPos, float32 yPos);
     virtual ~Body();
-    void update(b2Vec2 pos);
-    bool isUpdated();
+    bool changedPosition();
     uint32_t getId();
+    float32 getXPos();
+    float32 getYPos();
 };
 
 

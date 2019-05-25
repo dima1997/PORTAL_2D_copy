@@ -10,6 +10,7 @@
 #include <vector>
 #include <Box2D/Dynamics/b2World.h>
 #include "body/chell.h"
+#include "../common/protocol/object_moves_event.h"
 
 class World {
 private:
@@ -23,7 +24,7 @@ public:
     World(World &&other) noexcept;
     World &operator=(World &&other) noexcept;
     ~World();
-    void step(std::list<b2Body *> &updated);
+    void step(std::list<ObjectMovesEvent> &moved);
 };
 
 

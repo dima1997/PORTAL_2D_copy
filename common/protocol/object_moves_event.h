@@ -10,11 +10,10 @@
 #include "../connector.h"
 
 class ObjectMovesEvent: public Event {
-private:
+public:
     int objectId;
     float xPos;
     float yPos;
-public:
     ObjectMovesEvent(int objectId, float xPos, float yPos);
     ~ObjectMovesEvent() override;
     friend Connector &operator<<(Connector &out, const ObjectMovesEvent &c);

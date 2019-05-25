@@ -8,6 +8,7 @@
 #include <Box2D/Dynamics/b2Fixture.h>
 #include "game.h"
 #include "../common/protocol/protocol_code.h"
+#include "../common/protocol/object_moves_event.h"
 
 Game &Game::operator=(Game &&other) noexcept {
     this->id = other.id;
@@ -47,14 +48,13 @@ bool Game::addPlayer(Connector &connector) {
 
 void Game::start() {
     printf("Game id: %d\n", id);
-    std::list<b2Body *> updated;
+    std::list<ObjectMovesEvent> moved;
     for (int32 i = 0; i < 60; ++i) {
-        world.step(updated);
-        for(auto *body : updated) {
-            b2Vec2 position = body->GetPosition();
-            printf("x: %4.2f, y: %4.2f\n", position.x, position.y);
+        world.step(moved);
+        for(auto &event : moved) {
+            printf("x: %4.2f, y: %4.2f\n", event.xPos, event.yPos);
         }
-        updated.clear();
+        moved.clear();
     }
     printf("\n\n");
 
