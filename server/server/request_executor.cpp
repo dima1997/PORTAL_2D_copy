@@ -4,7 +4,7 @@
 
 #include <cstdint>
 #include <iostream>
-#include "../common/protocol/protocol_code.h"
+#include "protocol/protocol_code.h"
 #include "request_executor.h"
 
 RequestExecutor::RequestExecutor(BlockingQueue<Connector> &queue,

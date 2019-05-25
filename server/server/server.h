@@ -6,12 +6,12 @@
 #define PORTAL_SERVER_H
 
 
-#include "../common/blocking_queue.h"
-#include "../common/connector/connector.h"
+#include "blocking_queue.h"
+#include "connector/connector.h"
 #include "thread_pool.h"
 #include "client_acceptor.h"
-#include "game.h"
-#include "game_manager.h"
+#include "../game/game.h"
+#include "../game/game_manager.h"
 
 class Server {
 private:

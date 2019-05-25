@@ -3,42 +3,33 @@ project(PORTAL)
 
 set(CMAKE_CXX_STANDARD 11)
 
-# COMMON -----------------------
-set(COMMON_FOLDER "common")
-file(GLOB common_files
-        "${COMMON_FOLDER}/connector/socket_exception.cpp"
-        "${COMMON_FOLDER}/connector/socket.cpp"
-        "${COMMON_FOLDER}/connector/connector.cpp"
-        "${COMMON_FOLDER}/blocking_queue.cpp"
-        "${COMMON_FOLDER}/portal_exception.cpp"
-        "${COMMON_FOLDER}/protocol/event.cpp"
-        "${COMMON_FOLDER}/protocol/object_moves_event.cpp"
-        )
-
 # SERVER -----------------------
-set(SERVER_NAME "PORTAL_server")
+set(SERVER_NAME "PORTAL-server")
 set(SERVER_FOLDER "server")
 file(GLOB server_files
         "${SERVER_FOLDER}/main.cpp"
-        "${SERVER_FOLDER}/server.cpp"
-        "${SERVER_FOLDER}/thread_pool.cpp"
-        "${SERVER_FOLDER}/client_acceptor.cpp"
-        "${SERVER_FOLDER}/request_executor.cpp"
-        "${SERVER_FOLDER}/game.cpp"
-        "${SERVER_FOLDER}/game_manager.cpp"
-        "${SERVER_FOLDER}/world.cpp"
-        "${SERVER_FOLDER}/player.cpp"
-        "${SERVER_FOLDER}/body/body.cpp"
-        "${SERVER_FOLDER}/body/rock_block.cpp"
-        "${SERVER_FOLDER}/body/chell.cpp"
-        "${SERVER_FOLDER}/id_generator.cpp"
+        "${SERVER_FOLDER}/server/server.cpp"
+        "${SERVER_FOLDER}/server/thread_pool.cpp"
+        "${SERVER_FOLDER}/server/client_acceptor.cpp"
+        "${SERVER_FOLDER}/server/request_executor.cpp"
+        "${SERVER_FOLDER}/game/game.cpp"
+        "${SERVER_FOLDER}/game/game_manager.cpp"
+        "${SERVER_FOLDER}/game/world.cpp"
+        "${SERVER_FOLDER}/game/player.cpp"
+        "${SERVER_FOLDER}/game/body/body.cpp"
+        "${SERVER_FOLDER}/game/body/rock_block.cpp"
+        "${SERVER_FOLDER}/game/body/chell.cpp"
+        "${SERVER_FOLDER}/utils/id_generator.cpp"
         )
 
-add_executable(${SERVER_NAME} ${common_files} ${server_files})
+add_executable(${SERVER_NAME} ${server_files})
+target_compile_features(${SERVER_NAME} PUBLIC cxx_std_11)
 
 add_subdirectory(lib/Box2D-cmake)
-target_compile_features(${SERVER_NAME} PUBLIC cxx_std_17)
 target_link_libraries(${SERVER_NAME} TG::Box2D)
+
+add_subdirectory(common)
+target_link_libraries(${SERVER_NAME} PORTAL::Common)
 
 find_package(Threads REQUIRED)
 target_link_libraries(${SERVER_NAME} ${CMAKE_THREAD_LIBS_INIT})
@@ -53,5 +44,7 @@ file(GLOB client_files
         "${CLIENT_FOLDER}/game_factory.cpp"
         )
 
-add_executable(${CLIENT_NAME} ${common_files} ${client_files})
+add_executable(${CLIENT_NAME} ${client_files})
 
+target_compile_features(${CLIENT_NAME} PUBLIC cxx_std_11)
+target_link_libraries(${CLIENT_NAME} PORTAL::Common)

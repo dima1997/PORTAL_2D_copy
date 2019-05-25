@@ -3,8 +3,8 @@
 //
 
 #include "player.h"
-#include "../common/protocol/object_moves_event.h"
-#include "../common/portal_exception.h"
+#include "protocol/object_moves_event.h"
+#include "portal_exception.h"
 
 Player::Player(Connector connector, BlockingQueue<Event *> &inQueue):
                connector(std::move(connector)), outThread(), inThread(),

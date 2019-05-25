@@ -7,8 +7,8 @@
 #include <Box2D/Collision/Shapes/b2PolygonShape.h>
 #include <Box2D/Dynamics/b2Fixture.h>
 #include "game.h"
-#include "../common/protocol/protocol_code.h"
-#include "../common/protocol/object_moves_event.h"
+#include "protocol/protocol_code.h"
+#include "protocol/object_moves_event.h"
 
 Game &Game::operator=(Game &&other) noexcept {
     this->id = other.id;

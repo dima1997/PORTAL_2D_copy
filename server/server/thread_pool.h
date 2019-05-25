@@ -6,10 +6,10 @@
 #define PORTAL_THREADPOOL_H
 
 
-#include "../common/blocking_queue.h"
-#include "../common/connector/connector.h"
+#include "blocking_queue.h"
+#include "connector/connector.h"
 #include "request_executor.h"
-#include "game_manager.h"
+#include "../game/game_manager.h"
 
 class ThreadPool {
 private:

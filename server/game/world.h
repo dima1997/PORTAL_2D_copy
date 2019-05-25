@@ -10,7 +10,7 @@
 #include <vector>
 #include <Box2D/Dynamics/b2World.h>
 #include "body/chell.h"
-#include "../common/protocol/object_moves_event.h"
+#include "protocol/object_moves_event.h"
 
 class World {
 private:

@@ -3,7 +3,7 @@
 //
 
 #include "body.h"
-#include "../id_generator.h"
+#include "../../utils/id_generator.h"
 #include <Box2D/Dynamics/b2Body.h>
 
 Body::Body(b2World &world, float32 xPos, float32 yPos):
