@@ -4,6 +4,7 @@
 
 #include "player.h"
 #include "../common/protocol/object_moves_event.h"
+#include "../common/portal_exception.h"
 
 Player::Player(Connector connector, BlockingQueue<Event *> &inQueue):
                connector(std::move(connector)), outThread(), inThread(),
@@ -17,11 +18,15 @@ void Player::join() {
 void Player::sendEvents() {
     Event *event;
     while (outQueue.pop(event)) {
-        EventType type = event->eventType;
-        if (type == object_moves) {
-            connector << *(ObjectMovesEvent *) event;
-        } else if (type == player_wins) {
-            // send data
+        switch (event->eventType) {
+            case object_moves:
+                connector << *(ObjectMovesEvent *) event;
+                break;
+            case player_wins:
+            case player_dies:
+            case object_switch_state:
+            default:
+                throw PortalException("Command unknown");
         }
     }
 }

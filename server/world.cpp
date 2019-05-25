@@ -45,7 +45,6 @@ World::~World() {
 }
 
 void World::loadMap(uint8_t mapId) {
-    createRockBlock(0, -1.5);
-    createChell(0, 4, 0);
+
 }
 
