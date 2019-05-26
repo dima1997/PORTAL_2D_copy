@@ -40,5 +40,4 @@ void BlockingQueue<T>::close() {
 
 // To use this template just add here, for example:
 template class BlockingQueue<Connector>;
-template class BlockingQueue<GameObjectAction>;
 template class BlockingQueue<Event *>;

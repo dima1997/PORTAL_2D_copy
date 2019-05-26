@@ -4,8 +4,6 @@
 #include <queue>
 #include <mutex>
 
-//#include "../client/includes/textures/common_texture/texture_move_change.h"
-#include "object_move_change.h" 
 #include <memory>
 #include <protocol/object_moves_event.h>
 
