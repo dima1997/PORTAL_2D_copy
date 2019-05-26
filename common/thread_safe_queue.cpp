@@ -53,5 +53,5 @@ bool ThreadSafeQueue<T>::pop(T &element) {
 // To use this template just add here, for example:
 //template class ThreadSafaQueue<int>;
 template class ThreadSafeQueue<std::unique_ptr<ObjectMovesEvent>>;
-template class ThreadSafeQueue<std::pair<uint32_t, gameObjectAction_t>>;
+template class ThreadSafeQueue<gameActionName>;
 

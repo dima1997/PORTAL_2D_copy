@@ -10,6 +10,14 @@
 #include "protocol/protocol_code.h"
 #include "protocol/object_moves_event.h"
 
+//Prueba hardcodeada---------------------------------
+#include "proxy/game_proxy_thread.h"
+#include <thread.h>
+#include <connector/connector.h>
+#include <vector>
+
+//Prueba hardcodeada---------------------------------
+
 Game &Game::operator=(Game &&other) noexcept {
     this->id = other.id;
     this->numberOfPlayers = other.numberOfPlayers;
@@ -62,6 +70,24 @@ void Game::start() {
     for (Connector &player : players) {
         player << (uint8_t) 0;
     }
+
+    //Prueba hardcodeada---------------------------------
+
+    std::vector<std::unique_ptr<Thread>> threads;
+    int idProxyPlayer = this->players.size(); 
+    for (Connector &player : players) {
+        threads.push_back(std::move(std::unique_ptr<Thread>>(new GameProxyThread(player,idProxyPlayer-1,0.5,1.75))));
+        --idProxyPlayer;
+    } 
+    for (int i = 0; i < threads.size(); ++i){
+        (*(threads[i])).start();
+    }
+    for (int i = 0; i < threads.size(); ++i){
+        (*(threads[i])).join();   
+    }
+
+    //Prueba hardcodeada---------------------------------
+
     std::unique_lock<std::mutex> l(mutex);
     finished = true;
 }
