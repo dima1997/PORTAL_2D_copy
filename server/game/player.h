@@ -7,9 +7,9 @@
 
 
 #include <thread>
-#include "../common/blocking_queue.h"
-#include "../common/protocol/event.h"
-#include "../common/connector/connector.h"
+#include <blocking_queue.h>
+#include <protocol/event.h>
+#include <connector/connector.h>
 
 class Player {
 private:

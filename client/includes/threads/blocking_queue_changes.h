@@ -1,7 +1,7 @@
 #ifndef BLOCKING_QUEUE_CHANGES_H
 #define BLOCKING_QUEUE_CHANGES_H
 
-#include "../../../common/blocking_queue.h"
+#include <blocking_queue.h>
 #include "../common_texture/texture_move_change.h"
 
 #include <memory>

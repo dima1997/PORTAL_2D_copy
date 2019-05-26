@@ -3,8 +3,8 @@
 //
 
 #include "game_manager.h"
-#include "protocol/protocol_code.h"
-#include "portal_exception.h"
+#include <protocol/protocol_code.h>
+#include <portal_exception.h>
 
 GameManager::GameManager(): games(), mutex(), biggestKey(0) {}
 

@@ -1,7 +1,7 @@
 #include "../../includes/threads/key_reader_thread.h"
 
-#include "../../../common/thread_safe_queue.h"
-#include "../../../common/thread.h"
+#include <thread_safe_queue.h>
+#include <thread.h>
 
 #include <SDL2/SDL.h>
 

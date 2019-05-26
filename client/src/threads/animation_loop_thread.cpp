@@ -1,7 +1,7 @@
 #include "../../includes/threads/animation_loop_thread.h"
 
-#include "../../../common/thread.h"
-#include "../../../common/thread_safe_queue.h"
+#include <thread.h>
+#include <thread_safe_queue.h>
 #include "../../includes/window/window.h"
 #include "../../includes/textures/common_texture/texture_move_change.h"
 

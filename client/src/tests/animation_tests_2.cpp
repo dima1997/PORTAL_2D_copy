@@ -8,7 +8,7 @@
 #include "../../includes/threads/key_reader_thread.h"
 #include "../../includes/threads/game_proxy_thread.h"
 
-#include "../../../common/thread_safe_queue.h"
+#include <thread_safe_queue.h>
 
 #include <map>
 

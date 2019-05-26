@@ -2,8 +2,8 @@
 #define GAME_PROXY_THREAD_H
 
 #include "../textures/common_texture/area.h"
-#include "../../../common/thread.h"
-#include "../../../common/thread_safe_queue.h"
+#include <thread.h>
+#include <thread_safe_queue.h>
 
 #include <cstdint>
 #include <map>

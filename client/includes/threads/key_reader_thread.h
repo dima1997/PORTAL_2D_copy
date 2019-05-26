@@ -1,8 +1,8 @@
 #ifndef KEY_READER_THREAD_H
 #define KEY_READER_THREAD_H
 
-#include "../../../common/thread.h"
-#include "../../../common/thread_safe_queue.h"
+#include <thread.h>
+#include <thread_safe_queue.h>
 
 class KeyReaderThread : public Thread {
 private:
