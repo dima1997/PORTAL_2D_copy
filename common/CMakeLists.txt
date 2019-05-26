@@ -9,6 +9,7 @@ set(SOURCES
         "${PROJECT_SOURCE_DIR}/portal_exception.cpp"
         "${PROJECT_SOURCE_DIR}/protocol/event.cpp"
         "${PROJECT_SOURCE_DIR}/protocol/object_moves_event.cpp"
+        "${PROJECT_SOURCE_DIR}/protocol/player_wins_event.cpp"
         "${PROJECT_SOURCE_DIR}/thread.cpp"
         "${PROJECT_SOURCE_DIR}/thread_safe_queue.cpp"
         "${PROJECT_SOURCE_DIR}/game_action.cpp"

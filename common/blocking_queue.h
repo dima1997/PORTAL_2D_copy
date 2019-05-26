@@ -18,6 +18,7 @@ private:
     bool closed = false;
 public:
     BlockingQueue();
+    BlockingQueue(BlockingQueue<T> &&other) noexcept;
     ~BlockingQueue();
     void push(T &element);
     bool pop(T &element);

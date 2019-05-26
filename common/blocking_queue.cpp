@@ -5,6 +5,7 @@
 #include <protocol/event.h>
 #include <connector/connector.h>
 #include "blocking_queue.h"
+#include "game_action.h"
 
 template <class T>
 BlockingQueue<T>::BlockingQueue(): mutex(), cv(), queue() {}
@@ -38,6 +39,11 @@ void BlockingQueue<T>::close() {
     cv.notify_all();
 }
 
+template<class T>
+BlockingQueue<T>::BlockingQueue(BlockingQueue<T> &&other) noexcept:
+                                mutex(), cv(), queue(std::move(other.queue)), closed(other.closed) {}
+
 // To use this template just add here, for example:
 template class BlockingQueue<Connector>;
 template class BlockingQueue<Event *>;
+template class BlockingQueue<GameAction *>;

@@ -27,10 +27,12 @@ private:
     void sendEvents();
     void recvGameActions();
 public:
-    Player(Connector connector, BlockingQueue<GameAction *> &inQueue);
+    Player(Connector &connector, BlockingQueue<GameAction *> &inQueue);
+    Player(Player &&other) noexcept;
     ~Player();
     void start();
     void join();
+    void addToQueue(Event *event);
 };
 
 

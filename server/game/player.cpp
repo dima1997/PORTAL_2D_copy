@@ -6,7 +6,7 @@
 #include <protocol/object_moves_event.h>
 #include <portal_exception.h>
 
-Player::Player(Connector connector, BlockingQueue<GameAction *> &inQueue):
+Player::Player(Connector &connector, BlockingQueue<GameAction *> &inQueue):
                connector(std::move(connector)), outThread(), inThread(),
                outQueue(), inQueue(inQueue), recvMsgs(true) {}
 
@@ -30,6 +30,7 @@ void Player::sendEvents() {
             default:
                 throw PortalException("Command unknown");
         }
+        delete event;
     }
 }
 
@@ -54,6 +55,14 @@ void Player::stopRecv() {
 void Player::start() {
     outThread = std::thread(&Player::sendEvents, this);
     inThread = std::thread(&Player::recvGameActions, this);
+}
+
+Player::Player(Player &&other) noexcept : connector(std::move(other.connector)), outThread(std::move(other.outThread)),
+                                inThread(std::move(other.inThread)), outQueue(std::move(other.outQueue)),
+                                inQueue(other.inQueue), mutex(), recvMsgs(other.recvMsgs) {}
+
+void Player::addToQueue(Event *event) {
+    outQueue.push(event);
 }
 
 Player::~Player() = default;
