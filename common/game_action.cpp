@@ -19,8 +19,7 @@ PRE: Recibe una referencia constante a otra accion del juego
 (const GameAction %).
 POST: Crea una nueva accion del juego por copia.
 */
-GameAction::GameAction(const GameAction & other)
-: gameActionName(other.gameActionName) {}
+GameAction::GameAction(const GameAction & other): gameActionName(other.gameActionName) {}
 
 /*
 PRE: Recibe una referencia constante a otra accion del juego
@@ -41,7 +40,7 @@ PRE: Recibe un conector (Connector &).
 POST: La accion se envia a traves del conector.
 */
 void GameAction::sendThrough(Connector &out) const{
-    uint8_t gameActionNameExplicit = (uint8_t) this->gameActionName;
+    auto gameActionNameExplicit = (uint8_t) this->gameActionName;
     out << gameActionNameExplicit;
 }
 
@@ -75,3 +74,5 @@ Connector & operator>>(Connector &out, GameAction &action){
     action.receiveFrom(out);
     return out;
 }
+
+GameAction::GameAction(): gameActionName(null_action) {}

@@ -15,7 +15,9 @@ public:
     PRE: Recibe el nombre de una accion del juego (GameActionName).
     POST: Inicializa un accion del juego.
     */
-    GameAction(GameActionName gameActionName);
+    explicit GameAction(GameActionName gameActionName);
+
+    GameAction();
 
     /*Destruye una accion del juego.*/
     virtual ~GameAction();
