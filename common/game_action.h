@@ -62,6 +62,8 @@ public:
     La accion de juego recibida es modificada.
     */
     friend Connector &operator>>(Connector &out, GameAction &action);
+
+    GameActionName getGameActionName();
 };
 
 #endif // GAME_ACTION_H

@@ -5,7 +5,7 @@
 #include <mutex>
 
 #include <memory>
-#include <protocol/object_moves_event.h>
+#include <protocol/event/object_moves_event.h>
 
 template <class T>
 class ThreadSafeQueue {

@@ -3,11 +3,11 @@
 //
 
 #include "player.h"
-#include <protocol/object_moves_event.h>
+#include <protocol/event/object_moves_event.h>
 #include <portal_exception.h>
 
-Player::Player(Connector &connector, BlockingQueue<GameAction *> &inQueue):
-               connector(std::move(connector)), outThread(), inThread(),
+Player::Player(uint32_t id, Connector &connector, BlockingQueue<GameAction *> &inQueue):
+               id(id), connector(std::move(connector)), outThread(), inThread(),
                outQueue(), inQueue(inQueue), recvMsgs(true) {}
 
 void Player::join() {
@@ -57,7 +57,7 @@ void Player::start() {
     inThread = std::thread(&Player::recvGameActions, this);
 }
 
-Player::Player(Player &&other) noexcept : connector(std::move(other.connector)), outThread(std::move(other.outThread)),
+Player::Player(Player &&other) noexcept : id(other.id), connector(std::move(other.connector)), outThread(std::move(other.outThread)),
                                 inThread(std::move(other.inThread)), outQueue(std::move(other.outQueue)),
                                 inQueue(other.inQueue), mutex(), recvMsgs(other.recvMsgs) {}
 

@@ -7,7 +7,7 @@
 
 
 #include <stdint-gcc.h>
-#include "protocol_code.h"
+#include "protocol/protocol_code.h"
 
 class Event {
 public:

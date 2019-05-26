@@ -22,7 +22,7 @@ private:
     std::mutex mutex;
     std::condition_variable cv;
     bool ready;
-    bool finished;
+    uint8_t alivePlayers;
     std::thread thread;
     // TODO: number of players should depend on a map, map should be an attribute
     int numberOfPlayers;

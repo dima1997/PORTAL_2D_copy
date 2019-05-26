@@ -7,7 +7,7 @@
 
 
 #include "event.h"
-#include "../connector/connector.h"
+#include "connector/connector.h"
 
 class ObjectMovesEvent: public Event {
     uint32_t objectId;

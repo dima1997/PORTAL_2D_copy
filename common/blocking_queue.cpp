@@ -2,7 +2,7 @@
 // Created by franciscosicardi on 29/04/19.
 //
 
-#include <protocol/event.h>
+#include <protocol/event/event.h>
 #include <connector/connector.h>
 #include "blocking_queue.h"
 #include "game_action.h"

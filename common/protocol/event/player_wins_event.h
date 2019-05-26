@@ -6,7 +6,7 @@
 #define PORTAL_PLAYER_WINS_EVENT_H
 
 
-#include "../connector/connector.h"
+#include "connector/connector.h"
 #include "event.h"
 
 class PlayerWinsEvent: public Event {

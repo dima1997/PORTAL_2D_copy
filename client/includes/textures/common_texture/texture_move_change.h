@@ -1,7 +1,7 @@
 #ifndef TEXTURE_MOVE_CHANGE_H
 #define TEXTURE_MOVE_CHANGE_H
 
-#include <protocol/object_moves_event.h>
+#include <protocol/event/object_moves_event.h>
 #include "../../../includes/window/window.h"
 
 class TextureMoveChange {

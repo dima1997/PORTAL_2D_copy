@@ -9,12 +9,13 @@
 #include <thread>
 #include <mutex>
 #include <blocking_queue.h>
-#include <protocol/event.h>
+#include <protocol/event/event.h>
 #include <connector/connector.h>
 #include <game_action.h>
 
 class Player {
 private:
+    uint32_t id;
     Connector connector;
     std::thread outThread;
     std::thread inThread;
@@ -27,7 +28,7 @@ private:
     void sendEvents();
     void recvGameActions();
 public:
-    Player(Connector &connector, BlockingQueue<GameAction *> &inQueue);
+    Player(uint32_t id, Connector &connector, BlockingQueue<GameAction *> &inQueue);
     Player(Player &&other) noexcept;
     ~Player();
     void start();

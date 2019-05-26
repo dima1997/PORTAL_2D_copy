@@ -3,7 +3,7 @@
 //
 
 #include "object_moves_event.h"
-#include "protocol_code.h"
+#include "protocol/protocol_code.h"
 
 ObjectMovesEvent::ObjectMovesEvent(int objectId, float xPos, float yPos):
                                    Event(object_moves), objectId(objectId),

@@ -76,3 +76,7 @@ Connector & operator>>(Connector &out, GameAction &action){
 }
 
 GameAction::GameAction(): gameActionName(null_action) {}
+
+GameActionName GameAction::getGameActionName() {
+    return gameActionName;
+}
