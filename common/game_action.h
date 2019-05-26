@@ -1,8 +1,8 @@
 #ifndef GAME_ACTION_H
 #define GAME_ACTION_H
 
-#include "connector.h"
-#include "protocol_code.h"
+#include <connector/connector.h>
+#include <protocol/protocol_code.h>
 
 #include <cstdint>
 

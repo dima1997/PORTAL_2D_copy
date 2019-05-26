@@ -19,7 +19,9 @@ public:
     uint32_t getId() const ;
     float getX() const;
     float getY() const;
-    friend Connector &operator<<(Connector &out, const ObjectMovesEvent &c);
+    friend Connector &operator<<(Connector &out, 
+                                    const ObjectMovesEvent &event);
+    friend Connector &operator>>(Connector &out, ObjectMovesEvent &event);
 };
 
 

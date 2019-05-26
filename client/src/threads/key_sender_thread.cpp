@@ -1,9 +1,10 @@
 #include "../../includes/threads/key_sender_thread.h"
 
-#include "../../../common/thread.h"
-#include "../../../common/connector.h"
-#include "../../../common/protocol_code.h"
-#include "../../../common/blocking_queue.h" 
+#include <thread.h>
+#include <connector/connector.h>
+#include <protocol/protocol_code.h>
+#include <blocking_queue.h>
+#include <game_action.h>
 
 /*
 PRE: Recibe una referencia a un conector (Connector &),
@@ -30,11 +31,12 @@ juego.
 */
 void KeySenderThread::run(){
     this->isDead = false;
-    while (! this.is_dead()){
-        GameAction action;
-        if (! this->actionsBlockQueue.pop(action)){
+    while (! this->is_dead()){
+        std::unique_ptr<GameAction> ptrAction;
+        if (! this->actionsBlockQueue.pop(ptrAction)){
             break;
         }
+        GameAction & action = *(ptrAction);
         this->connector << action;
     }
     this->stop();

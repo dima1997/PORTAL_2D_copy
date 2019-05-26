@@ -2,8 +2,8 @@
 #define ANIMATION_LOOP_THREAD_H
 
 #include "../window/window.h"
-#include "../../../common/thread.h"
-#include "../../../common/thread_safe_queue.h"
+#include <thread.h>
+#include <thread_safe_queue.h>
 
 
 class AnimationLoopThread : public Thread{

@@ -11,6 +11,7 @@ set(SOURCES
         "${PROJECT_SOURCE_DIR}/protocol/object_moves_event.cpp"
         "${PROJECT_SOURCE_DIR}/thread.cpp"
         "${PROJECT_SOURCE_DIR}/thread_safe_queue.cpp"
+        "${PROJECT_SOURCE_DIR}/game_action.cpp"
         )
 
 add_library(${PROJECT_NAME} STATIC ${SOURCES})

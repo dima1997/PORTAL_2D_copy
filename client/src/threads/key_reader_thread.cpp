@@ -1,8 +1,8 @@
 #include "../../includes/threads/key_reader_thread.h"
 
-#include "../../../common/thread.h"
-#include "../../../common/blocking_queue.h"
-#include "../../../common/protocolo_code.h"
+#include <thread.h>
+#include <blocking_queue.h>
+#include <protocol/protocol_code.h>
 
 #include <SDL2/SDL.h>
 #include <ctime>
@@ -20,10 +20,10 @@ void KeyReaderThread::process_event(SDL_Event & event){
             SDL_KeyboardEvent& keyEvent = (SDL_KeyboardEvent&) event;
             switch (keyEvent.keysym.sym) {
                 case SDLK_LEFT:
-                    this->gameActions.push_action(move_left);
+                    this->push_action(move_left);
                     break;
                 case SDLK_RIGHT:
-                    this->gameActions.push_action(move_right);
+                    this->push_action(move_right);
                     break;
             } // Fin KEY_DOWN
             break;
@@ -42,7 +42,7 @@ al nombre de accion recibido.
 */
 void KeyReaderThread::push_action(GameActionName actionName){
     std::unique_ptr<GameAction> ptrGameAction(new GameAction(actionName));
-    this->gameActions.push(std::move(ptrGameAction));
+    this->gameActions.push(ptrGameAction);
 }
 
 /*

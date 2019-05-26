@@ -1,15 +1,16 @@
 #ifndef KEY_SENDER_THREAD_H
 #define KEY_SENDER_THREAD_H
 
-#include "../../../common/thread.h"
-#include "../../../common/connector.h"
-#include "../../../common/protocol_code.h"
-#include "../../../common/blocking_queue.h" 
+#include <thread.h>
+#include <connector/connector.h>
+#include <protocol/protocol_code.h>
+#include <blocking_queue.h>
+#include <game_action.h>
 
 class KeySenderThread : public Thread {
 private:
     Connector & connector;
-    BlockingQueue<GameObjectAction> & actionsBlockQueue;
+    BlockingQueue<std::unique_ptr<GameAction>> & actionsBlockQueue;
     bool isDead;
 public:
     /*
@@ -19,7 +20,7 @@ public:
     sobre objetos del juego.
     */
     KeySenderThread(Connector & connector, 
-                        BlockingQueue<GameObjectAction> & actionsBlockQueue);
+            BlockingQueue<std::unique_ptr<GameAction>> & actionsBlockQueue);
     /*
     Destruye un hilo enviador de acciones 
     del usuario sobre objetos del juego.

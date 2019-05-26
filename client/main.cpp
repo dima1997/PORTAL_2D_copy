@@ -1,4 +1,4 @@
-#include "includes/tests/animation_tests_2.h"
+//#include "includes/tests/animation_tests_2.h"
 #include "includes/textures/common_texture/sdl_exception.h"
 #include "includes/window/os_exception.h"
 #include "includes/game/client.h"
@@ -21,7 +21,7 @@ int main(int argc, char **argv) {
         uint8_t id = (uint8_t)std::stoul(argv[4]);
         Client client;
         client(host, port, command, id);
-        testUserGameAnimationProxy();
+        //testUserGameAnimationProxy();
     } catch (SdlException &error){
         std::cout << error.what() << "\n";
         return 1;

@@ -1,9 +1,11 @@
 #include "../../includes/threads/animation_loop_thread.h"
 
-#include "../../../common/thread.h"
-#include "../../../common/thread_safe_queue.h"
 #include "../../includes/window/window.h"
 #include "../../includes/textures/common_texture/texture_move_change.h"
+
+#include <thread.h>
+#include <thread_safe_queue.h>
+#include <protocol/object_moves_event.h>
 
 #include <SDL2/SDL.h>
 
@@ -16,7 +18,7 @@ ventana (TSQueueChangesMade_t &).
 POST: Inicializa un loop de animaciones.
 */
 AnimationLoopThread::AnimationLoopThread(Window &window, 
-ThreadSafeQueue<std::unique_ptr<ObjectMoveChange>> & changesMade)
+ThreadSafeQueue<std::unique_ptr<ObjectMovesEvent>> & changesMade)
 : window(window), changesMade(changesMade), isDead(true) {}
 
 /*
@@ -38,12 +40,12 @@ void AnimationLoopThread::run(){
         t2=clock();
         double timeProcessMiliSeconds = (double(t2-t0)/CLOCKS_PER_SEC) * 1000;
         while (! (timeProcessMiliSeconds > timeWaitMiliSeconds) ){
-            std::unique_ptr<ObjectMovesEvent> ptrChange;
-            if (! this->changesMade.pop(ptrChange)){
+            std::unique_ptr<ObjectMovesEvent> ptrEvent;
+            if (! this->changesMade.pop(ptrEvent)){
                 break;
             }
-            ObjectMovesEvent change = *(ptrChange);
-            TextureMoveChange textureChange(change);
+            ObjectMovesEvent event = *(ptrEvent);
+            TextureMoveChange textureChange(event);
             textureChange.change(this->window);
             t2=clock();
             timeProcessMiliSeconds = (double(t2-t0)/CLOCKS_PER_SEC) * 1000;

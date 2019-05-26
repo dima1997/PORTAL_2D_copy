@@ -1,7 +1,8 @@
 #include "game_action.h"
 
-#include "connector.h"
-#include "protocol_code.h"
+#include <connector/connector.h>
+#include <protocol/protocol_code.h>
+#include <cstdint>
 
 /*
 PRE: Recibe el nombre de una accion del juego (GameActionName).

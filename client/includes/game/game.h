@@ -6,7 +6,7 @@
 #define PORTAL_GAME_H
 
 #include <connector/connector.h>
-//#include <thread.h>
+#include <thread.h>
 
 #include <mutex>
 #include <condition_variable>
@@ -20,9 +20,16 @@ private:
     std::mutex mutex;
     std::condition_variable cv;
     std::vector<std::unique_ptr<Thread>> threads;
+    bool isDead;
 public:
     Game(Connector &connector, uint8_t game_id, uint8_t player_id);
     
+    /*
+    PRE: Recibe un doble referencia a otra juego (Game &&).
+    POST: Inicializa un nuevo juego por movimiento semantico.
+    */
+    Game(Game && other);
+
     void operator()();
     
     /*Ejecuta el juego.*/
