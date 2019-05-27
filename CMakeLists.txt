@@ -20,9 +20,6 @@ file(GLOB server_files
         "${SERVER_FOLDER}/game/body/body.cpp"
         "${SERVER_FOLDER}/game/body/rock_block.cpp"
         "${SERVER_FOLDER}/game/body/chell.cpp"
-        "${SERVER_FOLDER}/game/proxy/game_proxy_thread.cpp"
-        "${SERVER_FOLDER}/game/proxy/game_receiver_proxy_thread.cpp"
-        "${SERVER_FOLDER}/game/proxy/game_sender_proxy_thread.cpp"
         "${SERVER_FOLDER}/utils/id_generator.cpp"
         )
 
@@ -46,12 +43,10 @@ file(GLOB client_files
         "${CLIENT_FOLDER}/src/game/client.cpp"
         "${CLIENT_FOLDER}/src/game/game.cpp"
         "${CLIENT_FOLDER}/src/game/game_factory.cpp"
-#        "${CLIENT_FOLDER}/src/threads/game_proxy_thread.cpp"
         "${CLIENT_FOLDER}/src/threads/key_reader_thread.cpp"
         "${CLIENT_FOLDER}/src/threads/animation_loop_thread.cpp"
         "${CLIENT_FOLDER}/src/threads/key_sender_thread.cpp"
         "${CLIENT_FOLDER}/src/threads/event_game_receiver_thread.cpp"
-#        "${CLIENT_FOLDER}/src/tests/animation_tests_2.cpp"
         "${CLIENT_FOLDER}/src/window/window.cpp"
         "${CLIENT_FOLDER}/src/window/os_exception.cpp"
         "${CLIENT_FOLDER}/src/textures/common_texture/area.cpp"
