@@ -9,14 +9,16 @@
 #include <thread_safe_queue.h>
 #include <thread.h>
 
-#include <memory> 
+#include <memory>
+#include <mutex> 
 
 class EventGameReceiverThread : public Thread {
 private:
     Connector & connector;
     ThreadSafeQueue<std::unique_ptr<ObjectMovesEvent>> & changesQueue;
-    Game & game;
+    BlockingQueue<GameActionName> & endQueue;
     bool isDead;
+    std::mutex mutex;
 
     /*Recibe y procesa un evento del servidor.*/
     void receive_event();
@@ -28,7 +30,7 @@ public:
     */
     EventGameReceiverThread(Connector & connetor, 
         ThreadSafeQueue<std::unique_ptr<ObjectMovesEvent>> & changesQueue,
-        Game & game);
+        BlockingQueue<GameActionName> & endQueue);
 
     /*Destruye el hilo recibidor de eventos del juego*/
     ~EventGameReceiverThread();

@@ -11,14 +11,15 @@
 
 #include <SDL2/SDL.h>
 #include <cstdint>
-
+#include <mutex>
 
 class KeyReaderThread : public Thread {
 private:
     bool isDead;
     const Area & areaMainObject;
     BlockingQueue<std::unique_ptr<GameAction>> & gameActions;
-    Game & game;
+    BlockingQueue<GameActionName> & endQueue;
+    std::mutex mutex;
 
     /*
     PRE: Recibe un evento de sdl (SDL_Event &).
@@ -41,12 +42,13 @@ public:
     el objecto al que el lector hace referencia en cada acccion 
     leida; una cola bloqueante de punteros unicos a acciones del 
     juego (BlockingQueue<std::unique_ptr<GameAction>> &), y una 
-    referencia al juego (Game &).
+    cola bloqueane donde avisarle al juego, que se quiere salir
+    del mismo.
     POST: Inicializa un lector de eventos.
     */
     KeyReaderThread(const Area & areaMainObject, 
         BlockingQueue<std::unique_ptr<GameAction>> & gameActions, 
-        Game & game);
+        BlockingQueue<GameActionName> & endQueue);
 
     /*Destruye el lector de eventos.*/
     ~KeyReaderThread();

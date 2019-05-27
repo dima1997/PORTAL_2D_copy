@@ -20,6 +20,9 @@ file(GLOB server_files
         "${SERVER_FOLDER}/game/body/body.cpp"
         "${SERVER_FOLDER}/game/body/rock_block.cpp"
         "${SERVER_FOLDER}/game/body/chell.cpp"
+        "${SERVER_FOLDER}/game/proxy/game_proxy_thread.cpp"
+        "${SERVER_FOLDER}/game/proxy/game_receiver_proxy_thread.cpp"
+        "${SERVER_FOLDER}/game/proxy/game_sender_proxy_thread.cpp"
         "${SERVER_FOLDER}/utils/id_generator.cpp"
         )
 

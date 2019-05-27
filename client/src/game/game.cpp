@@ -24,6 +24,7 @@ Game::Game(Connector &connector, uint8_t game_id, uint8_t player_id)
 void Game::operator()() {
     uint8_t finished;
     connector >> finished;
+    this->run();
 }
 
 /*
@@ -36,39 +37,40 @@ Game::Game(Game && other)
     playerId(other.playerId),
     threads(std::move(other.threads)),
     isDead(true) {}
-/*
-    mutex(std::move(other.mutex)),
-    cv(std::move(other.cv)),
-*/
 
 /*Ejecuta el juego.*/
 void Game::run(){
-    ThreadSafeQueue<std::unique_ptr<ObjectMovesEvent>> changesMade;
-    BlockingQueue<std::unique_ptr<GameAction>> changesAsk;
+    {
+        std::unique_lock<std::mutex> l(this->mutex);
+        this->isDead = false;    
+    }
+    BlockingQueue<GameActionName> endQueue;
     int windowWidthPixels = WINDOW_WIDTH;
     int windowHeightPixels = WINDOW_HEIGHT;
     Window window(windowWidthPixels, windowHeightPixels, this->playerId);
     const Area & areaChell = window.getMainTextureArea(); 
-    this->threads.push_back(std::move(std::unique_ptr<Thread>(new KeyReaderThread(areaChell, changesAsk, *this))));
-    this->threads.push_back(std::move(std::unique_ptr<Thread>(new AnimationLoopThread(window, changesMade))));
-    this->threads.push_back(std::move(std::unique_ptr<Thread>(new EventGameReceiverThread(this->connector, changesMade, *this))));
-    this->threads.push_back(std::move(std::unique_ptr<Thread>(new KeySenderThread(this->connector, changesAsk))));
+    this->threads.push_back(std::move(std::unique_ptr<Thread>(new AnimationLoopThread(window, this->changesMade))));
+    this->threads.push_back(std::move(std::unique_ptr<Thread>(new EventGameReceiverThread(this->connector, this->changesMade, endQueue))));
+    this->threads.push_back(std::move(std::unique_ptr<Thread>(new KeySenderThread(this->connector, this->changesAsk))));
+    this->threads.push_back(std::move(std::unique_ptr<Thread>(new KeyReaderThread(areaChell, this->changesAsk, endQueue))));
     for (int i = 0; i < this->threads.size(); ++i){
         (*(this->threads[i])).start();
     }
-    std::unique_lock<std::mutex> l(this->mutex);
-    this->cv.wait(l, [this]{ return this->is_dead();});
+    GameActionName actionName;
+    endQueue.pop(actionName);
+    this->stop();
 }
 
 /*Detiene la ejecucion del juego.*/
 void Game::stop(){
-    std::unique_lock<std::mutex> l(this->mutex);
+    //std::unique_lock<std::mutex> l(this->mutex);
+    this->changesAsk.close();
     for (int i = 0; i < this->threads.size(); ++i){
         (*(this->threads[i])).stop();
         (*(this->threads[i])).join();
     }
     this->isDead = true; 
-    this->cv.notify_one();
+    //this->cv.notify_one();
 }
 
 /*Devuelve true si el hilo esta muerto.*/

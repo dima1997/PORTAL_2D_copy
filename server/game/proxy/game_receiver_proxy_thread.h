@@ -2,9 +2,9 @@
 #define GAME_RECEIVER_PROXY_THREAD_H
 
 #include <connector/connector.h>
-#include <blocking_queue.h>
+#include <thread_safe_queue.h>
 #include <thread.h>
-#include <protocol/protocol.h>
+#include <protocol/protocol_code.h>
 
 #include <mutex>
 

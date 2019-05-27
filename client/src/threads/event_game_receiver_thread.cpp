@@ -23,12 +23,16 @@ void EventGameReceiverThread::receive_event(){
                 break;
             case player_wins:
                 {    
-                    this->game.stop();
+                    GameActionName quitGame = quit_game;
+                    this->stop();
+                    this->endQueue.push(quitGame);
                 }
                 break;
             case player_dies:
                 {
-                    this->game.stop();
+                    GameActionName quitGame = quit_game;
+                    this->stop();
+                    this->endQueue.push(quitGame);
                 }
                 break;
             case object_switch_state:
@@ -45,10 +49,10 @@ PRE: Recibe una referencia a un conector (Connector &),
 ya conectado con el servidor del juego.
 POST: Inicializa un hilo recibidor de eventos del juego.
 */
-EventGameReceiverThread::EventGameReceiverThread(Connector & connetor, 
+EventGameReceiverThread::EventGameReceiverThread(Connector & connector, 
     ThreadSafeQueue<std::unique_ptr<ObjectMovesEvent>> & changesQueue,
-    Game & game)
-: connector(connector), changesQueue(changesQueue), game(game), isDead(true) {}
+    BlockingQueue<GameActionName> & endQueue)
+: connector(connector), changesQueue(changesQueue), endQueue(endQueue), isDead(true) {}
 
 /*Destruye el hilo recibidor de eventos del juego*/
 EventGameReceiverThread::~EventGameReceiverThread() = default;
@@ -61,8 +65,11 @@ del juego, los procesa y encola en la cola de
 cambios con que se inicializo.
 */
 void EventGameReceiverThread::run(){
-    try {
+    {
+        std::unique_lock<std::mutex> l(this->mutex);
         this->isDead = false;
+    }
+    try {
         while (! this->is_dead()){
             this->receive_event();
         }
@@ -75,9 +82,10 @@ void EventGameReceiverThread::run(){
 Detiene la ejecucion del hilo.
 */
 void EventGameReceiverThread::stop(){
+    std::unique_lock<std::mutex> l(this->mutex);
     if (! this->isDead){
         this->isDead = true;
-        this->connector.shutDownRD();
+        //this->connector.shutDownRD();
     }
 }
 
@@ -86,5 +94,6 @@ Devuelve true si el hilo esta muerto;
 false en caso contrario.
 */
 bool EventGameReceiverThread::is_dead(){
+    std::unique_lock<std::mutex> l(this->mutex);
     return this->isDead;
 }

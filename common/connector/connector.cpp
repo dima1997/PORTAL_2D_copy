@@ -102,6 +102,6 @@ void Connector::shutDownRD() {
 }
 
 /*Cierra la conexion de escritura.*/
-void Connector::shuwDownWR() {
+void Connector::shutDownWR() {
     this->socket.shutDownWR();
 }

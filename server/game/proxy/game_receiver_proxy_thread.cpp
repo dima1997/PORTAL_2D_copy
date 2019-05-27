@@ -1,9 +1,9 @@
 #include "game_receiver_proxy_thread.h"
 
 #include <connector/connector.h>
-#include <blocking_queue.h>
+#include <thread_safe_queue.h>
 #include <thread.h>
-#include <protocol/protocol.h>
+#include <protocol/protocol_code.h>
 
 #include <mutex>
 
@@ -13,7 +13,7 @@ GameReceiverProxyThread::GameReceiverProxyThread(Connector & connector,
     
 GameReceiverProxyThread::~GameReceiverProxyThread() = default;
     
-void run(){
+void GameReceiverProxyThread::run(){
     {
         std::unique_lock<std::mutex> l(this->mutex);
         this->isDead = false;
@@ -23,7 +23,10 @@ void run(){
             uint8_t actionNameExplicit;
             this->connector >> actionNameExplicit;
             GameActionName actionName = (GameActionName) actionNameExplicit;
-            this->changesAsk.push(actionNameExplicit);
+            this->changesAsk.push(actionName);
+            if (actionName == quit_game){
+                this->stop();
+            }
         }
         this->stop();
     } catch (SocketException & error){
@@ -32,15 +35,15 @@ void run(){
 
 }
 
-void stop(){
+void GameReceiverProxyThread::stop(){
     std::unique_lock<std::mutex> l(this->mutex);
     if (!this->isDead){
         this->isDead = true;
-        this->connector.shutDownRD();
+        //this->connector.shutDownRD();
     }
 }
 
-bool is_dead(){
+bool GameReceiverProxyThread::is_dead(){
     std::unique_lock<std::mutex> l(this->mutex);
     return this->isDead;
 }

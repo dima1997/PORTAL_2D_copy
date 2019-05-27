@@ -1,5 +1,6 @@
 #include "thread_safe_queue.h"
 
+#include <protocol/protocol_code.h>
 #include <memory>
 
 /*
@@ -53,5 +54,5 @@ bool ThreadSafeQueue<T>::pop(T &element) {
 // To use this template just add here, for example:
 //template class ThreadSafaQueue<int>;
 template class ThreadSafeQueue<std::unique_ptr<ObjectMovesEvent>>;
-template class ThreadSafeQueue<gameActionName>;
+template class ThreadSafeQueue<GameActionName>;
 

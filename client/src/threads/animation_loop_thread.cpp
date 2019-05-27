@@ -32,7 +32,10 @@ AnimationLoopThread::~AnimationLoopThread(){
 Ejecuta el hilo: loop de animaciones
 */
 void AnimationLoopThread::run(){
-    this->isDead = false;
+    {
+        std::unique_lock<std::mutex> l(this->mutex);
+        this->isDead = false;
+    }
     unsigned t0, t1, t2;
     double timeWaitMiliSeconds = TIME_WAIT_MILI_SECONDS;
     while( ! this->is_dead() ){
@@ -63,7 +66,7 @@ void AnimationLoopThread::run(){
 Detiene el hilo: loop de animaciones.
 */
 void AnimationLoopThread::stop(){
-    //Debo o no debo poner mutex aqui ?
+    std::unique_lock<std::mutex> l(this->mutex);
     this->isDead = true;
 }
 
@@ -72,6 +75,6 @@ Devuelve true, si el hilo: loop de animaciones
 esta muerto; false en caso contrario.
 */
 bool AnimationLoopThread::is_dead(){
-    //Debo o no debo poner mutex aqui ?
+    std::unique_lock<std::mutex> l(this->mutex);
     return this->isDead;
 }

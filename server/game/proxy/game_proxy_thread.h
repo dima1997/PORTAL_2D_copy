@@ -3,9 +3,13 @@
 
 #include <thread.h>
 #include <connector/connector.h>
+#include <thread_safe_queue.h>
+#include <blocking_queue.h>
+#include <protocol/protocol_code.h>
 
 #include <cstdint>
 #include <mutex>
+#include <vector>
 
 class GameProxyThread : public Thread{
 private:
@@ -16,8 +20,10 @@ private:
     bool isDead;
     std::mutex mutex;
     std::vector<std::unique_ptr<Thread>> threads;
+    ThreadSafeQueue<GameActionName> changesAsk;
+    BlockingQueue<std::unique_ptr<ObjectMovesEvent>> changesMade;
 public:
-    GameProxyThread(float xChell, float yChell);
+    GameProxyThread(Connector & connector, uint32_t idChell, float xChell, float yChell);
     
     /*Destruye el hilo de juego proxy juego*/
     ~GameProxyThread();

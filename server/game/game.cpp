@@ -35,12 +35,14 @@ Game::Game(Game &&other) noexcept: id(other.id), players(std::move(other.players
 }
 
 Game::Game(uint8_t id, uint8_t map_id, Connector &connector): id(id), players(), mutex(), cv(), ready(false),
-                                                              finished(false), thread(), numberOfPlayers(3),
+                                                              finished(false), thread(), numberOfPlayers(2),
                                                               world(map_id) {
     connector << (uint8_t) command_ok;
     connector << (uint8_t) id;
     players.push_back(std::move(connector));
 }
+
+//AQUI ARRIBA CAMBIE LA CANTIDAD DE JUGADOR DE 3 A 1
 
 bool Game::addPlayer(Connector &connector) {
     std::unique_lock<std::mutex> l(mutex);
@@ -74,10 +76,12 @@ void Game::start() {
     //Prueba hardcodeada---------------------------------
 
     std::vector<std::unique_ptr<Thread>> threads;
-    int idProxyPlayer = this->players.size(); 
-    for (Connector &player : players) {
-        threads.push_back(std::move(std::unique_ptr<Thread>>(new GameProxyThread(player,idProxyPlayer-1,0.5,1.75))));
-        --idProxyPlayer;
+    for (int i = 0; i < this->players.size(); ++i) {
+        float xChell = 0.5;
+        float yChell = 1.75;
+        uint32_t idProxyPlayer = i;
+        std::unique_ptr<Thread> ptrGameProxy(new GameProxyThread(this->players[i],idProxyPlayer,xChell,yChell));
+        threads.push_back(std::move(ptrGameProxy));
     } 
     for (int i = 0; i < threads.size(); ++i){
         (*(threads[i])).start();

@@ -7,7 +7,9 @@
 #include <blocking_queue.h>
 #include <thread.h>
 #include <connector/connector.h>
-#include <protocol/protocol.h>
+#include <protocol/protocol_code.h>
+
+#include <SDL2/SDL.h>
 
 #include <cstdint>
 #include <mutex>
@@ -28,8 +30,6 @@ GameProxyThread::~GameProxyThread(){}
 
 /*Ejecuta un juego proxy.*/
 void GameProxyThread::run(){
-    ThreadSafeQueue<GameActionName> changesAsk;
-    BlockingQueue<std::unique_ptr<ObjectMovesEvent>> changesMade;
     {
         std::unique_lock<std::mutex> l(this->mutex);
         this->threads.push_back(std::move(std::unique_ptr<Thread>(new GameReceiverProxyThread(this->connector, changesAsk))));
@@ -68,7 +68,7 @@ void GameProxyThread::run(){
         }
         t1 = clock();
         double timeSpendMiliSeconds = (double(t1-t0)/CLOCKS_PER_SEC) * 1000;
-        std::this_thread::sleep_for(std::chrono::miliseconds(timeWaitMiliSeconds - timeSpendMiliSeconds));
+        std::this_thread::sleep_for(std::chrono::milliseconds((int)(timeWaitMiliSeconds - timeSpendMiliSeconds)));
     }
     this->stop();
 }
@@ -76,6 +76,7 @@ void GameProxyThread::run(){
 /*Detiene la ejecucion del hilo*/
 void GameProxyThread::stop(){
     std::unique_lock<std::mutex> l(this->mutex);
+    changesMade.close();
     for (int i = 0; i < this->threads.size(); ++i){
         (*(this->threads[i])).stop();
         (*(this->threads[i])).join();

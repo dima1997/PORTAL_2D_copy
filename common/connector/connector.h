@@ -33,7 +33,7 @@ public:
     void shutDownRD();
 
     /*Cierra la conexion de escritura.*/
-    void shuwDownWR();
+    void shutDownWR();
 };
 
 

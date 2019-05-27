@@ -7,11 +7,15 @@
 #include <blocking_queue.h>
 #include <game_action.h>
 
+#include <mutex>
+
 class KeySenderThread : public Thread {
 private:
     Connector & connector;
     BlockingQueue<std::unique_ptr<GameAction>> & actionsBlockQueue;
     bool isDead;
+    std::mutex mutex;
+    
 public:
     /*
     PRE: Recibe una referencia a un conector (Connector &),

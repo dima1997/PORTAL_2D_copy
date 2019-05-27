@@ -29,8 +29,12 @@ void KeyReaderThread::process_event(SDL_Event & event){
             break;
         }
         case SDL_QUIT:
-            this->stop();
-            this->game.stop();
+            {
+                GameActionName quitGame = quit_game;
+                this->push_action(quitGame);
+                this->stop();
+                this->endQueue.push(quitGame);
+            }
             break;
     }
 } 
@@ -54,35 +58,40 @@ referencia al juego (Game &).
 POST: Inicializa un lector de eventos.
 */
 KeyReaderThread::KeyReaderThread(const Area & areaMainObject, 
-BlockingQueue<std::unique_ptr<GameAction>> & gameActions, Game & game)
+BlockingQueue<std::unique_ptr<GameAction>> & gameActions, 
+BlockingQueue<GameActionName> & endQueue)
 :   isDead(true), 
     areaMainObject(areaMainObject), 
     gameActions(gameActions), 
-    game(game) {} 
+    endQueue(endQueue) {} 
 
 /*Destruye el lector de eventos.*/
 KeyReaderThread::~KeyReaderThread(){}
 
 /*Ejecuta el lector de eventos.*/
 void KeyReaderThread::run(){
-    this->isDead = false;
+    {
+        std::unique_lock<std::mutex> l(this->mutex);
+        this->isDead = false;
+    }
     SDL_Event event;
     unsigned t0, t1, t2;
     double timeWaitMiliSeconds = TIME_WAIT_MILI_SECONDS;
     while (! this->is_dead()){
-        t0 = clock();
+        //t0 = clock();
         if (SDL_PollEvent(& event)){
             this->process_event(event);
         }
-        t1 = clock();
-        double timeSpendMiliSencods = (double(t1-t0)/CLOCKS_PER_SEC) * 1000;
-        SDL_Delay(timeWaitMiliSeconds - timeSpendMiliSencods);
+        //t1 = clock();
+        //double timeSpendMiliSencods = (double(t1-t0)/CLOCKS_PER_SEC) * 1000;
+        //SDL_Delay(timeWaitMiliSeconds - timeSpendMiliSencods);
     }
     this->stop();
 }
 
 /*Detiene la ejecucion del hilo.*/
 void KeyReaderThread::stop(){
+    std::unique_lock<std::mutex> l(this->mutex);
     this->isDead = true;
 }
 
@@ -91,5 +100,6 @@ Devuelve true si el hilo esta muerto;
 false en caso contrario.
 */
 bool KeyReaderThread::is_dead(){
+    std::unique_lock<std::mutex> l(this->mutex);
     return this->isDead;
 }
