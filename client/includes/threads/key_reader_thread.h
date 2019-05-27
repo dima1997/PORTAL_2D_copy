@@ -1,18 +1,55 @@
 #ifndef KEY_READER_THREAD_H
 #define KEY_READER_THREAD_H
 
+#include "../textures/common_texture/area.h"
+#include "../game/game.h"
+
 #include <thread.h>
-#include <thread_safe_queue.h>
+#include <blocking_queue.h>
+#include <protocol/protocol_code.h>
+#include <protocol/game_action/game_action.h>
+
+#include <SDL2/SDL.h>
+#include <cstdint>
+#include <mutex>
+
 
 class KeyReaderThread : public Thread {
 private:
     bool isDead;
-    uint32_t idObject;
-    TSQueueChangesAsk_t & changesAsk;
+    const Area & areaMainObject;
+    BlockingQueue<std::unique_ptr<GameAction>> & gameActions;
+    BlockingQueue<GameActionName> & endQueue;
+    std::mutex mutex;
+
+    /*
+    PRE: Recibe un evento de sdl (SDL_Event &).
+    POST: Procesa el evento recibido. 
+    */
+    void process_event(SDL_Event & event);
+
+    /*
+    PRE: Recibe el nombre de una accion del juego 
+    (GamaActionName).
+    POST: Encola en la cola de acciones del juego, 
+    la accion correspondiente al nombre de accion 
+    recibido.
+    */
+    void push_action(GameActionName actionName);
+
 public:
-    /*Inicializa un lector de eventos.*/
-    KeyReaderThread(uint32_t idObject, TSQueueChangesAsk_t & changesAsk);
-    // Faltaria que reciba el socket y el id de la textura que controla
+    /*
+    PRE: Recibe un referencia constante al area (const Area &) 
+    el objecto al que el lector hace referencia en cada acccion 
+    leida; una cola bloqueante de punteros unicos a acciones del 
+    juego (BlockingQueue<std::unique_ptr<GameAction>> &), y una 
+    cola bloqueane donde avisarle al juego, que se quiere salir
+    del mismo.
+    POST: Inicializa un lector de eventos.
+    */
+    KeyReaderThread(const Area & areaMainObject, 
+        BlockingQueue<std::unique_ptr<GameAction>> & gameActions, 
+        BlockingQueue<GameActionName> & endQueue);
 
     /*Destruye el lector de eventos.*/
     ~KeyReaderThread();
@@ -29,10 +66,6 @@ public:
     */
     bool is_dead();
 
-    /*
-    Envia al juego la accion a realizar.
-    */
-    void send(gameObjectAction_t action);
     
 };
 

@@ -1,12 +1,13 @@
-//
-// Created by franciscosicardi on 12/05/19.
-//
+#include "../../includes/game/game_factory.h"
 
 #include <iostream>
 #include <sstream>
+#include <connector/connector.h>
 #include <protocol/protocol_code.h>
 #include <portal_exception.h>
-#include "game_factory.h"
+
+#include <iostream>
+#include <sstream>
 
 GameFactory::GameFactory() = default;
 

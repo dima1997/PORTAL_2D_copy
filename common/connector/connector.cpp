@@ -95,3 +95,13 @@ Connector &Connector::operator>>(float &number) {
 }
 
 Connector::~Connector() = default;
+
+/*Cierra la conexion de lectura.*/
+void Connector::shutDownRD() {
+    this->socket.shutDownRD();
+}
+
+/*Cierra la conexion de escritura.*/
+void Connector::shutDownWR() {
+    this->socket.shutDownWR();
+}

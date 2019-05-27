@@ -1,9 +1,11 @@
 #include "../../includes/threads/animation_loop_thread.h"
 
-#include <thread.h>
-#include <thread_safe_queue.h>
 #include "../../includes/window/window.h"
 #include "../../includes/textures/common_texture/texture_move_change.h"
+
+#include <thread.h>
+#include <thread_safe_queue.h>
+#include <protocol/event/object_moves_event.h>
 
 #include <SDL2/SDL.h>
 
@@ -16,14 +18,8 @@ ventana (TSQueueChangesMade_t &).
 POST: Inicializa un loop de animaciones.
 */
 AnimationLoopThread::AnimationLoopThread(Window &window, 
-TSQueueChangesMade_t & changesMade)
+ThreadSafeQueue<std::unique_ptr<ObjectMovesEvent>> & changesMade)
 : window(window), changesMade(changesMade), isDead(true) {}
-
-/*
-AnimationLoopThread::AnimationLoopThread(Window &window, 
-queueChangesMade_t & changesMade)
-: window(window), changesMade(changesMade), isDead(true) {}
-*/
 
 /*
 Destruye el hilo: loop de animaciones. 
@@ -36,7 +32,10 @@ AnimationLoopThread::~AnimationLoopThread(){
 Ejecuta el hilo: loop de animaciones
 */
 void AnimationLoopThread::run(){
-    this->isDead = false;
+    {
+        std::unique_lock<std::mutex> l(this->mutex);
+        this->isDead = false;
+    }
     unsigned t0, t1, t2;
     double timeWaitMiliSeconds = TIME_WAIT_MILI_SECONDS;
     while( ! this->is_dead() ){
@@ -44,12 +43,12 @@ void AnimationLoopThread::run(){
         t2=clock();
         double timeProcessMiliSeconds = (double(t2-t0)/CLOCKS_PER_SEC) * 1000;
         while (! (timeProcessMiliSeconds > timeWaitMiliSeconds) ){
-            std::unique_ptr<ObjectMovesEvent> ptrChange;
-            if (! this->changesMade.pop(ptrChange)){
+            std::unique_ptr<ObjectMovesEvent> ptrEvent;
+            if (! this->changesMade.pop(ptrEvent)){
                 break;
             }
-            ObjectMovesEvent change = *(ptrChange);
-            TextureMoveChange textureChange(change);
+            ObjectMovesEvent event = *(ptrEvent);
+            TextureMoveChange textureChange(event);
             textureChange.change(this->window);
             t2=clock();
             timeProcessMiliSeconds = (double(t2-t0)/CLOCKS_PER_SEC) * 1000;
@@ -67,7 +66,7 @@ void AnimationLoopThread::run(){
 Detiene el hilo: loop de animaciones.
 */
 void AnimationLoopThread::stop(){
-    //Debo o no debo poner mutex aqui ?
+    std::unique_lock<std::mutex> l(this->mutex);
     this->isDead = true;
 }
 
@@ -76,6 +75,6 @@ Devuelve true, si el hilo: loop de animaciones
 esta muerto; false en caso contrario.
 */
 bool AnimationLoopThread::is_dead(){
-    //Debo o no debo poner mutex aqui ?
+    std::unique_lock<std::mutex> l(this->mutex);
     return this->isDead;
 }

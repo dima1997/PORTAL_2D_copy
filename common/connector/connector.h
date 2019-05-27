@@ -28,6 +28,12 @@ public:
     Connector &operator>>(uint32_t &number);
     Connector &operator<<(const float &number);
     Connector &operator>>(float &number);
+    
+    /*Cierra la conexion de lectura.*/
+    void shutDownRD();
+
+    /*Cierra la conexion de escritura.*/
+    void shutDownWR();
 };
 
 

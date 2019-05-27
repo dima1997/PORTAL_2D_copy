@@ -5,12 +5,14 @@
 #include <thread.h>
 #include <thread_safe_queue.h>
 
+#include <mutex>
 
 class AnimationLoopThread : public Thread{
 private:
     Window & window;
     TSQueueChangesMade_t & changesMade;
     bool isDead;
+    std::mutex mutex;
 public:
     /*
     PRE: Recibe donde ventana (Window &) donde se renderizan las texturas; 

@@ -1,11 +1,9 @@
-//
-// Created by franciscosicardi on 10/05/19.
-//
+#include "../../includes/game/client.h"
 
+#include "../../includes/game/game_factory.h"
+
+#include <protocol/protocol_code.h>
 #include <iostream>
-#include "client.h"
-#include "protocol/protocol_code.h"
-#include "game_factory.h"
 
 Client::Client() = default;
 

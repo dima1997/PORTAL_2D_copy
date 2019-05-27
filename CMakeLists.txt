@@ -40,13 +40,13 @@ set(CLIENT_NAME "PORTAL")
 set(CLIENT_FOLDER "client")
 file(GLOB client_files
         "${CLIENT_FOLDER}/main.cpp"
-        "${CLIENT_FOLDER}/src/client.cpp"
-        "${CLIENT_FOLDER}/src/game.cpp"
-        "${CLIENT_FOLDER}/src/game_factory.cpp"
-        "${CLIENT_FOLDER}/src/threads/game_proxy_thread.cpp"
+        "${CLIENT_FOLDER}/src/game/client.cpp"
+        "${CLIENT_FOLDER}/src/game/game.cpp"
+        "${CLIENT_FOLDER}/src/game/game_factory.cpp"
         "${CLIENT_FOLDER}/src/threads/key_reader_thread.cpp"
         "${CLIENT_FOLDER}/src/threads/animation_loop_thread.cpp"
-        "${CLIENT_FOLDER}/src/tests/animation_tests_2.cpp"
+        "${CLIENT_FOLDER}/src/threads/key_sender_thread.cpp"
+        "${CLIENT_FOLDER}/src/threads/event_game_receiver_thread.cpp"
         "${CLIENT_FOLDER}/src/window/window.cpp"
         "${CLIENT_FOLDER}/src/window/os_exception.cpp"
         "${CLIENT_FOLDER}/src/textures/common_texture/area.cpp"
@@ -65,9 +65,9 @@ file(GLOB client_files
         "${CLIENT_FOLDER}/src/textures/chell_texture/chell_sprite_strategy.cpp"
         "${CLIENT_FOLDER}/src/textures/chell_texture/chell_run_right_sprite.cpp"
         "${CLIENT_FOLDER}/src/textures/chell_texture/chell_sweat_right_sprite.cpp"
-	    "${CLIENT_FOLDER}/src/textures/chell_texture/chell_jump_apex_right_sprite.cpp"
-	    "${CLIENT_FOLDER}/src/textures/chell_texture/chell_jump_rise_right_sprite.cpp"
-	    "${CLIENT_FOLDER}/src/textures/chell_texture/chell_jump_fall_right_sprite.cpp"
+	"${CLIENT_FOLDER}/src/textures/chell_texture/chell_jump_apex_right_sprite.cpp"
+	"${CLIENT_FOLDER}/src/textures/chell_texture/chell_jump_rise_right_sprite.cpp"
+	"${CLIENT_FOLDER}/src/textures/chell_texture/chell_jump_fall_right_sprite.cpp"
         )
 
 add_executable(${CLIENT_NAME} ${common_files} ${client_files})
