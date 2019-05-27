@@ -47,7 +47,7 @@ void Chell::move(float32 xSpeed, float32 ySpeed) {
 }
 
 void Chell::moveRight() {
-    move(1.0f, 0.0f);
+    move(2.0f, 0.0f); //1.0f
 }
 
 void Chell::jump() {

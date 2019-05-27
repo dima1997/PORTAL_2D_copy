@@ -86,7 +86,7 @@ void World::moveChellLeft(uint8_t i) {
 void World::moveChellRight(uint8_t i) {
     // TODO: generalize
     for (auto *chell : chells) {
-        if (chell->getId() == i) {
+        if (chell->getPlayerId() == i) { // AQUIIIIIIIIIIIIII habias puesto getId() en vez de getPlayerId()
             chell->moveRight();
             return;
         }

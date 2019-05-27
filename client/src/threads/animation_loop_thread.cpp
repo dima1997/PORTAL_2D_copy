@@ -9,7 +9,10 @@
 
 #include <SDL2/SDL.h>
 
+#include <iostream>
+
 #define TIME_WAIT_MILI_SECONDS 75
+#define TIME_WAIT_MICRO_SECONDS 70000
 
 /*
 PRE: Recibe donde ventana (Window &) donde se renderizan las texturas; 
@@ -37,12 +40,15 @@ void AnimationLoopThread::run(){
         this->isDead = false;
     }
     unsigned t0, t1, t2;
-    double timeWaitMiliSeconds = TIME_WAIT_MILI_SECONDS;
+    //double timeWaitMiliSeconds = TIME_WAIT_MILI_SECONDS;
+    double timeWaitMicroSeconds = TIME_WAIT_MICRO_SECONDS;
     while( ! this->is_dead() ){
         t0=clock();
         t2=clock();
-        double timeProcessMiliSeconds = (double(t2-t0)/CLOCKS_PER_SEC) * 1000;
-        while (timeProcessMiliSeconds <= timeWaitMiliSeconds){
+        //double timeProcessMiliSeconds = (double(t2-t0)/CLOCKS_PER_SEC) * 1000;
+        double timeProcessMicroSeconds = (double(t2-t0)/CLOCKS_PER_SEC) * 1000000;
+        //while (timeProcessMiliSeconds <= timeWaitMiliSeconds){
+        while (timeProcessMicroSeconds <= timeWaitMicroSeconds){
             std::unique_ptr<ObjectMovesEvent> ptrEvent;
             if (! this->changesMade.pop(ptrEvent)){
                 break;
@@ -51,13 +57,16 @@ void AnimationLoopThread::run(){
             TextureMoveChange textureChange(event);
             textureChange.change(this->window);
             t2=clock();
-            timeProcessMiliSeconds = (double(t2-t0)/CLOCKS_PER_SEC) * 1000;
+            timeProcessMicroSeconds = (double(t2-t0)/CLOCKS_PER_SEC) * 1000000;
         }
         window.fill();
         window.render();
         t1 = clock();
-        double timeSpendMiliSeconds = (double(t1-t0)/CLOCKS_PER_SEC) * 1000;
-        SDL_Delay(timeWaitMiliSeconds - timeSpendMiliSeconds);
+        //double timeSpendMiliSeconds = (double(t1-t0)/CLOCKS_PER_SEC) * 1000;
+        double timeSpendMicroSeconds = (double(t1-t0)/CLOCKS_PER_SEC) * 1000000;
+        std::cout << "Se consumio : " << timeSpendMicroSeconds << " microsegundos\n";
+        std::this_thread::sleep_for(std::chrono::microseconds((int)(timeWaitMicroSeconds - timeSpendMicroSeconds)));
+        //SDL_Delay(timeWaitMiliSeconds - timeSpendMiliSeconds);
     }
     this->stop();
 }

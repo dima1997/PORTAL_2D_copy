@@ -12,7 +12,7 @@ void GameManager::addGame(Connector &connector, uint8_t map_id) {
     std::unique_lock<std::mutex> l(mutex);
     uint8_t game_id = this->getKey();
     Game game(game_id, map_id, connector);
-    games.insert(std::make_pair(game_id, std::move(game))); //{}
+    games.insert(std::make_pair(game_id, std::move(game)));
     games.at(game_id).startIfReady();
     this->eraseFinished();
 }
