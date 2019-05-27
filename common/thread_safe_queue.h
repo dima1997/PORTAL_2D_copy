@@ -21,6 +21,10 @@ public:
     */
     ThreadSafeQueue();
 
+    ThreadSafeQueue(ThreadSafeQueue<T> &&other) noexcept;
+
+    ThreadSafeQueue<T> &operator=(ThreadSafeQueue<T> &&other) noexcept;
+
     /*
     Destruye un la cola segura en hilos de ejecucion,
     no bloqueante. 

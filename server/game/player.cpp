@@ -6,7 +6,7 @@
 #include <protocol/event/object_moves_event.h>
 #include <portal_exception.h>
 
-Player::Player(uint32_t id, Connector &connector, BlockingQueue<GameAction *> &inQueue):
+Player::Player(uint32_t id, Connector &connector, ThreadSafeQueue<GameAction *> *inQueue):
                id(id), connector(std::move(connector)), outThread(), inThread(),
                outQueue(), inQueue(inQueue), recvMsgs(true) {}
 
@@ -38,7 +38,8 @@ void Player::recvGameActions() {
     auto *gameAction = new GameAction();
     while (stillRecvMsgs()) {
         connector >> *gameAction;
-        inQueue.push(gameAction);
+        gameAction->setPlayerId(id);
+        inQueue->push(gameAction);
     }
 }
 
@@ -63,6 +64,10 @@ Player::Player(Player &&other) noexcept : id(other.id), connector(std::move(othe
 
 void Player::addToQueue(Event *event) {
     outQueue.push(event);
+}
+
+void Player::setInQueue(ThreadSafeQueue<GameAction *> *inQueue) {
+    this->inQueue = inQueue;
 }
 
 Player::~Player() = default;

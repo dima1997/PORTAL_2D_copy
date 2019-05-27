@@ -1,6 +1,7 @@
 #include "thread_safe_queue.h"
 
 #include <memory>
+#include <protocol/game_action/game_action.h>
 
 /*
 Inicializa una cola segura en hilos de ejecucion,
@@ -50,8 +51,20 @@ bool ThreadSafeQueue<T>::pop(T &element) {
     return true;
 }
 
+template<class T>
+ThreadSafeQueue<T>::ThreadSafeQueue(ThreadSafeQueue<T> &&other) noexcept:
+                                    mutex(), queue(std::move(other.queue)) {}
+
+template<class T>
+ThreadSafeQueue<T> &ThreadSafeQueue<T>::operator=(ThreadSafeQueue<T> &&other) noexcept {
+    this->queue = std::move(other.queue);
+    return *this;
+}
+
 // To use this template just add here, for example:
 //template class ThreadSafaQueue<int>;
 template class ThreadSafeQueue<std::unique_ptr<ObjectMovesEvent>>;
 template class ThreadSafeQueue<std::pair<uint32_t, gameObjectAction_t>>;
+template class ThreadSafeQueue<GameAction *>;
+
 

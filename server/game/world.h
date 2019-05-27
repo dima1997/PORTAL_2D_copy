@@ -18,13 +18,20 @@ private:
     b2World *world;
     std::list<Chell *> chells;
     std::list<Body *> staticBodies;
+    int numberOfPlayers;
     void loadMap(uint8_t mapId);
 public:
     explicit World(uint8_t map_id);
     World(World &&other) noexcept;
     World &operator=(World &&other) noexcept;
     ~World();
-    void step(std::list<ObjectMovesEvent> &moved);
+    void step(std::list<ObjectMovesEvent *> &moved);
+
+    int getNumberOfPlayers();
+
+    void moveChellLeft(uint8_t i);
+
+    void moveChellRight(uint8_t i);
 };
 
 

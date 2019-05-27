@@ -15,11 +15,13 @@ class ObjectMovesEvent: public Event {
     float yPos;
 public:
     ObjectMovesEvent(int objectId, float xPos, float yPos);
+    ObjectMovesEvent();
     ~ObjectMovesEvent() override;
     uint32_t getId() const ;
     float getX() const;
     float getY() const;
     friend Connector &operator<<(Connector &out, const ObjectMovesEvent &c);
+    friend Connector &operator>>(Connector &in, ObjectMovesEvent &c);
 };
 
 

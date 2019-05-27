@@ -12,11 +12,12 @@
 #define VELOCITY_ITERATIONS 8
 #define POSITION_ITERATIONS 2
 
-World::World(uint8_t map_id): gravity(0.0f, -9.8f), world(new b2World(gravity)) {
+World::World(uint8_t map_id): gravity(0.0f, -9.8f), world(new b2World(gravity)),
+                              chells(), staticBodies(), numberOfPlayers() {
     loadMap(map_id);
 }
 
-void World::step(std::list<ObjectMovesEvent> &moved) {
+void World::step(std::list<ObjectMovesEvent *> &moved) {
 
     float32 timeStep = TIME_STEP;
 
@@ -27,13 +28,13 @@ void World::step(std::list<ObjectMovesEvent> &moved) {
 
     for(Chell *chell : chells) {
         if(chell->changedPosition()) {
-            moved.emplace_back(chell->getId(), chell->getXPos(), chell->getYPos());
+            moved.push_back(new ObjectMovesEvent(chell->getId(), chell->getXPos(), chell->getYPos()));
         }
     }
 }
 
-World::World(World &&other) noexcept: gravity(other.gravity), world(other.world),
-                                      chells(std::move(other.chells)), staticBodies(std::move(other.staticBodies)) {
+World::World(World &&other) noexcept: gravity(other.gravity), world(other.world), chells(std::move(other.chells)),
+                                      staticBodies(std::move(other.staticBodies)), numberOfPlayers(other.numberOfPlayers) {
     other.world = nullptr;
 }
 
@@ -41,6 +42,8 @@ World &World::operator=(World &&other) noexcept {
     this->gravity = other.gravity;
     this->world = other.world;
     other.world = nullptr;
+    this->staticBodies = std::move(other.staticBodies);
+    this->chells = std::move(other.chells);
     return *this;
 }
 
@@ -65,5 +68,29 @@ void World::loadMap(uint8_t mapId) {
     }
 //    chells.push_back(new Chell(*world, 0.5f, 1.75f, 0));
     chells.push_back(new Chell(*world, 0.5f, 3.75f, 0));
+    numberOfPlayers = 1;
+}
+
+int World::getNumberOfPlayers() {
+    return numberOfPlayers;
+}
+
+void World::moveChellLeft(uint8_t i) {
+    for (auto *chell : chells) {
+        if (chell->getPlayerId() == i) {
+            chell->moveLeft();
+            return;
+        }
+    }
+}
+
+void World::moveChellRight(uint8_t i) {
+    // TODO: generalize
+    for (auto *chell : chells) {
+        if (chell->getId() == i) {
+            chell->moveRight();
+            return;
+        }
+    }
 }
 

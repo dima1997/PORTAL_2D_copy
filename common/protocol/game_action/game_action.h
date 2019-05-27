@@ -9,7 +9,7 @@
 class GameAction {
 protected:
     GameActionName gameActionName;
-
+    uint32_t playerId;
 public:
     /*
     PRE: Recibe el nombre de una accion del juego (GameActionName).
@@ -64,6 +64,10 @@ public:
     friend Connector &operator>>(Connector &out, GameAction &action);
 
     GameActionName getGameActionName();
+
+    void setPlayerId(uint32_t id);
+
+    uint8_t getPlayerId();
 };
 
 #endif // GAME_ACTION_H

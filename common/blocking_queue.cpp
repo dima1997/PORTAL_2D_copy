@@ -5,7 +5,7 @@
 #include <protocol/event/event.h>
 #include <connector/connector.h>
 #include "blocking_queue.h"
-#include "game_action.h"
+#include "protocol/game_action/game_action.h"
 
 template <class T>
 BlockingQueue<T>::BlockingQueue(): mutex(), cv(), queue() {}
@@ -46,4 +46,3 @@ BlockingQueue<T>::BlockingQueue(BlockingQueue<T> &&other) noexcept:
 // To use this template just add here, for example:
 template class BlockingQueue<Connector>;
 template class BlockingQueue<Event *>;
-template class BlockingQueue<GameAction *>;

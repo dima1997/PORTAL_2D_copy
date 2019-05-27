@@ -19,25 +19,29 @@ Game &Game::operator=(Game &&other) noexcept {
     this->id = other.id;
     this->numberOfPlayers = other.numberOfPlayers;
     this->ready = other.ready;
-    this->alivePlayers = other.alivePlayers;
     this->thread = std::move(other.thread);
     this->players = std::move(other.players);
     this->world = std::move(other.world);
+    this->inQueue = std::move(inQueue);
     return *this;
 }
 
 Game::Game(Game &&other) noexcept: id(other.id), players(std::move(other.players)), mutex(), cv(),
-                                   ready(other.ready), alivePlayers(other.alivePlayers), thread(std::move(other.thread)),
+                                   ready(other.ready), thread(std::move(other.thread)),
                                    numberOfPlayers(other.numberOfPlayers), world(std::move(other.world)),
-                                   inQueue(std::move(other.inQueue)) {}
+                                   inQueue(std::move(other.inQueue)) {
+    for (auto &player : players) {
+        player.setInQueue(&inQueue);
+    }
+}
 
 Game::Game(uint8_t id, uint8_t map_id, Connector &connector): id(id), players(), mutex(), cv(), ready(false),
-                                                              alivePlayers(3), thread(), numberOfPlayers(3),
-                                                              world(map_id) {
+                                                              thread(), numberOfPlayers(), world(map_id) {
+    numberOfPlayers = world.getNumberOfPlayers();
     connector << (uint8_t) command_ok;
     connector << (uint8_t) id;
     std::unique_lock<std::mutex> l(mutex);
-    Player player(0, connector, inQueue);
+    Player player(0, connector, &inQueue);
     players.push_back(std::move(player));
 }
 
@@ -47,7 +51,7 @@ bool Game::addPlayer(Connector &connector) {
         connector << (uint8_t) command_ok;
         uint32_t playerId = players.size();
         connector << (uint8_t) playerId;
-        Player player(playerId, connector, inQueue);
+        Player player(playerId, connector, &inQueue);
         players.push_back(std::move(player));
         return true;
     }
@@ -62,25 +66,27 @@ void Game::start() {
     }
     double timeWaitMiliSeconds = TIME_WAIT_MILI_SECONDS;
     unsigned t0,t1,t2;
-    while (alivePlayers > 0){
+    while (numberOfPlayers > 0){
         t0 = clock();
         t2 = clock();
         double timeProcessMiliSeconds = (double(t2-t0)/CLOCKS_PER_SEC) * 1000;
-        while (timeProcessMiliSeconds <= timeWaitMiliSeconds && alivePlayers > 0){
+        while (timeProcessMiliSeconds <= timeWaitMiliSeconds && numberOfPlayers > 0) {
             GameAction *action;
             if (!this->inQueue.pop(action)){
                 break;
             }
+            uint8_t player_id = action->getPlayerId();
             switch (action->getGameActionName()){
                 case move_left:
-                    // move_left
+                    printf("move left");
+                    world.moveChellLeft(player_id);
                     break;
                 case move_right:
-                    // move_right
+                    world.moveChellRight(player_id);
                     break;
                 case quit_game:
                     // player stop
-                    --alivePlayers;
+                    --numberOfPlayers;
                     break;
                 case null_action:
                 default:
@@ -89,18 +95,14 @@ void Game::start() {
             t2 = clock();
             timeProcessMiliSeconds = (double(t2-t0)/CLOCKS_PER_SEC) * 1000;
         }
-        std::list<ObjectMovesEvent> moved;
-        for (int32 i = 0; i < 60; ++i) {
-            world.step(moved);
-            for(auto &event : moved) {
-                printf("x: %4.2f, y: %4.2f\n", event.getX(), event.getY());
-                for (Player &player : players) {
-                    player.addToQueue(&event);
-                }
+        std::list<ObjectMovesEvent *> moved;
+        world.step(moved);
+        for(auto event : moved) {
+            printf("x: %4.2f, y: %4.2f\n", event->getX(), event->getY());
+            for (Player &player : players) {
+                player.addToQueue(event);
             }
-            moved.clear();
         }
-        printf("\n\n");
         t1 = clock();
         double timeSpendMiliSeconds = (double(t1-t0)/CLOCKS_PER_SEC) * 1000;
         std::this_thread::sleep_for(std::chrono::milliseconds((int)(timeWaitMiliSeconds - timeSpendMiliSeconds)));
@@ -109,7 +111,6 @@ void Game::start() {
     for (Player &player : players) {
         player.addToQueue(new PlayerWinsEvent());
     }
-    std::unique_lock<std::mutex> l(mutex);
 }
 
 Game::~Game() = default;
@@ -124,8 +125,11 @@ void Game::startIfReady() {
 
 void Game::join() {
     thread.join();
+    for (auto &player : players) {
+        player.join();
+    }
 }
 
 bool Game::isFinished() {
-    return alivePlayers > 0;
+    return numberOfPlayers == 0;
 }

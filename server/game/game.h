@@ -12,6 +12,7 @@
 #include <thread>
 #include <Box2D/Common/b2Math.h>
 #include <connector/connector.h>
+#include <thread_safe_queue.h>
 #include "world.h"
 #include "player.h"
 
@@ -22,12 +23,11 @@ private:
     std::mutex mutex;
     std::condition_variable cv;
     bool ready;
-    uint8_t alivePlayers;
     std::thread thread;
     // TODO: number of players should depend on a map, map should be an attribute
     int numberOfPlayers;
     World world;
-    BlockingQueue<GameAction *> inQueue;
+    ThreadSafeQueue<GameAction *> inQueue;
     void start();
 public:
     Game(uint8_t id, uint8_t mapId, Connector &connector);

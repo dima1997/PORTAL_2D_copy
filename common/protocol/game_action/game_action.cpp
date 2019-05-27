@@ -9,7 +9,7 @@ PRE: Recibe el nombre de una accion del juego (GameActionName).
 POST: Inicializa un accion del juego.
 */
 GameAction::GameAction(GameActionName gameActionName)
-: gameActionName(gameActionName) {}
+: gameActionName(gameActionName), playerId() {}
 
 /*Destruye una accion del juego.*/
 GameAction::~GameAction() = default;
@@ -19,7 +19,7 @@ PRE: Recibe una referencia constante a otra accion del juego
 (const GameAction %).
 POST: Crea una nueva accion del juego por copia.
 */
-GameAction::GameAction(const GameAction & other): gameActionName(other.gameActionName) {}
+GameAction::GameAction(const GameAction & other): gameActionName(other.gameActionName), playerId() {}
 
 /*
 PRE: Recibe una referencia constante a otra accion del juego
@@ -32,6 +32,7 @@ GameAction & GameAction::operator=(const GameAction & other){
         return *this;
     }
     this->gameActionName = other.gameActionName;
+    this->playerId = other.playerId;
     return *this;
 }
 
@@ -75,8 +76,16 @@ Connector & operator>>(Connector &out, GameAction &action){
     return out;
 }
 
-GameAction::GameAction(): gameActionName(null_action) {}
+GameAction::GameAction(): gameActionName(null_action), playerId() {}
 
 GameActionName GameAction::getGameActionName() {
     return gameActionName;
+}
+
+void GameAction::setPlayerId(uint32_t id) {
+    playerId = id;
+}
+
+uint8_t GameAction::getPlayerId() {
+    return playerId;
 }

@@ -25,4 +25,11 @@ float ObjectMovesEvent::getY() const {
     return yPos;
 }
 
+Connector &operator>>(Connector &in, ObjectMovesEvent& e) {
+    return in >> e.objectId >> e.xPos >> e.yPos;
+}
+
+ObjectMovesEvent::ObjectMovesEvent(): Event(object_moves), objectId(),
+                                      xPos(), yPos() {}
+
 ObjectMovesEvent::~ObjectMovesEvent() = default;

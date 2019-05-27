@@ -8,10 +8,11 @@
 
 #include <thread>
 #include <mutex>
-#include <blocking_queue.h>
 #include <protocol/event/event.h>
 #include <connector/connector.h>
-#include <game_action.h>
+#include <protocol/game_action/game_action.h>
+#include <thread_safe_queue.h>
+#include <blocking_queue.h>
 
 class Player {
 private:
@@ -20,7 +21,7 @@ private:
     std::thread outThread;
     std::thread inThread;
     BlockingQueue<Event *> outQueue;
-    BlockingQueue<GameAction *> &inQueue;
+    ThreadSafeQueue<GameAction *> *inQueue;
     std::mutex mutex;
     bool recvMsgs;
     bool stillRecvMsgs();
@@ -28,12 +29,13 @@ private:
     void sendEvents();
     void recvGameActions();
 public:
-    Player(uint32_t id, Connector &connector, BlockingQueue<GameAction *> &inQueue);
+    Player(uint32_t id, Connector &connector, ThreadSafeQueue<GameAction *> *inQueue);
     Player(Player &&other) noexcept;
     ~Player();
     void start();
     void join();
     void addToQueue(Event *event);
+    void setInQueue(ThreadSafeQueue<GameAction *> *inQueue);
 };
 
 
