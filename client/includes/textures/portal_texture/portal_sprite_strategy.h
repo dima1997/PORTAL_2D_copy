@@ -26,7 +26,7 @@ public:
     Alterna el sprite del portal entre visible 
     y no visible.
     */
-    virtual switch_sprite();
+    virtual void switch_sprite();
 };
 
 #endif // PORTAL_SPRITE_STRATEGY_H

@@ -8,6 +8,7 @@
 
 #include "../../includes/textures/chell_texture/chell_texture.h"
 #include "../../includes/textures/block_metal_texture/block_metal_texture.h"
+#include "../../includes/textures/portal_texture/portal_blue_texture.h"
 
 #include "../../includes/game_objects/game_objects_size.h"
 
@@ -108,35 +109,15 @@ void Window::add_map(){
                                                 heightBlockMap));
         ++id;
     }
+    Area areaPortalMap(xBlockLast,1.75, PORTAL_WIDTH, PORTAL_HEIGHT);
+    this->add_portal_texture(id, areaPortalMap);
+    this->switch_texture(id);
+    this->switch_texture(id);
 
     Area areaChellMap(0.5, 1.75, CHELL_WIDTH, CHELL_HEIGHT);
     this->add_chell_texture(this->idMainTexture,areaChellMap);
 }
 
-/*
-PRE: Recibe:
-    La longitud y altura del ventanta en pixeles (ambos int).
-    La longitud de la ventana en la medida en que se ubican y 
-    dimensionan los objetos del mapa representados en la 
-    primera.
-POST: Inicializa una ventana de las medidas recibidas.
-Levanta SDLException en caso de error.
-*/
-/*
-Window::Window(int width, int height, int widthEquivalent)
-: width(width), height(height), widthEquivalent(widthEquivalent) {
-    int errCode = SDL_Init(SDL_INIT_VIDEO);
-    if (errCode) {
-        throw SdlException("Error en la inicialización", SDL_GetError());
-    }
-    errCode = SDL_CreateWindowAndRenderer(
-        width, height, SDL_RENDERER_ACCELERATED,
-        &this->window, &this->renderer);
-    if (errCode) {
-        throw SdlException("Error al crear ventana", SDL_GetError());
-    }
-}
-*/
 /*
 PRE: Recibe:
     La longitud y altura del ventanta en pixeles (ambos int).
@@ -288,7 +269,31 @@ void Window::add_chell_texture(uint32_t id, Area areaMap){
 }
 
 /*
-PRE: Recibe un identificador de una textura movible, 
+PRE: Recibe :
+    El id (uint32_t) de indentificacion del portal a agregar.
+    El area (Area) con las coordenadas y dimensiones del objeto
+    que representa la textura en el mapa de juego (en unidades de 
+    distancia del juego).
+POST: Agrega un nueva textura de portal azul a la ventana, bajo las 
+condiciones anteriores.
+Levanta OSException o SdlException en caso de error.
+*/
+void Window::add_portal_texture(uint32_t id, Area areaMap){
+    this->add_id_texture(id);
+    this->add_big_texture(PORTAL_SPRITES);
+    std::unique_ptr<Texture> ptrTexture(
+                                    new PortalBlueTexture(
+                                        this->bigTextures.at(
+                                            PORTAL_SPRITES
+                                        ), 
+                                        areaMap
+                                    )
+                                );
+    this->add_texture(id, std::move(ptrTexture));
+}
+
+/*
+PRE: Recibe un identificador (uint32_t) de una textura, 
 y nuevas coordenadas (float) x,y a donde desplazar la 
 textura.
 POST: Mueve la textura indicada en las coordenadas 
@@ -303,6 +308,21 @@ void Window::move_texture(uint32_t id, float x, float y){
     }
     Texture & textureOfId = *(this->allTextures.at(id));
     textureOfId.move_to(x,y);
+}
+
+/*
+PRE: Recibe un identificador (uint32_t) de una textura.
+POST: Switchea el sprite de la textura.
+Levanta OSException en caso de error. 
+*/
+void Window::switch_texture(uint32_t id){
+    if (this->allTextures.count(id) == 0){
+        std::stringstream errDescription; 
+        errDescription << "No existe textura con id : " << std::dec << id << ".";
+        throw OSException("Error en ventana:",errDescription.str().c_str());
+    }
+    Texture & textureOfId = *(this->allTextures.at(id));
+    textureOfId.switch_sprite();
 }
 
 /*

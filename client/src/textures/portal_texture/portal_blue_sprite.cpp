@@ -12,7 +12,7 @@ PortalBlueSprite::PortalBlueSprite()
             {0,0},
             {220,0},
             {440,0},
-            {660,0},
+            {666,0},
         },
         220,450
     )

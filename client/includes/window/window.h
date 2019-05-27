@@ -18,7 +18,6 @@ private:
     int width;
     int height;
     uint32_t idMainTexture;
-    //int widthEquivalent;
     SDL_Window* window;
     SDL_Renderer* renderer;
     std::map<std::string, BigTexture> bigTextures;
@@ -141,6 +140,18 @@ public:
     void add_chell_texture(uint32_t id, Area areaMap);
 
     /*
+    PRE: Recibe :
+        El id (uint32_t) de indentificacion del portal a agregar.
+        El area (Area) con las coordenadas y dimensiones del objeto
+        que representa la textura en el mapa de juego (en unidades de 
+        distancia del juego).
+    POST: Agrega un nueva textura de portal azul a la ventana, bajo las 
+    condiciones anteriores.
+    Levanta OSException o SdlException en caso de error.
+    */
+    void add_portal_texture(uint32_t id, Area areaMap);
+
+    /*
     PRE: Recibe un identificador de una textura movible, 
     y nuevas coordenadas (float) x,y a donde desplazar la 
     textura.
@@ -149,6 +160,13 @@ public:
     Levanta OSException en caso de error. 
     */
     void move_texture(uint32_t id, float x, float y);
+
+    /*
+    PRE: Recibe un identificador (uint32_t) de una textura.
+    POST: Switchea el sprite de la textura.
+    Levanta OSException en caso de error. 
+    */
+    void switch_texture(uint32_t id);
 
     /*
     Devuelve una referencia constante al area (const Area &) 

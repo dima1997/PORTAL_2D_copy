@@ -21,7 +21,7 @@ PortalSpriteStrategy::PortalSpriteStrategy()
 /*Destruye uel sprite strategy del portal.*/
 PortalSpriteStrategy::~PortalSpriteStrategy() = default;
 
-PortalSpriteStrategy::switch_sprite(){
+void PortalSpriteStrategy::switch_sprite(){
     if (this->spriteName == PORTAL_OPEN){
         this->ptrDynamicSprite.reset(new NullSprite());
         this->spriteName = PORTAL_CLOSE;

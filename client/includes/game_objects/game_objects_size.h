@@ -9,7 +9,7 @@
 #define CHELL_WIDTH 1
 #define CHELL_HEIGHT 1.5
 
-#define PORTAL_WIDTH 1
+#define PORTAL_WIDTH 1.2
 #define PORTAL_HEIGHT 1.5
 
 #endif // GAME_OBJECTS_SIZE_H

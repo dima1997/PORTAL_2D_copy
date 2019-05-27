@@ -56,6 +56,7 @@ file(GLOB client_files
         "${CLIENT_FOLDER}/src/textures/common_texture/big_texture.cpp"
         "${CLIENT_FOLDER}/src/textures/common_texture/dynamic_sprite.cpp"
         "${CLIENT_FOLDER}/src/textures/common_texture/texture_move_change.cpp"
+        "${CLIENT_FOLDER}/src/textures/common_texture/null_sprite.cpp"
         "${CLIENT_FOLDER}/src/textures/block_metal_texture/block_metal_texture.cpp"
         "${CLIENT_FOLDER}/src/textures/block_metal_texture/block_metal_sprite_strategy.cpp"
         "${CLIENT_FOLDER}/src/textures/block_metal_texture/block_metal_sprite.cpp"
