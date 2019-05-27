@@ -20,7 +20,7 @@ void RockBlock::createBody(float32 xPos, float32 yPos) {
     body = world.CreateBody(&bodyDef);
 
     b2PolygonShape box;
-    box.SetAsBox(1.0f, 1.0f);
+    box.SetAsBox(0.5f, 0.5f);
 
     body->CreateFixture(&box, 0.0f);
 }

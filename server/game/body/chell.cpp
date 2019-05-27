@@ -14,7 +14,7 @@ void Chell::createBody(float32 xPos, float32 yPos) {
     body = world.CreateBody(&bodyDef);
 
     b2PolygonShape dynamicBox;
-    dynamicBox.SetAsBox(1.5f, 1.0f);
+    dynamicBox.SetAsBox(0.75f, 0.5f);
 
     b2FixtureDef fixtureDef;
     fixtureDef.shape = &dynamicBox;
@@ -34,7 +34,7 @@ Chell::~Chell() {
 }
 
 void Chell::moveLeft() {
-    move(-5, 0);
+    move(-0.1f, 0.0f);
 }
 
 void Chell::move(float32 xSpeed, float32 ySpeed) {
@@ -42,15 +42,16 @@ void Chell::move(float32 xSpeed, float32 ySpeed) {
     float32 dvx = xSpeed - vel.x;
     float32 dvy = ySpeed - vel.y;
     float32 mass = body->GetMass();
+    printf("move: %f, %f\n", dvx, dvy);
     body->ApplyLinearImpulse(b2Vec2(mass * dvx, mass * dvy), body->GetWorldCenter(), true);
 }
 
 void Chell::moveRight() {
-    move(5, 0);
+    move(0.1f, 0.0f);
 }
 
 void Chell::jump() {
-    move(0, 5);
+    move(0.0f, 0.1f);
 }
 
 uint8_t Chell::getPlayerId() {

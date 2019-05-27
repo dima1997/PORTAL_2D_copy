@@ -78,7 +78,6 @@ void Game::start() {
             uint8_t player_id = action->getPlayerId();
             switch (action->getGameActionName()){
                 case move_left:
-                    printf("move left");
                     world.moveChellLeft(player_id);
                     break;
                 case move_right:

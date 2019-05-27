@@ -66,8 +66,7 @@ void World::loadMap(uint8_t mapId) {
         staticBodies.push_back(new RockBlock(*world, 9.5, (float32) i + 0.5));
         staticBodies.push_back(new RockBlock(*world, -7.5, (float32) i + 0.5));
     }
-//    chells.push_back(new Chell(*world, 0.5f, 1.75f, 0));
-    chells.push_back(new Chell(*world, 0.5f, 3.75f, 0));
+    chells.push_back(new Chell(*world, 0.5f, 1.75f, 0));
     numberOfPlayers = 1;
 }
 
