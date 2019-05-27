@@ -12,6 +12,7 @@
 #include <string>
 #include <cstdint>
 #include <memory>
+#include <mutex>
 
 class Window {
 private:
@@ -23,6 +24,8 @@ private:
     std::map<std::string, BigTexture> bigTextures;
     std::vector<uint32_t> ids;
     std::map<uint32_t, std::unique_ptr<Texture>> allTextures;
+    Area areaCamera;
+    std::mutex mutex;
     
     /*
     PRE: Recibe la ruta (const std::string &) de un gran textura 
@@ -173,6 +176,14 @@ public:
     de la textura de Chell principal de la ventana.
     */
     const Area getMainTextureArea();
+
+    /*
+    PRE: Recibe las coordenadas x,y (int) en pixeles 
+    de algun punto en la ventana.
+    POST: Devuelve las coordenadas x,y (float) de dicho 
+    punto en el mapa de juego. 
+    */
+    std::tuple<float,float> getMapCoords(int x, int y);
 
 };
 

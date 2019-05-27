@@ -52,7 +52,7 @@ void Game::run(){
     this->threads.push_back(std::move(std::unique_ptr<Thread>(new AnimationLoopThread(window, this->changesMade))));
     this->threads.push_back(std::move(std::unique_ptr<Thread>(new EventGameReceiverThread(this->connector, this->changesMade, endQueue))));
     this->threads.push_back(std::move(std::unique_ptr<Thread>(new KeySenderThread(this->connector, this->changesAsk))));
-    this->threads.push_back(std::move(std::unique_ptr<Thread>(new KeyReaderThread(areaChell, this->changesAsk, endQueue))));
+    this->threads.push_back(std::move(std::unique_ptr<Thread>(new KeyReaderThread(window, this->changesAsk, endQueue))));
     for (auto & thread : this->threads){
         (*thread).start();
     }

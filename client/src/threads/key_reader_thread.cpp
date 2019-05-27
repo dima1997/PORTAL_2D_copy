@@ -1,5 +1,7 @@
 #include "../../includes/threads/key_reader_thread.h"
 
+#include "../../includes/window/window.h"
+
 #include <thread.h>
 #include <blocking_queue.h>
 #include <protocol/protocol_code.h>
@@ -8,6 +10,8 @@
 #include <ctime>
 #include <memory>
 
+#include <iostream>
+
 /*
 PRE: Recibe un evento de sdl (SDL_Event &).
 POST: Procesa el evento recibido. 
@@ -15,7 +19,7 @@ POST: Procesa el evento recibido.
 void KeyReaderThread::process_event(SDL_Event & event){
     switch(event.type) {
         case SDL_KEYDOWN: {
-            auto& keyEvent = (SDL_KeyboardEvent&) event;
+            auto& keyEvent = (SDL_KeyboardEvent &) event;
             switch (keyEvent.keysym.sym) {
                 case SDLK_LEFT:
                     this->push_action(move_left);
@@ -37,6 +41,25 @@ void KeyReaderThread::process_event(SDL_Event & event){
                 this->endQueue.push(quitGame);
             }
             break;
+        case SDL_MOUSEBUTTONDOWN:
+            {
+                auto& mouseEvent = (SDL_MouseButtonEvent &) event;
+                int xWindow,yWindow;
+                xWindow = mouseEvent.x;
+                yWindow = mouseEvent.y;
+                float xMap,yMap;
+                std::tie(xMap,yMap) = this->window.getMapCoords(xWindow,yWindow);
+                std::cout << "x map : " << xMap << " ;y map : " << yMap << "\n";
+                switch (mouseEvent.button){
+                    case SDL_BUTTON_LEFT:
+                        // Envio que quiero abrir portal azul
+                        break;
+                    case SDL_BUTTON_RIGHT:
+                        // Envio que quiero abrir portal naranja
+                        break;
+                }
+            }
+            break;
     }
 } 
 
@@ -51,19 +74,19 @@ void KeyReaderThread::push_action(GameActionName actionName){
 }
 
 /*
-PRE: Recibe un referencia constante al area (const Area &) 
-el objecto al que el lector hace referencia en cada acccion 
-leida; una cola bloqueante de punteros unicos a acciones del 
-juego (BlockingQueue<std::unique_ptr<GameAction>> &), y una 
-cola bloqueante por donde indicarle al juego que se quiere 
+PRE: Recibe un referencia a la ventana donde se realizan las 
+animaciones el objecto al que el lector hace referencia en 
+cada acccion leida; una cola bloqueante de punteros unicos a 
+acciones del juego (BlockingQueue<std::unique_ptr<GameAction>> &), 
+y una cola bloqueante por donde indicarle al juego que se quiere 
 salir del mismo.
 POST: Inicializa un lector de eventos.
 */
-KeyReaderThread::KeyReaderThread(const Area & areaMainObject, 
+KeyReaderThread::KeyReaderThread(Window & window, 
 BlockingQueue<std::unique_ptr<GameAction>> & gameActions, 
 BlockingQueue<GameActionName> & endQueue)
 :   isDead(true), 
-    areaMainObject(areaMainObject), 
+    window(window), 
     gameActions(gameActions), 
     endQueue(endQueue) {} 
 

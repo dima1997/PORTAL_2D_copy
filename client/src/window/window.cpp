@@ -16,6 +16,7 @@
 #include <SDL2/SDL_image.h>
 
 #include <sstream>
+#include <mutex>
 
 /*
 PRE: Recibe la ruta (const std::string &) de un gran textura 
@@ -139,6 +140,11 @@ Window::Window(int width, int height, uint32_t idMainTexture)
         throw SdlException("Error al crear ventana", SDL_GetError());
     }
     this->add_map();
+    {
+        std::unique_lock<std::mutex> l(this->mutex);
+        Texture & mainTexture = *(this->allTextures.at(this->idMainTexture));
+        this->areaCamera = mainTexture.getVisionArea(); 
+    }
 }
 
 /*Destruye la ventana.*/
@@ -177,14 +183,18 @@ en si.
 */
 void Window::render() {
     Texture & mainTexture = *(this->allTextures.at(this->idMainTexture));
-    Area areaCamera = mainTexture.getVisionArea();
-    float adjuster = this->width/areaCamera.getWidth();
+    Area newAreaCamera = mainTexture.getVisionArea(); 
+    float adjuster = this->width/newAreaCamera.getWidth();
     for (int i = 0; i < this->ids.size(); ++i){
         uint32_t actualId = this->ids[i];
         Texture & actualTexture = *(this->allTextures.at(actualId));
-        actualTexture.render(adjuster, areaCamera);
+        actualTexture.render(adjuster, newAreaCamera);
     }
     SDL_RenderPresent(this->renderer);
+    {
+        std::unique_lock<std::mutex> l(this->mutex);
+        this->areaCamera = newAreaCamera;
+    }
 }
 
 /*
@@ -331,4 +341,29 @@ de la textura de Chell principal de la ventana.
 */
 const Area Window::getMainTextureArea() {
     return (*(this->allTextures.at(this->idMainTexture))).getAreaMap();
+}
+
+/*
+PRE: Recibe las coordenadas x,y (int) en pixeles 
+de algun punto en la ventana.
+POST: Devuelve las coordenadas x,y (float) de dicho 
+punto en el mapa de juego. 
+*/
+std::tuple<float,float> Window::getMapCoords(int x, int y){
+    Area actualAreaCamera;
+    int actualWidth;
+    int actualHeight;
+    {
+        std::unique_lock<std::mutex> l(this->mutex);
+        actualAreaCamera = this->areaCamera;
+        actualWidth = this->width;
+        actualHeight = this->height;
+    }
+    float reverseAdjuster = (actualAreaCamera.getWidth()/actualWidth);
+    float xMap = x * reverseAdjuster;
+    float yMap = y * reverseAdjuster;
+    xMap = xMap + actualAreaCamera.getX();
+    yMap = (-yMap + actualAreaCamera.getY());
+    return std::move(std::tuple<float,float>(xMap,yMap));
+
 }

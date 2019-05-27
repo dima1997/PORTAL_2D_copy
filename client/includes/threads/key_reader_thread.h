@@ -3,6 +3,7 @@
 
 #include "../textures/common_texture/area.h"
 #include "../game/game.h"
+#include "../window/window.h"
 
 #include <thread.h>
 #include <blocking_queue.h>
@@ -17,7 +18,7 @@
 class KeyReaderThread : public Thread {
 private:
     bool isDead;
-    const Area & areaMainObject;
+    Window & window;
     BlockingQueue<std::unique_ptr<GameAction>> & gameActions;
     BlockingQueue<GameActionName> & endQueue;
     std::mutex mutex;
@@ -39,15 +40,15 @@ private:
 
 public:
     /*
-    PRE: Recibe un referencia constante al area (const Area &) 
-    el objecto al que el lector hace referencia en cada acccion 
-    leida; una cola bloqueante de punteros unicos a acciones del 
-    juego (BlockingQueue<std::unique_ptr<GameAction>> &), y una 
-    cola bloqueane donde avisarle al juego, que se quiere salir
-    del mismo.
+    PRE: Recibe un referencia a la ventana donde se realizan las 
+    animaciones el objecto al que el lector hace referencia en 
+    cada acccion leida; una cola bloqueante de punteros unicos a 
+    acciones del juego (BlockingQueue<std::unique_ptr<GameAction>> &), 
+    y una cola bloqueante por donde indicarle al juego que se quiere 
+    salir del mismo.
     POST: Inicializa un lector de eventos.
     */
-    KeyReaderThread(const Area & areaMainObject, 
+    KeyReaderThread(Window & window, 
         BlockingQueue<std::unique_ptr<GameAction>> & gameActions, 
         BlockingQueue<GameActionName> & endQueue);
 
