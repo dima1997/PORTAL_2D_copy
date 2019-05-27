@@ -6,8 +6,8 @@
 #define PORTAL_SERVER_H
 
 
-#include "blocking_queue.h"
-#include "connector/connector.h"
+#include <blocking_queue.h>
+#include <connector/connector.h>
 #include "thread_pool.h"
 #include "client_acceptor.h"
 #include "../game/game.h"

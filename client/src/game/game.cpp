@@ -70,7 +70,6 @@ void Game::stop(){
         (*(this->threads[i])).join();
     }
     this->isDead = true; 
-    //this->cv.notify_one();
 }
 
 /*Devuelve true si el hilo esta muerto.*/

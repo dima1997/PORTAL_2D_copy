@@ -6,8 +6,8 @@
 #define PORTAL_REQUEST_EXECUTOR_H
 
 #include <thread>
-#include "blocking_queue.h"
-#include "connector/connector.h"
+#include <blocking_queue.h>
+#include <connector/connector.h>
 #include "../game/game_manager.h"
 
 class RequestExecutor {

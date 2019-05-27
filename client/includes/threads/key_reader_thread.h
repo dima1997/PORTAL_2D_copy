@@ -13,6 +13,7 @@
 #include <cstdint>
 #include <mutex>
 
+
 class KeyReaderThread : public Thread {
 private:
     bool isDead;

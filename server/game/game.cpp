@@ -6,17 +6,9 @@
 #include <Box2D/Dynamics/b2Body.h>
 #include <Box2D/Collision/Shapes/b2PolygonShape.h>
 #include <Box2D/Dynamics/b2Fixture.h>
+#include <protocol/protocol_code.h>
+#include <protocol/object_moves_event.h>
 #include "game.h"
-#include "protocol/protocol_code.h"
-#include "protocol/object_moves_event.h"
-
-//Prueba hardcodeada---------------------------------
-#include "proxy/game_proxy_thread.h"
-#include <thread.h>
-#include <connector/connector.h>
-#include <vector>
-
-//Prueba hardcodeada---------------------------------
 
 Game &Game::operator=(Game &&other) noexcept {
     this->id = other.id;

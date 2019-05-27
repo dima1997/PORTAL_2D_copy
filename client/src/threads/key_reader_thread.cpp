@@ -78,13 +78,9 @@ void KeyReaderThread::run(){
     unsigned t0, t1, t2;
     double timeWaitMiliSeconds = TIME_WAIT_MILI_SECONDS;
     while (! this->is_dead()){
-        //t0 = clock();
         if (SDL_PollEvent(& event)){
             this->process_event(event);
         }
-        //t1 = clock();
-        //double timeSpendMiliSencods = (double(t1-t0)/CLOCKS_PER_SEC) * 1000;
-        //SDL_Delay(timeWaitMiliSeconds - timeSpendMiliSencods);
     }
     this->stop();
 }

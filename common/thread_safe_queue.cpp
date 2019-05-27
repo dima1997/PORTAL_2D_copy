@@ -1,6 +1,7 @@
 #include "thread_safe_queue.h"
 
 #include <protocol/protocol_code.h>
+
 #include <memory>
 
 /*

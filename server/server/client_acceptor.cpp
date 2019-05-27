@@ -6,7 +6,6 @@
 #include <sstream>
 #include <string>
 #include "client_acceptor.h"
-#include "connector/connector.h"
 
 ClientAcceptor::ClientAcceptor(std::string &port, BlockingQueue<Connector> &queue):
                acceptorSocket(), queue(queue) {
