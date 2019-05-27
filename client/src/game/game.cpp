@@ -22,8 +22,8 @@ Game::Game(Connector &connector, uint8_t game_id, uint8_t player_id)
     isDead(true) {}
 
 void Game::operator()() {
-    uint8_t finished;
-    connector >> finished;
+//    uint8_t finished;
+//    connector >> finished;
     this->run();
 }
 
@@ -53,8 +53,8 @@ void Game::run(){
     this->threads.push_back(std::move(std::unique_ptr<Thread>(new EventGameReceiverThread(this->connector, this->changesMade, endQueue))));
     this->threads.push_back(std::move(std::unique_ptr<Thread>(new KeySenderThread(this->connector, this->changesAsk))));
     this->threads.push_back(std::move(std::unique_ptr<Thread>(new KeyReaderThread(areaChell, this->changesAsk, endQueue))));
-    for (int i = 0; i < this->threads.size(); ++i){
-        (*(this->threads[i])).start();
+    for (auto & thread : this->threads){
+        (*thread).start();
     }
     GameActionName actionName;
     endQueue.pop(actionName);

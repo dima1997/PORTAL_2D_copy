@@ -42,7 +42,7 @@ void AnimationLoopThread::run(){
         t0=clock();
         t2=clock();
         double timeProcessMiliSeconds = (double(t2-t0)/CLOCKS_PER_SEC) * 1000;
-        while (! (timeProcessMiliSeconds > timeWaitMiliSeconds) ){
+        while (timeProcessMiliSeconds <= timeWaitMiliSeconds){
             std::unique_ptr<ObjectMovesEvent> ptrEvent;
             if (! this->changesMade.pop(ptrEvent)){
                 break;

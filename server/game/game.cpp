@@ -11,9 +11,10 @@
 #include <protocol/event/player_wins_event.h>
 #include <portal_exception.h>
 #include <chrono>
+#include <protocol/event/player_dies_event.h>
 #include "game.h"
 
-#define TIME_WAIT_MILI_SECONDS 75
+#define TIME_WAIT_MILI_SECONDS 100
 
 Game &Game::operator=(Game &&other) noexcept {
     this->id = other.id;
@@ -86,6 +87,7 @@ void Game::start() {
                 case quit_game:
                     // player stop
                     --numberOfPlayers;
+                    players.at(player_id).addToQueue(new PlayerDiesEvent());
                     break;
                 case null_action:
                 default:

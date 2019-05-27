@@ -11,13 +11,14 @@ void EventGameReceiverThread::receive_event(){
     try {
         uint8_t gameEventFromConnector;
         this->connector >> gameEventFromConnector;
-        EventType gameEvent = (EventType) gameEventFromConnector;
+        auto gameEvent = (EventType) gameEventFromConnector;
         switch (gameEvent){
             case object_moves:
                 {
                     std::unique_ptr<ObjectMovesEvent> ptrEvent(
                                         new ObjectMovesEvent(0,0,0));
                     this->connector >> (*ptrEvent);
+                    printf("id:%u, x: %f, y: %f\n", ptrEvent->getId(), ptrEvent->getX(), ptrEvent->getY());
                     this->changesQueue.push(ptrEvent);       
                 }
                 break;

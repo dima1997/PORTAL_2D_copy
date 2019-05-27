@@ -5,6 +5,8 @@
 #include "player.h"
 #include <protocol/event/object_moves_event.h>
 #include <portal_exception.h>
+#include <protocol/event/player_dies_event.h>
+#include <protocol/event/player_wins_event.h>
 
 Player::Player(uint32_t id, Connector &connector, ThreadSafeQueue<GameAction *> *inQueue):
                id(id), connector(std::move(connector)), outThread(), inThread(),
@@ -25,7 +27,11 @@ void Player::sendEvents() {
                 connector << *(ObjectMovesEvent *) event;
                 break;
             case player_wins:
+                connector << *(PlayerWinsEvent *) event;
+                break;
             case player_dies:
+                connector << *(PlayerDiesEvent *) event;
+                break;
             case object_switch_state:
             default:
                 throw PortalException("Command unknown");

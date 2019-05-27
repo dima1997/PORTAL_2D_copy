@@ -17,7 +17,7 @@ POST: Procesa el evento recibido.
 void KeyReaderThread::process_event(SDL_Event & event){
     switch(event.type) {
         case SDL_KEYDOWN: {
-            SDL_KeyboardEvent& keyEvent = (SDL_KeyboardEvent&) event;
+            auto& keyEvent = (SDL_KeyboardEvent&) event;
             switch (keyEvent.keysym.sym) {
                 case SDLK_LEFT:
                     this->push_action(move_left);
@@ -66,7 +66,7 @@ BlockingQueue<GameActionName> & endQueue)
     endQueue(endQueue) {} 
 
 /*Destruye el lector de eventos.*/
-KeyReaderThread::~KeyReaderThread(){}
+KeyReaderThread::~KeyReaderThread() = default;
 
 /*Ejecuta el lector de eventos.*/
 void KeyReaderThread::run(){
