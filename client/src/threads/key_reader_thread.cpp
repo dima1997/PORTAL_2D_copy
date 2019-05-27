@@ -8,8 +8,6 @@
 #include <ctime>
 #include <memory>
 
-#define TIME_WAIT_MILI_SECONDS 75
-
 /*
 PRE: Recibe un evento de sdl (SDL_Event &).
 POST: Procesa el evento recibido. 
@@ -25,7 +23,10 @@ void KeyReaderThread::process_event(SDL_Event & event){
                 case SDLK_RIGHT:
                     this->push_action(move_right);
                     break;
-            } // Fin KEY_DOWN
+                case SDLK_UP:
+                    this->push_action(jump);
+                    break;
+            }
             break;
         }
         case SDL_QUIT:
@@ -54,7 +55,8 @@ PRE: Recibe un referencia constante al area (const Area &)
 el objecto al que el lector hace referencia en cada acccion 
 leida; una cola bloqueante de punteros unicos a acciones del 
 juego (BlockingQueue<std::unique_ptr<GameAction>> &), y una 
-referencia al juego (Game &).
+cola bloqueante por donde indicarle al juego que se quiere 
+salir del mismo.
 POST: Inicializa un lector de eventos.
 */
 KeyReaderThread::KeyReaderThread(const Area & areaMainObject, 
@@ -75,8 +77,6 @@ void KeyReaderThread::run(){
         this->isDead = false;
     }
     SDL_Event event;
-    unsigned t0, t1, t2;
-    double timeWaitMiliSeconds = TIME_WAIT_MILI_SECONDS;
     while (! this->is_dead()){
         if (SDL_PollEvent(& event)){
             this->process_event(event);

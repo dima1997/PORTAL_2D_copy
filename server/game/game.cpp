@@ -14,10 +14,8 @@
 #include <protocol/event/player_dies_event.h>
 #include "game.h"
 
-#include <iostream>
-
-#define TIME_WAIT_MILI_SECONDS 100
 #define TIME_WAIT_MICRO_SECONDS 10000
+#define ONE_SECOND_EQ_MICRO_SECONDS 100000 
 
 Game &Game::operator=(Game &&other) noexcept {
     this->id = other.id;
@@ -68,15 +66,12 @@ void Game::start() {
     for(auto &player : players) {
         player.start();
     }
-    //double timeWaitMiliSeconds = TIME_WAIT_MILI_SECONDS;
     double timeWaitMicroSeconds = TIME_WAIT_MICRO_SECONDS;
     unsigned t0,t1,t2;
     while (numberOfPlayers > 0){
         t0 = clock();
         t2 = clock();
-        //double timeProcessMiliSeconds = (double(t2-t0)/CLOCKS_PER_SEC) * 1000;
-        double timeProcessMicroSeconds = (double(t2-t0)/CLOCKS_PER_SEC) * 1000000;
-        //while (timeProcessMiliSeconds <= timeWaitMiliSeconds && numberOfPlayers > 0) {
+        double timeProcessMicroSeconds = (double(t2-t0)/CLOCKS_PER_SEC) * ONE_SECOND_EQ_MICRO_SECONDS;
         while (timeProcessMicroSeconds <= timeWaitMicroSeconds && numberOfPlayers > 0) {
             GameAction *action;
             if (!this->inQueue.pop(action)){
@@ -90,6 +85,9 @@ void Game::start() {
                 case move_right:
                     world.moveChellRight(player_id);
                     break;
+                case jump:
+                    world.makeChellJump(player_id);
+                    break;
                 case quit_game:
                     // player stop
                     --numberOfPlayers;
@@ -100,8 +98,7 @@ void Game::start() {
                     throw PortalException("Null action");
             }
             t2 = clock();
-            //timeProcessMiliSeconds = (double(t2-t0)/CLOCKS_PER_SEC) * 1000;
-            timeProcessMicroSeconds = (double(t2-t0)/CLOCKS_PER_SEC) * 1000000;
+            timeProcessMicroSeconds = (double(t2-t0)/CLOCKS_PER_SEC) * ONE_SECOND_EQ_MICRO_SECONDS;
         }
         std::list<ObjectMovesEvent *> moved;
         world.step(moved);
@@ -112,10 +109,7 @@ void Game::start() {
             }
         }
         t1 = clock();
-        //double timeSpendMiliSeconds = (double(t1-t0)/CLOCKS_PER_SEC) * 1000;
-        double timeSpendMicroSeconds = (double(t1-t0)/CLOCKS_PER_SEC) * 1000000;
-        std::cout << "Se consumio : " << timeSpendMicroSeconds << " microsegundos \n";
-        //std::this_thread::sleep_for(std::chrono::milliseconds((int)(timeWaitMiliSeconds - timeSpendMiliSeconds)));
+        double timeSpendMicroSeconds = (double(t1-t0)/CLOCKS_PER_SEC) * ONE_SECOND_EQ_MICRO_SECONDS;
         std::this_thread::sleep_for(std::chrono::microseconds((int)(timeWaitMicroSeconds - timeSpendMicroSeconds)));
     }
 

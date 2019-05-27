@@ -86,7 +86,6 @@ void EventGameReceiverThread::stop(){
     std::unique_lock<std::mutex> l(this->mutex);
     if (! this->isDead){
         this->isDead = true;
-        //this->connector.shutDownRD();
     }
 }
 

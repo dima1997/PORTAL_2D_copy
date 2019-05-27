@@ -34,7 +34,7 @@ Chell::~Chell() {
 }
 
 void Chell::moveLeft() {
-    move(-2.0f, 0.0f);
+    move(-3.0f, 0.0f); // -2.0
 }
 
 void Chell::move(float32 xSpeed, float32 ySpeed) {
@@ -47,11 +47,11 @@ void Chell::move(float32 xSpeed, float32 ySpeed) {
 }
 
 void Chell::moveRight() {
-    move(2.0f, 0.0f); //1.0f
+    move(3.0f, 0.0f); // cambiado a 5.0f, antes era 1.0f (by Dima)
 }
 
 void Chell::jump() {
-    move(0.0f, 0.5f);
+    move(0.0f, 7.0f); // 0.5f
 }
 
 uint8_t Chell::getPlayerId() {

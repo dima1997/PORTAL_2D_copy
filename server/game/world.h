@@ -32,6 +32,8 @@ public:
     void moveChellLeft(uint8_t i);
 
     void moveChellRight(uint8_t i);
+
+    void makeChellJump(uint8_t i);
 };
 
 
