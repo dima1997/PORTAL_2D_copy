@@ -54,7 +54,7 @@ void Texture::move_to(float x, float y){
     float xNow = x;
     float yNow = y;
     this->areaMap.setX(xNow);
-    this->areaMap.setX(yNow);
+    this->areaMap.setY(yNow);
     (*this->ptrSpriteStrategy).move(xBefore, yBefere, xNow, yNow);
 }
 
