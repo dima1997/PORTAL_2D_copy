@@ -53,10 +53,11 @@ void EventGameReceiverThread::receive_event(){
                 break;
             case object_switch_state:
             {
-                std::unique_ptr<ObjectSwitchEvent> ptrEvent(
+                std::unique_ptr<Event> ptrEvent(
                                         new ObjectSwitchEvent());
                 this->connector >> (*ptrEvent);
-                std::cout << "Se recibio un evento de switch en el objeto de id: " << ptrEvent->getObjectId() << "\n";
+                //std::cout << "Se recibio un evento de switch en el objeto de id: " << ptrEvent->getObjectId() << "\n";
+                this->changesQueue.push(ptrEvent);
                 break;
             }
         }

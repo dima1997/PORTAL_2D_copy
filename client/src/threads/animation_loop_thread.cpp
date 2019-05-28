@@ -1,6 +1,7 @@
 #include "../../includes/threads/animation_loop_thread.h"
 
 #include "../../includes/textures/common_texture/texture_move_change.h"
+#include "../../includes/textures/common_texture/texture_switch_change.h"
 #include "../../includes/window/window.h"
 #include <protocol/event/event.h>
 #include <protocol/protocol_code.h>
@@ -8,6 +9,7 @@
 #include <thread.h>
 #include <thread_safe_queue.h>
 #include <protocol/event/object_moves_event.h>
+#include <protocol/event/object_switch_event.h>
 
 #include <SDL2/SDL.h>
 
@@ -68,6 +70,14 @@ void AnimationLoopThread::run(){
                         textureChange.change(this->window);
                     }
                     break;
+                case object_switch_state:
+                    {
+                        auto ptrAux = static_cast<ObjectSwitchEvent* >(ptrEvent.release());
+                        std::unique_ptr<ObjectSwitchEvent> ptrSwitchEvent(ptrAux);
+                        ObjectSwitchEvent event = *(ptrSwitchEvent);
+                        TextureSwitchChange textureChange(event);
+                        textureChange.change(this->window);
+                    }
             }
             
             //ptrChange->change(this->window);
