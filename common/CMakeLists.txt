@@ -14,6 +14,7 @@ set(SOURCES
         "${PROJECT_SOURCE_DIR}/thread.cpp"
         "${PROJECT_SOURCE_DIR}/thread_safe_queue.cpp"
         "${PROJECT_SOURCE_DIR}/protocol/game_action/game_action.cpp"
+        "${PROJECT_SOURCE_DIR}/protocol/game_action/coords_action.cpp"
         )
 
 add_library(${PROJECT_NAME} STATIC ${SOURCES})

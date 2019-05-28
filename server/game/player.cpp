@@ -8,7 +8,12 @@
 #include <protocol/event/player_dies_event.h>
 #include <protocol/event/player_wins_event.h>
 
-Player::Player(uint32_t id, Connector &connector, ThreadSafeQueue<GameAction *> *inQueue):
+#include <protocol/game_action/game_action.h>
+#include <protocol/game_action/coords_action.h>
+
+//Player::Player(uint32_t id, Connector &connector, ThreadSafeQueue<GameAction *> *inQueue):
+Player::Player(uint32_t id, Connector &connector, 
+                ThreadSafeQueue<std::unique_ptr<GameAction>> * inQueue) :
                id(id), connector(std::move(connector)), outThread(), inThread(),
                outQueue(), inQueue(inQueue), recvMsgs(true) {}
 
@@ -41,11 +46,31 @@ void Player::sendEvents() {
 }
 
 void Player::recvGameActions() {
-    auto *gameAction = new GameAction();
+    //auto *gameAction = new GameAction();
     while (stillRecvMsgs()) {
-        connector >> *gameAction;
-        gameAction->setPlayerId(id);
-        inQueue->push(gameAction);
+        uint8_t actionNameExplicit;
+        //connector >> *gameAction;
+        connector >> actionNameExplicit;
+        GameActionName actionName = (GameActionName) actionNameExplicit;
+        std::unique_ptr<GameAction> ptrAction;
+        switch(actionName){
+            case open_blue_portal:
+            case open_orange_portal:
+                {
+                    ptrAction.reset(new CoordsAction(actionName));
+                    connector >> (*ptrAction);
+                }
+                break;
+            default:
+                {
+                    ptrAction.reset(new GameAction(actionName));
+                }
+                break;
+        }
+        //gameAction->setPlayerId(id);
+        //inQueue->push(gameAction);
+        ptrAction->setPlayerId(id);
+        inQueue->push(ptrAction);
     }
 }
 
@@ -72,7 +97,8 @@ void Player::addToQueue(Event *event) {
     outQueue.push(event);
 }
 
-void Player::setInQueue(ThreadSafeQueue<GameAction *> *inQueue) {
+//void Player::setInQueue(ThreadSafeQueue<GameAction *> *inQueue) {
+void Player::setInQueue(ThreadSafeQueue<std::unique_ptr<GameAction>> * inQueue) {
     this->inQueue = inQueue;
 }
 

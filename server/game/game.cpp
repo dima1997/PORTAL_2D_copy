@@ -14,6 +14,12 @@
 #include <protocol/event/player_dies_event.h>
 #include "game.h"
 
+#include <protocol/game_action/game_action.h>
+#include <protocol/game_action/coords_action.h>
+#include <memory>
+
+#include <iostream>
+
 #define TIME_WAIT_MICRO_SECONDS 10000
 #define ONE_SECOND_EQ_MICRO_SECONDS 100000 
 
@@ -73,12 +79,16 @@ void Game::start() {
         t2 = clock();
         double timeProcessMicroSeconds = (double(t2-t0)/CLOCKS_PER_SEC) * ONE_SECOND_EQ_MICRO_SECONDS;
         while (timeProcessMicroSeconds <= timeWaitMicroSeconds && numberOfPlayers > 0) {
-            GameAction *action;
-            if (!this->inQueue.pop(action)){
+            //GameAction *action;
+            std::unique_ptr<GameAction> ptrAction;
+            //if (!this->inQueue.pop(action)){
+            if (!this->inQueue.pop(ptrAction)){
                 break;
             }
-            uint8_t player_id = action->getPlayerId();
-            switch (action->getGameActionName()){
+            //uint8_t player_id = action->getPlayerId();
+            uint8_t player_id = ptrAction->getPlayerId();
+            //switch (action->getGameActionName()){
+            switch (ptrAction->getGameActionName()){
                 case move_left:
                     world.moveChellLeft(player_id);
                     break;
@@ -92,6 +102,26 @@ void Game::start() {
                     // player stop
                     --numberOfPlayers;
                     players.at(player_id).addToQueue(new PlayerDiesEvent());
+                    break;
+                case open_blue_portal:
+                    {
+                        //Hago cosas con el portal azul
+                        auto ptrAux = static_cast<CoordsAction *>(ptrAction.release());
+                        std::unique_ptr<CoordsAction> ptrCoordsAction(ptrAux);
+                        float xMap = ptrCoordsAction->getX();
+                        float yMap = ptrCoordsAction->getY();
+                        std::cout << "Abriendo portal AZUL en x : "<< xMap << " y : " << yMap << "\n";
+                    }
+                    break;
+                case open_orange_portal:
+                    {
+                        //Hago cosas con el portal naranja
+                        auto ptrAux = static_cast<CoordsAction *>(ptrAction.release());
+                        std::unique_ptr<CoordsAction> ptrCoordsAction(ptrAux);
+                        float xMap = ptrCoordsAction->getX();
+                        float yMap = ptrCoordsAction->getY();
+                        std::cout << "Abriendo portal NARANJA en x : "<< xMap << " y : " << yMap << "\n";
+                    }
                     break;
                 case null_action:
                 default:

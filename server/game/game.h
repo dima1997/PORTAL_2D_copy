@@ -16,6 +16,9 @@
 #include "world.h"
 #include "player.h"
 
+#include <protocol/game_action/game_action.h>
+#include <memory>
+
 class Game {
 private:
     int id;
@@ -27,7 +30,8 @@ private:
     // TODO: number of players should depend on a map, map should be an attribute
     int numberOfPlayers;
     World world;
-    ThreadSafeQueue<GameAction *> inQueue;
+    //ThreadSafeQueue<GameAction *> inQueue;
+    ThreadSafeQueue<std::unique_ptr<GameAction>> inQueue;
     void start();
 public:
     Game(uint8_t id, uint8_t mapId, Connector &connector);

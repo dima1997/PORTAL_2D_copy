@@ -3,7 +3,6 @@
 
 #include "../textures/common_texture/big_texture.h"
 #include "../textures/common_texture/texture.h"
-//#include "../textures/static_texture/static_texture.h"
 
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
@@ -60,17 +59,6 @@ public:
     /*
     PRE: Recibe:
         La longitud y altura del ventanta en pixeles (ambos int).
-        La longitud de la ventana equivalente en la medida en que
-        se ubican y dimensionan los objetos son representados en la 
-        misma.
-    POST: Inicializa una ventana de las medidas recibidas.
-    Levanta SDLException en caso de error.
-    */
-    //Window(int width, int height, int widthEquivalent);
-    
-    /*
-    PRE: Recibe:
-        La longitud y altura del ventanta en pixeles (ambos int).
         El id de la textura en la que se centrara e indicarara que mostrar 
         en la ventana.
     POST: Inicializa una ventana de las medidas recibidas.
@@ -97,26 +85,6 @@ public:
     en si.
     */
     void render();
-
-    /*
-    PRE: Recibe:
-        El id (uint32_t) de la textura a agregar.
-        Una ruta (const std::string &) a una gran imagen que contiene el sprite
-        de que utilizara la textura estatica a agregar.
-        Un area (Area) con las coordenadas y dimensiones del sprite a usar de 
-        la gran imagen (en pixeles).
-        Un area (Area) con las coordenadas y dimensiones del objeto que 
-        representa la textura en el mapa de juego (en la unidad del largo 
-        equivalente de la ventanta).
-    POST: Agrega un nueva textura estatica a la ventana, bajo las condiciones 
-    anteriores.
-    */
-    /*
-    void add_static_texture(uint32_t id, 
-                            const std::string & pathImage, 
-                            Area areaSprite,
-                            Area areaMap);
-    */
 
     /*
     PRE: Recibe :

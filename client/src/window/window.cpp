@@ -198,40 +198,6 @@ void Window::render() {
 }
 
 /*
-PRE: Recibe:
-    El id (const std::string &) de la textura a agregar.
-    Una ruta (const std::string &) a una gran imagen que contiene el sprite
-    de que utilizara la textura estatica a agregar.
-    Un area (Area) con las coordenadas y dimensiones del sprite a usar de 
-    la gran imagen (en pixeles).
-    Un area (Area) con las coordenadas y dimensiones del objeto que 
-    representa la textura en el mapa de juego (en unidades de distancia del 
-    juego)
-POST: Agrega un nueva textura estatica a la ventana, bajo las condiciones 
-anteriores.
-Levanta SdlException en caso de error.
-*/
-/*
-void Window::add_static_texture(uint32_t id, 
-                                const std::string & pathImage, 
-                                Area areaSprite,
-                                Area areaMap) {
-    if (this->allTextures.count(id) != 0){
-        throw OSException("Error en ventana:","No puede haber dos texturas con el mismo id.");
-    }
-    this->add_big_texture(pathImage);
-    this->ids.push_back(id); 
-    std::unique_ptr<Renderizable> ptrTexture(
-                                    new StaticTexture(
-                                        this->bigTextures.at(pathImage), 
-                                        std::move(areaSprite), 
-                                        std::move(areaMap))
-                                    );
-    this->allTextures.insert(std::make_pair(id,std::move(ptrTexture)));
-}
-*/
-
-/*
 PRE: Recibe :
     El id (uint32_t) de indentificacion del bloque de metal a agregar.
     El area (Area) con las coordenadas y dimensiones del objeto

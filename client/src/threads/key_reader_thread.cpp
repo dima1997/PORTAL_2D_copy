@@ -5,6 +5,8 @@
 #include <thread.h>
 #include <blocking_queue.h>
 #include <protocol/protocol_code.h>
+#include <protocol/game_action/game_action.h>
+#include <protocol/game_action/coords_action.h>
 
 #include <SDL2/SDL.h>
 #include <ctime>
@@ -52,10 +54,20 @@ void KeyReaderThread::process_event(SDL_Event & event){
                 std::cout << "x map : " << xMap << " ;y map : " << yMap << "\n";
                 switch (mouseEvent.button){
                     case SDL_BUTTON_LEFT:
-                        // Envio que quiero abrir portal azul
+                        {
+                            std::unique_ptr<GameAction> ptrAction (
+                                new CoordsAction(open_blue_portal,xMap,yMap)
+                            );
+                            this->gameActions.push(ptrAction);
+                        }
                         break;
                     case SDL_BUTTON_RIGHT:
-                        // Envio que quiero abrir portal naranja
+                        {
+                            std::unique_ptr<GameAction> ptrAction (
+                                new CoordsAction(open_orange_portal,xMap,yMap)
+                            );
+                            this->gameActions.push(ptrAction);   
+                        }
                         break;
                 }
             }
