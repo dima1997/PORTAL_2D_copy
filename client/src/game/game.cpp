@@ -10,6 +10,8 @@
 #include "../../includes/threads/key_reader_thread.h"
 #include "../../includes/window/window.h"
 
+#include "../../includes/textures/common_texture/texture_change.h"
+
 #include <mutex>
 #include <condition_variable>
 

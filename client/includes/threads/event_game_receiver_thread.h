@@ -1,12 +1,13 @@
 #ifndef EVENT_GAME_RECEIVER_THREAD_H
 #define EVENT_GAME_RECEIVER_THREAD_H
 
-#include "../game/game.h"
+#include <protocol/event/event.h>
 
 #include <connector/connector.h>
 #include <protocol/protocol_code.h>
 #include <protocol/event/object_moves_event.h>
 #include <thread_safe_queue.h>
+#include <blocking_queue.h>
 #include <thread.h>
 
 #include <memory>
@@ -15,7 +16,8 @@
 class EventGameReceiverThread : public Thread {
 private:
     Connector & connector;
-    ThreadSafeQueue<std::unique_ptr<ObjectMovesEvent>> & changesQueue;
+    ThreadSafeQueue<std::unique_ptr<Event>> & changesQueue;
+    //ThreadSafeQueue<std::unique_ptr<TextureChange>> & changesQueue;
     BlockingQueue<GameActionName> & endQueue;
     bool isDead;
     std::mutex mutex;
@@ -29,7 +31,7 @@ public:
     POST: Inicializa un hilo recibidor de eventos del juego.
     */
     EventGameReceiverThread(Connector & connetor, 
-        ThreadSafeQueue<std::unique_ptr<ObjectMovesEvent>> & changesQueue,
+        ThreadSafeQueue<std::unique_ptr<Event>> & changesQueue,
         BlockingQueue<GameActionName> & endQueue);
 
     /*Destruye el hilo recibidor de eventos del juego*/

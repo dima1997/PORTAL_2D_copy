@@ -28,7 +28,7 @@ void World::step(std::list<ObjectMovesEvent *> &moved) {
 
     for(Chell *chell : chells) {
         if(chell->changedPosition()) {
-            moved.push_back(new ObjectMovesEvent(chell->getId(), chell->getXPos(), chell->getYPos()));
+            moved.push_back(new ObjectMovesEvent(chell->getPlayerId(), chell->getXPos(), chell->getYPos())); //chell->getId()
         }
     }
 }

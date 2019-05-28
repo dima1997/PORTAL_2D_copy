@@ -16,12 +16,14 @@
 
 #include <protocol/game_action/game_action.h>
 #include <protocol/game_action/coords_action.h>
+#include <protocol/event/object_switch_event.h>
 #include <memory>
 
 #include <iostream>
 
 #define TIME_WAIT_MICRO_SECONDS 10000
 #define ONE_SECOND_EQ_MICRO_SECONDS 100000 
+#define SUMANDO_MAGICO 1000
 
 Game &Game::operator=(Game &&other) noexcept {
     this->id = other.id;
@@ -99,9 +101,14 @@ void Game::start() {
                     world.makeChellJump(player_id);
                     break;
                 case quit_game:
-                    // player stop
-                    --numberOfPlayers;
-                    players.at(player_id).addToQueue(new PlayerDiesEvent());
+                    {
+                        // player stop
+                        --numberOfPlayers;
+                        std::unique_ptr<Event> ptrEvent(new PlayerDiesEvent());
+                        //players.at(player_id).addToQueue(new PlayerDiesEvent());
+                        players.at(player_id).addToQueue(ptrEvent);
+                    }
+
                     break;
                 case open_blue_portal:
                     {
@@ -110,7 +117,14 @@ void Game::start() {
                         std::unique_ptr<CoordsAction> ptrCoordsAction(ptrAux);
                         float xMap = ptrCoordsAction->getX();
                         float yMap = ptrCoordsAction->getY();
-                        std::cout << "Abriendo portal AZUL en x : "<< xMap << " y : " << yMap << "\n";
+                        std::cout << "SERVER: Abriendo portal AZUL en x : "<< xMap << " y : " << yMap << "\n";
+                        uint32_t idPortalAzul = player_id + SUMANDO_MAGICO; // hardcondeado
+                        std::unique_ptr<Event> ptrEventHide(new ObjectSwitchEvent(idPortalAzul));
+                        std::unique_ptr<Event> ptrEventMove(new ObjectMovesEvent(idPortalAzul, xMap, yMap));
+                        std::unique_ptr<Event> ptrEventShow(new ObjectSwitchEvent(idPortalAzul));
+                        players.at(player_id).addToQueue(ptrEventHide);
+                        players.at(player_id).addToQueue(ptrEventMove);
+                        players.at(player_id).addToQueue(ptrEventShow);
                     }
                     break;
                 case open_orange_portal:
@@ -120,7 +134,14 @@ void Game::start() {
                         std::unique_ptr<CoordsAction> ptrCoordsAction(ptrAux);
                         float xMap = ptrCoordsAction->getX();
                         float yMap = ptrCoordsAction->getY();
-                        std::cout << "Abriendo portal NARANJA en x : "<< xMap << " y : " << yMap << "\n";
+                        std::cout << "SERVER: Abriendo portal NARANJA en x : "<< xMap << " y : " << yMap << "\n";
+                        uint32_t idPortalNaranja = player_id + SUMANDO_MAGICO + 1; // hardcondeado
+                        std::unique_ptr<Event> ptrEventHide(new ObjectSwitchEvent(idPortalNaranja));
+                        std::unique_ptr<Event> ptrEventMove(new ObjectMovesEvent(idPortalNaranja, xMap, yMap));
+                        std::unique_ptr<Event> ptrEventShow(new ObjectSwitchEvent(idPortalNaranja));
+                        players.at(player_id).addToQueue(ptrEventHide);
+                        players.at(player_id).addToQueue(ptrEventMove);
+                        players.at(player_id).addToQueue(ptrEventShow);
                     }
                     break;
                 case null_action:
@@ -135,7 +156,9 @@ void Game::start() {
         for(auto event : moved) {
             printf("x: %4.2f, y: %4.2f\n", event->getX(), event->getY());
             for (Player &player : players) {
-                player.addToQueue(event);
+                std::unique_ptr<Event> ptrEvent(event);
+                //player.addToQueue(event);
+                player.addToQueue(ptrEvent);
             }
         }
         t1 = clock();
@@ -144,7 +167,9 @@ void Game::start() {
     }
 
     for (Player &player : players) {
-        player.addToQueue(new PlayerWinsEvent());
+        std::unique_ptr<Event> ptrEvent(new PlayerWinsEvent());
+        //player.addToQueue(new PlayerWinsEvent());
+        player.addToQueue(ptrEvent);
     }
 }
 

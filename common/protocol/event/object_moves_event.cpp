@@ -33,3 +33,18 @@ ObjectMovesEvent::ObjectMovesEvent(): Event(object_moves), objectId(),
                                       xPos(), yPos() {}
 
 ObjectMovesEvent::~ObjectMovesEvent() = default;
+
+/*
+PRE: Recibe un conector (Connector &) conectado.
+POST: Recibe el evento, desde el connector.
+*/
+void ObjectMovesEvent::receiveFrom(Connector & in){
+    in >> this->objectId >> this->xPos >> this->yPos;
+}
+/*
+PRE: Recibe un conector (Connector &) conectado.
+POST: Envia el evento, a traves del connector.
+*/
+void ObjectMovesEvent::sendThrough(Connector & out) const{
+    out << (uint8_t) this->eventType << this->objectId << this->xPos << this->yPos;
+}

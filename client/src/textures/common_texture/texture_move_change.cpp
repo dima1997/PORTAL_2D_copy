@@ -1,5 +1,6 @@
 #include "../../../includes/textures/common_texture/texture_move_change.h"
 
+#include "../../../includes/textures/common_texture/texture_change.h"
 #include "../../../includes/window/window.h"
 
 /*
@@ -9,10 +10,10 @@ POST: Inicializa un cambio en la ubicacion de la
 textura, bajo las condiciones indicadas.
 */
 TextureMoveChange::TextureMoveChange(uint32_t idTexture, float newX, float newY)
-: idTexture(idTexture), newX(newX), newY(newY) {}
+: TextureChange(idTexture), newX(newX), newY(newY) {}
 
 TextureMoveChange::TextureMoveChange(const ObjectMovesEvent &objectMovesEvent)
-:   idTexture(objectMovesEvent.getId()),
+:   TextureChange(objectMovesEvent.getId()),
     newX(objectMovesEvent.getX()),
     newY(objectMovesEvent.getY()) {}
 

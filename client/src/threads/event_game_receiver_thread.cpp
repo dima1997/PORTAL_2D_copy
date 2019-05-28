@@ -1,10 +1,17 @@
 #include "../../includes/threads/event_game_receiver_thread.h"
 
+#include <protocol/event/event.h>
+#include "../../includes/textures/common_texture/texture_move_change.h"
+
 #include <connector/connector.h>
 #include <protocol/protocol_code.h>
 #include <thread_safe_queue.h>
 #include <thread.h>
 
+#include <protocol/event/object_moves_event.h>
+#include <protocol/event/object_switch_event.h>
+
+#include <iostream>
 
 /*Recibe y procesa un evento del servidor.*/
 void EventGameReceiverThread::receive_event(){
@@ -15,11 +22,19 @@ void EventGameReceiverThread::receive_event(){
         switch (gameEvent){
             case object_moves:
                 {
-                    std::unique_ptr<ObjectMovesEvent> ptrEvent(
+                    
+                    std::unique_ptr<Event> ptrEvent(
                                         new ObjectMovesEvent(0,0,0));
                     this->connector >> (*ptrEvent);
-                    printf("id:%u, x: %f, y: %f\n", ptrEvent->getId(), ptrEvent->getX(), ptrEvent->getY());
-                    this->changesQueue.push(ptrEvent);       
+                    //printf("id:%u, x: %f, y: %f\n", ptrEvent->getId(), ptrEvent->getX(), ptrEvent->getY());
+                    this->changesQueue.push(ptrEvent);
+                    
+                    /*
+                    ObjectMovesEvent movesEvent(0,0,0);
+                    this->connector >> movesEvent;
+                    std::unique_ptr<TextureChange> ptrChange(new TextureMoveChange(movesEvent));
+                    this->changesQueue.push(ptrChange);
+                    */       
                 }
                 break;
             case player_wins:
@@ -37,7 +52,13 @@ void EventGameReceiverThread::receive_event(){
                 }
                 break;
             case object_switch_state:
+            {
+                std::unique_ptr<ObjectSwitchEvent> ptrEvent(
+                                        new ObjectSwitchEvent());
+                this->connector >> (*ptrEvent);
+                std::cout << "Se recibio un evento de switch en el objeto de id: " << ptrEvent->getObjectId() << "\n";
                 break;
+            }
         }
     } catch (SocketException &error){
         // Se detuvo la ejecucion del hilo.
@@ -51,7 +72,7 @@ ya conectado con el servidor del juego.
 POST: Inicializa un hilo recibidor de eventos del juego.
 */
 EventGameReceiverThread::EventGameReceiverThread(Connector & connector, 
-    ThreadSafeQueue<std::unique_ptr<ObjectMovesEvent>> & changesQueue,
+    ThreadSafeQueue<std::unique_ptr<Event>> & changesQueue,
     BlockingQueue<GameActionName> & endQueue)
 : connector(connector), changesQueue(changesQueue), endQueue(endQueue), isDead(true) {}
 

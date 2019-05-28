@@ -20,6 +20,16 @@ public:
     uint32_t getId() const ;
     float getX() const;
     float getY() const;
+    /*
+    PRE: Recibe un conector (Connector &) conectado.
+    POST: Recibe el evento, desde el connector.
+    */
+    virtual void receiveFrom(Connector & in);
+    /*
+    PRE: Recibe un conector (Connector &) conectado.
+    POST: Envia el evento, a traves del connector.
+    */
+    virtual void sendThrough(Connector & out) const;
     friend Connector &operator<<(Connector &out, const ObjectMovesEvent &c);
     friend Connector &operator>>(Connector &in, ObjectMovesEvent &c);
 };

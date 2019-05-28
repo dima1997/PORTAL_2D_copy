@@ -11,6 +11,8 @@
 #include <protocol/game_action/game_action.h>
 #include <protocol/game_action/coords_action.h>
 
+#include <memory>
+
 //Player::Player(uint32_t id, Connector &connector, ThreadSafeQueue<GameAction *> *inQueue):
 Player::Player(uint32_t id, Connector &connector, 
                 ThreadSafeQueue<std::unique_ptr<GameAction>> * inQueue) :
@@ -25,9 +27,13 @@ void Player::join() {
 }
 
 void Player::sendEvents() {
-    Event *event;
-    while (outQueue.pop(event)) {
-        switch (event->eventType) {
+    //Event *event; // Falta liberar la memoria
+    std::unique_ptr<Event> ptrEvent;
+    //while (outQueue.pop(event)) {
+    while (outQueue.pop(ptrEvent)) {
+        //switch (event->eventType) {
+        switch (ptrEvent->eventType) {
+            /*
             case object_moves:
                 connector << *(ObjectMovesEvent *) event;
                 break;
@@ -38,10 +44,17 @@ void Player::sendEvents() {
                 connector << *(PlayerDiesEvent *) event;
                 break;
             case object_switch_state:
+            */
+            case object_moves:
+            case player_wins:
+            case player_dies:
+            case object_switch_state:
+                connector << (*ptrEvent);
+                break;
             default:
                 throw PortalException("Command unknown");
         }
-        delete event;
+        //delete event;
     }
 }
 
@@ -93,8 +106,13 @@ Player::Player(Player &&other) noexcept : id(other.id), connector(std::move(othe
                                 inThread(std::move(other.inThread)), outQueue(std::move(other.outQueue)),
                                 inQueue(other.inQueue), mutex(), recvMsgs(other.recvMsgs) {}
 
+/*
 void Player::addToQueue(Event *event) {
     outQueue.push(event);
+}
+*/
+void Player::addToQueue(std::unique_ptr<Event> & ptrEvent) {
+    outQueue.push(ptrEvent);
 }
 
 //void Player::setInQueue(ThreadSafeQueue<GameAction *> *inQueue) {

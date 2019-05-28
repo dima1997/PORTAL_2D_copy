@@ -1,7 +1,9 @@
 #include "../../includes/threads/animation_loop_thread.h"
 
-#include "../../includes/window/window.h"
 #include "../../includes/textures/common_texture/texture_move_change.h"
+#include "../../includes/window/window.h"
+#include <protocol/event/event.h>
+#include <protocol/protocol_code.h>
 
 #include <thread.h>
 #include <thread_safe_queue.h>
@@ -18,10 +20,16 @@ y una cola bloqueante de cambios a realizar sobre las texturas de la
 ventana (TSQueueChangesMade_t &).
 POST: Inicializa un loop de animaciones.
 */
+
 AnimationLoopThread::AnimationLoopThread(Window &window, 
-ThreadSafeQueue<std::unique_ptr<ObjectMovesEvent>> & changesMade)
+ThreadSafeQueue<std::unique_ptr<Event>> & changesMade)
 : window(window), changesMade(changesMade), isDead(true) {}
 
+/*
+AnimationLoopThread::AnimationLoopThread(Window &window, 
+ThreadSafeQueue<std::unique_ptr<TextureChange>> & changesMade)
+: window(window), changesMade(changesMade), isDead(true) {}
+*/
 /*
 Destruye el hilo: loop de animaciones. 
 */
@@ -44,13 +52,25 @@ void AnimationLoopThread::run(){
         t2=clock();
         double timeProcessMicroSeconds = (double(t2-t0)/CLOCKS_PER_SEC) * ONE_SECOND_EQ_MICRO_SECONDS;
         while (timeProcessMicroSeconds <= timeWaitMicroSeconds){
-            std::unique_ptr<ObjectMovesEvent> ptrEvent;
+            std::unique_ptr<Event> ptrEvent;
+            //std::unique_ptr<TextureChange> ptrChange;
             if (! this->changesMade.pop(ptrEvent)){
+            //if (! this->changesMade.pop(ptrChange)){
                 break;
             }
-            ObjectMovesEvent event = *(ptrEvent);
-            TextureMoveChange textureChange(event);
-            textureChange.change(this->window);
+            switch(ptrEvent->eventType){
+                case object_moves:
+                    {
+                        auto ptrAux = static_cast<ObjectMovesEvent* >(ptrEvent.release());
+                        std::unique_ptr<ObjectMovesEvent> ptrMovesEvent(ptrAux);
+                        ObjectMovesEvent event = *(ptrMovesEvent);
+                        TextureMoveChange textureChange(event);
+                        textureChange.change(this->window);
+                    }
+                    break;
+            }
+            
+            //ptrChange->change(this->window);
             t2=clock();
             timeProcessMicroSeconds = (double(t2-t0)/CLOCKS_PER_SEC) * ONE_SECOND_EQ_MICRO_SECONDS;
         }

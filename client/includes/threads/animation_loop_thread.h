@@ -5,12 +5,14 @@
 #include <thread.h>
 #include <thread_safe_queue.h>
 
+#include <protocol/event/event.h>
+
 #include <mutex>
 
 class AnimationLoopThread : public Thread{
 private:
     Window & window;
-    TSQueueChangesMade_t & changesMade;
+    ThreadSafeQueue<std::unique_ptr<Event>> & changesMade;
     bool isDead;
     std::mutex mutex;
 public:
@@ -21,7 +23,7 @@ public:
     POST: Inicializa un loop de animaciones.
     */
     AnimationLoopThread(Window &window, 
-        TSQueueChangesMade_t & changesMade);
+        ThreadSafeQueue<std::unique_ptr<Event>> & changesMade);
     /*
     AnimationLoopThread(Window &window, 
         queueChangesMade_t & changesMade);

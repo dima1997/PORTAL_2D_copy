@@ -11,6 +11,9 @@
 #include <thread_safe_queue.h>
 //#include <protocol/protocol_code.h>
 #include <protocol/game_action/game_action.h>
+#include <protocol/event/event.h>
+
+#include "../../includes/textures/common_texture/texture_change.h"
 
 #include <mutex>
 #include <condition_variable>
@@ -25,7 +28,8 @@ private:
     std::condition_variable cv;
     std::vector<std::unique_ptr<Thread>> threads;
     bool isDead;
-    ThreadSafeQueue<std::unique_ptr<ObjectMovesEvent>> changesMade;
+    ThreadSafeQueue<std::unique_ptr<Event>> changesMade;
+    //ThreadSafeQueue<std::unique_ptr<TextureChange>> changesMade;
     BlockingQueue<std::unique_ptr<GameAction>> changesAsk;
 public:
     Game(Connector &connector, uint8_t game_id, uint8_t player_id);

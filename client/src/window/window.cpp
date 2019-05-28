@@ -18,6 +18,8 @@
 #include <sstream>
 #include <mutex>
 
+#define SUMANDO_MAGICO 1000
+
 /*
 PRE: Recibe la ruta (const std::string &) de un gran textura 
 (imagen con varios sprites en ella).
@@ -110,10 +112,17 @@ void Window::add_map(){
                                                 heightBlockMap));
         ++id;
     }
-    Area areaPortalMap(xBlockLast,1.75, PORTAL_WIDTH, PORTAL_HEIGHT);
-    this->add_portal_texture(id, areaPortalMap);
-    this->switch_texture(id);
-    this->switch_texture(id);
+    uint32_t idPortalBlue = this->idMainTexture + SUMANDO_MAGICO;
+    Area areaPortalBlueMap(xBlockFirst,1.75, PORTAL_WIDTH, PORTAL_HEIGHT);
+    this->add_portal_texture(idPortalBlue, areaPortalBlueMap);
+    this->switch_texture(idPortalBlue);
+    this->switch_texture(idPortalBlue);
+
+    uint32_t idPortalOrange = this->idMainTexture + SUMANDO_MAGICO + 1;
+    Area areaPortalOrangeMap(xBlockLast,1.75, PORTAL_WIDTH, PORTAL_HEIGHT);
+    this->add_portal_texture(idPortalOrange, areaPortalOrangeMap);
+    this->switch_texture(idPortalOrange);
+    this->switch_texture(idPortalOrange);
 
     Area areaChellMap(0.5, 1.75, CHELL_WIDTH, CHELL_HEIGHT);
     this->add_chell_texture(this->idMainTexture,areaChellMap);
