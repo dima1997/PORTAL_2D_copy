@@ -359,11 +359,12 @@ std::tuple<float,float> Window::getMapCoords(int x, int y){
         actualWidth = this->width;
         actualHeight = this->height;
     }
-    float reverseAdjuster = (actualAreaCamera.getWidth()/actualWidth);
+    Area areaCameraTopLeft = actualAreaCamera.from_center_to_top_left();
+    float reverseAdjuster = (areaCameraTopLeft.getWidth()/actualWidth);
     float xMap = x * reverseAdjuster;
     float yMap = y * reverseAdjuster;
-    xMap = xMap + actualAreaCamera.getX();
-    yMap = (-yMap + actualAreaCamera.getY());
+    xMap = xMap + areaCameraTopLeft.getX();
+    yMap = (-yMap + areaCameraTopLeft.getY());
     return std::move(std::tuple<float,float>(xMap,yMap));
 
 }
