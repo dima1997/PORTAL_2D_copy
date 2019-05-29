@@ -1,3 +1,7 @@
+#include <memory>
+
+#include <memory>
+
 //
 // Created by franciscosicardi on 21/05/19.
 //
@@ -27,61 +31,34 @@ void Player::join() {
 }
 
 void Player::sendEvents() {
-    //Event *event; // Falta liberar la memoria
     std::unique_ptr<Event> ptrEvent;
-    //while (outQueue.pop(event)) {
     while (outQueue.pop(ptrEvent)) {
-        //switch (event->eventType) {
-        switch (ptrEvent->eventType) {
-            /*
-            case object_moves:
-                connector << *(ObjectMovesEvent *) event;
-                break;
-            case player_wins:
-                connector << *(PlayerWinsEvent *) event;
-                break;
-            case player_dies:
-                connector << *(PlayerDiesEvent *) event;
-                break;
-            case object_switch_state:
-            */
-            case object_moves:
-            case player_wins:
-            case player_dies:
-            case object_switch_state:
-                connector << (*ptrEvent);
-                break;
-            default:
-                throw PortalException("Command unknown");
+        try {
+            connector << (*ptrEvent);
+        } catch (SocketException &e) {
+            outQueue.close();
         }
-        //delete event;
     }
 }
 
 void Player::recvGameActions() {
-    //auto *gameAction = new GameAction();
     while (stillRecvMsgs()) {
         uint8_t actionNameExplicit;
-        //connector >> *gameAction;
         connector >> actionNameExplicit;
-        GameActionName actionName = (GameActionName) actionNameExplicit;
+        auto actionName = (GameActionName) actionNameExplicit;
         std::unique_ptr<GameAction> ptrAction;
         switch(actionName){
             case open_blue_portal:
             case open_orange_portal:
-                {
-                    ptrAction.reset(new CoordsAction(actionName));
-                    connector >> (*ptrAction);
-                }
+                ptrAction = std::make_unique<CoordsAction>(actionName);
+                connector >> *ptrAction;
                 break;
+            case quit_game:
+                stopRecv();
             default:
-                {
-                    ptrAction.reset(new GameAction(actionName));
-                }
+                ptrAction = std::make_unique<GameAction>(actionName);
                 break;
         }
-        //gameAction->setPlayerId(id);
-        //inQueue->push(gameAction);
         ptrAction->setPlayerId(id);
         inQueue->push(ptrAction);
     }
@@ -106,18 +83,12 @@ Player::Player(Player &&other) noexcept : id(other.id), connector(std::move(othe
                                 inThread(std::move(other.inThread)), outQueue(std::move(other.outQueue)),
                                 inQueue(other.inQueue), mutex(), recvMsgs(other.recvMsgs) {}
 
-/*
-void Player::addToQueue(Event *event) {
-    outQueue.push(event);
-}
-*/
 void Player::addToQueue(std::unique_ptr<Event> & ptrEvent) {
     outQueue.push(ptrEvent);
 }
 
-//void Player::setInQueue(ThreadSafeQueue<GameAction *> *inQueue) {
-void Player::setInQueue(ThreadSafeQueue<std::unique_ptr<GameAction>> * inQueue) {
-    this->inQueue = inQueue;
+void Player::setInQueue(ThreadSafeQueue<std::unique_ptr<GameAction>> *_inQueue) {
+    this->inQueue = _inQueue;
 }
 
 Player::~Player() = default;
