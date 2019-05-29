@@ -4,10 +4,13 @@
 #include <blocking_queue.h>
 #include <thread_safe_queue.h>
 
-#include "../../includes/threads/animation_loop_thread.h"
+//#include "../../includes/threads/animation_loop_thread.h"
 #include "../../includes/threads/event_game_receiver_thread.h"
 #include "../../includes/threads/key_sender_thread.h"
-#include "../../includes/threads/key_reader_thread.h"
+//#include "../../includes/threads/key_reader_thread.h"
+
+#include "../../includes/threads/playing_loop_thread.h"
+
 #include "../../includes/window/window.h"
 
 #include "../../includes/textures/common_texture/texture_change.h"
@@ -24,8 +27,6 @@ Game::Game(Connector &connector, uint8_t game_id, uint8_t player_id)
     isDead(true) {}
 
 void Game::operator()() {
-//    uint8_t finished;
-//    connector >> finished;
     this->run();
 }
 
@@ -51,10 +52,13 @@ void Game::run(){
     int windowHeightPixels = WINDOW_HEIGHT;
     Window window(windowWidthPixels, windowHeightPixels, this->playerId);
     const Area & areaChell = window.getMainTextureArea(); 
-    this->threads.push_back(std::move(std::unique_ptr<Thread>(new AnimationLoopThread(window, this->changesMade))));
+    //this->threads.push_back(std::move(std::unique_ptr<Thread>(new AnimationLoopThread(window, this->changesMade))));
     this->threads.push_back(std::move(std::unique_ptr<Thread>(new EventGameReceiverThread(this->connector, this->changesMade, endQueue))));
     this->threads.push_back(std::move(std::unique_ptr<Thread>(new KeySenderThread(this->connector, this->changesAsk))));
-    this->threads.push_back(std::move(std::unique_ptr<Thread>(new KeyReaderThread(window, this->changesAsk, endQueue))));
+    //this->threads.push_back(std::move(std::unique_ptr<Thread>(new KeyReaderThread(window, this->changesAsk, endQueue))));
+    
+    this->threads.push_back(std::move(std::unique_ptr<Thread>(new PlayingLoopThread(window, this->changesMade, this->changesAsk, endQueue))));
+
     for (auto & thread : this->threads){
         (*thread).start();
     }

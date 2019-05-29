@@ -17,6 +17,77 @@
 #define ONE_SECOND_EQ_MICRO_SECONDS 100000 
 
 /*
+PRE: Recibe un evento de sdl (SDL_Event &).
+POST: Procesa el evento recibido. 
+*/
+void KeyReaderThread::process_event(SDL_Event & event){
+    switch(event.type) {
+        case SDL_KEYDOWN: {
+            auto& keyEvent = (SDL_KeyboardEvent &) event;
+            switch (keyEvent.keysym.sym) {
+                case SDLK_LEFT:
+                    this->push_action(move_left);
+                    break;
+                case SDLK_RIGHT:
+                    this->push_action(move_right);
+                    break;
+                case SDLK_UP:
+                    this->push_action(jump);
+                    break;
+            }
+            break;
+        }
+        case SDL_QUIT:
+            {
+                GameActionName quitGame = quit_game;
+                this->push_action(quitGame);
+                this->stop();
+                this->endQueue.push(quitGame);
+            }
+            break;
+        case SDL_MOUSEBUTTONDOWN:
+            {
+                auto& mouseEvent = (SDL_MouseButtonEvent &) event;
+                int xWindow,yWindow;
+                xWindow = mouseEvent.x;
+                yWindow = mouseEvent.y;
+                float xMap,yMap;
+                std::tie(xMap,yMap) = this->window.getMapCoords(xWindow,yWindow);
+                std::cout << "x map : " << xMap << " ;y map : " << yMap << "\n";
+                switch (mouseEvent.button){
+                    case SDL_BUTTON_LEFT:
+                        {
+                            std::unique_ptr<GameAction> ptrAction (
+                                new CoordsAction(open_blue_portal,xMap,yMap)
+                            );
+                            this->gameActions.push(ptrAction);
+                        }
+                        break;
+                    case SDL_BUTTON_RIGHT:
+                        {
+                            std::unique_ptr<GameAction> ptrAction (
+                                new CoordsAction(open_orange_portal,xMap,yMap)
+                            );
+                            this->gameActions.push(ptrAction);   
+                        }
+                        break;
+                }
+            }
+            break;
+
+    }
+} 
+/*
+PRE: Recibe el nombre de una accion del juego (GamaActionName).
+POST: Encola en la cola de acciones del juego, la accion correspondiente
+al nombre de accion recibido.
+*/
+void KeyReaderThread::push_action(GameActionName actionName){
+    std::unique_ptr<GameAction> ptrGameAction(new GameAction(actionName));
+    this->gameActions.push(ptrGameAction);
+}
+
+/*
 PRE: Recibe donde ventana (Window &) donde se renderizan las texturas; 
 y una cola bloqueante de cambios a realizar sobre las texturas de la 
 ventana (TSQueueChangesMade_t &).
@@ -55,9 +126,8 @@ void AnimationLoopThread::run(){
         double timeProcessMicroSeconds = (double(t2-t0)/CLOCKS_PER_SEC) * ONE_SECOND_EQ_MICRO_SECONDS;
         while (timeProcessMicroSeconds <= timeWaitMicroSeconds){
             std::unique_ptr<Event> ptrEvent;
-            //std::unique_ptr<TextureChange> ptrChange;
+
             if (! this->changesMade.pop(ptrEvent)){
-            //if (! this->changesMade.pop(ptrChange)){
                 break;
             }
             switch(ptrEvent->eventType){

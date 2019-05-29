@@ -22,19 +22,10 @@ void EventGameReceiverThread::receive_event(){
         switch (gameEvent){
             case object_moves:
                 {
-                    
                     std::unique_ptr<Event> ptrEvent(
                                         new ObjectMovesEvent(0,0,0));
                     this->connector >> (*ptrEvent);
-                    //printf("id:%u, x: %f, y: %f\n", ptrEvent->getId(), ptrEvent->getX(), ptrEvent->getY());
-                    this->changesQueue.push(ptrEvent);
-                    
-                    /*
-                    ObjectMovesEvent movesEvent(0,0,0);
-                    this->connector >> movesEvent;
-                    std::unique_ptr<TextureChange> ptrChange(new TextureMoveChange(movesEvent));
-                    this->changesQueue.push(ptrChange);
-                    */       
+                    this->changesQueue.push(ptrEvent);    
                 }
                 break;
             case player_wins:
@@ -56,7 +47,6 @@ void EventGameReceiverThread::receive_event(){
                 std::unique_ptr<Event> ptrEvent(
                                         new ObjectSwitchEvent());
                 this->connector >> (*ptrEvent);
-                //std::cout << "Se recibio un evento de switch en el objeto de id: " << ptrEvent->getObjectId() << "\n";
                 this->changesQueue.push(ptrEvent);
                 break;
             }
