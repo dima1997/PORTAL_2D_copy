@@ -10,9 +10,10 @@ RockBlock::RockBlock(b2World &world, float32 xPos, float32 yPos):
     createBody(xPos, yPos);
 }
 
-RockBlock::~RockBlock() {
-    world.DestroyBody(body);
-}
+//RockBlock::~RockBlock() {
+//    world.DestroyBody(body);
+//}
+RockBlock::~RockBlock() = default;
 
 void RockBlock::createBody(float32 xPos, float32 yPos) {
     b2BodyDef bodyDef;

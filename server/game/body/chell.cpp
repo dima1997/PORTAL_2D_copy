@@ -29,9 +29,10 @@ Chell::Chell(b2World &world, float32 xPos, float32 yPos, uint8_t playerId):
     createBody(xPos, yPos);
 }
 
-Chell::~Chell() {
-    world.DestroyBody(body);
-}
+//Chell::~Chell() {
+//    world.DestroyBody(body);
+//}
+Chell::~Chell() = default;
 
 void Chell::moveLeft() {
     move(-3.0f, 0.0f); // -2.0
@@ -51,7 +52,10 @@ void Chell::moveRight() {
 }
 
 void Chell::jump() {
-    move(0.0f, 7.0f); // 0.5f
+    b2Vec2 vel = body->GetLinearVelocity();
+    if (vel.y == 0) {
+        move(0.0f, 7.0f); // 0.5f
+    }
 }
 
 uint8_t Chell::getPlayerId() {

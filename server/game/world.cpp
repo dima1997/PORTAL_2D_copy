@@ -48,13 +48,13 @@ World &World::operator=(World &&other) noexcept {
 }
 
 World::~World() {
-    delete world;
     for (auto *chell : chells) {
         delete chell;
     }
     for(auto *body : staticBodies) {
         delete body;
     }
+    delete world;
 }
 
 void World::loadMap(uint8_t mapId) {
