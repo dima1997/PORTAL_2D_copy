@@ -72,6 +72,7 @@ void KeyReaderThread::process_event(SDL_Event & event){
                 }
             }
             break;
+
     }
 } 
 
@@ -116,6 +117,7 @@ void KeyReaderThread::run(){
         if (SDL_PollEvent(& event)){
             this->process_event(event);
         }
+        std::this_thread::sleep_for(std::chrono::microseconds((10000)));
     }
     this->stop();
 }
