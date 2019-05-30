@@ -45,6 +45,7 @@ file(GLOB client_files
         "${CLIENT_FOLDER}/src/game/game_factory.cpp"
         "${CLIENT_FOLDER}/src/threads/playing_loop_thread.cpp"
         "${CLIENT_FOLDER}/src/threads/key_reader.cpp"
+        "${CLIENT_FOLDER}/src/threads/event_game_processor.cpp"
         "${CLIENT_FOLDER}/src/threads/key_sender_thread.cpp"
         "${CLIENT_FOLDER}/src/threads/event_game_receiver_thread.cpp"
         "${CLIENT_FOLDER}/src/window/window.cpp"

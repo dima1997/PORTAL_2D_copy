@@ -1,19 +1,15 @@
 #include "../../includes/threads/playing_loop_thread.h"
 
-#include "../../includes/textures/common_texture/texture_move_change.h"
-#include "../../includes/textures/common_texture/texture_switch_change.h"
 #include "../../includes/window/window.h"
 #include "../../includes/threads/key_reader.h"
+#include "../../includes/threads/event_game_processor.h"
 
 #include <thread.h>
 #include <thread_safe_queue.h>
 #include <blocking_queue.h>
 #include <protocol/protocol_code.h>
 #include <protocol/game_action/game_action.h>
-#include <protocol/game_action/coords_action.h>
 #include <protocol/event/event.h>
-#include <protocol/event/object_moves_event.h>
-#include <protocol/event/object_switch_event.h>
 
 #include <SDL2/SDL.h>
 
@@ -61,6 +57,7 @@ void PlayingLoopThread::run(){
         std::unique_lock<std::mutex> l(this->mutex);
         this->isDead = false;
     }
+    EventGameProcessor eventProcessor(this->window, this->fromGameQueue);
     KeyReader keyReader(this->window, this->toGameQueue, this->talkRefereeQueue);
     unsigned t0, t1, t2;
     double timeWaitMicroSeconds = TIME_WAIT_MICRO_SECONDS;
@@ -70,35 +67,7 @@ void PlayingLoopThread::run(){
             this->stop();
             break;
         }
-        double timeProcessMicroSeconds = 0;
-        while (timeProcessMicroSeconds <= timeWaitMicroSeconds){
-            std::unique_ptr<Event> ptrEvent;
-            if (! this->fromGameQueue.pop(ptrEvent)){
-                break;
-            }
-            switch(ptrEvent->eventType){
-                case object_moves:
-                    {
-                        auto ptrAux = static_cast<ObjectMovesEvent* >(ptrEvent.release());
-                        std::unique_ptr<ObjectMovesEvent> ptrMovesEvent(ptrAux);
-                        ObjectMovesEvent event = *(ptrMovesEvent);
-                        TextureMoveChange textureChange(event);
-                        textureChange.change(this->window);
-                    }
-                    break;
-                case object_switch_state:
-                    {
-                        auto ptrAux = static_cast<ObjectSwitchEvent* >(ptrEvent.release());
-                        std::unique_ptr<ObjectSwitchEvent> ptrSwitchEvent(ptrAux);
-                        ObjectSwitchEvent event = *(ptrSwitchEvent);
-                        TextureSwitchChange textureChange(event);
-                        textureChange.change(this->window);
-                    }
-            }
-            
-            t2=clock();
-            timeProcessMicroSeconds = (double(t2-t0)/CLOCKS_PER_SEC) * ONE_SECOND_EQ_MICRO_SECONDS;
-        }
+        eventProcessor.process_some_events(timeWaitMicroSeconds);
         window.fill();
         window.render();
         t1 = clock();
