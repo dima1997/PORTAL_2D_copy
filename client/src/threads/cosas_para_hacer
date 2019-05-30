@@ -1,0 +1,32 @@
+Server :
+	Cantidad de movimiento (moverse), estados
+	Portales => 2 objectos Balas por cada jugador
+	Interfaces => Se crea Game cuando estan todos los jugadores, y la cola tambien
+	START_GAME, END_GAME, 
+	player stop receive and send => kill threads de player => Use List (linked)
+	pastel
+	.
+	. (despues de aprobar cursada)
+	.
+	acid
+	rocks
+	buttons, doors
+
+Client :
+	Meter el KeyReader en el mismo hilo que AnimationLoop --> LISTO
+	MOVE_RIGHT/LEFT una sola vez => cuando toco tecla derecha 
+	STOP => cuando suelto la tecla
+	JUMP una sola vez (por performance)
+	GRAB una sola vez
+	THROW una sola vez 
+	QUIT_GAME
+	PIN una sola vez (Facil)
+	texture bala,
+	Terminar todas las texturas
+	Investigar YAML
+	Resize
+	fondo de pantalla
+	login, wait, win, lost.
+	Chell textura apunta 
+	Sonido, musica
+	ffmpegg

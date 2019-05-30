@@ -11,17 +11,51 @@
 #include <SDL2/SDL.h>
 #include <memory>
 
+enum KeyUsed : {
+    NULL_KEY,
+    LEFT,
+    RIGHT,
+    UP
+}
+
 class KeyReader {
 private:
     Window & window; 
     BlockingQueue<std::unique_ptr<GameAction>> & toGameQueue; 
     BlockingQueue<GameActionName> & talkRefereeQueue;
+    std::map<KeyUsed,bool> keysPressed;
 
     /*
-    PRE: Recibe un evento de teclado de sdl (SDL_KeyboardEvent &).
+    PRE: Recibe un evento de teclado de sdl (SDL_KeyboardEvent &),
+    de una tecla liberada.
     POST: Procesa el evento.
     */
-    void process_event(SDL_KeyboardEvent & keyEvent);
+    void process_event_up(SDL_KeyboardEvent & keyEvent);
+
+    /*
+    PRE: Recibe el indicativo de la tecla liberada (KeyPressed), 
+    y el nombre de la accion del juego a procesar segun corresponda 
+    (GameActionEvent).
+    POST: Comunica la accion del juego, solo si la tecla fue liberada 
+    antes de ser presionada.
+    */
+    void process_key_up(KeyUsed actualKey, GameActionName actionName);
+
+    /*
+    PRE: Recibe un evento de teclado de sdl (SDL_KeyboardEvent &),
+    de una tecla presionada.
+    POST: Procesa el evento.
+    */
+    void process_event_down(SDL_KeyboardEvent & keyEvent);
+
+    /*
+    PRE: Recibe el indicativo de la tecla presionada (KeyPressed), 
+    y el nombre de la accion del juego a procesar segun corresponda 
+    (GameActionEvent).
+    POST: Comunica la accion del juego, solo si la tecla fue liberada 
+    antes de ser presionada.
+    */
+    void process_key_down(KeyUsed actualKey, GameActionName actionName);
     
     /*
     PRE: Recibe un evento de boton de raton de sdl (SDL_MouseButtonEvent &).

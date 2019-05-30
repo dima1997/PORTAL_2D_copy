@@ -13,10 +13,13 @@ enum EventType: uint8_t {object_moves, player_wins, player_dies, object_switch_s
 
 enum GameActionName : uint8_t {
     null_action, 
+    quit_game, 
     move_left,
     move_right, 
-    quit_game, 
-    jump, 
+    jump,
+    stop_left,
+    stop_right,
+    stop_jump, 
     open_blue_portal, 
     open_orange_portal
 };

@@ -26,7 +26,12 @@ BlockingQueue<std::unique_ptr<GameAction>> & toGameQueue,
 BlockingQueue<GameActionName> & talkRefereeQueue)
 :   window(window), 
     toGameQueue(toGameQueue), 
-    talkRefereeQueue(talkRefereeQueue) {} 
+    talkRefereeQueue(talkRefereeQueue),
+    keysPressed(
+        std::make_pair<KeyUsed,bool>(LEFT, false),
+        std::make_pair<KeyUsed,bool>(RIGHT, false)
+        std::make_pair<KeyUsed,bool>(UP, false)
+    )
 
 /*Destruye el lector de eventos de entrada.*/
 KeyReader::~KeyReader() = default;
@@ -71,9 +76,14 @@ GameActionName KeyReader::process_event(SDL_Event & event){
         case SDL_KEYDOWN: 
             {
                 auto& keyEvent = (SDL_KeyboardEvent &) event;
-                this->process_event(keyEvent);
+                this->process_event_down(keyEvent);
             }
             break;
+        case SDL_KEY_UP:
+            {
+                auto& keyEvent = (SDL_KeyboardEvent &) event;
+                this->process_event_up(keyEvent);
+            }
         case SDL_MOUSEBUTTONDOWN:
             {
                 auto& mouseEvent = (SDL_MouseButtonEvent &) event;
@@ -85,24 +95,74 @@ GameActionName KeyReader::process_event(SDL_Event & event){
 } 
 
 /*
-PRE: Recibe un evento de teclado de sdl (SDL_KeyboardEvent &).
+PRE: Recibe un evento de teclado de sdl (SDL_KeyboardEvent &),
+de una tecla liberada.
 POST: Procesa el evento.
 */
-void KeyReader::process_event(SDL_KeyboardEvent & keyEvent){
+void KeyReader::process_event_up(SDL_KeyboardEvent & keyEvent){
+    GameActionName actionName = null_action;
+    KeyPressed actualKey = NULL_KEY;
     GameActionName actionName = null_action;
     switch (keyEvent.keysym.sym) {
         case SDLK_LEFT:
-            actionName = move_left;
+            this->process_key_up(LEFT, stop_left);
             break;
         case SDLK_RIGHT:
-            actionName = move_right;
+            this->process_key_up(RIGHT, stop_right);
             break;
         case SDLK_UP:
-            actionName = jump;
+            this->process_key_up(UP, stop_jump);
             break;
         default:
             return;
     }
+}
+
+/*
+PRE: Recibe el indicativo de la tecla liberada (KeyPressed), y el nombre
+de la accion del juego a procesar segun corresponda (GameActionEvent).
+POST: Comunica la accion del juego, solo si la tecla fue liberada antes de ser 
+presionada.
+*/
+void KeyReader::process_key_up(KeyUsed actualKey, GameActionName actionName){
+    this->keysPressed[actualKey] = false;
+    std::unique_ptr<GameAction> ptrGameAction(new GameAction(actionName));
+    this->toGameQueue.push(ptrGameAction);
+}
+
+/*
+PRE: Recibe un evento de teclado de sdl (SDL_KeyboardEvent &),
+de una tecla presionada.
+POST: Procesa el evento.
+*/
+void KeyReader::process_event_down(SDL_KeyboardEvent & keyEvent){
+    GameActionName actionName = null_action;
+    switch (keyEvent.keysym.sym) {
+        case SDLK_LEFT:
+            this->process_key_down(LEFT, move_left);
+            break;
+        case SDLK_RIGHT:
+            this->process_key_down(RIGHT, move_right);
+            break;
+        case SDLK_UP:
+            this->process_key_down(UP, jump);
+            break;
+        default:
+            return;
+    }
+}
+
+/*
+PRE: Recibe el indicativo de la tecla presionada (KeyPressed), y el nombre
+de la accion del juego a procesar segun corresponda (GameActionEvent).
+POST: Comunica la accion del juego, solo si la tecla fue liberada antes de ser 
+presionada.
+*/
+void KeyReader::process_key_down(KeyUsed actualKey, GameActionName actionName){
+    if (this->keysPressed.at(actualKey) != false){
+        return;
+    }
+    this->keysPressed.insert(actualKey, true);
     std::unique_ptr<GameAction> ptrGameAction(new GameAction(actionName));
     this->toGameQueue.push(ptrGameAction);
 }
