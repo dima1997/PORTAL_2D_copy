@@ -22,7 +22,11 @@ enum GameActionName : uint8_t {
     stop_jump, 
     open_blue_portal, 
     open_orange_portal,
-    pin_tool_on
+    pin_tool_on,
+    grab_it,
+    throw_it,
+    stop_grab,
+    stop_throw
 };
 
 #endif

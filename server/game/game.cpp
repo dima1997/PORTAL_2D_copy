@@ -81,15 +81,11 @@ void Game::start() {
         t2 = clock();
         double timeProcessMicroSeconds = (double(t2-t0)/CLOCKS_PER_SEC) * ONE_SECOND_EQ_MICRO_SECONDS;
         while (timeProcessMicroSeconds <= timeWaitMicroSeconds && numberOfPlayers > 0) {
-            //GameAction *action;
             std::unique_ptr<GameAction> ptrAction;
-            //if (!this->inQueue.pop(action)){
             if (!this->inQueue.pop(ptrAction)){
                 break;
             }
-            //uint8_t player_id = action->getPlayerId();
             uint8_t player_id = ptrAction->getPlayerId();
-            //switch (action->getGameActionName()){
             switch (ptrAction->getGameActionName()){
                 case quit_game:
                     {
@@ -149,7 +145,19 @@ void Game::start() {
                     }
                     break;
                 case pin_tool_on:
-                    std::cout << "SERVER: Recibi orden de pin tool.\n";
+                    std::cout << "SERVER: pin tool on.\n";
+                    break;
+                case grab_it:
+                    std::cout << "SERVER: grab it.\n";
+                    break;
+                case stop_grab:
+                    std::cout << "SERVER: stop grab.\n";
+                    break;
+                case throw_it:
+                    std::cout << "SERVER: throw it.\n";
+                    break;
+                case stop_throw:
+                    std::cout << "SERVER: stop throw.\n";
                     break;
                 case null_action:
                     break;

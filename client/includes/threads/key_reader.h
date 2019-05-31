@@ -11,19 +11,21 @@
 #include <SDL2/SDL.h>
 #include <memory>
 
-typedef enum KeyUsed {
+enum KeyUsed {
     NULL_KEY,
-    LEFT,
-    RIGHT,
-    UP
-} KeyUsed_t;
+    A,
+    D,
+    W,
+    SPACE,
+    LSHIFT
+};
 
 class KeyReader {
 private:
     Window & window; 
     BlockingQueue<std::unique_ptr<GameAction>> & toGameQueue; 
     BlockingQueue<GameActionName> & talkRefereeQueue;
-    std::map<KeyUsed_t,bool> keysPressed;
+    std::map<KeyUsed,bool> keysPressed;
 
     /*
     PRE: Recibe un evento de teclado de sdl (SDL_KeyboardEvent &),
@@ -31,6 +33,11 @@ private:
     POST: Procesa el evento.
     */
     void process_event_up(SDL_KeyboardEvent & keyEvent);
+
+    /*
+    Procesa la accion de detenerse el agarrar o tirar algo.
+    */
+    //void process_grab_throw_stop();
 
     /*
     PRE: Recibe el indicativo de la tecla liberada (KeyPressed), 
@@ -47,6 +54,11 @@ private:
     POST: Procesa el evento.
     */
     void process_event_down(SDL_KeyboardEvent & keyEvent);
+
+    /*
+    Procesa una accion de agarrar o tirar algo.
+    */
+    //void process_grab_throw();
 
     /*
     PRE: Recibe el indicativo de la tecla presionada (KeyPressed), 

@@ -14,14 +14,15 @@ Server :
 
 Client :
 	Meter el KeyReader en el mismo hilo que AnimationLoop --> LISTO
-	MOVE_RIGHT/LEFT una sola vez => cuando toco tecla derecha 
-	STOP => cuando suelto la tecla
-	JUMP una sola vez (por performance)
+	MOVE_RIGHT/LEFT una sola vez => cuando toco tecla derecha -> LISTO
+	STOP => cuando suelto la tecla -> LISTO
+	JUMP una sola vez (por performance) -> LISTO
 	GRAB una sola vez
 	THROW una sola vez 
-	QUIT_GAME
-	PIN una sola vez (Facil)
+	QUIT_GAME -> LISTO
+	PIN una sola vez (Facil) -> LISTO
 	texture bala,
+	texture pastel
 	Terminar todas las texturas
 	Investigar YAML
 	Resize

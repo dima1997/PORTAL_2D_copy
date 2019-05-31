@@ -28,9 +28,11 @@ BlockingQueue<GameActionName> & talkRefereeQueue)
     toGameQueue(toGameQueue), 
     talkRefereeQueue(talkRefereeQueue),
     keysPressed({
-        std::make_pair<KeyUsed,bool>(LEFT, false),
-        std::make_pair<KeyUsed,bool>(RIGHT, false),
-        std::make_pair<KeyUsed,bool>(UP, false)
+        std::make_pair<KeyUsed,bool>(A, false),
+        std::make_pair<KeyUsed,bool>(D, false),
+        std::make_pair<KeyUsed,bool>(W, false),
+        std::make_pair<KeyUsed,bool>(SPACE, false),
+        std::make_pair<KeyUsed,bool>(LSHIFT, false)
     }) {}
 
 /*Destruye el lector de eventos de entrada.*/
@@ -101,20 +103,43 @@ POST: Procesa el evento.
 */
 void KeyReader::process_event_up(SDL_KeyboardEvent & keyEvent){
     switch (keyEvent.keysym.sym) {
+        case SDLK_a:
         case SDLK_LEFT:
-            this->process_key_up(LEFT, stop_left);
+            this->process_key_up(A, stop_left);
             break;
+        case SDLK_d:
         case SDLK_RIGHT:
-            this->process_key_up(RIGHT, stop_right);
+            this->process_key_up(D, stop_right);
             break;
+        case SDLK_w:
         case SDLK_UP:
-            this->process_key_up(UP, stop_jump);
+            this->process_key_up(W, stop_jump);
+            break;
+        case SDLK_SPACE:
+        case SDLK_RCTRL:
+            this->process_key_up(SPACE, stop_grab);
+            break;
+        case SDLK_LSHIFT:
+        case SDLK_MINUS:
+            this->process_key_up(LSHIFT, stop_throw);
             break;
         default:
             return;
     }
 }
 
+/*
+Procesa la accion de detenerse el agarrar o tirar algo.
+*/
+/*
+void KeyReader::process_grab_throw_stop(){
+    if (this->has_it == false){
+        this->process_key_up(SPACE, stop_grab);
+    } else {
+        this->process_key_up(SPACE, stop_throw);
+    }
+}
+*/
 /*
 PRE: Recibe el indicativo de la tecla liberada (KeyPressed), y el nombre
 de la accion del juego a procesar segun corresponda (GameActionEvent).
@@ -134,19 +159,45 @@ POST: Procesa el evento.
 */
 void KeyReader::process_event_down(SDL_KeyboardEvent & keyEvent){
     switch (keyEvent.keysym.sym) {
+        case SDLK_a:
         case SDLK_LEFT:
-            this->process_key_down(LEFT, move_left);
+            this->process_key_down(A, move_left);
             break;
+        case SDLK_d:
         case SDLK_RIGHT:
-            this->process_key_down(RIGHT, move_right);
+            this->process_key_down(D, move_right);
             break;
+        case SDLK_w:
         case SDLK_UP:
-            this->process_key_down(UP, jump);
+            this->process_key_down(W, jump);
+            break;
+        case SDLK_SPACE:
+        case SDLK_RCTRL:
+            this->process_key_down(SPACE, grab_it);
+            break;
+        case SDLK_LSHIFT:
+        case SDLK_MINUS:
+            this->process_key_down(LSHIFT, throw_it);
             break;
         default:
             return;
     }
 }
+
+/*
+Procesa una accion de agarrar o tirar algo.
+*/
+/*
+void KeyReader::process_grab_throw(){
+    if (this->has_it == false){
+        this->process_key_down(SPACE, grab_it);
+        this->has_it = true;
+    } else {
+        this->process_key_down(SPACE, throw_it);
+        this->has_it = false;
+    }
+}
+*/
 
 /*
 PRE: Recibe el indicativo de la tecla presionada (KeyPressed), y el nombre
@@ -155,7 +206,7 @@ POST: Comunica la accion del juego, solo si la tecla fue liberada antes de ser
 presionada.
 */
 void KeyReader::process_key_down(KeyUsed actualKey, GameActionName actionName){
-    if (this->keysPressed.at(actualKey) != false){
+    if (this->keysPressed.at(actualKey) != false) {
         return;
     }
     this->keysPressed[actualKey] = true;
@@ -192,5 +243,3 @@ void KeyReader::process_event(SDL_MouseButtonEvent & mouseEvent){
     );
     this->toGameQueue.push(ptrAction);   
 }
-
-
