@@ -50,6 +50,7 @@ void Player::recvGameActions() {
         switch(actionName){
             case open_blue_portal:
             case open_orange_portal:
+            case pin_tool_on:
                 ptrAction = std::make_unique<CoordsAction>(actionName);
                 connector >> *ptrAction;
                 break;

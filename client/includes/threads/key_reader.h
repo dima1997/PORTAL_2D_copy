@@ -11,19 +11,19 @@
 #include <SDL2/SDL.h>
 #include <memory>
 
-enum KeyUsed : {
+typedef enum KeyUsed {
     NULL_KEY,
     LEFT,
     RIGHT,
     UP
-}
+} KeyUsed_t;
 
 class KeyReader {
 private:
     Window & window; 
     BlockingQueue<std::unique_ptr<GameAction>> & toGameQueue; 
     BlockingQueue<GameActionName> & talkRefereeQueue;
-    std::map<KeyUsed,bool> keysPressed;
+    std::map<KeyUsed_t,bool> keysPressed;
 
     /*
     PRE: Recibe un evento de teclado de sdl (SDL_KeyboardEvent &),

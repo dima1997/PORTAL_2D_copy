@@ -27,11 +27,11 @@ BlockingQueue<GameActionName> & talkRefereeQueue)
 :   window(window), 
     toGameQueue(toGameQueue), 
     talkRefereeQueue(talkRefereeQueue),
-    keysPressed(
+    keysPressed({
         std::make_pair<KeyUsed,bool>(LEFT, false),
-        std::make_pair<KeyUsed,bool>(RIGHT, false)
+        std::make_pair<KeyUsed,bool>(RIGHT, false),
         std::make_pair<KeyUsed,bool>(UP, false)
-    )
+    }) {}
 
 /*Destruye el lector de eventos de entrada.*/
 KeyReader::~KeyReader() = default;
@@ -79,7 +79,7 @@ GameActionName KeyReader::process_event(SDL_Event & event){
                 this->process_event_down(keyEvent);
             }
             break;
-        case SDL_KEY_UP:
+        case SDL_KEYUP:
             {
                 auto& keyEvent = (SDL_KeyboardEvent &) event;
                 this->process_event_up(keyEvent);
@@ -100,9 +100,6 @@ de una tecla liberada.
 POST: Procesa el evento.
 */
 void KeyReader::process_event_up(SDL_KeyboardEvent & keyEvent){
-    GameActionName actionName = null_action;
-    KeyPressed actualKey = NULL_KEY;
-    GameActionName actionName = null_action;
     switch (keyEvent.keysym.sym) {
         case SDLK_LEFT:
             this->process_key_up(LEFT, stop_left);
@@ -136,7 +133,6 @@ de una tecla presionada.
 POST: Procesa el evento.
 */
 void KeyReader::process_event_down(SDL_KeyboardEvent & keyEvent){
-    GameActionName actionName = null_action;
     switch (keyEvent.keysym.sym) {
         case SDLK_LEFT:
             this->process_key_down(LEFT, move_left);
@@ -162,7 +158,7 @@ void KeyReader::process_key_down(KeyUsed actualKey, GameActionName actionName){
     if (this->keysPressed.at(actualKey) != false){
         return;
     }
-    this->keysPressed.insert(actualKey, true);
+    this->keysPressed[actualKey] = true;
     std::unique_ptr<GameAction> ptrGameAction(new GameAction(actionName));
     this->toGameQueue.push(ptrGameAction);
 }
@@ -184,6 +180,9 @@ void KeyReader::process_event(SDL_MouseButtonEvent & mouseEvent){
             break;
         case SDL_BUTTON_RIGHT:
             actionName = open_orange_portal;
+            break;
+        case SDL_BUTTON_MIDDLE:
+            actionName = pin_tool_on;
             break;
         default:
             return;

@@ -91,24 +91,28 @@ void Game::start() {
             uint8_t player_id = ptrAction->getPlayerId();
             //switch (action->getGameActionName()){
             switch (ptrAction->getGameActionName()){
-                case move_left:
-                    world.moveChellLeft(player_id);
-                    break;
-                case move_right:
-                    world.moveChellRight(player_id);
-                    break;
-                case jump:
-                    world.makeChellJump(player_id);
-                    break;
                 case quit_game:
                     {
                         // player stop
                         --numberOfPlayers;
                         std::unique_ptr<Event> ptrEvent(new PlayerDiesEvent());
-                        //players.at(player_id).addToQueue(new PlayerDiesEvent());
                         players.at(player_id).addToQueue(ptrEvent);
                     }
-
+                    break;
+                case move_left:
+                    world.moveChellLeft(player_id);
+                    break;
+                case stop_left:
+                    break;
+                case move_right:
+                    world.moveChellRight(player_id);
+                    break;
+                case stop_right:
+                    break;
+                case jump:
+                    world.makeChellJump(player_id);
+                    break;
+                case stop_jump:
                     break;
                 case open_blue_portal:
                     {
@@ -144,7 +148,11 @@ void Game::start() {
                         players.at(player_id).addToQueue(ptrEventShow);
                     }
                     break;
+                case pin_tool_on:
+                    std::cout << "SERVER: Recibi orden de pin tool.\n";
+                    break;
                 case null_action:
+                    break;
                 default:
                     throw PortalException("Null action");
             }
@@ -157,7 +165,6 @@ void Game::start() {
             printf("x: %4.2f, y: %4.2f\n", event->getX(), event->getY());
             for (Player &player : players) {
                 std::unique_ptr<Event> ptrEvent(event);
-                //player.addToQueue(event);
                 player.addToQueue(ptrEvent);
             }
         }
@@ -168,7 +175,6 @@ void Game::start() {
 
     for (Player &player : players) {
         std::unique_ptr<Event> ptrEvent(new PlayerWinsEvent());
-        //player.addToQueue(new PlayerWinsEvent());
         player.addToQueue(ptrEvent);
     }
 }
