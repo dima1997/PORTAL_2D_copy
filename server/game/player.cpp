@@ -93,3 +93,7 @@ void Player::setInQueue(ThreadSafeQueue<std::unique_ptr<GameAction>> *_inQueue) 
 }
 
 Player::~Player() = default;
+
+uint32_t Player::getPlayerId(){
+    return this->id;
+}

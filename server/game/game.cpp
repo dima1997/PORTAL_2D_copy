@@ -21,6 +21,9 @@
 
 #include <iostream>
 
+#include "config_paths.h"
+#include "yaml-cpp/yaml.h"
+
 #define TIME_WAIT_MICRO_SECONDS 10000
 #define ONE_SECOND_EQ_MICRO_SECONDS 100000 
 #define SUMANDO_MAGICO 1000
@@ -33,33 +36,47 @@ Game &Game::operator=(Game &&other) noexcept {
     this->players = std::move(other.players);
     this->world = std::move(other.world);
     this->inQueue = std::move(inQueue);
+
+    this->playerIds = std::move(other.playerIds);
+
     return *this;
 }
 
 Game::Game(Game &&other) noexcept: id(other.id), players(std::move(other.players)), mutex(), cv(),
                                    ready(other.ready), thread(std::move(other.thread)),
                                    numberOfPlayers(other.numberOfPlayers), world(std::move(other.world)),
-                                   inQueue(std::move(other.inQueue)) {
+                                   inQueue(std::move(other.inQueue)),
+                                   playerIds(std::move(other.playerIds)) {
     for (auto &player : players) {
         player.setInQueue(&inQueue);
     }
 }
 
 Game::Game(uint8_t id, uint8_t map_id, Connector &connector): id(id), players(), mutex(), cv(), ready(false),
-                                                              thread(), numberOfPlayers(), world(map_id) {
+                                                              thread(), numberOfPlayers(), world(map_id),
+                                                              playerIds() {
     numberOfPlayers = world.getNumberOfPlayers();
+    YAML::Node baseNode = YAML::LoadFile(CONFIG_PATHS.at(map_id));
+    YAML::Node chellsIds = baseNode["chells"]["id_coordinates"];
+    for (int i = 0; i < (int)chellsIds.size(); ++i){
+        this->playerIds.push_back(chellsIds[i]["id"].as<uint32_t>());
+    }
     connector << (uint8_t) command_ok;
     connector << (uint8_t) id;
     std::unique_lock<std::mutex> l(mutex);
-    Player player(0, connector, &inQueue);
+    uint32_t playerId = this->playerIds[0];
+    connector << (uint32_t) playerId;
+    Player player(playerId, connector, &inQueue); //0
     players.push_back(std::move(player));
 }
 
 bool Game::addPlayer(Connector &connector) {
+    
     std::unique_lock<std::mutex> l(mutex);
     if (!ready) {
         connector << (uint8_t) command_ok;
-        uint32_t playerId = players.size();
+        //uint32_t playerId = players.size();
+        uint32_t playerId = this->playerIds[players.size()];
         connector << (uint8_t) playerId;
         Player player(playerId, connector, &inQueue);
         players.push_back(std::move(player));
@@ -85,14 +102,19 @@ void Game::start() {
             if (!this->inQueue.pop(ptrAction)){
                 break;
             }
-            uint8_t player_id = ptrAction->getPlayerId();
+            uint32_t player_id = ptrAction->getPlayerId();
             switch (ptrAction->getGameActionName()){
                 case quit_game:
                     {
                         // player stop
                         --numberOfPlayers;
                         std::unique_ptr<Event> ptrEvent(new PlayerDiesEvent());
-                        players.at(player_id).addToQueue(ptrEvent);
+                        //players.at(player_id).addToQueue(ptrEvent);
+                        for (auto &player : players) {
+                            if (player.getPlayerId() == player_id){
+                                player.setInQueue(&inQueue);
+                            }
+                        }
                     }
                     break;
                 case move_left:
@@ -118,13 +140,22 @@ void Game::start() {
                         float xMap = ptrCoordsAction->getX();
                         float yMap = ptrCoordsAction->getY();
                         std::cout << "SERVER: Abriendo portal AZUL en x : "<< xMap << " y : " << yMap << "\n";
-                        uint32_t idPortalAzul = player_id + SUMANDO_MAGICO; // hardcondeado
+                        uint32_t idPortalAzul = player_id + 1; // hardcondeado
                         std::unique_ptr<Event> ptrEventHide(new ObjectSwitchEvent(idPortalAzul));
                         std::unique_ptr<Event> ptrEventMove(new ObjectMovesEvent(idPortalAzul, xMap, yMap));
                         std::unique_ptr<Event> ptrEventShow(new ObjectSwitchEvent(idPortalAzul));
+                        for (auto &player : players) {
+                            if (player.getPlayerId() == player_id){
+                                player.addToQueue(ptrEventHide);
+                                player.addToQueue(ptrEventMove);
+                                player.addToQueue(ptrEventShow);
+                            }
+                        }
+                        /*
                         players.at(player_id).addToQueue(ptrEventHide);
                         players.at(player_id).addToQueue(ptrEventMove);
                         players.at(player_id).addToQueue(ptrEventShow);
+                        */
                     }
                     break;
                 case open_orange_portal:
@@ -135,13 +166,22 @@ void Game::start() {
                         float xMap = ptrCoordsAction->getX();
                         float yMap = ptrCoordsAction->getY();
                         std::cout << "SERVER: Abriendo portal NARANJA en x : "<< xMap << " y : " << yMap << "\n";
-                        uint32_t idPortalNaranja = player_id + SUMANDO_MAGICO + 1; // hardcondeado
+                        uint32_t idPortalNaranja = player_id + 2; // hardcondeado
                         std::unique_ptr<Event> ptrEventHide(new ObjectSwitchEvent(idPortalNaranja));
                         std::unique_ptr<Event> ptrEventMove(new ObjectMovesEvent(idPortalNaranja, xMap, yMap));
                         std::unique_ptr<Event> ptrEventShow(new ObjectSwitchEvent(idPortalNaranja));
+                        for (auto &player : players) {
+                            if (player.getPlayerId() == player_id){
+                                player.addToQueue(ptrEventHide);
+                                player.addToQueue(ptrEventMove);
+                                player.addToQueue(ptrEventShow);
+                            }
+                        }
+                        /*
                         players.at(player_id).addToQueue(ptrEventHide);
                         players.at(player_id).addToQueue(ptrEventMove);
                         players.at(player_id).addToQueue(ptrEventShow);
+                        */
                     }
                     break;
                 case pin_tool_on:

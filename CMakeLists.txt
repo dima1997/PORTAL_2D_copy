@@ -5,11 +5,11 @@ set(CMAKE_CXX_STANDARD 11)
 set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -ggdb")
 
 # YAML
-include_directories(${CMAKE_SOURCE_DIR}/lib) # Esto es importante para que compile
-message("[INFO] Adding yaml-cpp as a library")
-file(GLOB_RECURSE YAML_SOURCES RELATIVE ${CMAKE_SOURCE_DIR} "lib/yaml-cpp/*.cpp" "lib/yaml-cpp/*.h")
-add_library(yaml-cpp STATIC ${YAML_SOURCES})
-
+#include_directories(${CMAKE_SOURCE_DIR}/lib) # Esto es importante para que compile
+#message("[INFO] Adding yaml-cpp as a library")
+#file(GLOB_RECURSE YAML_SOURCES RELATIVE ${CMAKE_SOURCE_DIR} "lib/yaml-cpp/*.cpp" "lib/yaml-cpp/*.h")
+#add_library(yaml-cpp STATIC ${YAML_SOURCES})
+add_subdirectory(lib/yaml-cpp)
 # SERVER -----------------------
 set(SERVER_NAME "PORTAL-server")
 set(SERVER_FOLDER "server")
@@ -42,6 +42,8 @@ find_package(Threads REQUIRED)
 target_link_libraries(${SERVER_NAME} ${CMAKE_THREAD_LIBS_INIT})
 
 target_link_libraries(${SERVER_NAME} yaml-cpp)
+
+install(FILES server/configs_yaml/config_0.yaml DESTINATION ${CMAKE_BINARY_DIR})
 
 # CLIENT ----------------------
 set(CLIENT_NAME "PORTAL")

@@ -70,8 +70,7 @@ void Window::add_map(){
     float xBlock, yBlock;
     float manyBlocksHorizontal = xBlockLast - xBlockFirst + widthBlockMap;
     float manyBlocksVertical = yBlockLast - yBlockFirst + heightBlockMap;
-    uint32_t id = this->idMainTexture;
-    ++id;
+    uint32_t id = 0;
     // Agrego techo
     for (float i = 0; i < manyBlocksHorizontal ; ++i){
         xBlock = i + xBlockFirst;
@@ -112,13 +111,13 @@ void Window::add_map(){
                                                 heightBlockMap));
         ++id;
     }
-    uint32_t idPortalBlue = this->idMainTexture + SUMANDO_MAGICO;
+    uint32_t idPortalBlue = this->idMainTexture + 1;
     Area areaPortalBlueMap(xBlockFirst,1.75, PORTAL_WIDTH, PORTAL_HEIGHT);
     this->add_portal_texture(idPortalBlue, areaPortalBlueMap);
     this->switch_texture(idPortalBlue);
     this->switch_texture(idPortalBlue);
 
-    uint32_t idPortalOrange = this->idMainTexture + SUMANDO_MAGICO + 1;
+    uint32_t idPortalOrange = this->idMainTexture + 2;
     Area areaPortalOrangeMap(xBlockLast,1.75, PORTAL_WIDTH, PORTAL_HEIGHT);
     this->add_portal_texture(idPortalOrange, areaPortalOrangeMap);
     this->switch_texture(idPortalOrange);

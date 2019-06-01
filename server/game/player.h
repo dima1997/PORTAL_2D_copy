@@ -44,6 +44,7 @@ public:
     void addToQueue(std::unique_ptr<Event> & ptrEvent);
     //void setInQueue(ThreadSafeQueue<GameAction *> *inQueue);
     void setInQueue(ThreadSafeQueue<std::unique_ptr<GameAction>> *inQueue);
+    uint32_t getPlayerId();
 };
 
 

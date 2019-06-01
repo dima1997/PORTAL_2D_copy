@@ -1,0 +1,86 @@
+---
+# Al agregar nuevos objetos, no repetir ids. 
+# Para facilitar el conteo de ids, ordenar la descripcion 
+# de cada objeto, por su id de menor a mayor.
+# Tambien se recomienda respetar las convenciones de ids,
+# descritas en cada seccion. 
+sections: [blocks, chells, portals]
+blocks:
+    width: 1
+    height: 1
+    id_coordinates:
+    # Distanciar ids de a 1.
+        [
+            {id: 0, xCoord: -7.5, yCoord: 8.5},
+            {id: 1, xCoord: -6.5, yCoord: 8.5},
+            {id: 2, xCoord: -5.5, yCoord: 8.5},
+            {id: 3, xCoord: -4.5, yCoord: 8.5},
+            {id: 4, xCoord: -3.5, yCoord: 8.5},
+            {id: 5, xCoord: -2.5, yCoord: 8.5},
+            {id: 6, xCoord: -1.5, yCoord: 8.5},
+            {id: 7, xCoord: -0.5, yCoord: 8.5},
+            {id: 8, xCoord: 0.5, yCoord: 8.5},
+            {id: 9, xCoord: 1.5, yCoord: 8.5},
+            {id: 10, xCoord: 2.5, yCoord: 8.5},
+            {id: 11, xCoord: 3.5, yCoord: 8.5},
+            {id: 12, xCoord: 4.5, yCoord: 8.5},
+            {id: 13, xCoord: 5.5, yCoord: 8.5},
+            {id: 14, xCoord: 6.5, yCoord: 8.5},
+            {id: 15, xCoord: 7.5, yCoord: 8.5},
+            {id: 16, xCoord: 8.5, yCoord: 8.5},
+            {id: 17, xCoord: 9.5, yCoord: 8.5},
+            {id: 18, xCoord: 9.5, yCoord: 7.5},
+            {id: 19, xCoord: 9.5, yCoord: 6.5},
+            {id: 20, xCoord: 9.5, yCoord: 5.5},
+            {id: 21, xCoord: 9.5, yCoord: 4.5},
+            {id: 22, xCoord: 9.5, yCoord: 3.5},
+            {id: 23, xCoord: 9.5, yCoord: 2.5},
+            {id: 24, xCoord: 9.5, yCoord: 1.5},
+            {id: 25, xCoord: 9.5, yCoord: 0.5},
+            {id: 26, xCoord: 8.5, yCoord: 0.5},
+            {id: 27, xCoord: 7.5, yCoord: 0.5},
+            {id: 28, xCoord: 5.5, yCoord: 0.5},
+            {id: 29, xCoord: 6.5, yCoord: 0.5},
+            {id: 30, xCoord: 4.5, yCoord: 0.5},
+            {id: 31, xCoord: 3.5, yCoord: 0.5},
+            {id: 32, xCoord: 0.5, yCoord: 0.5},
+            {id: 33, xCoord: 1.5, yCoord: 0.5},
+            {id: 34, xCoord: 2.5, yCoord: 0.5},
+            {id: 35, xCoord: -0.5, yCoord: 0.5},
+            {id: 36, xCoord: -1.5, yCoord: 0.5},
+            {id: 37, xCoord: -2.5, yCoord: 0.5},
+            {id: 38, xCoord: -3.5, yCoord: 0.5},
+            {id: 39, xCoord: -4.5, yCoord: 0.5},
+            {id: 40, xCoord: -5.5, yCoord: 0.5},
+            {id: 41, xCoord: -6.5, yCoord: 0.5},
+            {id: 42, xCoord: -7.5, yCoord: 0.5},
+            {id: 43, xCoord: -7.5, yCoord: 1.5},
+            {id: 44, xCoord: -7.5, yCoord: 2.5},
+            {id: 45, xCoord: -7.5, yCoord: 3.5},
+            {id: 46, xCoord: -7.5, yCoord: 4.5},
+            {id: 47, xCoord: -7.5, yCoord: 5.5},
+            {id: 48, xCoord: -7.5, yCoord: 6.5},
+            {id: 49, xCoord: -7.5, yCoord: 7.5},
+        ]
+chells:
+    width: 1
+    height: 1.5
+    id_coordinates: 
+    # Usar ids distanciados de a 3 
+        [
+            {id: 50, xCoord: 0.5, yCoord: 1.75},
+            #{id: 53, xCoord: 2.5, yCoord: 3.75}
+        ]
+portals:
+    width: 1.5
+    height: 1.5
+    id_color_coordinates: 
+    # Distanciar los id de blue a orange de a 1,
+    # pero de orange a blue de a 2 
+    # Utilizar coordenadas fuera de los limites del mapa.
+        [
+            {id: 51, color: 'blue', xCoord: 10.5, yCoord: 9.5},
+            {id: 52, color: 'orange', xCoord: 10.5, yCoord: 9.5}
+            #{id: 54, color: 'blue', xCoord: 10.5, yCoord: 9.5},
+            #{id: 55, color: 'orange', xCoord: 10.5, yCoord: 9.5},
+        ]

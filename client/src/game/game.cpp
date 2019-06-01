@@ -51,11 +51,8 @@ void Game::run(){
     int windowWidthPixels = WINDOW_WIDTH;
     int windowHeightPixels = WINDOW_HEIGHT;
     Window window(windowWidthPixels, windowHeightPixels, this->playerId);
-    const Area & areaChell = window.getMainTextureArea(); 
-    //this->threads.push_back(std::move(std::unique_ptr<Thread>(new AnimationLoopThread(window, this->changesMade))));
     this->threads.push_back(std::move(std::unique_ptr<Thread>(new EventGameReceiverThread(this->connector, this->changesMade, endQueue))));
     this->threads.push_back(std::move(std::unique_ptr<Thread>(new KeySenderThread(this->connector, this->changesAsk))));
-    //this->threads.push_back(std::move(std::unique_ptr<Thread>(new KeyReaderThread(window, this->changesAsk, endQueue))));
     
     this->threads.push_back(std::move(std::unique_ptr<Thread>(new PlayingLoopThread(window, this->changesMade, this->changesAsk, endQueue))));
 

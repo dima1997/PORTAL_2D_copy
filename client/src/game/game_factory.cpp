@@ -22,7 +22,9 @@ Game GameFactory::createGame(std::string &host, std::string &port, std::string &
         uint8_t game_id;
         connector >> game_id;
         std::cout << (unsigned) game_id << std::endl;
-        return std::move(Game(connector, game_id, 0));
+        uint32_t player_id;
+        connector >> player_id;
+        return std::move(Game(connector, game_id, player_id)); //0
     }
     if (command == "join") {
         connector << (uint8_t) join_game;

@@ -19,10 +19,14 @@
 #include <protocol/game_action/game_action.h>
 #include <memory>
 
+#include <cstdint>
+#include <map>
+
 class Game {
 private:
     int id;
     std::vector<Player> players;
+    //std::map<uint32_t,Player> players;
     std::mutex mutex;
     std::condition_variable cv;
     bool ready;
@@ -30,8 +34,8 @@ private:
     // TODO: number of players should depend on a map, map should be an attribute
     int numberOfPlayers;
     World world;
-    //ThreadSafeQueue<GameAction *> inQueue;
     ThreadSafeQueue<std::unique_ptr<GameAction>> inQueue;
+    std::vector<uint32_t> playerIds;
     void start();
 public:
     Game(uint8_t id, uint8_t mapId, Connector &connector);
@@ -43,6 +47,5 @@ public:
     bool isFinished();
     bool addPlayer(Connector &connector);
 };
-
 
 #endif //PORTAL_GAME_H

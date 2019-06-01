@@ -67,7 +67,7 @@ public:
 
     void setPlayerId(uint32_t id);
 
-    uint8_t getPlayerId();
+    uint32_t getPlayerId();
 };
 
 #endif // GAME_ACTION_H

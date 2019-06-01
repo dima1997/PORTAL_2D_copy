@@ -29,11 +29,11 @@ public:
 
     int getNumberOfPlayers();
 
-    void moveChellLeft(uint8_t i);
+    void moveChellLeft(uint32_t i);
 
-    void moveChellRight(uint8_t i);
+    void moveChellRight(uint32_t i);
 
-    void makeChellJump(uint8_t i);
+    void makeChellJump(uint32_t i);
 };
 
 

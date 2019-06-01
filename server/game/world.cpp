@@ -8,6 +8,9 @@
 #include "world.h"
 #include "body/rock_block.h"
 
+#include "config_paths.h"
+#include "yaml-cpp/yaml.h"
+
 #define TIME_STEP 1.0f / 60.0f
 #define VELOCITY_ITERATIONS 8
 #define POSITION_ITERATIONS 2
@@ -58,6 +61,39 @@ World::~World() {
 }
 
 void World::loadMap(uint8_t mapId) {
+    YAML::Node baseNode = YAML::LoadFile(CONFIG_PATHS.at(mapId));
+    YAML::Node blocks = baseNode["blocks"];
+    float widthBlock = blocks["width"].as<float>(); // TODO : Actualizar codigo para utilizar estos tamanios del YAML
+    float heightBlock = blocks["height"].as<float>(); //  Puedes usar float32 si gustas
+    YAML::Node blocksIdCoords = blocks["id_coordinates"];
+    for(int i = 0; i < (int)blocksIdCoords.size(); ++i) {
+        uint32_t id = blocksIdCoords[i]["id"].as<uint32_t>(); // Puedes no usarlo, pero aqui esta. 
+        float32 x = blocksIdCoords[i]["xCoord"].as<float32>();
+        float32 y = blocksIdCoords[i]["yCoord"].as<float32>();
+        staticBodies.push_back(new RockBlock(*world, x, y));
+    }
+    YAML::Node chellsYaml = baseNode["chells"];
+    float widthChell = chellsYaml["width"].as<float>(); 
+    float heightChell = chellsYaml["height"].as<float>(); 
+    YAML::Node chellsIdCoords = chellsYaml["id_coordinates"];
+    for (int i = 0; i < (int)chellsIdCoords.size(); ++i){
+        uint32_t id = chellsIdCoords[i]["id"].as<uint32_t>();  
+        float32 x = chellsIdCoords[i]["xCoord"].as<float32>();
+        float32 y = chellsIdCoords[i]["yCoord"].as<float32>();
+        chells.push_back(new Chell(*world, x, y, id)); // Tal vez deberia hardcodearlo a cero.
+    }
+    YAML::Node portalsYaml = baseNode["portals"];
+    float portalWidth = portalsYaml["width"].as<float>(); 
+    float portalHeight = portalsYaml["height"].as<float>(); 
+    YAML::Node portalsIdColorCoords = portalsYaml["id_color_coordinates"];
+    for (int i = 0; i < (int)portalsIdColorCoords.size(); ++i){
+        uint32_t id = portalsIdColorCoords[i]["id"].as<uint32_t>();
+        std::string color = portalsIdColorCoords[i]["color"].as<std::string>();  
+        float32 x = portalsIdColorCoords[i]["xCoord"].as<float32>();
+        float32 y = portalsIdColorCoords[i]["yCoord"].as<float32>();
+        // Aqui se agregan los portales
+    }
+    /*
     for(int i = -8; i < 10; ++i) {
         staticBodies.push_back(new RockBlock(*world, (float32) i + 0.5, 0.5));
         staticBodies.push_back(new RockBlock(*world, (float32) i + 0.5, 8.5));
@@ -68,13 +104,15 @@ void World::loadMap(uint8_t mapId) {
     }
     chells.push_back(new Chell(*world, 0.5f, 1.75f, 0));
     numberOfPlayers = 1;
+    */
+    numberOfPlayers = 1;
 }
 
 int World::getNumberOfPlayers() {
     return numberOfPlayers;
 }
 
-void World::moveChellLeft(uint8_t i) {
+void World::moveChellLeft(uint32_t i) {
     for (auto *chell : chells) {
         if (chell->getPlayerId() == i) {
             chell->moveLeft();
@@ -83,7 +121,7 @@ void World::moveChellLeft(uint8_t i) {
     }
 }
 
-void World::moveChellRight(uint8_t i) {
+void World::moveChellRight(uint32_t i) {
     // TODO: generalize
     for (auto *chell : chells) {
         if (chell->getPlayerId() == i) { 
@@ -95,7 +133,7 @@ void World::moveChellRight(uint8_t i) {
 
 // Agregado por Dima --------------------
 
-void World::makeChellJump(uint8_t i) {
+void World::makeChellJump(uint32_t i) {
     // TODO: generalize
     for (auto *chell : chells) {
         if (chell->getPlayerId() == i) { 

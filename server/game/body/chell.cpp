@@ -24,7 +24,7 @@ void Chell::createBody(float32 xPos, float32 yPos) {
     body->CreateFixture(&fixtureDef);
 }
 
-Chell::Chell(b2World &world, float32 xPos, float32 yPos, uint8_t playerId):
+Chell::Chell(b2World &world, float32 xPos, float32 yPos, uint32_t playerId):
              Body(world, xPos, yPos), playerId(playerId) {
     createBody(xPos, yPos);
 }
@@ -58,7 +58,7 @@ void Chell::jump() {
     }
 }
 
-uint8_t Chell::getPlayerId() {
+uint32_t Chell::getPlayerId() {
     return playerId;
 }
 

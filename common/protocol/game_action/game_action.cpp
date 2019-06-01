@@ -86,6 +86,6 @@ void GameAction::setPlayerId(uint32_t id) {
     playerId = id;
 }
 
-uint8_t GameAction::getPlayerId() {
+uint32_t GameAction::getPlayerId() { // Antes estaba puesto en uint8_t
     return playerId;
 }
