@@ -120,6 +120,20 @@ public:
     por el recibido.
     */
     void setY(float y);
+
+    /*
+    PRE: Recibe un nuevo ancho (float).
+    POST: Cambia el valor de anche del area 
+    por el recibido.
+    */
+    void setWidth(float width);
+
+    /*
+    PRE: Recibe un nuevoa alto (float) y.
+    POST: Cambia el valor de alto del area 
+    por el recibido.
+    */
+    void setHeight(float height);
 };
 
 #endif

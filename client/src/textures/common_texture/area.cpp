@@ -201,7 +201,7 @@ POST: Cambia el valor de coordenada x del area
 por el recibido.
 */
 void Area::setX(float x) {
-    this-> x = x;
+    this->x = x;
 }
 
 /*
@@ -211,5 +211,23 @@ por el recibido.
 */
 void Area::setY(float y) {
     this->y = y;
+}
+
+/*
+PRE: Recibe un nuevo ancho (float).
+POST: Cambia el valor de anche del area 
+por el recibido.
+*/
+void Area::setWidth(float width) {
+    this->width = width;
+}
+
+/*
+PRE: Recibe un nuevoa alto (float) y.
+POST: Cambia el valor de alto del area 
+por el recibido.
+*/
+void Area::setHeight(float height) {
+    this->height = height;
 }
 

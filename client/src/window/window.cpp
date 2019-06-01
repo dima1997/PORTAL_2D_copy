@@ -113,14 +113,6 @@ Window::Window(int width, int height, uint32_t idMainTexture)
     if (errCode) {
         throw SdlException("Error en la inicialización", SDL_GetError());
     }
-    /*
-    errCode = SDL_CreateWindowAndRenderer(
-        width, height, SDL_RENDERER_ACCELERATED,
-        &this->window, &this->renderer);
-    if (errCode) {
-        throw SdlException("Error al crear ventana", SDL_GetError());
-    }
-    */
     this->window = SDL_CreateWindow(
         "Portal Window",
         SDL_WINDOWPOS_CENTERED,
@@ -182,9 +174,18 @@ void Window::render() {
     Texture & mainTexture = *(this->allTextures.at(this->idMainTexture));
     Area newAreaCamera = mainTexture.getVisionArea(); 
     int widthPixels;
-    SDL_GetWindowSize(this->window,&widthPixels,NULL);
-    //float adjuster = this->width/newAreaCamera.getWidth();
-    float adjuster = widthPixels/newAreaCamera.getWidth();
+    int heightPixels;
+    SDL_GetWindowSize(this->window,&widthPixels,&heightPixels);
+    float adjuster;
+    if (widthPixels <= heightPixels){
+        adjuster = widthPixels/newAreaCamera.getWidth();
+        float newHeight = heightPixels/adjuster;
+        newAreaCamera.setHeight(newHeight);
+    } else {
+        adjuster = heightPixels/newAreaCamera.getHeight();
+        float newWidth = widthPixels/adjuster;
+        newAreaCamera.setWidth(newWidth);
+    }
     for (int i = 0; i < this->ids.size(); ++i){
         uint32_t actualId = this->ids[i];
         Texture & actualTexture = *(this->allTextures.at(actualId));
