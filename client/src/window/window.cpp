@@ -8,10 +8,10 @@
 
 #include "../../includes/textures/chell_texture/chell_texture.h"
 #include "../../includes/textures/block_metal_texture/block_metal_texture.h"
+#include "../../includes/textures/block_rock_texture/block_rock_texture.h"
 #include "../../includes/textures/portal_texture/portal_blue_texture.h"
 #include "../../includes/textures/door_texture/door_one_texture.h"
-
-#include "../../includes/game_objects/game_objects_size.h"
+#include "../../includes/textures/energy_ball_texture/energy_ball_texture.h"
 
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
@@ -67,13 +67,18 @@ void Window::add_map(){
     YAML::Node blocks = baseNode["blocks"];
     float blockWidth = blocks["width"].as<float>(); 
     float blockHeight = blocks["height"].as<float>(); 
-    YAML::Node blocksIdCoords = blocks["id_coordinates"];
+    YAML::Node blocksIdCoords = blocks["id_material_coordinates"];
     for(int i = 0; i < (int)blocksIdCoords.size(); ++i) {
         uint32_t id = blocksIdCoords[i]["id"].as<uint32_t>();  
+        std::string material = blocksIdCoords[i]["material"].as<std::string>();
         float x = blocksIdCoords[i]["xCoord"].as<float>();
         float y = blocksIdCoords[i]["yCoord"].as<float>();
         Area area(x,y,blockWidth, blockHeight);
-        this->add_block_metal_texture(id,area);
+        if (material == "metal"){
+            this->add_block_metal_texture(id,area);
+        } else if (material == "rock"){
+            this->add_block_rock_texture(id,area);
+        }
     }
     YAML::Node portalsYaml = baseNode["portals"];
     float portalWidth = portalsYaml["width"].as<float>(); 
@@ -100,6 +105,20 @@ void Window::add_map(){
         Area area(x,y,doorWidth, doorHeight);
         this->add_door_one_texture(id,area);
     }
+
+    YAML::Node ballsYaml = baseNode["energy_balls"];
+    float ballWidth = ballsYaml["width"].as<float>(); 
+    float ballHeight = ballsYaml["height"].as<float>(); 
+    YAML::Node ballsIdCoords = ballsYaml["id_color_coordinates"];
+    for (int i = 0; i < (int)ballsIdCoords.size(); ++i){
+        uint32_t id = ballsIdCoords[i]["id"].as<uint32_t>();
+        std::string color = ballsIdCoords[i]["color"].as<std::string>(); 
+        float x = ballsIdCoords[i]["xCoord"].as<float>();
+        float y = ballsIdCoords[i]["yCoord"].as<float>();
+        Area area(x,y,ballWidth, ballHeight);
+        this->add_energy_ball_texture(id,area);
+    }
+
     YAML::Node chellsYaml = baseNode["chells"];
     float chellWidth = chellsYaml["width"].as<float>(); 
     float chellHeight = chellsYaml["height"].as<float>(); 
@@ -238,6 +257,30 @@ void Window::add_block_metal_texture(uint32_t id, Area areaMap){
 
 /*
 PRE: Recibe :
+    El id (uint32_t) de indentificacion del bloque de piedra a agregar.
+    El area (Area) con las coordenadas y dimensiones del objeto
+    que representa la textura en el mapa de juego (en unidades de 
+    distancia del juego).
+POST: Agrega un nueva textura de bloque de piedra a la ventana, bajo las 
+condiciones anteriores.
+Levanta SdlException en caso de error.
+*/
+void Window::add_block_rock_texture(uint32_t id, Area areaMap){
+    this->add_id_texture(id);
+    this->add_big_texture(ALL_BLOCKS_SPRITES);
+    std::unique_ptr<Texture> ptrTexture(
+                                    new BlockRockTexture(
+                                        this->bigTextures.at(
+                                            ALL_BLOCKS_SPRITES
+                                        ), 
+                                        areaMap
+                                    )
+                                );
+    this->add_texture(id, std::move(ptrTexture));
+}
+
+/*
+PRE: Recibe :
     El id (uint32_t) de indentificacion de la chell a agregar.
     El area (Area) con las coordenadas y dimensiones del Chell del objeto
     que representa la textura en el mapa de juego (en unidades de distancia del 
@@ -300,6 +343,31 @@ void Window::add_door_one_texture(uint32_t id, Area areaMap){
                                     new DoorOneTexture(
                                         this->bigTextures.at(
                                             ALL_DOORS_SPRITES
+                                        ), 
+                                        areaMap
+                                    )
+                                );
+    this->add_texture(id, std::move(ptrTexture));
+}
+
+/*
+PRE: Recibe :
+    El id (uint32_t) de indentificacion de la bola de energia a 
+    agregar.
+    El area (Area) con las coordenadas y dimensiones del objeto
+    que representa la textura en el mapa de juego (en unidades de 
+    distancia del juego).
+POST: Agrega un nueva textura de puerta 1 a la ventana, bajo las 
+condiciones anteriores.
+Levanta OSException o SdlException en caso de error.
+*/
+void Window::add_energy_ball_texture(uint32_t id, Area areaMap){
+    this->add_id_texture(id);
+    this->add_big_texture(ALL_ROCKS_AND_BALLS_SPRITES);
+    std::unique_ptr<Texture> ptrTexture(
+                                    new EnergyBallTexture(
+                                        this->bigTextures.at(
+                                            ALL_ROCKS_AND_BALLS_SPRITES
                                         ), 
                                         areaMap
                                     )

@@ -72,6 +72,8 @@ file(GLOB client_files
         "${CLIENT_FOLDER}/src/textures/block_metal_texture/block_metal_texture.cpp"
         "${CLIENT_FOLDER}/src/textures/block_metal_texture/block_metal_sprite_strategy.cpp"
         "${CLIENT_FOLDER}/src/textures/block_metal_texture/block_metal_sprite.cpp"
+        "${CLIENT_FOLDER}/src/textures/block_rock_texture/block_rock_texture.cpp"
+        "${CLIENT_FOLDER}/src/textures/block_rock_texture/block_rock_sprite.cpp"
         "${CLIENT_FOLDER}/src/textures/static_texture/static_texture.cpp"
         "${CLIENT_FOLDER}/src/textures/chell_texture/chell_texture.cpp"
         "${CLIENT_FOLDER}/src/textures/chell_texture/move_sense.cpp"
@@ -94,7 +96,9 @@ file(GLOB client_files
 	"${CLIENT_FOLDER}/src/textures/door_texture/door_four_closed_sprite.cpp"
 	"${CLIENT_FOLDER}/src/textures/door_texture/door_five_texture.cpp"
 	"${CLIENT_FOLDER}/src/textures/door_texture/door_five_closed_sprite.cpp"
-
+	"${CLIENT_FOLDER}/src/textures/energy_ball_texture/energy_ball_texture.cpp"
+	"${CLIENT_FOLDER}/src/textures/energy_ball_texture/energy_ball_sprite_strategy.cpp"
+	"${CLIENT_FOLDER}/src/textures/energy_ball_texture/energy_ball_sprite.cpp"
         )
 
 add_executable(${CLIENT_NAME} ${common_files} ${client_files})
@@ -113,3 +117,4 @@ install(FILES client/assets/all_blocks.png DESTINATION ${CMAKE_BINARY_DIR})
 install(FILES client/assets/all_chells_part_1.png DESTINATION ${CMAKE_BINARY_DIR})
 install(FILES client/assets/portal_blue.png DESTINATION ${CMAKE_BINARY_DIR})
 install(FILES client/assets/doors.png DESTINATION ${CMAKE_BINARY_DIR})
+install(FILES client/assets/rocks_and_balls.png DESTINATION ${CMAKE_BINARY_DIR})

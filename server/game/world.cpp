@@ -65,9 +65,10 @@ void World::loadMap(uint8_t mapId) {
     YAML::Node blocks = baseNode["blocks"];
     float widthBlock = blocks["width"].as<float>(); // TODO : Actualizar codigo para utilizar estos tamanios del YAML
     float heightBlock = blocks["height"].as<float>(); //  Puedes usar float32 si gustas
-    YAML::Node blocksIdCoords = blocks["id_coordinates"];
+    YAML::Node blocksIdCoords = blocks["id_material_coordinates"];
     for(int i = 0; i < (int)blocksIdCoords.size(); ++i) {
         uint32_t id = blocksIdCoords[i]["id"].as<uint32_t>(); // Puedes no usarlo, pero aqui esta. 
+        std::string material = blocksIdCoords[i]["material"].as<std::string>();
         float32 x = blocksIdCoords[i]["xCoord"].as<float32>();
         float32 y = blocksIdCoords[i]["yCoord"].as<float32>();
         staticBodies.push_back(new RockBlock(*world, x, y));

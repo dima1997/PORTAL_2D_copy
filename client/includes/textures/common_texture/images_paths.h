@@ -6,5 +6,6 @@
 #define ALL_CHELL_SPRITES_PART_2 "all_chells_part_2.png"
 #define PORTAL_SPRITES "portal_blue.png"
 #define ALL_DOORS_SPRITES "doors.png"
+#define ALL_ROCKS_AND_BALLS_SPRITES "rocks_and_balls.png"
 
 #endif // IMAGES_PATH_H
