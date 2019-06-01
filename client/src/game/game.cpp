@@ -4,10 +4,8 @@
 #include <blocking_queue.h>
 #include <thread_safe_queue.h>
 
-//#include "../../includes/threads/animation_loop_thread.h"
 #include "../../includes/threads/event_game_receiver_thread.h"
 #include "../../includes/threads/key_sender_thread.h"
-//#include "../../includes/threads/key_reader_thread.h"
 
 #include "../../includes/threads/playing_loop_thread.h"
 

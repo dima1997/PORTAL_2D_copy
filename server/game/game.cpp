@@ -21,7 +21,7 @@
 
 #include <iostream>
 
-#include "config_paths.h"
+#include <configs_yaml/config_paths.h>
 #include "yaml-cpp/yaml.h"
 
 #define TIME_WAIT_MICRO_SECONDS 10000

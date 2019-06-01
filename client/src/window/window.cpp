@@ -15,6 +15,9 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 
+#include <configs_yaml/config_paths.h>
+#include "yaml-cpp/yaml.h"
+
 #include <sstream>
 #include <mutex>
 
@@ -61,6 +64,42 @@ Agrega el mapa de juego inicial, con todas sus texturas.
 Levanta SdlError o OSError en caso de error.
 */
 void Window::add_map(){
+    YAML::Node baseNode = YAML::LoadFile(CONFIG_PATHS.at(0)); // Harcodeado, actualizar codigo para recibir map_id por connector
+    YAML::Node blocks = baseNode["blocks"];
+    float blockWidth = blocks["width"].as<float>(); 
+    float blockHeight = blocks["height"].as<float>(); 
+    YAML::Node blocksIdCoords = blocks["id_coordinates"];
+    for(int i = 0; i < (int)blocksIdCoords.size(); ++i) {
+        uint32_t id = blocksIdCoords[i]["id"].as<uint32_t>();  
+        float x = blocksIdCoords[i]["xCoord"].as<float>();
+        float y = blocksIdCoords[i]["yCoord"].as<float>();
+        Area area(x,y,blockWidth, blockHeight);
+        this->add_block_metal_texture(id,area);
+    }
+    YAML::Node chellsYaml = baseNode["chells"];
+    float chellWidth = chellsYaml["width"].as<float>(); 
+    float chellHeight = chellsYaml["height"].as<float>(); 
+    YAML::Node chellsIdCoords = chellsYaml["id_coordinates"];
+    for (int i = 0; i < (int)chellsIdCoords.size(); ++i){
+        uint32_t id = chellsIdCoords[i]["id"].as<uint32_t>();  
+        float x = chellsIdCoords[i]["xCoord"].as<float>();
+        float y = chellsIdCoords[i]["yCoord"].as<float>();
+        Area area(x,y,chellWidth, chellHeight);
+        this->add_chell_texture(id,area);
+    }
+    YAML::Node portalsYaml = baseNode["portals"];
+    float portalWidth = portalsYaml["width"].as<float>(); 
+    float portalHeight = portalsYaml["height"].as<float>(); 
+    YAML::Node portalsIdColorCoords = portalsYaml["id_color_coordinates"];
+    for (int i = 0; i < (int)portalsIdColorCoords.size(); ++i){
+        uint32_t id = portalsIdColorCoords[i]["id"].as<uint32_t>();
+        std::string color = portalsIdColorCoords[i]["color"].as<std::string>();  
+        float x = portalsIdColorCoords[i]["xCoord"].as<float>();
+        float y = portalsIdColorCoords[i]["yCoord"].as<float>();
+        Area area(x,y,portalWidth,portalHeight);
+        this->add_portal_texture(id, area);
+    }
+    /*
     float widthBlockMap = BLOCK_WIDTH;
     float heightBlockMap = BLOCK_HEIGHT;
     float xBlockFirst = -7.5;
@@ -111,20 +150,37 @@ void Window::add_map(){
                                                 heightBlockMap));
         ++id;
     }
-    uint32_t idPortalBlue = this->idMainTexture + 1;
+    uint32_t idPortalBlue = 50 + 1;
     Area areaPortalBlueMap(xBlockFirst,1.75, PORTAL_WIDTH, PORTAL_HEIGHT);
     this->add_portal_texture(idPortalBlue, areaPortalBlueMap);
     this->switch_texture(idPortalBlue);
     this->switch_texture(idPortalBlue);
 
-    uint32_t idPortalOrange = this->idMainTexture + 2;
+    uint32_t idPortalOrange = 50 + 2;
     Area areaPortalOrangeMap(xBlockLast,1.75, PORTAL_WIDTH, PORTAL_HEIGHT);
     this->add_portal_texture(idPortalOrange, areaPortalOrangeMap);
     this->switch_texture(idPortalOrange);
     this->switch_texture(idPortalOrange);
 
     Area areaChellMap(0.5, 1.75, CHELL_WIDTH, CHELL_HEIGHT);
-    this->add_chell_texture(this->idMainTexture,areaChellMap);
+    this->add_chell_texture(50,areaChellMap);
+    */
+    /*
+    uint32_t idPortalBlueDos = 53 + 1;
+    Area areaPortalBlueMapDos(xBlockFirst,1.75, PORTAL_WIDTH, PORTAL_HEIGHT);
+    this->add_portal_texture(idPortalBlueDos, areaPortalBlueMapDos);
+    this->switch_texture(idPortalBlueDos);
+    this->switch_texture(idPortalBlueDos);
+
+    uint32_t idPortalOrangeDos = 53 + 2;
+    Area areaPortalOrangeMapDos(xBlockLast,1.75, PORTAL_WIDTH, PORTAL_HEIGHT);
+    this->add_portal_texture(idPortalOrangeDos, areaPortalOrangeMapDos);
+    this->switch_texture(idPortalOrangeDos);
+    this->switch_texture(idPortalOrangeDos);
+
+    Area areaChellMapDos(0.5, 1.75, CHELL_WIDTH, CHELL_HEIGHT);
+    this->add_chell_texture(53,areaChellMapDos);
+    */
 }
 
 /*
@@ -340,5 +396,4 @@ std::tuple<float,float> Window::getMapCoords(int x, int y){
     xMap = xMap + areaCameraTopLeft.getX();
     yMap = (-yMap + areaCameraTopLeft.getY());
     return std::move(std::tuple<float,float>(xMap,yMap));
-
 }

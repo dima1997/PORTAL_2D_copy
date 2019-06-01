@@ -68,7 +68,7 @@ chells:
     id_coordinates: 
     # Usar ids distanciados de a 3 
         [
-            {id: 50, xCoord: 0.5, yCoord: 1.75},
+            {id: 50, xCoord: 0.5, yCoord: 1.75}
             #{id: 53, xCoord: 2.5, yCoord: 3.75}
         ]
 portals:
@@ -82,5 +82,5 @@ portals:
             {id: 51, color: 'blue', xCoord: 10.5, yCoord: 9.5},
             {id: 52, color: 'orange', xCoord: 10.5, yCoord: 9.5}
             #{id: 54, color: 'blue', xCoord: 10.5, yCoord: 9.5},
-            #{id: 55, color: 'orange', xCoord: 10.5, yCoord: 9.5},
+            #{id: 55, color: 'orange', xCoord: 10.5, yCoord: 9.5}
         ]

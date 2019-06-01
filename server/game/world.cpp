@@ -8,7 +8,7 @@
 #include "world.h"
 #include "body/rock_block.h"
 
-#include "config_paths.h"
+#include <configs_yaml/config_paths.h>
 #include "yaml-cpp/yaml.h"
 
 #define TIME_STEP 1.0f / 60.0f
@@ -80,7 +80,7 @@ void World::loadMap(uint8_t mapId) {
         uint32_t id = chellsIdCoords[i]["id"].as<uint32_t>();  
         float32 x = chellsIdCoords[i]["xCoord"].as<float32>();
         float32 y = chellsIdCoords[i]["yCoord"].as<float32>();
-        chells.push_back(new Chell(*world, x, y, id)); // Tal vez deberia hardcodearlo a cero.
+        chells.push_back(new Chell(*world, x, y, id)); 
     }
     YAML::Node portalsYaml = baseNode["portals"];
     float portalWidth = portalsYaml["width"].as<float>(); 
