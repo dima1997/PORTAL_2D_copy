@@ -25,7 +25,7 @@ private:
     std::map<uint32_t, std::unique_ptr<Texture>> allTextures;
     Area areaCamera;
     std::mutex mutex;
-    
+    bool isFullScreen;
     /*
     PRE: Recibe la ruta (const std::string &) de un gran textura 
     (imagen con varios sprites en ella).
@@ -152,7 +152,6 @@ public:
     punto en el mapa de juego. 
     */
     std::tuple<float,float> getMapCoords(int x, int y);
-
 };
 
 #endif // WINDOW_H

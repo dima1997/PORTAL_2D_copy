@@ -21,8 +21,6 @@
 #include <sstream>
 #include <mutex>
 
-#define SUMANDO_MAGICO 1000
-
 /*
 PRE: Recibe la ruta (const std::string &) de un gran textura 
 (imagen con varios sprites en ella).
@@ -76,17 +74,6 @@ void Window::add_map(){
         Area area(x,y,blockWidth, blockHeight);
         this->add_block_metal_texture(id,area);
     }
-    YAML::Node chellsYaml = baseNode["chells"];
-    float chellWidth = chellsYaml["width"].as<float>(); 
-    float chellHeight = chellsYaml["height"].as<float>(); 
-    YAML::Node chellsIdCoords = chellsYaml["id_coordinates"];
-    for (int i = 0; i < (int)chellsIdCoords.size(); ++i){
-        uint32_t id = chellsIdCoords[i]["id"].as<uint32_t>();  
-        float x = chellsIdCoords[i]["xCoord"].as<float>();
-        float y = chellsIdCoords[i]["yCoord"].as<float>();
-        Area area(x,y,chellWidth, chellHeight);
-        this->add_chell_texture(id,area);
-    }
     YAML::Node portalsYaml = baseNode["portals"];
     float portalWidth = portalsYaml["width"].as<float>(); 
     float portalHeight = portalsYaml["height"].as<float>(); 
@@ -99,88 +86,17 @@ void Window::add_map(){
         Area area(x,y,portalWidth,portalHeight);
         this->add_portal_texture(id, area);
     }
-    /*
-    float widthBlockMap = BLOCK_WIDTH;
-    float heightBlockMap = BLOCK_HEIGHT;
-    float xBlockFirst = -7.5;
-    float xBlockLast = 9.5; 
-    float yBlockFirst = 0.5;
-    float yBlockLast = 8.5;
-    float xBlock, yBlock;
-    float manyBlocksHorizontal = xBlockLast - xBlockFirst + widthBlockMap;
-    float manyBlocksVertical = yBlockLast - yBlockFirst + heightBlockMap;
-    uint32_t id = 0;
-    // Agrego techo
-    for (float i = 0; i < manyBlocksHorizontal ; ++i){
-        xBlock = i + xBlockFirst;
-        yBlock = yBlockLast;
-        this->add_block_metal_texture(id, Area(xBlock, yBlock, 
-                                                widthBlockMap, 
-                                                heightBlockMap));
-        ++id;
+    YAML::Node chellsYaml = baseNode["chells"];
+    float chellWidth = chellsYaml["width"].as<float>(); 
+    float chellHeight = chellsYaml["height"].as<float>(); 
+    YAML::Node chellsIdCoords = chellsYaml["id_coordinates"];
+    for (int i = 0; i < (int)chellsIdCoords.size(); ++i){
+        uint32_t id = chellsIdCoords[i]["id"].as<uint32_t>();  
+        float x = chellsIdCoords[i]["xCoord"].as<float>();
+        float y = chellsIdCoords[i]["yCoord"].as<float>();
+        Area area(x,y,chellWidth, chellHeight);
+        this->add_chell_texture(id,area);
     }
-    manyBlocksVertical--;
-    yBlockLast -= heightBlockMap;
-    // Agrego piso
-    for (float i = 0; i < manyBlocksHorizontal; ++i){
-        xBlock = i + xBlockFirst;
-        yBlock = yBlockFirst;
-        this->add_block_metal_texture(id, Area(xBlock, yBlock, 
-                                                widthBlockMap, 
-                                                heightBlockMap));
-        ++id;
-    }
-    manyBlocksVertical--;
-    yBlockFirst += heightBlockMap;
-    // Agrego lado izquierdo
-    for (float i = 0; i < manyBlocksVertical; ++i){
-        xBlock = xBlockFirst;
-        yBlock = i + yBlockFirst;
-        this->add_block_metal_texture(id, Area(xBlock, yBlock, 
-                                                widthBlockMap, 
-                                                heightBlockMap));
-        ++id;
-    }
-    // Agrega lado derecho
-    for (float i = 0; i < manyBlocksVertical; ++i){
-        xBlock = xBlockLast;
-        yBlock = i + yBlockFirst;
-        this->add_block_metal_texture(id, Area(xBlock, yBlock, 
-                                                widthBlockMap, 
-                                                heightBlockMap));
-        ++id;
-    }
-    uint32_t idPortalBlue = 50 + 1;
-    Area areaPortalBlueMap(xBlockFirst,1.75, PORTAL_WIDTH, PORTAL_HEIGHT);
-    this->add_portal_texture(idPortalBlue, areaPortalBlueMap);
-    this->switch_texture(idPortalBlue);
-    this->switch_texture(idPortalBlue);
-
-    uint32_t idPortalOrange = 50 + 2;
-    Area areaPortalOrangeMap(xBlockLast,1.75, PORTAL_WIDTH, PORTAL_HEIGHT);
-    this->add_portal_texture(idPortalOrange, areaPortalOrangeMap);
-    this->switch_texture(idPortalOrange);
-    this->switch_texture(idPortalOrange);
-
-    Area areaChellMap(0.5, 1.75, CHELL_WIDTH, CHELL_HEIGHT);
-    this->add_chell_texture(50,areaChellMap);
-    */
-    /*
-    uint32_t idPortalBlueDos = 53 + 1;
-    Area areaPortalBlueMapDos(xBlockFirst,1.75, PORTAL_WIDTH, PORTAL_HEIGHT);
-    this->add_portal_texture(idPortalBlueDos, areaPortalBlueMapDos);
-    this->switch_texture(idPortalBlueDos);
-    this->switch_texture(idPortalBlueDos);
-
-    uint32_t idPortalOrangeDos = 53 + 2;
-    Area areaPortalOrangeMapDos(xBlockLast,1.75, PORTAL_WIDTH, PORTAL_HEIGHT);
-    this->add_portal_texture(idPortalOrangeDos, areaPortalOrangeMapDos);
-    this->switch_texture(idPortalOrangeDos);
-    this->switch_texture(idPortalOrangeDos);
-
-    Area areaChellMapDos(0.5, 1.75, CHELL_WIDTH, CHELL_HEIGHT);
-    this->add_chell_texture(53,areaChellMapDos);
-    */
 }
 
 /*
@@ -197,11 +113,28 @@ Window::Window(int width, int height, uint32_t idMainTexture)
     if (errCode) {
         throw SdlException("Error en la inicialización", SDL_GetError());
     }
+    /*
     errCode = SDL_CreateWindowAndRenderer(
         width, height, SDL_RENDERER_ACCELERATED,
         &this->window, &this->renderer);
     if (errCode) {
         throw SdlException("Error al crear ventana", SDL_GetError());
+    }
+    */
+    this->window = SDL_CreateWindow(
+        "Portal Window",
+        SDL_WINDOWPOS_CENTERED,
+        SDL_WINDOWPOS_CENTERED,
+        width,
+        height,
+        SDL_WINDOW_RESIZABLE);
+    if (this->window == NULL){
+        throw SdlException("Error al crear ventana.", SDL_GetError());
+    }
+    this->renderer = SDL_CreateRenderer(this->window,-1,SDL_RENDERER_ACCELERATED);
+    if (this->renderer == NULL) {
+        // Deberia destruir la ventana, o se destruye sola ?
+        throw SdlException("Error al crear renderizador.", SDL_GetError());   
     }
     this->add_map();
     {
@@ -248,7 +181,10 @@ en si.
 void Window::render() {
     Texture & mainTexture = *(this->allTextures.at(this->idMainTexture));
     Area newAreaCamera = mainTexture.getVisionArea(); 
-    float adjuster = this->width/newAreaCamera.getWidth();
+    int widthPixels;
+    SDL_GetWindowSize(this->window,&widthPixels,NULL);
+    //float adjuster = this->width/newAreaCamera.getWidth();
+    float adjuster = widthPixels/newAreaCamera.getWidth();
     for (int i = 0; i < this->ids.size(); ++i){
         uint32_t actualId = this->ids[i];
         Texture & actualTexture = *(this->allTextures.at(actualId));
@@ -386,8 +322,7 @@ std::tuple<float,float> Window::getMapCoords(int x, int y){
     {
         std::unique_lock<std::mutex> l(this->mutex);
         actualAreaCamera = this->areaCamera;
-        actualWidth = this->width;
-        actualHeight = this->height;
+        SDL_GetWindowSize(this->window, &actualWidth, &actualHeight);
     }
     Area areaCameraTopLeft = actualAreaCamera.from_center_to_top_left();
     float reverseAdjuster = (areaCameraTopLeft.getWidth()/actualWidth);

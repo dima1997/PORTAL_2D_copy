@@ -10,6 +10,8 @@
 #include <SDL2/SDL.h>
 #include <memory>
 
+#include <iostream>
+
 /*
 PRE: Recibe: 
     una referencia a la ventana (Window &) donde se realizan las 
@@ -129,18 +131,6 @@ void KeyReader::process_event_up(SDL_KeyboardEvent & keyEvent){
 }
 
 /*
-Procesa la accion de detenerse el agarrar o tirar algo.
-*/
-/*
-void KeyReader::process_grab_throw_stop(){
-    if (this->has_it == false){
-        this->process_key_up(SPACE, stop_grab);
-    } else {
-        this->process_key_up(SPACE, stop_throw);
-    }
-}
-*/
-/*
 PRE: Recibe el indicativo de la tecla liberada (KeyPressed), y el nombre
 de la accion del juego a procesar segun corresponda (GameActionEvent).
 POST: Comunica la accion del juego, solo si la tecla fue liberada antes de ser 
@@ -183,21 +173,6 @@ void KeyReader::process_event_down(SDL_KeyboardEvent & keyEvent){
             return;
     }
 }
-
-/*
-Procesa una accion de agarrar o tirar algo.
-*/
-/*
-void KeyReader::process_grab_throw(){
-    if (this->has_it == false){
-        this->process_key_down(SPACE, grab_it);
-        this->has_it = true;
-    } else {
-        this->process_key_down(SPACE, throw_it);
-        this->has_it = false;
-    }
-}
-*/
 
 /*
 PRE: Recibe el indicativo de la tecla presionada (KeyPressed), y el nombre
