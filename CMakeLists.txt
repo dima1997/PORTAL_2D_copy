@@ -84,6 +84,17 @@ file(GLOB client_files
 	"${CLIENT_FOLDER}/src/textures/portal_texture/portal_blue_texture.cpp"
 	"${CLIENT_FOLDER}/src/textures/portal_texture/portal_sprite_strategy.cpp"
 	"${CLIENT_FOLDER}/src/textures/portal_texture/portal_blue_sprite.cpp"
+	"${CLIENT_FOLDER}/src/textures/door_texture/door_one_texture.cpp"
+	"${CLIENT_FOLDER}/src/textures/door_texture/door_one_closed_sprite.cpp"
+	"${CLIENT_FOLDER}/src/textures/door_texture/door_two_texture.cpp"
+	"${CLIENT_FOLDER}/src/textures/door_texture/door_two_closed_sprite.cpp"
+	"${CLIENT_FOLDER}/src/textures/door_texture/door_three_texture.cpp"
+	"${CLIENT_FOLDER}/src/textures/door_texture/door_three_closed_sprite.cpp"
+	"${CLIENT_FOLDER}/src/textures/door_texture/door_four_texture.cpp"
+	"${CLIENT_FOLDER}/src/textures/door_texture/door_four_closed_sprite.cpp"
+	"${CLIENT_FOLDER}/src/textures/door_texture/door_five_texture.cpp"
+	"${CLIENT_FOLDER}/src/textures/door_texture/door_five_closed_sprite.cpp"
+
         )
 
 add_executable(${CLIENT_NAME} ${common_files} ${client_files})
@@ -101,4 +112,4 @@ target_link_libraries(${CLIENT_NAME} yaml-cpp)
 install(FILES client/assets/all_blocks.png DESTINATION ${CMAKE_BINARY_DIR})
 install(FILES client/assets/all_chells_part_1.png DESTINATION ${CMAKE_BINARY_DIR})
 install(FILES client/assets/portal_blue.png DESTINATION ${CMAKE_BINARY_DIR})
-
+install(FILES client/assets/doors.png DESTINATION ${CMAKE_BINARY_DIR})

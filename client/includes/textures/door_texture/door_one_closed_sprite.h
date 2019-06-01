@@ -1,7 +1,7 @@
 #ifndef DOOR_ONE_CLOSED_SPRITE_H
 #define DOOR_ONE_CLOSED_SPRITE_H
 
-#include "../common_texture/dynamic_texture.h"
+#include "../common_texture/dynamic_sprite.h"
 
 class DoorOneClosedSprite : public DynamicSprite {
 public:

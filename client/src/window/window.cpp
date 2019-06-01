@@ -9,6 +9,7 @@
 #include "../../includes/textures/chell_texture/chell_texture.h"
 #include "../../includes/textures/block_metal_texture/block_metal_texture.h"
 #include "../../includes/textures/portal_texture/portal_blue_texture.h"
+#include "../../includes/textures/door_texture/door_one_texture.h"
 
 #include "../../includes/game_objects/game_objects_size.h"
 
@@ -85,6 +86,19 @@ void Window::add_map(){
         float y = portalsIdColorCoords[i]["yCoord"].as<float>();
         Area area(x,y,portalWidth,portalHeight);
         this->add_portal_texture(id, area);
+    }
+
+    YAML::Node doorsYaml = baseNode["doors"];
+    float doorWidth = doorsYaml["width"].as<float>(); 
+    float doorHeight = doorsYaml["height"].as<float>(); 
+    YAML::Node doorsIdCoords = doorsYaml["id_number_coordinates"];
+    for (int i = 0; i < (int)doorsIdCoords.size(); ++i){
+        uint32_t id = doorsIdCoords[i]["id"].as<uint32_t>();
+        int number = doorsIdCoords[i]["number"].as<int>(); 
+        float x = doorsIdCoords[i]["xCoord"].as<float>();
+        float y = doorsIdCoords[i]["yCoord"].as<float>();
+        Area area(x,y,doorWidth, doorHeight);
+        this->add_door_one_texture(id,area);
     }
     YAML::Node chellsYaml = baseNode["chells"];
     float chellWidth = chellsYaml["width"].as<float>(); 
@@ -262,6 +276,30 @@ void Window::add_portal_texture(uint32_t id, Area areaMap){
                                     new PortalBlueTexture(
                                         this->bigTextures.at(
                                             PORTAL_SPRITES
+                                        ), 
+                                        areaMap
+                                    )
+                                );
+    this->add_texture(id, std::move(ptrTexture));
+}
+
+/*
+PRE: Recibe :
+    El id (uint32_t) de indentificacion de la puerta a agregar.
+    El area (Area) con las coordenadas y dimensiones del objeto
+    que representa la textura en el mapa de juego (en unidades de 
+    distancia del juego).
+POST: Agrega un nueva textura de puerta 1 a la ventana, bajo las 
+condiciones anteriores.
+Levanta OSException o SdlException en caso de error.
+*/
+void Window::add_door_one_texture(uint32_t id, Area areaMap){
+    this->add_id_texture(id);
+    this->add_big_texture(ALL_DOORS_SPRITES);
+    std::unique_ptr<Texture> ptrTexture(
+                                    new DoorOneTexture(
+                                        this->bigTextures.at(
+                                            ALL_DOORS_SPRITES
                                         ), 
                                         areaMap
                                     )

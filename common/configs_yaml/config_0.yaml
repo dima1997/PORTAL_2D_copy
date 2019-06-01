@@ -84,3 +84,10 @@ portals:
             #{id: 54, color: 'blue', xCoord: 10.5, yCoord: 9.5},
             #{id: 55, color: 'orange', xCoord: 10.5, yCoord: 9.5}
         ]
+doors:
+    width: 1.0
+    height: 2.0
+    id_number_coordinates:
+    [
+        {id: 56, number: 1, xCoord: 5.5, yCoord: 2}
+    ]

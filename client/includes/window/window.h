@@ -25,7 +25,6 @@ private:
     std::map<uint32_t, std::unique_ptr<Texture>> allTextures;
     Area areaCamera;
     std::mutex mutex;
-    bool isFullScreen;
     /*
     PRE: Recibe la ruta (const std::string &) de un gran textura 
     (imagen con varios sprites en ella).
@@ -121,6 +120,18 @@ public:
     Levanta OSException o SdlException en caso de error.
     */
     void add_portal_texture(uint32_t id, Area areaMap);
+
+    /*
+    PRE: Recibe :
+        El id (uint32_t) de indentificacion de la puerta a agregar.
+        El area (Area) con las coordenadas y dimensiones del objeto
+        que representa la textura en el mapa de juego (en unidades de 
+        distancia del juego).
+    POST: Agrega un nueva textura de puerta 1 a la ventana, bajo las 
+    condiciones anteriores.
+    Levanta OSException o SdlException en caso de error.
+    */
+    void add_door_one_texture(uint32_t id, Area areaMap);
 
     /*
     PRE: Recibe un identificador de una textura movible, 

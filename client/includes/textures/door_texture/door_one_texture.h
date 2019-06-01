@@ -11,7 +11,7 @@ public:
     PRE: Recibe una gran textura que contiene de la imagen ALL_DOORS_SPRITES 
     de images_paths.h; y el area del mapa de juego que representa esta 
     textura.
-    POST: Inicializa una texture de bloque de metal.
+    POST: Inicializa una textura de puerta con numero 1.
     */
     DoorOneTexture(BigTexture & bigTexture, Area areaMap);
 
