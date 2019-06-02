@@ -185,6 +185,19 @@ public:
     void add_rock_one_texture(uint32_t id, Area areaMap);
 
     /*
+    PRE: Recibe :
+        El id (uint32_t) de indentificacion de barrera a 
+        agregar.
+        El area (Area) con las coordenadas y dimensiones del objeto
+        que representa la textura en el mapa de juego (en unidades de 
+        distancia del juego).
+    POST: Agrega un nueva textura de barrera a la ventana, bajo las 
+    condiciones anteriores.
+    Levanta OSException o SdlException en caso de error.
+    */
+    void add_barrier_texture(uint32_t id, Area areaMap);
+
+    /*
     PRE: Recibe un identificador de una textura movible, 
     y nuevas coordenadas (float) x,y a donde desplazar la 
     textura.

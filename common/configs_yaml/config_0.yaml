@@ -4,7 +4,7 @@
 # de cada objeto, por su id de menor a mayor.
 # Tambien se recomienda respetar las convenciones de ids,
 # descritas en cada seccion. 
-sections: [blocks, chells, portals]
+sections: [blocks, chells, portals, doors, energy_balls, buttons, rocks, barriers]
 blocks:
     width: 1
     height: 1
@@ -112,3 +112,8 @@ rocks:
         [
             {id: 59, xCoord: -2.5, yCoord: 1.5}
         ]
+barriers:
+    [
+        {id: 60, width: 0.25, height: 4.0, xCoord: -5.5, yCoord: 3.0},
+	{id: 61, width: 16.0, height: 0.25, xCoord: 1.0, yCoord: 6.125}
+    ]

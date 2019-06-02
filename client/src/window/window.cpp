@@ -14,6 +14,7 @@
 #include "../../includes/textures/energy_ball_texture/energy_ball_texture.h"
 #include "../../includes/textures/button_texture/button_texture.h"
 #include "../../includes/textures/rock_texture/rock_one_texture.h"
+#include "../../includes/textures/barrier_texture/barrier_texture.h"
 
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
@@ -143,6 +144,17 @@ void Window::add_map(){
         float y = rocksIdCoords[i]["yCoord"].as<float>();
         Area area(x,y,rockWidth, rockHeight);
         this->add_rock_one_texture(id,area);
+    }
+
+    YAML::Node barriersYaml = baseNode["barriers"]; 
+    for (int i = 0; i < (int)barriersYaml.size(); ++i){
+        uint32_t id = barriersYaml[i]["id"].as<uint32_t>();
+        float width = barriersYaml[i]["width"].as<float>();
+        float height = barriersYaml[i]["height"].as<float>(); 
+        float x = barriersYaml[i]["xCoord"].as<float>();
+        float y = barriersYaml[i]["yCoord"].as<float>();
+        Area area(x,y,width,height);
+        this->add_barrier_texture(id,area);
     }
 
     YAML::Node chellsYaml = baseNode["chells"];
@@ -445,6 +457,31 @@ void Window::add_rock_one_texture(uint32_t id, Area areaMap){
                                     new RockOneTexture(
                                         this->bigTextures.at(
                                             ALL_ROCKS_AND_BALLS_SPRITES
+                                        ), 
+                                        areaMap
+                                    )
+                                );
+    this->add_texture(id, std::move(ptrTexture));
+}
+
+/*
+PRE: Recibe :
+    El id (uint32_t) de indentificacion de barrera a 
+    agregar.
+    El area (Area) con las coordenadas y dimensiones del objeto
+    que representa la textura en el mapa de juego (en unidades de 
+    distancia del juego).
+POST: Agrega un nueva textura de barrera a la ventana, bajo las 
+condiciones anteriores.
+Levanta OSException o SdlException en caso de error.
+*/
+void Window::add_barrier_texture(uint32_t id, Area areaMap){
+    this->add_id_texture(id);
+    this->add_big_texture(BARRIER_SPRITE);
+    std::unique_ptr<Texture> ptrTexture(
+                                    new BarrierTexture(
+                                        this->bigTextures.at(
+                                            BARRIER_SPRITE
                                         ), 
                                         areaMap
                                     )
