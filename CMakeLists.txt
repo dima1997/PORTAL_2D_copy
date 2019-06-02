@@ -107,6 +107,14 @@ file(GLOB client_files
 	"${CLIENT_FOLDER}/src/textures/rock_texture/rock_one_sprite.cpp"
 	"${CLIENT_FOLDER}/src/textures/barrier_texture/barrier_texture.cpp"
 	"${CLIENT_FOLDER}/src/textures/barrier_texture/barrier_sprite.cpp"
+	"${CLIENT_FOLDER}/src/textures/triangle_texture/triangle_botom_left_texture.cpp"
+	"${CLIENT_FOLDER}/src/textures/triangle_texture/triangle_botom_left_sprite.cpp"
+	"${CLIENT_FOLDER}/src/textures/triangle_texture/triangle_botom_right_texture.cpp"
+	"${CLIENT_FOLDER}/src/textures/triangle_texture/triangle_botom_right_sprite.cpp"
+	"${CLIENT_FOLDER}/src/textures/triangle_texture/triangle_top_left_texture.cpp"
+	"${CLIENT_FOLDER}/src/textures/triangle_texture/triangle_top_left_sprite.cpp"
+	"${CLIENT_FOLDER}/src/textures/triangle_texture/triangle_top_right_texture.cpp"
+	"${CLIENT_FOLDER}/src/textures/triangle_texture/triangle_top_right_sprite.cpp"
         )
 
 add_executable(${CLIENT_NAME} ${common_files} ${client_files})
@@ -128,3 +136,4 @@ install(FILES client/assets/doors.png DESTINATION ${CMAKE_BINARY_DIR})
 install(FILES client/assets/rocks_and_balls.png DESTINATION ${CMAKE_BINARY_DIR})
 install(FILES client/assets/button_sprites.png DESTINATION ${CMAKE_BINARY_DIR})
 install(FILES client/assets/barrier.png DESTINATION ${CMAKE_BINARY_DIR})
+install(FILES client/assets/all_triangles.png DESTINATION ${CMAKE_BINARY_DIR})

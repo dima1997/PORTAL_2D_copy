@@ -15,6 +15,10 @@
 #include "../../includes/textures/button_texture/button_texture.h"
 #include "../../includes/textures/rock_texture/rock_one_texture.h"
 #include "../../includes/textures/barrier_texture/barrier_texture.h"
+#include "../../includes/textures/triangle_texture/triangle_botom_left_texture.h"
+#include "../../includes/textures/triangle_texture/triangle_botom_right_texture.h"
+#include "../../includes/textures/triangle_texture/triangle_top_left_texture.h"
+#include "../../includes/textures/triangle_texture/triangle_top_right_texture.h"
 
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
@@ -83,6 +87,28 @@ void Window::add_map(){
             this->add_block_rock_texture(id,area);
         }
     }
+
+    YAML::Node trianglesYaml = baseNode["triangles"];
+    float triangleWidth = trianglesYaml["width"].as<float>(); 
+    float triangleHeight = trianglesYaml["height"].as<float>(); 
+    YAML::Node trianglesIdCoords = trianglesYaml["id_position_coordinates"];
+    for(int i = 0; i < (int)trianglesIdCoords.size(); ++i) {
+        uint32_t id = trianglesIdCoords[i]["id"].as<uint32_t>();  
+        std::string position = trianglesIdCoords[i]["position"].as<std::string>();
+        float x = trianglesIdCoords[i]["xCoord"].as<float>();
+        float y = trianglesIdCoords[i]["yCoord"].as<float>();
+        Area area(x,y,triangleWidth,triangleHeight);
+        if (position == "botom_left"){
+            this->add_triangle_botom_left_texture(id,area);
+        } else if (position == "botom_right"){
+            this->add_triangle_botom_right_texture(id,area);
+        } else if (position == "top_left") {
+            this->add_triangle_top_left_texture(id,area);
+        } else if (position == "top_right"){
+            this->add_triangle_top_right_texture(id,area);
+        }
+    }
+
     YAML::Node portalsYaml = baseNode["portals"];
     float portalWidth = portalsYaml["width"].as<float>(); 
     float portalHeight = portalsYaml["height"].as<float>(); 
@@ -482,6 +508,108 @@ void Window::add_barrier_texture(uint32_t id, Area areaMap){
                                     new BarrierTexture(
                                         this->bigTextures.at(
                                             BARRIER_SPRITE
+                                        ), 
+                                        areaMap
+                                    )
+                                );
+    this->add_texture(id, std::move(ptrTexture));
+}
+
+/*
+PRE: Recibe :
+    El id (uint32_t) de indentificacion de triangulo en la 
+    esquina inferior izquierda a agregar.
+    El area (Area) con las coordenadas y dimensiones del objeto
+    que representa la textura en el mapa de juego (en unidades de 
+    distancia del juego).
+POST: Agrega un nueva textura de triangulo en la 
+esquina inferior izquierda a a la ventana, bajo las 
+condiciones anteriores.
+Levanta OSException o SdlException en caso de error.
+*/
+void Window::add_triangle_botom_left_texture(uint32_t id, Area areaMap){
+    this->add_id_texture(id);
+    this->add_big_texture(ALL_TRIANGLES_SPRITES);
+    std::unique_ptr<Texture> ptrTexture(
+                                    new TriangleBotomLeftTexture(
+                                        this->bigTextures.at(
+                                            ALL_TRIANGLES_SPRITES
+                                        ), 
+                                        areaMap
+                                    )
+                                );
+    this->add_texture(id, std::move(ptrTexture));
+}
+
+/*
+PRE: Recibe :
+    El id (uint32_t) de indentificacion de triangulo en la 
+    esquina inferior derecho a agregar.
+    El area (Area) con las coordenadas y dimensiones del objeto
+    que representa la textura en el mapa de juego (en unidades de 
+    distancia del juego).
+POST: Agrega un nueva textura de triangulo en la 
+esquina inferior derecho a la ventana, bajo las 
+condiciones anteriores.
+Levanta OSException o SdlException en caso de error.
+*/
+void Window::add_triangle_botom_right_texture(uint32_t id, Area areaMap){
+    this->add_id_texture(id);
+    this->add_big_texture(ALL_TRIANGLES_SPRITES);
+    std::unique_ptr<Texture> ptrTexture(
+                                    new TriangleBotomRightTexture(
+                                        this->bigTextures.at(
+                                            ALL_TRIANGLES_SPRITES
+                                        ), 
+                                        areaMap
+                                    )
+                                );
+    this->add_texture(id, std::move(ptrTexture));
+}
+/*
+PRE: Recibe :
+    El id (uint32_t) de indentificacion de triangulo en la 
+    esquina superior izquierda a agregar.
+    El area (Area) con las coordenadas y dimensiones del objeto
+    que representa la textura en el mapa de juego (en unidades de 
+    distancia del juego).
+POST: Agrega un nueva textura de triangulo en la 
+esquina superior izquierda a la ventana, bajo las 
+condiciones anteriores.
+Levanta OSException o SdlException en caso de error.
+*/
+void Window::add_triangle_top_left_texture(uint32_t id, Area areaMap){
+    this->add_id_texture(id);
+    this->add_big_texture(ALL_TRIANGLES_SPRITES);
+    std::unique_ptr<Texture> ptrTexture(
+                                    new TriangleTopLeftTexture(
+                                        this->bigTextures.at(
+                                            ALL_TRIANGLES_SPRITES
+                                        ), 
+                                        areaMap
+                                    )
+                                );
+    this->add_texture(id, std::move(ptrTexture));
+}
+/*
+PRE: Recibe :
+    El id (uint32_t) de indentificacion de triangulo en la 
+    esquina superior derecho a agregar.
+    El area (Area) con las coordenadas y dimensiones del objeto
+    que representa la textura en el mapa de juego (en unidades de 
+    distancia del juego).
+POST: Agrega un nueva textura de triangulo en la 
+esquina superior derecho a la ventana, bajo las 
+condiciones anteriores.
+Levanta OSException o SdlException en caso de error.
+*/
+void Window::add_triangle_top_right_texture(uint32_t id, Area areaMap){
+    this->add_id_texture(id);
+    this->add_big_texture(ALL_TRIANGLES_SPRITES);
+    std::unique_ptr<Texture> ptrTexture(
+                                    new TriangleTopRightTexture(
+                                        this->bigTextures.at(
+                                            ALL_TRIANGLES_SPRITES
                                         ), 
                                         areaMap
                                     )

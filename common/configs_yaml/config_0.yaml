@@ -117,3 +117,13 @@ barriers:
         {id: 60, width: 0.25, height: 4.0, xCoord: -5.5, yCoord: 3.0},
 	{id: 61, width: 16.0, height: 0.25, xCoord: 1.0, yCoord: 6.125}
     ]
+triangles:
+    width: 1
+    height: 1
+    id_position_coordinates:
+        [
+            {id: 62, position: 'botom_left', xCoord: -6.5, yCoord: 1.5},
+            {id: 63, position: 'botom_right', xCoord: 8.5, yCoord: 1.5},
+            {id: 64, position: 'top_left', xCoord: -6.5, yCoord: 7.5},
+            {id: 65, position: 'top_right', xCoord: 8.5, yCoord: 7.5},
+        ]

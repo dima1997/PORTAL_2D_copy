@@ -9,5 +9,6 @@
 #define ALL_ROCKS_AND_BALLS_SPRITES "rocks_and_balls.png"
 #define BUTTON_SPRITE "button_sprites.png"
 #define BARRIER_SPRITE "barrier.png"
+#define ALL_TRIANGLES_SPRITES "all_triangles.png"
 
 #endif // IMAGES_PATH_H
