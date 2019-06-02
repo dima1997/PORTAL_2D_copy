@@ -6,8 +6,8 @@
 #include "../../utils/id_generator.h"
 #include <Box2D/Dynamics/b2Body.h>
 
-Body::Body(b2World &world, float32 xPos, float32 yPos):
-           id(IdGenerator::getNewId()), updated(false), lastPosition(xPos, yPos), world(world), body() {}
+Body::Body(b2World &world, float32 xPos, float32 yPos, uint32_t id):
+           id(id), updated(false), lastPosition(xPos, yPos), world(world), body() {}
 
 bool Body::changedPosition() {
     if (lastPosition.x != body->GetPosition().x || lastPosition.y != body->GetPosition().y) {

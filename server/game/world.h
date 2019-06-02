@@ -27,12 +27,7 @@ public:
 //    World &operator=(World &&other) noexcept;
     ~World();
     void step(std::list<std::shared_ptr<ObjectMovesEvent>> &moved);
-
-    void moveChellLeft(uint32_t i);
-
-    void moveChellRight(uint32_t i);
-
-    void makeChellJump(uint32_t i);
+    Chell *getChell(uint32_t i);
 };
 
 

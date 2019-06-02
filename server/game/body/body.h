@@ -12,15 +12,15 @@
 
 class Body {
 private:
-    uint32_t id;
     bool updated;
     b2Vec2 lastPosition;
     virtual void createBody(float32 xPos, float32 yPos) = 0;
 protected:
+    uint32_t id;
     b2World &world;
     b2Body *body;
 public:
-    Body(b2World &world, float32 xPos, float32 yPos);
+    Body(b2World &world, float32 xPos, float32 yPos, uint32_t id);
     virtual ~Body();
     bool changedPosition();
     uint32_t getId();

@@ -9,6 +9,7 @@
 #include "body/rock_block.h"
 
 #include <configs_yaml/config_paths.h>
+#include <portal_exception.h>
 #include "yaml-cpp/yaml.h"
 
 #define TIME_STEP 1.0f / 60.0f
@@ -27,11 +28,15 @@ void World::step(std::list<std::shared_ptr<ObjectMovesEvent>> &moved) {
     int32 velocityIterations = VELOCITY_ITERATIONS;
     int32 positionIterations = POSITION_ITERATIONS;
 
+    for(Chell *chell : chells) {
+        chell->update();
+    }
+
     world->Step(timeStep, velocityIterations, positionIterations);
 
     for(Chell *chell : chells) {
         if(chell->changedPosition()) {
-            moved.push_back(std::shared_ptr<ObjectMovesEvent>(new ObjectMovesEvent(chell->getPlayerId(), chell->getXPos(), chell->getYPos()))); //chell->getId()
+            moved.push_back(std::shared_ptr<ObjectMovesEvent>(new ObjectMovesEvent(chell->getId(), chell->getXPos(), chell->getYPos()))); //chell->getId()
         }
     }
 }
@@ -67,11 +72,11 @@ void World::loadMap(Map &map) {
     float heightBlock = blocks["height"].as<float>(); //  Puedes usar float32 si gustas
     YAML::Node blocksIdCoords = blocks["id_material_coordinates"];
     for(int i = 0; i < (int)blocksIdCoords.size(); ++i) {
-        uint32_t id = blocksIdCoords[i]["id"].as<uint32_t>(); // Puedes no usarlo, pero aqui esta. 
+        uint32_t id = blocksIdCoords[i]["id"].as<uint32_t>();
         std::string material = blocksIdCoords[i]["material"].as<std::string>();
         float32 x = blocksIdCoords[i]["xCoord"].as<float32>();
         float32 y = blocksIdCoords[i]["yCoord"].as<float32>();
-        staticBodies.push_back(new RockBlock(*world, x, y));
+        staticBodies.push_back(new RockBlock(*world, x, y, id));
     }
     YAML::Node chellsYaml = baseNode["chells"];
     float widthChell = chellsYaml["width"].as<float>(); 
@@ -108,35 +113,15 @@ void World::loadMap(Map &map) {
     numberOfPlayers = map.getPlayersNumber();
 }
 
-void World::moveChellLeft(uint32_t i) {
+Chell *World::getChell(uint32_t i) {
     for (auto *chell : chells) {
-        if (chell->getPlayerId() == i) {
-            chell->moveLeft();
-            return;
+        if (chell->getId() == i) {
+            return chell;
         }
     }
-}
-
-void World::moveChellRight(uint32_t i) {
-    // TODO: generalize
-    for (auto *chell : chells) {
-        if (chell->getPlayerId() == i) { 
-            chell->moveRight();
-            return;
-        }
-    }
-}
-
-// Agregado por Dima --------------------
-
-void World::makeChellJump(uint32_t i) {
-    // TODO: generalize
-    for (auto *chell : chells) {
-        if (chell->getPlayerId() == i) { 
-            chell->jump();
-            return;
-        }
-    }
+    std::stringstream s;
+    s << "Inexistent Chell with id " << i;
+    throw PortalException(s.str());
 }
 
 // Modificar a gusto.

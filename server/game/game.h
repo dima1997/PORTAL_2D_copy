@@ -20,6 +20,7 @@ class Game {
     World world;
     ThreadSafeQueue<std::unique_ptr<GameAction>> inQueue;
     void start();
+    void manageActions(std::unique_ptr<GameAction> ptrAction);
 public:
     Game(std::vector<Connector> &vector, Map &map);
     void operator()();

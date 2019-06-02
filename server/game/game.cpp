@@ -28,108 +28,7 @@ void Game::start() {
             if (!this->inQueue.pop(ptrAction)){
                 break;
             }
-            uint32_t player_id = ptrAction->getPlayerId();
-            switch (ptrAction->getGameActionName()){
-                case quit_game:
-                {
-                    // player stop
-                    --numberOfPlayers;
-                    std::shared_ptr<Event> ptrEvent(new PlayerDiesEvent());
-//                    players.at(player_id).addToQueue(ptrEvent);
-                    for (auto &player : players) {
-                        if (player.getPlayerId() == player_id){
-                            player.addToQueue(ptrEvent);
-                        }
-                    }
-                }
-                    break;
-                case move_left:
-                    world.moveChellLeft(player_id);
-                    break;
-                case stop_left:
-                    break;
-                case move_right:
-                    world.moveChellRight(player_id);
-                    break;
-                case stop_right:
-                    break;
-                case jump:
-                    world.makeChellJump(player_id);
-                    break;
-                case stop_jump:
-                    break;
-                case open_blue_portal:
-                {
-                    //Hago cosas con el portal azul
-                    auto ptrAux = static_cast<CoordsAction *>(ptrAction.release());
-                    std::unique_ptr<CoordsAction> ptrCoordsAction(ptrAux);
-                    float xMap = ptrCoordsAction->getX();
-                    float yMap = ptrCoordsAction->getY();
-                    std::cout << "SERVER: Abriendo portal AZUL en x : "<< xMap << " y : " << yMap << "\n";
-                    uint32_t idPortalAzul = player_id + 1; // hardcondeado
-                    std::shared_ptr<Event> ptrEventHide(new ObjectSwitchEvent(idPortalAzul));
-                    std::shared_ptr<Event> ptrEventMove(new ObjectMovesEvent(idPortalAzul, xMap, yMap));
-                    std::shared_ptr<Event> ptrEventShow(new ObjectSwitchEvent(idPortalAzul));
-                    for (auto &player : players) {
-                        if (player.getPlayerId() == player_id){
-                            player.addToQueue(ptrEventHide);
-                            player.addToQueue(ptrEventMove);
-                            player.addToQueue(ptrEventShow);
-                        }
-                    }
-                    /*
-                    players.at(player_id).addToQueue(ptrEventHide);
-                    players.at(player_id).addToQueue(ptrEventMove);
-                    players.at(player_id).addToQueue(ptrEventShow);
-                    */
-                }
-                    break;
-                case open_orange_portal:
-                {
-                    //Hago cosas con el portal naranja
-                    auto ptrAux = static_cast<CoordsAction *>(ptrAction.release());
-                    std::unique_ptr<CoordsAction> ptrCoordsAction(ptrAux);
-                    float xMap = ptrCoordsAction->getX();
-                    float yMap = ptrCoordsAction->getY();
-                    std::cout << "SERVER: Abriendo portal NARANJA en x : "<< xMap << " y : " << yMap << "\n";
-                    uint32_t idPortalNaranja = player_id + 2; // hardcondeado
-                    std::shared_ptr<Event> ptrEventHide(new ObjectSwitchEvent(idPortalNaranja));
-                    std::shared_ptr<Event> ptrEventMove(new ObjectMovesEvent(idPortalNaranja, xMap, yMap));
-                    std::shared_ptr<Event> ptrEventShow(new ObjectSwitchEvent(idPortalNaranja));
-                    for (auto &player : players) {
-                        if (player.getPlayerId() == player_id){
-                            player.addToQueue(ptrEventHide);
-                            player.addToQueue(ptrEventMove);
-                            player.addToQueue(ptrEventShow);
-                        }
-                    }
-                    /*
-                    players.at(player_id).addToQueue(ptrEventHide);
-                    players.at(player_id).addToQueue(ptrEventMove);
-                    players.at(player_id).addToQueue(ptrEventShow);
-                    */
-                }
-                    break;
-                case pin_tool_on:
-                    std::cout << "SERVER: pin tool on.\n";
-                    break;
-                case grab_it:
-                    std::cout << "SERVER: grab it.\n";
-                    break;
-                case stop_grab:
-                    std::cout << "SERVER: stop grab.\n";
-                    break;
-                case throw_it:
-                    std::cout << "SERVER: throw it.\n";
-                    break;
-                case stop_throw:
-                    std::cout << "SERVER: stop throw.\n";
-                    break;
-                case null_action:
-                    break;
-                default:
-                    throw PortalException("Null action");
-            }
+            manageActions(std::move(ptrAction));
             t2 = clock();
             timeProcessMicroSeconds = (double(t2-t0)/CLOCKS_PER_SEC) * ONE_SECOND_EQ_MICRO_SECONDS;
         }
@@ -150,6 +49,113 @@ void Game::start() {
     for (Player &player : players) {
         std::shared_ptr<Event> ptrEvent(new PlayerWinsEvent());
         player.addToQueue(ptrEvent);
+    }
+}
+
+void Game::manageActions(std::unique_ptr<GameAction> ptrAction) {
+    uint32_t player_id = ptrAction->getPlayerId();
+    switch (ptrAction->getGameActionName()){
+        case quit_game:
+        {
+            --numberOfPlayers;
+            std::shared_ptr<Event> ptrEvent(new PlayerDiesEvent());
+            for (auto &player : players) {
+                if (player.getPlayerId() == player_id){
+                    player.addToQueue(ptrEvent);
+                }
+            }
+        }
+            break;
+        case move_left:
+            world.getChell(player_id)->updateState(LEFT);
+            break;
+        case stop_left:
+            world.getChell(player_id)->updateState(STOP);
+            break;
+        case move_right:
+            world.getChell(player_id)->updateState(RIGHT);
+            break;
+        case stop_right:
+            // TODO: are both "stop" necessary?
+            world.getChell(player_id)->updateState(STOP);
+            break;
+        case jump:
+            world.getChell(player_id)->jump();
+            break;
+        case stop_jump:
+            // TODO: not necessary
+            break;
+        case open_blue_portal:
+        {
+            //Hago cosas con el portal azul
+            auto ptrAux = static_cast<CoordsAction *>(ptrAction.release());
+            std::unique_ptr<CoordsAction> ptrCoordsAction(ptrAux);
+            float xMap = ptrCoordsAction->getX();
+            float yMap = ptrCoordsAction->getY();
+            std::cout << "SERVER: Abriendo portal AZUL en x : "<< xMap << " y : " << yMap << "\n";
+            uint32_t idPortalAzul = player_id + 1; // hardcondeado
+            std::shared_ptr<Event> ptrEventHide(new ObjectSwitchEvent(idPortalAzul));
+            std::shared_ptr<Event> ptrEventMove(new ObjectMovesEvent(idPortalAzul, xMap, yMap));
+            std::shared_ptr<Event> ptrEventShow(new ObjectSwitchEvent(idPortalAzul));
+            for (auto &player : players) {
+                if (player.getPlayerId() == player_id){
+                    player.addToQueue(ptrEventHide);
+                    player.addToQueue(ptrEventMove);
+                    player.addToQueue(ptrEventShow);
+                }
+            }
+            /*
+            players.at(player_id).addToQueue(ptrEventHide);
+            players.at(player_id).addToQueue(ptrEventMove);
+            players.at(player_id).addToQueue(ptrEventShow);
+            */
+        }
+            break;
+        case open_orange_portal:
+        {
+            //Hago cosas con el portal naranja
+            auto ptrAux = static_cast<CoordsAction *>(ptrAction.release());
+            std::unique_ptr<CoordsAction> ptrCoordsAction(ptrAux);
+            float xMap = ptrCoordsAction->getX();
+            float yMap = ptrCoordsAction->getY();
+            std::cout << "SERVER: Abriendo portal NARANJA en x : "<< xMap << " y : " << yMap << "\n";
+            uint32_t idPortalNaranja = player_id + 2; // hardcondeado
+            std::shared_ptr<Event> ptrEventHide(new ObjectSwitchEvent(idPortalNaranja));
+            std::shared_ptr<Event> ptrEventMove(new ObjectMovesEvent(idPortalNaranja, xMap, yMap));
+            std::shared_ptr<Event> ptrEventShow(new ObjectSwitchEvent(idPortalNaranja));
+            for (auto &player : players) {
+                if (player.getPlayerId() == player_id){
+                    player.addToQueue(ptrEventHide);
+                    player.addToQueue(ptrEventMove);
+                    player.addToQueue(ptrEventShow);
+                }
+            }
+            /*
+            players.at(player_id).addToQueue(ptrEventHide);
+            players.at(player_id).addToQueue(ptrEventMove);
+            players.at(player_id).addToQueue(ptrEventShow);
+            */
+        }
+            break;
+        case pin_tool_on:
+            std::cout << "SERVER: pin tool on.\n";
+            break;
+        case grab_it:
+            std::cout << "SERVER: grab it.\n";
+            break;
+        case stop_grab:
+            std::cout << "SERVER: stop grab.\n";
+            break;
+        case throw_it:
+            std::cout << "SERVER: throw it.\n";
+            break;
+        case stop_throw:
+            std::cout << "SERVER: stop throw.\n";
+            break;
+        case null_action:
+            break;
+        default:
+            throw PortalException("Null action");
     }
 }
 
