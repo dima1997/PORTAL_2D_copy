@@ -6,7 +6,7 @@
 #include <Box2D/Collision/Shapes/b2PolygonShape.h>
 #include <Box2D/Dynamics/b2Fixture.h>
 #include "world.h"
-#include "body/rock_block.h"
+#include "body/block.h"
 
 #include <configs_yaml/config_paths.h>
 #include <portal_exception.h>
@@ -66,6 +66,7 @@ World::~World() {
 }
 
 void World::loadMap(Map &map) {
+    // TODO: this should be Map's responsability
     YAML::Node baseNode = map.getFile();
     YAML::Node blocks = baseNode["blocks"];
     float widthBlock = blocks["width"].as<float>(); // TODO : Actualizar codigo para utilizar estos tamanios del YAML
@@ -76,7 +77,11 @@ void World::loadMap(Map &map) {
         std::string material = blocksIdCoords[i]["material"].as<std::string>();
         float32 x = blocksIdCoords[i]["xCoord"].as<float32>();
         float32 y = blocksIdCoords[i]["yCoord"].as<float32>();
-        staticBodies.push_back(new RockBlock(*world, x, y, id));
+        if (material == "rock") {
+            staticBodies.push_back(new Block(*world, x, y, ROCK, id));
+        } else if (material == "metal") {
+            staticBodies.push_back(new Block(*world, x, y, METAL, id));
+        }
     }
     YAML::Node chellsYaml = baseNode["chells"];
     float widthChell = chellsYaml["width"].as<float>(); 
@@ -99,17 +104,6 @@ void World::loadMap(Map &map) {
         float32 y = portalsIdColorCoords[i]["yCoord"].as<float32>();
         // Aqui se agregan los portales
     }
-    /*
-    for(int i = -8; i < 10; ++i) {
-        staticBodies.push_back(new RockBlock(*world, (float32) i + 0.5, 0.5));
-        staticBodies.push_back(new RockBlock(*world, (float32) i + 0.5, 8.5));
-    }
-    for(int i = 1; i < 8; ++i) {
-        staticBodies.push_back(new RockBlock(*world, 9.5, (float32) i + 0.5));
-        staticBodies.push_back(new RockBlock(*world, -7.5, (float32) i + 0.5));
-    }
-    chells.push_back(new Chell(*world, 0.5f, 1.75f, 0));
-    */
     numberOfPlayers = map.getPlayersNumber();
 }
 
