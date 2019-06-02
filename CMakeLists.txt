@@ -96,6 +96,10 @@ file(GLOB client_files
 	"${CLIENT_FOLDER}/src/textures/door_texture/door_four_closed_sprite.cpp"
 	"${CLIENT_FOLDER}/src/textures/door_texture/door_five_texture.cpp"
 	"${CLIENT_FOLDER}/src/textures/door_texture/door_five_closed_sprite.cpp"
+	"${CLIENT_FOLDER}/src/textures/button_texture/button_texture.cpp"
+	"${CLIENT_FOLDER}/src/textures/button_texture/button_sprite_strategy.cpp"
+	"${CLIENT_FOLDER}/src/textures/button_texture/button_unpressed_sprite.cpp"
+	"${CLIENT_FOLDER}/src/textures/button_texture/button_pressed_sprite.cpp"
 	"${CLIENT_FOLDER}/src/textures/energy_ball_texture/energy_ball_texture.cpp"
 	"${CLIENT_FOLDER}/src/textures/energy_ball_texture/energy_ball_sprite_strategy.cpp"
 	"${CLIENT_FOLDER}/src/textures/energy_ball_texture/energy_ball_sprite.cpp"
@@ -118,3 +122,4 @@ install(FILES client/assets/all_chells_part_1.png DESTINATION ${CMAKE_BINARY_DIR
 install(FILES client/assets/portal_blue.png DESTINATION ${CMAKE_BINARY_DIR})
 install(FILES client/assets/doors.png DESTINATION ${CMAKE_BINARY_DIR})
 install(FILES client/assets/rocks_and_balls.png DESTINATION ${CMAKE_BINARY_DIR})
+install(FILES client/assets/button_sprites.png DESTINATION ${CMAKE_BINARY_DIR})

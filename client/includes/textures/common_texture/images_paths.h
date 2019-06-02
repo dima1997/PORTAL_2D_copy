@@ -7,5 +7,6 @@
 #define PORTAL_SPRITES "portal_blue.png"
 #define ALL_DOORS_SPRITES "doors.png"
 #define ALL_ROCKS_AND_BALLS_SPRITES "rocks_and_balls.png"
+#define BUTTON_SPRITE "button_sprites.png"
 
 #endif // IMAGES_PATH_H
