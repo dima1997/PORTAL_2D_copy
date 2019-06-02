@@ -10,7 +10,6 @@
 #include <connector/connector.h>
 #include "thread_pool.h"
 #include "client_acceptor.h"
-#include "../game/game.h"
 #include "../game/game_manager.h"
 
 class Server {

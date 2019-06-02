@@ -15,9 +15,9 @@
 #define VELOCITY_ITERATIONS 8
 #define POSITION_ITERATIONS 2
 
-World::World(uint8_t map_id): gravity(0.0f, -9.8f), world(new b2World(gravity)),
+World::World(Map &map): gravity(0.0f, -9.8f), world(new b2World(gravity)),
                               chells(), staticBodies(), numberOfPlayers() {
-    loadMap(map_id);
+    loadMap(map);
 }
 
 void World::step(std::list<ObjectMovesEvent *> &moved) {
@@ -36,19 +36,19 @@ void World::step(std::list<ObjectMovesEvent *> &moved) {
     }
 }
 
-World::World(World &&other) noexcept: gravity(other.gravity), world(other.world), chells(std::move(other.chells)),
-                                      staticBodies(std::move(other.staticBodies)), numberOfPlayers(other.numberOfPlayers) {
-    other.world = nullptr;
-}
+//World::World(World &&other) noexcept: gravity(other.gravity), world(other.world), chells(std::move(other.chells)),
+//                                      staticBodies(std::move(other.staticBodies)), numberOfPlayers(other.numberOfPlayers) {
+//    other.world = nullptr;
+//}
 
-World &World::operator=(World &&other) noexcept {
-    this->gravity = other.gravity;
-    this->world = other.world;
-    other.world = nullptr;
-    this->staticBodies = std::move(other.staticBodies);
-    this->chells = std::move(other.chells);
-    return *this;
-}
+//World &World::operator=(World &&other) noexcept {
+//    this->gravity = other.gravity;
+//    this->world = other.world;
+//    other.world = nullptr;
+//    this->staticBodies = std::move(other.staticBodies);
+//    this->chells = std::move(other.chells);
+//    return *this;
+//}
 
 World::~World() {
     for (auto *chell : chells) {
@@ -60,8 +60,8 @@ World::~World() {
     delete world;
 }
 
-void World::loadMap(uint8_t mapId) {
-    YAML::Node baseNode = YAML::LoadFile(CONFIG_PATHS.at(mapId));
+void World::loadMap(Map &map) {
+    YAML::Node baseNode = map.getFile();
     YAML::Node blocks = baseNode["blocks"];
     float widthBlock = blocks["width"].as<float>(); // TODO : Actualizar codigo para utilizar estos tamanios del YAML
     float heightBlock = blocks["height"].as<float>(); //  Puedes usar float32 si gustas
@@ -104,13 +104,8 @@ void World::loadMap(uint8_t mapId) {
         staticBodies.push_back(new RockBlock(*world, -7.5, (float32) i + 0.5));
     }
     chells.push_back(new Chell(*world, 0.5f, 1.75f, 0));
-    numberOfPlayers = 1;
     */
-    numberOfPlayers = 1;
-}
-
-int World::getNumberOfPlayers() {
-    return numberOfPlayers;
+    numberOfPlayers = map.getPlayersNumber();
 }
 
 void World::moveChellLeft(uint32_t i) {

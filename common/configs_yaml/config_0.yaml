@@ -3,7 +3,8 @@
 # Para facilitar el conteo de ids, ordenar la descripcion 
 # de cada objeto, por su id de menor a mayor.
 # Tambien se recomienda respetar las convenciones de ids,
-# descritas en cada seccion. 
+# descritas en cada seccion.
+player_number: 1
 sections: [blocks, chells, portals, doors, energy_balls, buttons, rocks, barriers]
 blocks:
     width: 1

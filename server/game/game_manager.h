@@ -9,12 +9,12 @@
 #include <unordered_map>
 #include <cstdint>
 #include <mutex>
-#include "game.h"
+#include "game_lobby.h"
 #include <connector/connector.h>
 
 class GameManager {
 private:
-    std::unordered_map<uint8_t, Game> games;
+    std::unordered_map<uint8_t, GameLobby> games;
     std::mutex mutex;
     uint8_t biggestKey;
     uint8_t getKey();

@@ -10,6 +10,7 @@
 #include <vector>
 #include <Box2D/Dynamics/b2World.h>
 #include "body/chell.h"
+#include "map.h"
 #include <protocol/event/object_moves_event.h>
 
 class World {
@@ -19,15 +20,13 @@ private:
     std::list<Chell *> chells;
     std::list<Body *> staticBodies;
     int numberOfPlayers;
-    void loadMap(uint8_t mapId);
+    void loadMap(Map &map);
 public:
-    explicit World(uint8_t map_id);
-    World(World &&other) noexcept;
-    World &operator=(World &&other) noexcept;
+    explicit World(Map &map);
+//    World(World &&other) noexcept;
+//    World &operator=(World &&other) noexcept;
     ~World();
     void step(std::list<ObjectMovesEvent *> &moved);
-
-    int getNumberOfPlayers();
 
     void moveChellLeft(uint32_t i);
 

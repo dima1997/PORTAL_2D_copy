@@ -2,8 +2,8 @@
 // Created by franciscosicardi on 09/05/19.
 //
 
-#ifndef PORTAL_GAME_H
-#define PORTAL_GAME_H
+#ifndef PORTAL_GAME_LOBBY_H
+#define PORTAL_GAME_LOBBY_H
 
 
 #include <vector>
@@ -15,6 +15,8 @@
 #include <thread_safe_queue.h>
 #include "world.h"
 #include "player.h"
+#include "game.h"
+#include "map.h"
 
 #include <protocol/game_action/game_action.h>
 #include <memory>
@@ -24,19 +26,14 @@
 
 class GameLobby {
 private:
-    int id;
-    std::vector<Player> players;
-    //std::map<uint32_t,Player> players;
+    uint8_t id;
+    std::vector<Connector> players;
     std::mutex mutex;
     std::condition_variable cv;
     bool ready;
-    std::thread thread;
-    // TODO: number of players should depend on a map, map should be an attribute
-    int numberOfPlayers;
-    World world;
-    ThreadSafeQueue<std::unique_ptr<GameAction>> inQueue;
     std::vector<uint32_t> playerIds;
-    void start();
+    Map map;
+    std::unique_ptr<Game> game;
 public:
     GameLobby(uint8_t id, uint8_t mapId, Connector &connector);
     ~GameLobby();
@@ -48,4 +45,4 @@ public:
     bool addPlayer(Connector &connector);
 };
 
-#endif //PORTAL_GAME_H
+#endif //PORTAL_GAME_LOBBY_H

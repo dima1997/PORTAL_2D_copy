@@ -17,9 +17,8 @@
 
 #include <memory>
 
-//Player::Player(uint32_t id, Connector &connector, ThreadSafeQueue<GameAction *> *inQueue):
-Player::Player(uint32_t id, Connector &connector, 
-                ThreadSafeQueue<std::unique_ptr<GameAction>> * inQueue) :
+Player::Player(uint32_t id, Connector &connector,
+                ThreadSafeQueue<std::unique_ptr<GameAction>> &inQueue) :
                id(id), connector(std::move(connector)), outThread(), inThread(),
                outQueue(), inQueue(inQueue), recvMsgs(true) {}
 
@@ -51,17 +50,17 @@ void Player::recvGameActions() {
             case open_blue_portal:
             case open_orange_portal:
             case pin_tool_on:
-                ptrAction = std::make_unique<CoordsAction>(actionName);
+                ptrAction = std::unique_ptr<CoordsAction>(new CoordsAction(actionName));
                 connector >> *ptrAction;
                 break;
             case quit_game:
                 stopRecv();
             default:
-                ptrAction = std::make_unique<GameAction>(actionName);
+                ptrAction = std::unique_ptr<GameAction>(new GameAction(actionName));
                 break;
         }
         ptrAction->setPlayerId(id);
-        inQueue->push(ptrAction);
+        inQueue.push(ptrAction);
     }
 }
 
@@ -84,12 +83,8 @@ Player::Player(Player &&other) noexcept : id(other.id), connector(std::move(othe
                                 inThread(std::move(other.inThread)), outQueue(std::move(other.outQueue)),
                                 inQueue(other.inQueue), mutex(), recvMsgs(other.recvMsgs) {}
 
-void Player::addToQueue(std::unique_ptr<Event> & ptrEvent) {
+void Player::addToQueue(std::unique_ptr<Event> &ptrEvent) {
     outQueue.push(ptrEvent);
-}
-
-void Player::setInQueue(ThreadSafeQueue<std::unique_ptr<GameAction>> *_inQueue) {
-    this->inQueue = _inQueue;
 }
 
 Player::~Player() = default;
