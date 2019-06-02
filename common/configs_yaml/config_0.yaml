@@ -105,3 +105,10 @@ buttons:
         [
             {id: 58, xCoord: -0.5, yCoord: 1.25}
         ]
+rocks:
+    width: 1.0
+    height: 1.0
+    id_coordinates:
+        [
+            {id: 59, xCoord: -2.5, yCoord: 1.5}
+        ]

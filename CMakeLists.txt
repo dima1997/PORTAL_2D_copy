@@ -103,6 +103,8 @@ file(GLOB client_files
 	"${CLIENT_FOLDER}/src/textures/energy_ball_texture/energy_ball_texture.cpp"
 	"${CLIENT_FOLDER}/src/textures/energy_ball_texture/energy_ball_sprite_strategy.cpp"
 	"${CLIENT_FOLDER}/src/textures/energy_ball_texture/energy_ball_sprite.cpp"
+	"${CLIENT_FOLDER}/src/textures/rock_texture/rock_one_texture.cpp"
+	"${CLIENT_FOLDER}/src/textures/rock_texture/rock_one_sprite.cpp"
         )
 
 add_executable(${CLIENT_NAME} ${common_files} ${client_files})
