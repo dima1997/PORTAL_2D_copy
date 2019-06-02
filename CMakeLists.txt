@@ -76,6 +76,8 @@ file(GLOB client_files
         "${CLIENT_FOLDER}/src/textures/block_metal_texture/block_metal_sprite.cpp"
         "${CLIENT_FOLDER}/src/textures/block_rock_texture/block_rock_texture.cpp"
         "${CLIENT_FOLDER}/src/textures/block_rock_texture/block_rock_sprite.cpp"
+        "${CLIENT_FOLDER}/src/textures/block_acid_texture/block_acid_texture.cpp"
+        "${CLIENT_FOLDER}/src/textures/block_acid_texture/block_acid_sprite.cpp"
         "${CLIENT_FOLDER}/src/textures/static_texture/static_texture.cpp"
         "${CLIENT_FOLDER}/src/textures/chell_texture/chell_texture.cpp"
         "${CLIENT_FOLDER}/src/textures/chell_texture/move_sense.cpp"

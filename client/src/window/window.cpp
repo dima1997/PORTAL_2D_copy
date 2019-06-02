@@ -9,6 +9,7 @@
 #include "../../includes/textures/chell_texture/chell_texture.h"
 #include "../../includes/textures/block_metal_texture/block_metal_texture.h"
 #include "../../includes/textures/block_rock_texture/block_rock_texture.h"
+#include "../../includes/textures/block_acid_texture/block_acid_texture.h"
 #include "../../includes/textures/portal_texture/portal_blue_texture.h"
 #include "../../includes/textures/door_texture/door_one_texture.h"
 #include "../../includes/textures/energy_ball_texture/energy_ball_texture.h"
@@ -85,6 +86,8 @@ void Window::add_map(){
             this->add_block_metal_texture(id,area);
         } else if (material == "rock"){
             this->add_block_rock_texture(id,area);
+        } else if (material == "acid"){
+            this->add_block_acid_texture(id,area);
         }
     }
 
@@ -610,6 +613,30 @@ void Window::add_triangle_top_right_texture(uint32_t id, Area areaMap){
                                     new TriangleTopRightTexture(
                                         this->bigTextures.at(
                                             ALL_TRIANGLES_SPRITES
+                                        ), 
+                                        areaMap
+                                    )
+                                );
+    this->add_texture(id, std::move(ptrTexture));
+}
+
+/*
+PRE: Recibe :
+    El id (uint32_t) de indentificacion de bloque de acido a agregar.
+    El area (Area) con las coordenadas y dimensiones del objeto
+    que representa la textura en el mapa de juego (en unidades de 
+    distancia del juego).
+POST: Agrega un nueva textura de bloque de acido a la ventana, bajo las 
+condiciones anteriores.
+Levanta OSException o SdlException en caso de error.
+*/
+void Window::add_block_acid_texture(uint32_t id, Area areaMap){
+    this->add_id_texture(id);
+    this->add_big_texture(ALL_BLOCKS_SPRITES);
+    std::unique_ptr<Texture> ptrTexture(
+                                    new BlockAcidTexture(
+                                        this->bigTextures.at(
+                                            ALL_BLOCKS_SPRITES
                                         ), 
                                         areaMap
                                     )

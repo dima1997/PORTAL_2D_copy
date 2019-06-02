@@ -3,16 +3,16 @@
 #include "../../../includes/textures/common_texture/dynamic_sprite.h"
 
 /*
-Iniciliza un sprite de bloque de piedra estatico que se 
+Inicializa un sprite de bloque de piedra estatico que se 
 encuentra en la imagen ALL_BLOCKS_SPRITES de images_paths.h .
 */
 BlockRockSprite::BlockRockSprite()
 :   DynamicSprite(
         {
-            {1,172}
+            {1,386}
         },
         193,193
     )
     {}
-/*Destrue el sprite de bloque de piedra estatico.*/
+/*Destruye el sprite de bloque de piedra estatico.*/
 BlockRockSprite::~BlockRockSprite() = default;
