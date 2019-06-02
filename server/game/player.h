@@ -23,7 +23,7 @@ private:
     std::thread outThread;
     std::thread inThread;
     //BlockingQueue<Event *> outQueue;
-    BlockingQueue<std::unique_ptr<Event>> outQueue;
+    BlockingQueue<std::shared_ptr<Event>> outQueue;
     //ThreadSafeQueue<GameAction *> *inQueue;
     ThreadSafeQueue<std::unique_ptr<GameAction>> &inQueue;
     std::mutex mutex;
@@ -41,7 +41,7 @@ public:
     void start();
     void join();
     //void addToQueue(Event *event);
-    void addToQueue(std::unique_ptr<Event> &ptrEvent);
+    void addToQueue(std::shared_ptr<Event> &ptrEvent);
     uint32_t getPlayerId();
 };
 

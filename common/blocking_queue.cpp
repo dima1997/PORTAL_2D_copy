@@ -31,9 +31,9 @@ bool BlockingQueue<T>::pop(T &element) {
     cv.wait(l, [this]{ return !queue.empty() || closed; });
     if (queue.empty())
         return false;
-    T task = std::move(queue.front());
+    element = std::move(queue.front());
     queue.pop();
-    element = std::move(task);
+//    element = std::move(task);
     return true;
 }
 
@@ -51,7 +51,7 @@ BlockingQueue<T>::BlockingQueue(BlockingQueue<T> &&other) noexcept:
 // To use this template just add here, for example:
 template class BlockingQueue<Connector>;
 //template class BlockingQueue<Event *>;
-template class BlockingQueue<std::unique_ptr<Event>>;                                
+template class BlockingQueue<std::shared_ptr<Event>>;
 template class BlockingQueue<GameActionName>;
 template class BlockingQueue<std::unique_ptr<GameAction>>;
 template class BlockingQueue<std::unique_ptr<ObjectMovesEvent>>;

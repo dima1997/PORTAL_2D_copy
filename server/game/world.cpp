@@ -20,7 +20,7 @@ World::World(Map &map): gravity(0.0f, -9.8f), world(new b2World(gravity)),
     loadMap(map);
 }
 
-void World::step(std::list<ObjectMovesEvent *> &moved) {
+void World::step(std::list<std::shared_ptr<ObjectMovesEvent>> &moved) {
 
     float32 timeStep = TIME_STEP;
 
@@ -31,7 +31,7 @@ void World::step(std::list<ObjectMovesEvent *> &moved) {
 
     for(Chell *chell : chells) {
         if(chell->changedPosition()) {
-            moved.push_back(new ObjectMovesEvent(chell->getPlayerId(), chell->getXPos(), chell->getYPos())); //chell->getId()
+            moved.push_back(std::shared_ptr<ObjectMovesEvent>(new ObjectMovesEvent(chell->getPlayerId(), chell->getXPos(), chell->getYPos()))); //chell->getId()
         }
     }
 }

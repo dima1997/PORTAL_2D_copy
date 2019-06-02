@@ -30,7 +30,7 @@ void Player::join() {
 }
 
 void Player::sendEvents() {
-    std::unique_ptr<Event> ptrEvent;
+    std::shared_ptr<Event> ptrEvent;
     while (outQueue.pop(ptrEvent)) {
         try {
             connector << (*ptrEvent);
@@ -83,7 +83,7 @@ Player::Player(Player &&other) noexcept : id(other.id), connector(std::move(othe
                                 inThread(std::move(other.inThread)), outQueue(std::move(other.outQueue)),
                                 inQueue(other.inQueue), mutex(), recvMsgs(other.recvMsgs) {}
 
-void Player::addToQueue(std::unique_ptr<Event> &ptrEvent) {
+void Player::addToQueue(std::shared_ptr<Event> &ptrEvent) {
     outQueue.push(ptrEvent);
 }
 

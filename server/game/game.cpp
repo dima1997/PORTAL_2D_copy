@@ -34,7 +34,7 @@ void Game::start() {
                 {
                     // player stop
                     --numberOfPlayers;
-                    std::unique_ptr<Event> ptrEvent(new PlayerDiesEvent());
+                    std::shared_ptr<Event> ptrEvent(new PlayerDiesEvent());
 //                    players.at(player_id).addToQueue(ptrEvent);
                     for (auto &player : players) {
                         if (player.getPlayerId() == player_id){
@@ -67,9 +67,9 @@ void Game::start() {
                     float yMap = ptrCoordsAction->getY();
                     std::cout << "SERVER: Abriendo portal AZUL en x : "<< xMap << " y : " << yMap << "\n";
                     uint32_t idPortalAzul = player_id + 1; // hardcondeado
-                    std::unique_ptr<Event> ptrEventHide(new ObjectSwitchEvent(idPortalAzul));
-                    std::unique_ptr<Event> ptrEventMove(new ObjectMovesEvent(idPortalAzul, xMap, yMap));
-                    std::unique_ptr<Event> ptrEventShow(new ObjectSwitchEvent(idPortalAzul));
+                    std::shared_ptr<Event> ptrEventHide(new ObjectSwitchEvent(idPortalAzul));
+                    std::shared_ptr<Event> ptrEventMove(new ObjectMovesEvent(idPortalAzul, xMap, yMap));
+                    std::shared_ptr<Event> ptrEventShow(new ObjectSwitchEvent(idPortalAzul));
                     for (auto &player : players) {
                         if (player.getPlayerId() == player_id){
                             player.addToQueue(ptrEventHide);
@@ -93,9 +93,9 @@ void Game::start() {
                     float yMap = ptrCoordsAction->getY();
                     std::cout << "SERVER: Abriendo portal NARANJA en x : "<< xMap << " y : " << yMap << "\n";
                     uint32_t idPortalNaranja = player_id + 2; // hardcondeado
-                    std::unique_ptr<Event> ptrEventHide(new ObjectSwitchEvent(idPortalNaranja));
-                    std::unique_ptr<Event> ptrEventMove(new ObjectMovesEvent(idPortalNaranja, xMap, yMap));
-                    std::unique_ptr<Event> ptrEventShow(new ObjectSwitchEvent(idPortalNaranja));
+                    std::shared_ptr<Event> ptrEventHide(new ObjectSwitchEvent(idPortalNaranja));
+                    std::shared_ptr<Event> ptrEventMove(new ObjectMovesEvent(idPortalNaranja, xMap, yMap));
+                    std::shared_ptr<Event> ptrEventShow(new ObjectSwitchEvent(idPortalNaranja));
                     for (auto &player : players) {
                         if (player.getPlayerId() == player_id){
                             player.addToQueue(ptrEventHide);
@@ -133,12 +133,12 @@ void Game::start() {
             t2 = clock();
             timeProcessMicroSeconds = (double(t2-t0)/CLOCKS_PER_SEC) * ONE_SECOND_EQ_MICRO_SECONDS;
         }
-        std::list<ObjectMovesEvent *> moved;
+        std::list<std::shared_ptr<ObjectMovesEvent>> moved;
         world.step(moved);
-        for(auto event : moved) {
+        for(auto &event : moved) {
             printf("x: %4.2f, y: %4.2f\n", event->getX(), event->getY());
             for (Player &player : players) {
-                std::unique_ptr<Event> ptrEvent(event);
+                std::shared_ptr<Event> ptrEvent(event);
                 player.addToQueue(ptrEvent);
             }
         }
@@ -148,7 +148,7 @@ void Game::start() {
     }
 
     for (Player &player : players) {
-        std::unique_ptr<Event> ptrEvent(new PlayerWinsEvent());
+        std::shared_ptr<Event> ptrEvent(new PlayerWinsEvent());
         player.addToQueue(ptrEvent);
     }
 }
