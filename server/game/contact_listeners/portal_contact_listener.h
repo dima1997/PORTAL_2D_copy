@@ -6,8 +6,12 @@
 #define PORTAL_PORTAL_CONTACT_LISTENER_H
 
 
-class portal_contact_listener {
+#include <Box2D/Dynamics/b2WorldCallbacks.h>
 
+class PortalContactListener: public b2ContactListener {
+
+    void BeginContact(b2Contact* contact) override;
+    void EndContact(b2Contact* contact) override;
 };
 
 

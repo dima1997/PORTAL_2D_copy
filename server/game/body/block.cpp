@@ -19,9 +19,14 @@ void Block::createBody(float32 xPos, float32 yPos) {
     b2BodyDef bodyDef;
     bodyDef.position.Set(xPos, yPos);
     body = world.CreateBody(&bodyDef);
+    body->SetUserData(this);
 
     b2PolygonShape box;
     box.SetAsBox(0.5f, 0.5f);
 
     body->CreateFixture(&box, 0.0f);
+}
+
+body_type_t Block::getBodyType() {
+    return BLOCK;
 }

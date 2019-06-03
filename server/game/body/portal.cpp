@@ -8,7 +8,7 @@
 #include "portal.h"
 
 Portal::Portal(b2World &world, float32 xPos, float32 yPos, uint32_t id):
-               Body(world, xPos, yPos, id), other() {
+               Body(world, xPos, yPos, id), other(), usable(true) {
     createBody(xPos, yPos);
 }
 
@@ -21,6 +21,7 @@ void Portal::createBody(float32 xPos, float32 yPos) {
     b2BodyDef bodyDef;
     bodyDef.position.Set(xPos, yPos);
     body = world.CreateBody(&bodyDef);
+    body->SetUserData(this);
 
     b2CircleShape circleShape;
     circleShape.m_radius = 0.50f;
@@ -31,8 +32,19 @@ void Portal::createBody(float32 xPos, float32 yPos) {
     body->CreateFixture(&circleFixtureDef);
 }
 
-void Portal::moveTo(float32 x, float32 y) {
-    body->SetTransform(b2Vec2(x, y), body->GetAngle());
+void Portal::startGoingThrough(Body *body) {
+    if (!usable)
+        return;
+    body->moveTo(other->getXPos(), other->getYPos());
+    other->usable = false;
+}
+
+body_type_t Portal::getBodyType() {
+    return PORTAL;
+}
+
+void Portal::endGoingThrough() {
+    usable = true;
 }
 
 Portal::~Portal() = default;

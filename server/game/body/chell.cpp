@@ -15,6 +15,7 @@ void Chell::createBody(float32 xPos, float32 yPos) {
     bodyDef.position.Set(xPos, yPos);
     bodyDef.fixedRotation = true;
     body = world.CreateBody(&bodyDef);
+    body->SetUserData(this);
 
     b2PolygonShape dynamicBox;
     dynamicBox.SetAsBox(0.35f, 0.5f);
@@ -43,7 +44,10 @@ Chell::Chell(b2World &world, float32 xPos, float32 yPos, uint32_t playerId):
     createBody(xPos, yPos);
 }
 
-Chell::~Chell() = default;
+Chell::~Chell() {
+    delete orangePortal;
+    delete bluePortal;
+}
 
 void Chell::move(float32 xSpeed, float32 ySpeed) {
     b2Vec2 vel = body->GetLinearVelocity();
@@ -115,6 +119,10 @@ Portal *Chell::getOrangePortal() {
 
 Portal *Chell::getBluePortal() {
     return bluePortal;
+}
+
+body_type_t Chell::getBodyType() {
+    return CHELL;
 }
 
 

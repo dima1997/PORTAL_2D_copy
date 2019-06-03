@@ -11,6 +11,7 @@
 #include <configs_yaml/config_paths.h>
 #include <portal_exception.h>
 #include "yaml-cpp/yaml.h"
+#include "contact_listeners/portal_contact_listener.h"
 
 #define TIME_STEP 1.0f / 60.0f
 #define VELOCITY_ITERATIONS 8
@@ -19,6 +20,9 @@
 World::World(Map &map): gravity(0.0f, -9.8f), world(new b2World(gravity)),
                               chells(), staticBodies(), numberOfPlayers() {
     loadMap(map);
+    std::unique_ptr<PortalContactListener> portalContactListener(new PortalContactListener());
+    world->SetContactListener(portalContactListener.get());
+    listeners.push_back(std::move(portalContactListener));
 }
 
 void World::step(std::list<std::shared_ptr<ObjectMovesEvent>> &moved) {
@@ -121,6 +125,7 @@ void World::loadMap(Map &map) {
     for(auto chell : chells) {
         chell->setBluePortal(portals[i++]);
         chell->setOrangePortal(portals[i++]);
+        connect(portals[i - 1], portals[i - 2]);
     }
     numberOfPlayers = map.getPlayersNumber();
 }

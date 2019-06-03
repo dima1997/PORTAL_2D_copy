@@ -32,6 +32,7 @@ public:
     void moveOrangePortal(float32 x, float32 y);
     Portal *getOrangePortal();
     Portal *getBluePortal();
+    body_type_t getBodyType() override;
 };
 
 

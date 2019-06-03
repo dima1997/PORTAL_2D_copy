@@ -12,11 +12,14 @@ class Portal: public Body {
 private:
     Portal *other;
     void createBody(float32 xPos, float32 yPos) override;
+    bool usable;
 public:
     Portal(b2World &world, float32 xPos, float32 yPos, uint32_t id);
     ~Portal() override;
+    void startGoingThrough(Body *body);
+    void endGoingThrough();
     friend void connect(Portal *portal1, Portal *portal2);
-    void moveTo(float32 x, float32 y);
+    body_type_t getBodyType() override;
 };
 
 

@@ -19,6 +19,7 @@ private:
 public:
     Block(b2World &world, float32 xPos, float32 yPos, block_type_t type, uint32_t id);
     ~Block() override;
+    body_type_t getBodyType() override;
 };
 
 
