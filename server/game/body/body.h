@@ -9,6 +9,7 @@
 #include <cstdint>
 #include <Box2D/Common/b2Math.h>
 #include <Box2D/Dynamics/b2World.h>
+#include <Box2D/Dynamics/b2Body.h>
 
 class Body {
 private:

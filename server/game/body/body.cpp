@@ -4,7 +4,6 @@
 
 #include "body.h"
 #include "../../utils/id_generator.h"
-#include <Box2D/Dynamics/b2Body.h>
 
 Body::Body(b2World &world, float32 xPos, float32 yPos, uint32_t id):
            id(id), updated(false), lastPosition(xPos, yPos), world(world), body() {}

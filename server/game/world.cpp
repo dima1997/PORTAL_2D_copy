@@ -36,9 +36,18 @@ void World::step(std::list<std::shared_ptr<ObjectMovesEvent>> &moved) {
 
     for(Chell *chell : chells) {
         if(chell->changedPosition()) {
-            moved.push_back(std::shared_ptr<ObjectMovesEvent>(new ObjectMovesEvent(chell->getId(), chell->getXPos(), chell->getYPos()))); //chell->getId()
+            moved.push_back(std::shared_ptr<ObjectMovesEvent>(new ObjectMovesEvent(chell->getId(), chell->getXPos(), chell->getYPos())));
+        }
+        Portal *orange = chell->getOrangePortal();
+        if(orange->changedPosition()) {
+            moved.push_back(std::shared_ptr<ObjectMovesEvent>(new ObjectMovesEvent(orange->getId(), orange->getXPos(), orange->getYPos())));
+        }
+        Portal *blue = chell->getBluePortal();
+        if(blue->changedPosition()) {
+            moved.push_back(std::shared_ptr<ObjectMovesEvent>(new ObjectMovesEvent(blue->getId(), blue->getXPos(), blue->getYPos())));
         }
     }
+
 }
 
 //World::World(World &&other) noexcept: gravity(other.gravity), world(other.world), chells(std::move(other.chells)),
@@ -81,6 +90,8 @@ void World::loadMap(Map &map) {
             staticBodies.push_back(new Block(*world, x, y, ROCK, id));
         } else if (material == "metal") {
             staticBodies.push_back(new Block(*world, x, y, METAL, id));
+        } else if (material == "acid") {
+            staticBodies.push_back(new Block(*world, x, y, ACID, id));
         }
     }
     YAML::Node chellsYaml = baseNode["chells"];
@@ -97,12 +108,19 @@ void World::loadMap(Map &map) {
     float portalWidth = portalsYaml["width"].as<float>(); 
     float portalHeight = portalsYaml["height"].as<float>(); 
     YAML::Node portalsIdColorCoords = portalsYaml["id_color_coordinates"];
+    std::vector<Portal *> portals;
     for (int i = 0; i < (int)portalsIdColorCoords.size(); ++i){
         uint32_t id = portalsIdColorCoords[i]["id"].as<uint32_t>();
         std::string color = portalsIdColorCoords[i]["color"].as<std::string>();  
         float32 x = portalsIdColorCoords[i]["xCoord"].as<float32>();
         float32 y = portalsIdColorCoords[i]["yCoord"].as<float32>();
+        portals.push_back(new Portal(*world, x, y, id));
         // Aqui se agregan los portales
+    }
+    int i = 0;
+    for(auto chell : chells) {
+        chell->setBluePortal(portals[i++]);
+        chell->setOrangePortal(portals[i++]);
     }
     numberOfPlayers = map.getPlayersNumber();
 }
