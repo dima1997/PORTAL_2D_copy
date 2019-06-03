@@ -14,7 +14,7 @@ POST: Inicializa un sprite dinamico.
 */
 DynamicSprite::DynamicSprite(std::vector<std::pair<int, int>> spritesCoordTape,
                              int width, int height)
-: spritesCoordTape(spritesCoordTape), width(width), height(height), indice(0) {}
+: spritesCoordTape(spritesCoordTape), width(width), height(height), index(0) {}
 
 /*Destruye el sprite dinamico.*/
 DynamicSprite::~DynamicSprite(){}
@@ -24,14 +24,23 @@ Devuelve un area (Area) con las coordenadas y dimensiones del proximo a sprite a
 ser usado.
 */
 Area DynamicSprite::getNextArea(){
-    float xCoord = this->spritesCoordTape[this->indice].first;
-    float yCoord = this->spritesCoordTape[this->indice].second;
-    ++indice;
-    indice = indice % this->spritesCoordTape.size();
+    float xCoord = this->spritesCoordTape[this->index].first;
+    float yCoord = this->spritesCoordTape[this->index].second;
+    ++index;
+    index = index % this->spritesCoordTape.size();
     return std::move(Area(xCoord, yCoord, this->width, this->height));
 }
 
 /*Reinicia el ciclo de sprites al sprite inicial.*/
 void DynamicSprite::restart(){
-    this->indice = 0;
+    this->index = 0;
+}
+
+/*
+Devuelve true, si el sprite actual es el ultimo 
+sprite de la tira de sprites que los constituyen; 
+false en caso contrario.
+*/
+bool DynamicSprite::is_last_sprite(){
+    return ((this->index + 1) >= this->spritesCoordTape.size());
 }

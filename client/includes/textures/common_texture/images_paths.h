@@ -10,5 +10,6 @@
 #define BUTTON_SPRITE "button_sprites.png"
 #define BARRIER_SPRITE "barrier.png"
 #define ALL_TRIANGLES_SPRITES "all_triangles.png"
+#define CAKE_SPRITES "cake.png"
 
 #endif // IMAGES_PATH_H

@@ -10,7 +10,7 @@ private:
     int width;
     int height;
     std::vector<std::pair<int, int>> spritesCoordTape;
-    int indice;
+    int index;
 public:
     /*
     PRE: Recibe un vector de coordenadas x,y (std::vector<std::pair<int, int>>) de
@@ -30,6 +30,13 @@ public:
     ser usado.
     */
     Area getNextArea();
+
+    /*
+    Devuelve true, si el sprite actual es el ultimo 
+    sprite de la tira de sprites que los constituyen; 
+    false en caso contrario.
+    */
+    bool is_last_sprite();
     
     /*Reinicia el ciclo de sprites al sprite inicial.*/
     void restart();

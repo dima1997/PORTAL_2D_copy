@@ -20,6 +20,9 @@
 #include "../../includes/textures/triangle_texture/triangle_botom_right_texture.h"
 #include "../../includes/textures/triangle_texture/triangle_top_left_texture.h"
 #include "../../includes/textures/triangle_texture/triangle_top_right_texture.h"
+#include "../../includes/textures/receiver_texture/receiver_texture.h"
+#include "../../includes/textures/emitter_texture/emitter_right_texture.h"
+#include "../../includes/textures/cake_texture/cake_texture.h"
 
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
@@ -52,7 +55,9 @@ Levanta OSError si el id recibdo ya fue previamente agregado.
 */
 void Window::add_id_texture(uint32_t id){
     if (this->allTextures.count(id) != 0){
-        throw OSException("Error en ventana:","No puede haber dos texturas con el mismo id.");
+        std::stringstream errMsj;
+        errMsj << "No puede haber dos texturas con el mismo id: " << id << ".";
+        throw OSException("Error en ventana:",errMsj.str().c_str());
     }
     this->ids.push_back(id);
 }
@@ -184,6 +189,45 @@ void Window::add_map(){
         float y = barriersYaml[i]["yCoord"].as<float>();
         Area area(x,y,width,height);
         this->add_barrier_texture(id,area);
+    }
+
+    YAML::Node receiversYaml = baseNode["receivers"];
+    float receiverWidth = receiversYaml["width"].as<float>(); 
+    float receiverHeight = receiversYaml["height"].as<float>(); 
+    YAML::Node receiversIdCoords = receiversYaml["id_coordinates"];
+    for (int i = 0; i < (int)receiversIdCoords.size(); ++i){
+        uint32_t id = receiversIdCoords[i]["id"].as<uint32_t>(); 
+        float x = receiversIdCoords[i]["xCoord"].as<float>();
+        float y = receiversIdCoords[i]["yCoord"].as<float>();
+        Area area(x,y,receiverWidth, receiverHeight);
+        this->add_receiver_texture(id,area);
+    }
+
+    YAML::Node emittersYaml = baseNode["emitters"];
+    float emitterWidth = emittersYaml["width"].as<float>(); 
+    float emitterHeight = emittersYaml["height"].as<float>(); 
+    YAML::Node emittersIdCoords = emittersYaml["id_position_coordinates"];
+    for (int i = 0; i < (int)emittersIdCoords.size(); ++i){
+        uint32_t id = emittersIdCoords[i]["id"].as<uint32_t>(); 
+        std::string position = emittersIdCoords[i]["position"].as<std::string>();
+        float x = emittersIdCoords[i]["xCoord"].as<float>();
+        float y = emittersIdCoords[i]["yCoord"].as<float>();
+        Area area(x,y,emitterWidth,emitterHeight);
+        if (position == "right"){
+            this->add_emitter_right_texture(id,area);
+        }
+    }
+
+    YAML::Node cakesYaml = baseNode["cakes"];
+    float cakeWidth = cakesYaml["width"].as<float>(); 
+    float cakeHeight = cakesYaml["height"].as<float>(); 
+    YAML::Node cakesIdCoords = cakesYaml["id_coordinates"];
+    for (int i = 0; i < (int)cakesIdCoords.size(); ++i){
+        uint32_t id = cakesIdCoords[i]["id"].as<uint32_t>(); 
+        float x = cakesIdCoords[i]["xCoord"].as<float>();
+        float y = cakesIdCoords[i]["yCoord"].as<float>();
+        Area area(x,y,cakeWidth,cakeHeight);
+        this->add_cake_texture(id,area);
     }
 
     YAML::Node chellsYaml = baseNode["chells"];
@@ -637,6 +681,78 @@ void Window::add_block_acid_texture(uint32_t id, Area areaMap){
                                     new BlockAcidTexture(
                                         this->bigTextures.at(
                                             ALL_BLOCKS_SPRITES
+                                        ), 
+                                        areaMap
+                                    )
+                                );
+    this->add_texture(id, std::move(ptrTexture));
+}
+
+/*
+PRE: Recibe :
+    El id (uint32_t) de indentificacion de bloque recibidor a agregar.
+    El area (Area) con las coordenadas y dimensiones del objeto
+    que representa la textura en el mapa de juego (en unidades de 
+    distancia del juego).
+POST: Agrega un nueva textura de bloque recibidor a la ventana, bajo las 
+condiciones anteriores.
+Levanta OSException o SdlException en caso de error.
+*/
+void Window::add_receiver_texture(uint32_t id, Area areaMap){
+    this->add_id_texture(id);
+    this->add_big_texture(ALL_BLOCKS_SPRITES);
+    std::unique_ptr<Texture> ptrTexture(
+                                    new ReceiverTexture(
+                                        this->bigTextures.at(
+                                            ALL_BLOCKS_SPRITES
+                                        ), 
+                                        areaMap
+                                    )
+                                );
+    this->add_texture(id, std::move(ptrTexture));
+}
+
+/*
+PRE: Recibe :
+    El id (uint32_t) de indentificacion de bloque emisor a derecha a agregar.
+    El area (Area) con las coordenadas y dimensiones del objeto
+    que representa la textura en el mapa de juego (en unidades de 
+    distancia del juego).
+POST: Agrega un nueva textura de bloque emisor a derecha a la ventana, bajo las 
+condiciones anteriores.
+Levanta OSException o SdlException en caso de error.
+*/
+void Window::add_emitter_right_texture(uint32_t id, Area areaMap){
+    this->add_id_texture(id);
+    this->add_big_texture(ALL_BLOCKS_SPRITES);
+    std::unique_ptr<Texture> ptrTexture(
+                                    new EmitterRightTexture(
+                                        this->bigTextures.at(
+                                            ALL_BLOCKS_SPRITES
+                                        ), 
+                                        areaMap
+                                    )
+                                );
+    this->add_texture(id, std::move(ptrTexture));
+}
+
+/*
+PRE: Recibe :
+    El id (uint32_t) de indentificacion de torta a agregar.
+    El area (Area) con las coordenadas y dimensiones del objeto
+    que representa la textura en el mapa de juego (en unidades de 
+    distancia del juego).
+POST: Agrega un nueva textura de torta a la ventana, bajo las 
+condiciones anteriores.
+Levanta OSException o SdlException en caso de error.
+*/
+void Window::add_cake_texture(uint32_t id, Area areaMap){
+    this->add_id_texture(id);
+    this->add_big_texture(CAKE_SPRITES);
+    std::unique_ptr<Texture> ptrTexture(
+                                    new CakeTexture(
+                                        this->bigTextures.at(
+                                            CAKE_SPRITES
                                         ), 
                                         areaMap
                                     )

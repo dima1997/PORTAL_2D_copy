@@ -107,15 +107,15 @@ void KeyReader::process_event_up(SDL_KeyboardEvent & keyEvent){
     switch (keyEvent.keysym.sym) {
         case SDLK_a:
         case SDLK_LEFT:
-            this->process_key_up(A, stop_left);
+            this->process_key_up(A, stop_move);
             break;
         case SDLK_d:
         case SDLK_RIGHT:
-            this->process_key_up(D, stop_right);
+            this->process_key_up(D, stop_move);
             break;
         case SDLK_w:
         case SDLK_UP:
-            this->process_key_up(W, stop_jump);
+            this->process_key_up(W, null_action);
             break;
         case SDLK_SPACE:
         case SDLK_RCTRL:
@@ -138,6 +138,9 @@ presionada.
 */
 void KeyReader::process_key_up(KeyUsed actualKey, GameActionName actionName){
     this->keysPressed[actualKey] = false;
+    if (actionName == null_action){
+        return;
+    }
     std::unique_ptr<GameAction> ptrGameAction(new GameAction(actionName));
     this->toGameQueue.push(ptrGameAction);
 }
