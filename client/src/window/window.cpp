@@ -22,6 +22,7 @@
 #include "../../includes/textures/triangle_texture/triangle_top_right_texture.h"
 #include "../../includes/textures/receiver_texture/receiver_texture.h"
 #include "../../includes/textures/emitter_texture/emitter_right_texture.h"
+#include "../../includes/textures/cake_texture/cake_texture.h"
 
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
@@ -211,10 +212,22 @@ void Window::add_map(){
         std::string position = emittersIdCoords[i]["position"].as<std::string>();
         float x = emittersIdCoords[i]["xCoord"].as<float>();
         float y = emittersIdCoords[i]["yCoord"].as<float>();
-        Area area(x,y,emitterWidth, emitterHeight);
+        Area area(x,y,emitterWidth,emitterHeight);
         if (position == "right"){
             this->add_emitter_right_texture(id,area);
         }
+    }
+
+    YAML::Node cakesYaml = baseNode["cakes"];
+    float cakeWidth = cakesYaml["width"].as<float>(); 
+    float cakeHeight = cakesYaml["height"].as<float>(); 
+    YAML::Node cakesIdCoords = cakesYaml["id_coordinates"];
+    for (int i = 0; i < (int)cakesIdCoords.size(); ++i){
+        uint32_t id = cakesIdCoords[i]["id"].as<uint32_t>(); 
+        float x = cakesIdCoords[i]["xCoord"].as<float>();
+        float y = cakesIdCoords[i]["yCoord"].as<float>();
+        Area area(x,y,cakeWidth,cakeHeight);
+        this->add_cake_texture(id,area);
     }
 
     YAML::Node chellsYaml = baseNode["chells"];
@@ -716,6 +729,30 @@ void Window::add_emitter_right_texture(uint32_t id, Area areaMap){
                                     new EmitterRightTexture(
                                         this->bigTextures.at(
                                             ALL_BLOCKS_SPRITES
+                                        ), 
+                                        areaMap
+                                    )
+                                );
+    this->add_texture(id, std::move(ptrTexture));
+}
+
+/*
+PRE: Recibe :
+    El id (uint32_t) de indentificacion de torta a agregar.
+    El area (Area) con las coordenadas y dimensiones del objeto
+    que representa la textura en el mapa de juego (en unidades de 
+    distancia del juego).
+POST: Agrega un nueva textura de torta a la ventana, bajo las 
+condiciones anteriores.
+Levanta OSException o SdlException en caso de error.
+*/
+void Window::add_cake_texture(uint32_t id, Area areaMap){
+    this->add_id_texture(id);
+    this->add_big_texture(CAKE_SPRITES);
+    std::unique_ptr<Texture> ptrTexture(
+                                    new CakeTexture(
+                                        this->bigTextures.at(
+                                            CAKE_SPRITES
                                         ), 
                                         areaMap
                                     )

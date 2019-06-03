@@ -126,6 +126,8 @@ file(GLOB client_files
 	"${CLIENT_FOLDER}/src/textures/receiver_texture/receiver_sprite_strategy.cpp"
 	"${CLIENT_FOLDER}/src/textures/emitter_texture/emitter_right_texture.cpp"
 	"${CLIENT_FOLDER}/src/textures/emitter_texture/emitter_right_sprite.cpp"
+	"${CLIENT_FOLDER}/src/textures/cake_texture/cake_texture.cpp"
+	"${CLIENT_FOLDER}/src/textures/cake_texture/cake_sprite.cpp"
         )
 
 add_executable(${CLIENT_NAME} ${common_files} ${client_files})
@@ -148,3 +150,4 @@ install(FILES client/assets/rocks_and_balls.png DESTINATION ${CMAKE_BINARY_DIR})
 install(FILES client/assets/button_sprites.png DESTINATION ${CMAKE_BINARY_DIR})
 install(FILES client/assets/barrier.png DESTINATION ${CMAKE_BINARY_DIR})
 install(FILES client/assets/all_triangles.png DESTINATION ${CMAKE_BINARY_DIR})
+install(FILES client/assets/cake.png DESTINATION ${CMAKE_BINARY_DIR})

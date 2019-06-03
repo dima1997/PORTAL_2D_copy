@@ -142,3 +142,10 @@ emitters:
         [
             {id: 67, position: 'right', xCoord: -5.5, yCoord: 7.5}
         ]
+cakes:
+    width: 1
+    height: 1
+    id_coordinates:
+        [
+            {id: 68, xCoord: 6.5, yCoord: 1.5}
+        ]
