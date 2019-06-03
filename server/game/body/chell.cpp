@@ -5,24 +5,38 @@
 #include <Box2D/Dynamics/b2Body.h>
 #include <Box2D/Collision/Shapes/b2PolygonShape.h>
 #include <Box2D/Dynamics/b2Fixture.h>
+#include <Box2D/Collision/Shapes/b2CircleShape.h>
+#include <Box2D/Dynamics/Joints/b2WheelJoint.h>
 #include "chell.h"
 
 void Chell::createBody(float32 xPos, float32 yPos) {
     b2BodyDef bodyDef;
     bodyDef.type = b2_dynamicBody;
     bodyDef.position.Set(xPos, yPos);
+    bodyDef.fixedRotation = true;
     body = world.CreateBody(&bodyDef);
 
     b2PolygonShape dynamicBox;
-    dynamicBox.SetAsBox(0.5f, 0.75f);
+    dynamicBox.SetAsBox(0.35f, 0.5f);
 
     b2FixtureDef fixtureDef;
     fixtureDef.shape = &dynamicBox;
-    fixtureDef.density = 1.0f;
+    fixtureDef.density = 0.5f;
     fixtureDef.friction = 0.3f;
 
     body->CreateFixture(&fixtureDef);
-}
+
+    b2CircleShape circleShape;
+    circleShape.m_p.Set(0, -0.4f);
+    circleShape.m_radius = 0.35;
+
+    b2FixtureDef circleFixtureDef;
+    circleFixtureDef.shape = &circleShape;
+    circleFixtureDef.density = 0.5;
+    circleFixtureDef.friction = 0.3f;
+
+    body->CreateFixture(&circleFixtureDef);
+    }
 
 Chell::Chell(b2World &world, float32 xPos, float32 yPos, uint32_t playerId):
              Body(world, xPos, yPos, playerId), state(STOP), jump_state(false) {
