@@ -135,7 +135,7 @@ public:
 
     /*
     PRE: Recibe :
-        El id (uint32_t) de indentificacion del portal a agregar.
+        El id (uint32_t) de indentificacion del portal azul a agregar.
         El area (Area) con las coordenadas y dimensiones del objeto
         que representa la textura en el mapa de juego (en unidades de 
         distancia del juego).
@@ -143,8 +143,19 @@ public:
     condiciones anteriores.
     Levanta OSException o SdlException en caso de error.
     */
-    void add_portal_texture(uint32_t id, Area areaMap);
+    void add_portal_blue_texture(uint32_t id, Area areaMap);
 
+    /*
+    PRE: Recibe :
+        El id (uint32_t) de indentificacion del portal naranja a agregar.
+        El area (Area) con las coordenadas y dimensiones del objeto
+        que representa la textura en el mapa de juego (en unidades de 
+        distancia del juego).
+    POST: Agrega un nueva textura de portal naranja a la ventana, bajo las 
+    condiciones anteriores.
+    Levanta OSException o SdlException en caso de error.
+    */
+    void add_portal_orange_texture(uint32_t id, Area areaMap);
     /*
     PRE: Recibe :
         El id (uint32_t) de indentificacion de la puerta a agregar.

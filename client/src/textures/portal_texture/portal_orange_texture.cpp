@@ -1,4 +1,4 @@
-#include "../../../includes/textures/portal_texture/portal_blue_texture.h"
+#include "../../../includes/textures/portal_texture/portal_orange_texture.h"
 
 #include "../../../includes/textures/portal_texture/portal_sprite_strategy.h"
 #include "../../../includes/textures/common_texture/area.h"
@@ -12,17 +12,17 @@
 PRE: Recibe una gran textura que contiene de la imagen PORTAL_SPRITES 
 de images_paths.h; y el area del mapa de juego que representa esta 
 textura.
-POST: Inicializa una texture de portal azul.
+POST: Inicializa una texture de portal naranja.
 */
-PortalBlueTexture::PortalBlueTexture(BigTexture & bigTexture, Area areaMap) 
+PortalOrangeTexture::PortalOrangeTexture(BigTexture & bigTexture, Area areaMap) 
 :    Texture(bigTexture, areaMap, 
         std::move(
             std::unique_ptr<SpriteStrategy>(new PortalSpriteStrategy())
         )
     ) {}
 
-/*Destruye la textura del portal azul.*/
-PortalBlueTexture::~PortalBlueTexture() = default;
+/*Destruye la textura del portal naranja.*/
+PortalOrangeTexture::~PortalOrangeTexture() = default;
 
 /*
 Pre: Recibe un factor de ajuste (pixeles/<unidad de mapa>), 
@@ -34,11 +34,11 @@ POST: Renderiza la textura si es que alguna parte de la misma
 se encuentra en el area de la camera recibida, ajustando las 
 dimensiones de la textura a pixeles, con el factor recibido.
 */
-void PortalBlueTexture::render(float adjuster, const Area & areaCamera) {
+void PortalOrangeTexture::render(float adjuster, const Area & areaCamera) {
     Area src = (*this->ptrSpriteStrategy).getNextArea();
     if (! this->areaMap.isIntersectedBy(areaCamera)){
         return;
     }
     Area dest = this->getAreaDest(adjuster, areaCamera);
-    this->bigTexture.render(src, dest, NO_FLIP, 0, 1, 100, 255);
+    this->bigTexture.render(src, dest, NO_FLIP, 0, 255, 100, 1);
 }

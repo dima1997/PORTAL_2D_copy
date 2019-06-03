@@ -70,12 +70,16 @@ PRE: Recibe dos areas (Area &):
         que se desea mostrar.
         La segunda corresponde al lugar y espacio (de la ventana) 
         donde se va a ajustar la imagen definida por la primer area.
+        Un flip (textureFlip_t)
+        Un 
     Tambien recibe un flip a realizar sobre el sprite a renderizar 
     (textureFlip_t)
 POST: Renderiza la textura bajo las condiciones anteriores.
 Levanta SdlException en caso de error.
 */
-void BigTexture::render(const Area & src, const Area & dest, textureFlip_t flip){
+void BigTexture::render(const Area & src, const Area & dest, 
+                        textureFlip_t flip){
+    /*
     SDL_Rect sdlSrc = {
             (int)src.getX(), (int)src.getY(),
             (int)src.getWidth(), (int)src.getHeight()
@@ -88,12 +92,72 @@ void BigTexture::render(const Area & src, const Area & dest, textureFlip_t flip)
     if (flip == FLIP_HORIZONTAL) {
         sdlFlip = SDL_FLIP_HORIZONTAL;
     }
-    //return SDL_RenderCopy(this->renderer, this->texture, & sdlSrc, & sdlDest);
     int sdlError = SDL_RenderCopyEx(this->renderer,this->texture, 
                                     & sdlSrc, & sdlDest, 
                                     0, NULL, sdlFlip);
     if (sdlError < 0){
         throw SdlException("Error al renderizar gran textura.",SDL_GetError());
     }
+    */
+    this->render(src, dest, flip, 0, 255, 255, 255);
 }
 
+/*
+PRE: Recibe dos areas (Area &):
+        La primera correspondiente al pedazo de textura actual 
+        que se desea mostrar.
+        La segunda corresponde al lugar y espacio (de la ventana) 
+        donde se va a ajustar la imagen definida por la primer area.
+    Tambien recibe un flip a realizar sobre el sprite a renderizar 
+    (textureFlip_t)
+    Un anuglo para rotar la textura (int)
+    Tres multiplicadores: uno para cada color de la palet RGB, 
+    que modulizaran el color de la textura (distintos de cero).
+POST: Renderiza la textura bajo las condiciones anteriores.
+Levanta SdlException en caso de error.
+*/
+void BigTexture::render(const Area & src, const Area & dest, 
+                        textureFlip_t flip, double angle, 
+                        uint8_t rMod, uint8_t gMod, uint8_t bMod){
+    if (rMod == 0 || gMod == 0 || bMod == 0){
+        std::string errMsj; 
+        errMsj = "Error en gran textura:";
+        errMsj += " Los modificadores de color no pueden ser cero";
+        throw SdlException(errMsj.c_str(),"");
+    }
+    SDL_Rect sdlSrc = {
+            (int)src.getX(), (int)src.getY(),
+            (int)src.getWidth(), (int)src.getHeight()
+    };
+    SDL_Rect sdlDest = {
+            (int)dest.getX(), (int)dest.getY(),
+            (int)dest.getWidth(), (int)dest.getHeight()
+    };
+    SDL_RendererFlip sdlFlip = SDL_FLIP_NONE;
+    if (flip == FLIP_HORIZONTAL) {
+        sdlFlip = SDL_FLIP_HORIZONTAL;
+    }
+
+    Uint8 redBefore;
+    Uint8 greenBefore;
+    Uint8 blueBefore;
+    SDL_GetTextureColorMod(this->texture, &redBefore, &greenBefore, &blueBefore);
+    Uint8 redMod = (Uint8) rMod;
+    Uint8 greenMod = (Uint8) gMod;
+    Uint8 blueMod = (Uint8) bMod;
+    SDL_SetTextureColorMod(this->texture, redMod, greenMod, blueMod);
+    Uint8 redNew;
+    Uint8 greenNew;
+    Uint8 blueNew;
+    SDL_GetTextureColorMod(this->texture, &redNew, &greenNew, &blueNew);
+    Uint8 redBackMod = (255*(redNew*redBefore)-(redBefore*redMod))/redNew;
+    Uint8 greenBackMod = (255*(greenNew*greenBefore)-(greenBefore*greenMod))/greenNew;
+    Uint8 blueBackMod = (255*(blueNew*blueBefore)-(blueBefore*blueMod))/blueNew;
+    int sdlError = SDL_RenderCopyEx(this->renderer,this->texture, 
+                                    & sdlSrc, & sdlDest, 
+                                    angle, NULL, sdlFlip);
+    SDL_SetTextureColorMod(this->texture, redBackMod, greenBackMod, blueBackMod);
+    if (sdlError < 0){
+        throw SdlException("Error al renderizar gran textura.",SDL_GetError());
+    }
+}

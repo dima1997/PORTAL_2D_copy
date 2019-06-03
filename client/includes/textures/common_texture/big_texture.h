@@ -68,6 +68,24 @@ public:
     Levanta SdlException en caso de error.
     */
     void render(const Area & src, const Area & dest, textureFlip_t flip); 
+
+    /*
+    PRE: Recibe dos areas (Area &):
+            La primera correspondiente al pedazo de textura actual 
+            que se desea mostrar.
+            La segunda corresponde al lugar y espacio (de la ventana) 
+            donde se va a ajustar la imagen definida por la primer area.
+        Tambien recibe un flip a realizar sobre el sprite a renderizar 
+        (textureFlip_t)
+        Un anuglo para rotar la textura (int)
+        Tres multiplicadores: uno para cada color de la palet RGB, 
+        que modulizaran el color de la textura (distintos de cero).
+    POST: Renderiza la textura bajo las condiciones anteriores.
+    Levanta SdlException en caso de error.
+    */
+    void render(const Area & src, const Area & dest, 
+                            textureFlip_t flip, double angle, 
+                            uint8_t rMod, uint8_t gMod, uint8_t bMod);
 };
 
 #endif // BIG_TEXTURA_H

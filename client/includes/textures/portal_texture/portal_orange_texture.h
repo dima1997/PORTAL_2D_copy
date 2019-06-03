@@ -1,22 +1,22 @@
-#ifndef PORTAL_BLUE_TEXTURE_H
-#define PORTAL_BLUE_TEXTURE_H
+#ifndef PORTAL_ORANGE_TEXTURE_H
+#define PORTAL_ORANGE_TEXTURE_H
 
 #include "../common_texture/texture.h"
 #include "../common_texture/area.h"
 #include "../common_texture/big_texture.h"
 
-class PortalBlueTexture : public Texture {
+class PortalOrangeTexture : public Texture {
 public:
     /*
     PRE: Recibe una gran textura que contiene de la imagen 
     PORTAL_SPRITE de images_path.h; y el area
     del mapa de juego que representa esta textura.
-    POST: Inicializa una texture de portal azul.
+    POST: Inicializa una textura de portal naranja.
     */
-    PortalBlueTexture(BigTexture & bigTexture, Area areaMap);
+    PortalOrangeTexture(BigTexture & bigTexture, Area areaMap);
 
-    /*Destruye la textura del portal azul.*/
-    virtual ~PortalBlueTexture();
+    /*Destruye la textura del portal naranja.*/
+    virtual ~PortalOrangeTexture();
 
     /*
     Pre: Recibe un factor de ajuste (pixeles/<unidad de mapa>), 
@@ -31,4 +31,4 @@ public:
     virtual void render(float adjuster, const Area & areaCamera);
 };
 
-#endif // PORTAL_BLUE_TEXTURE_H
+#endif // PORTAL_ORANGE_TEXTURE_H
