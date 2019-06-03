@@ -62,6 +62,7 @@ file(GLOB client_files
         "${CLIENT_FOLDER}/src/threads/key_sender_thread.cpp"
         "${CLIENT_FOLDER}/src/threads/event_game_receiver_thread.cpp"
         "${CLIENT_FOLDER}/src/window/window.cpp"
+        "${CLIENT_FOLDER}/src/window/texture_factory.cpp"
         "${CLIENT_FOLDER}/src/window/os_exception.cpp"
         "${CLIENT_FOLDER}/src/textures/common_texture/area.cpp"
         "${CLIENT_FOLDER}/src/textures/common_texture/texture.cpp"
