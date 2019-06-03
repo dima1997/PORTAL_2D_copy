@@ -1,6 +1,7 @@
 #include "../../includes/window/window.h"
 
 #include "../../includes/window/os_exception.h"
+#include "../../includes/window/texture_factory.h"
 #include "../../includes/textures/common_texture/big_texture.h"
 #include "../../includes/textures/common_texture/texture.h"
 #include "../../includes/textures/common_texture/sdl_exception.h"
@@ -41,12 +42,13 @@ POST: Agrega la gran textura a la ventana, si que no se fue
 ya agregada.
 Levanta SdlException en caso de error.
 */
-void Window::add_big_texture(const std::string & pathImage){
+BigTexture & Window::add_big_texture(const std::string & pathImage){
     if (this->bigTextures.count(pathImage) == 0){
         BigTexture newBigTexture(this->renderer, pathImage);
         this->bigTextures.insert(std::map<std::string, BigTexture>::value_type(
                                         pathImage, std::move(newBigTexture)));
     }
+    return this->bigTextures.at(pathImage);
 }
 
 /*
@@ -360,14 +362,10 @@ Levanta SdlException en caso de error.
 void Window::add_block_metal_texture(uint32_t id, Area areaMap){
     this->add_id_texture(id);
     this->add_big_texture(ALL_BLOCKS_SPRITES);
-    std::unique_ptr<Texture> ptrTexture(
-                                    new BlockMetalTexture(
-                                        this->bigTextures.at(
-                                            ALL_BLOCKS_SPRITES
-                                        ), 
-                                        areaMap
-                                    )
-                                );
+    TextureFactory textureFactory(*this);
+    std::unique_ptr<Texture> ptrTexture = std::move(
+        textureFactory.create_block_metal(areaMap)
+    );
     this->add_texture(id, std::move(ptrTexture));
 }
 
@@ -384,6 +382,7 @@ Levanta SdlException en caso de error.
 void Window::add_block_rock_texture(uint32_t id, Area areaMap){
     this->add_id_texture(id);
     this->add_big_texture(ALL_BLOCKS_SPRITES);
+    /*
     std::unique_ptr<Texture> ptrTexture(
                                     new BlockRockTexture(
                                         this->bigTextures.at(
@@ -392,6 +391,11 @@ void Window::add_block_rock_texture(uint32_t id, Area areaMap){
                                         areaMap
                                     )
                                 );
+    */
+    TextureFactory textureFactory(*this);
+    std::unique_ptr<Texture> ptrTexture = std::move(
+        textureFactory.create_block_rock(areaMap)
+    );
     this->add_texture(id, std::move(ptrTexture));
 }
 
@@ -407,6 +411,7 @@ Levanta OSException o SdlException en caso de error.
 void Window::add_chell_texture(uint32_t id, Area areaMap){
     this->add_id_texture(id);
     this->add_big_texture(ALL_CHELL_SPRITES_PART_1);
+    /*
     std::unique_ptr<Texture> ptrTexture(
                                     new ChellTexture(
                                         this->bigTextures.at(
@@ -415,6 +420,11 @@ void Window::add_chell_texture(uint32_t id, Area areaMap){
                                         areaMap
                                     )
                                 );
+    */
+    TextureFactory textureFactory(*this);
+    std::unique_ptr<Texture> ptrTexture = std::move(
+        textureFactory.create_chell(areaMap)
+    );
     this->add_texture(id, std::move(ptrTexture));
 }
 
@@ -430,6 +440,7 @@ Levanta OSException o SdlException en caso de error.
 */
 void Window::add_portal_blue_texture(uint32_t id, Area areaMap){
     this->add_id_texture(id);
+    /*
     this->add_big_texture(PORTAL_SPRITES);
     std::unique_ptr<Texture> ptrTexture(
                                     new PortalBlueTexture(
@@ -439,6 +450,11 @@ void Window::add_portal_blue_texture(uint32_t id, Area areaMap){
                                         areaMap
                                     )
                                 );
+    */
+    TextureFactory textureFactory(*this);
+    std::unique_ptr<Texture> ptrTexture = std::move(
+        textureFactory.create_portal_blue(areaMap)
+    );
     this->add_texture(id, std::move(ptrTexture));
 }
 
@@ -454,6 +470,7 @@ Levanta OSException o SdlException en caso de error.
 */
 void Window::add_portal_orange_texture(uint32_t id, Area areaMap){
     this->add_id_texture(id);
+    /*
     this->add_big_texture(PORTAL_SPRITES);
     std::unique_ptr<Texture> ptrTexture(
                                     new PortalOrangeTexture(
@@ -463,6 +480,11 @@ void Window::add_portal_orange_texture(uint32_t id, Area areaMap){
                                         areaMap
                                     )
                                 );
+    */
+    TextureFactory textureFactory(*this);
+    std::unique_ptr<Texture> ptrTexture = std::move(
+        textureFactory.create_portal_orange(areaMap)
+    );
     this->add_texture(id, std::move(ptrTexture));
 }
 
@@ -478,6 +500,7 @@ Levanta OSException o SdlException en caso de error.
 */
 void Window::add_door_one_texture(uint32_t id, Area areaMap){
     this->add_id_texture(id);
+    /*
     this->add_big_texture(ALL_DOORS_SPRITES);
     std::unique_ptr<Texture> ptrTexture(
                                     new DoorOneTexture(
@@ -487,6 +510,11 @@ void Window::add_door_one_texture(uint32_t id, Area areaMap){
                                         areaMap
                                     )
                                 );
+    */
+    TextureFactory textureFactory(*this);
+    std::unique_ptr<Texture> ptrTexture = std::move(
+        textureFactory.create_door_one(areaMap)
+    );
     this->add_texture(id, std::move(ptrTexture));
 }
 
@@ -503,6 +531,7 @@ Levanta OSException o SdlException en caso de error.
 */
 void Window::add_button_texture(uint32_t id, Area areaMap){
     this->add_id_texture(id);
+    /*
     this->add_big_texture(BUTTON_SPRITE);
     std::unique_ptr<Texture> ptrTexture(
                                     new ButtonTexture(
@@ -512,9 +541,13 @@ void Window::add_button_texture(uint32_t id, Area areaMap){
                                         areaMap
                                     )
                                 );
+    */
+    TextureFactory textureFactory(*this);
+    std::unique_ptr<Texture> ptrTexture = std::move(
+        textureFactory.create_button(areaMap)
+    );
     this->add_texture(id, std::move(ptrTexture));
 }
-
 
 /*
 PRE: Recibe :
@@ -529,6 +562,7 @@ Levanta OSException o SdlException en caso de error.
 */
 void Window::add_energy_ball_texture(uint32_t id, Area areaMap){
     this->add_id_texture(id);
+    /*
     this->add_big_texture(ALL_ROCKS_AND_BALLS_SPRITES);
     std::unique_ptr<Texture> ptrTexture(
                                     new EnergyBallTexture(
@@ -538,6 +572,11 @@ void Window::add_energy_ball_texture(uint32_t id, Area areaMap){
                                         areaMap
                                     )
                                 );
+    */
+    TextureFactory textureFactory(*this);
+    std::unique_ptr<Texture> ptrTexture = std::move(
+        textureFactory.create_energy_ball(areaMap)
+    );
     this->add_texture(id, std::move(ptrTexture));
 }
 
@@ -554,6 +593,7 @@ Levanta OSException o SdlException en caso de error.
 */
 void Window::add_rock_one_texture(uint32_t id, Area areaMap){
     this->add_id_texture(id);
+    /*
     this->add_big_texture(ALL_ROCKS_AND_BALLS_SPRITES);
     std::unique_ptr<Texture> ptrTexture(
                                     new RockOneTexture(
@@ -563,6 +603,11 @@ void Window::add_rock_one_texture(uint32_t id, Area areaMap){
                                         areaMap
                                     )
                                 );
+    */
+    TextureFactory textureFactory(*this);
+    std::unique_ptr<Texture> ptrTexture = std::move(
+        textureFactory.create_rock_one(areaMap)
+    );
     this->add_texture(id, std::move(ptrTexture));
 }
 
@@ -579,6 +624,7 @@ Levanta OSException o SdlException en caso de error.
 */
 void Window::add_barrier_texture(uint32_t id, Area areaMap){
     this->add_id_texture(id);
+    /*
     this->add_big_texture(BARRIER_SPRITE);
     std::unique_ptr<Texture> ptrTexture(
                                     new BarrierTexture(
@@ -588,6 +634,11 @@ void Window::add_barrier_texture(uint32_t id, Area areaMap){
                                         areaMap
                                     )
                                 );
+    */
+    TextureFactory textureFactory(*this);
+    std::unique_ptr<Texture> ptrTexture = std::move(
+        textureFactory.create_barrier(areaMap)
+    );
     this->add_texture(id, std::move(ptrTexture));
 }
 
@@ -605,6 +656,7 @@ Levanta OSException o SdlException en caso de error.
 */
 void Window::add_triangle_botom_left_texture(uint32_t id, Area areaMap){
     this->add_id_texture(id);
+    /*
     this->add_big_texture(ALL_TRIANGLES_SPRITES);
     std::unique_ptr<Texture> ptrTexture(
                                     new TriangleBotomLeftTexture(
@@ -614,6 +666,11 @@ void Window::add_triangle_botom_left_texture(uint32_t id, Area areaMap){
                                         areaMap
                                     )
                                 );
+    */
+    TextureFactory textureFactory(*this);
+    std::unique_ptr<Texture> ptrTexture = std::move(
+        textureFactory.create_triangle_botom_left(areaMap)
+    );
     this->add_texture(id, std::move(ptrTexture));
 }
 
@@ -631,6 +688,7 @@ Levanta OSException o SdlException en caso de error.
 */
 void Window::add_triangle_botom_right_texture(uint32_t id, Area areaMap){
     this->add_id_texture(id);
+    /*
     this->add_big_texture(ALL_TRIANGLES_SPRITES);
     std::unique_ptr<Texture> ptrTexture(
                                     new TriangleBotomRightTexture(
@@ -640,6 +698,11 @@ void Window::add_triangle_botom_right_texture(uint32_t id, Area areaMap){
                                         areaMap
                                     )
                                 );
+    */
+    TextureFactory textureFactory(*this);
+    std::unique_ptr<Texture> ptrTexture = std::move(
+        textureFactory.create_triangle_botom_right(areaMap)
+    );
     this->add_texture(id, std::move(ptrTexture));
 }
 /*
@@ -657,6 +720,7 @@ Levanta OSException o SdlException en caso de error.
 void Window::add_triangle_top_left_texture(uint32_t id, Area areaMap){
     this->add_id_texture(id);
     this->add_big_texture(ALL_TRIANGLES_SPRITES);
+    /*
     std::unique_ptr<Texture> ptrTexture(
                                     new TriangleTopLeftTexture(
                                         this->bigTextures.at(
@@ -665,6 +729,11 @@ void Window::add_triangle_top_left_texture(uint32_t id, Area areaMap){
                                         areaMap
                                     )
                                 );
+    */
+    TextureFactory textureFactory(*this);
+    std::unique_ptr<Texture> ptrTexture = std::move(
+        textureFactory.create_triangle_top_left(areaMap)
+    );
     this->add_texture(id, std::move(ptrTexture));
 }
 /*
@@ -682,6 +751,7 @@ Levanta OSException o SdlException en caso de error.
 void Window::add_triangle_top_right_texture(uint32_t id, Area areaMap){
     this->add_id_texture(id);
     this->add_big_texture(ALL_TRIANGLES_SPRITES);
+    /*
     std::unique_ptr<Texture> ptrTexture(
                                     new TriangleTopRightTexture(
                                         this->bigTextures.at(
@@ -690,6 +760,11 @@ void Window::add_triangle_top_right_texture(uint32_t id, Area areaMap){
                                         areaMap
                                     )
                                 );
+    */
+    TextureFactory textureFactory(*this);
+    std::unique_ptr<Texture> ptrTexture = std::move(
+        textureFactory.create_triangle_top_right(areaMap)
+    );
     this->add_texture(id, std::move(ptrTexture));
 }
 
@@ -705,6 +780,7 @@ Levanta OSException o SdlException en caso de error.
 */
 void Window::add_block_acid_texture(uint32_t id, Area areaMap){
     this->add_id_texture(id);
+    /*
     this->add_big_texture(ALL_BLOCKS_SPRITES);
     std::unique_ptr<Texture> ptrTexture(
                                     new BlockAcidTexture(
@@ -714,6 +790,11 @@ void Window::add_block_acid_texture(uint32_t id, Area areaMap){
                                         areaMap
                                     )
                                 );
+    */
+    TextureFactory textureFactory(*this);
+    std::unique_ptr<Texture> ptrTexture = std::move(
+        textureFactory.create_block_acid(areaMap)
+    );
     this->add_texture(id, std::move(ptrTexture));
 }
 
@@ -729,6 +810,7 @@ Levanta OSException o SdlException en caso de error.
 */
 void Window::add_receiver_texture(uint32_t id, Area areaMap){
     this->add_id_texture(id);
+    /*
     this->add_big_texture(ALL_BLOCKS_SPRITES);
     std::unique_ptr<Texture> ptrTexture(
                                     new ReceiverTexture(
@@ -738,6 +820,11 @@ void Window::add_receiver_texture(uint32_t id, Area areaMap){
                                         areaMap
                                     )
                                 );
+    */
+    TextureFactory textureFactory(*this);
+    std::unique_ptr<Texture> ptrTexture = std::move(
+        textureFactory.create_receiver(areaMap)
+    );
     this->add_texture(id, std::move(ptrTexture));
 }
 
@@ -754,6 +841,7 @@ Levanta OSException o SdlException en caso de error.
 void Window::add_emitter_right_texture(uint32_t id, Area areaMap){
     this->add_id_texture(id);
     this->add_big_texture(ALL_BLOCKS_SPRITES);
+    /*
     std::unique_ptr<Texture> ptrTexture(
                                     new EmitterRightTexture(
                                         this->bigTextures.at(
@@ -762,6 +850,11 @@ void Window::add_emitter_right_texture(uint32_t id, Area areaMap){
                                         areaMap
                                     )
                                 );
+    */
+    TextureFactory textureFactory(*this);
+    std::unique_ptr<Texture> ptrTexture = std::move(
+        textureFactory.create_emitter_right(areaMap)
+    );
     this->add_texture(id, std::move(ptrTexture));
 }
 
@@ -777,6 +870,7 @@ Levanta OSException o SdlException en caso de error.
 */
 void Window::add_cake_texture(uint32_t id, Area areaMap){
     this->add_id_texture(id);
+    /*
     this->add_big_texture(CAKE_SPRITES);
     std::unique_ptr<Texture> ptrTexture(
                                     new CakeTexture(
@@ -786,6 +880,11 @@ void Window::add_cake_texture(uint32_t id, Area areaMap){
                                         areaMap
                                     )
                                 );
+    */
+    TextureFactory textureFactory(*this);
+    std::unique_ptr<Texture> ptrTexture = std::move(
+        textureFactory.create_cake(areaMap)
+    );
     this->add_texture(id, std::move(ptrTexture));
 }
 

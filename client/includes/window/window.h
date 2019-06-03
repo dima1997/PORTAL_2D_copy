@@ -14,7 +14,7 @@
 #include <mutex>
 
 class Window {
-private:
+public:
     int width;
     int height;
     uint32_t idMainTexture;
@@ -32,7 +32,7 @@ private:
     ya agregada.
     Levanta SdlException en caso de error.
     */
-    void add_big_texture(const std::string & pathImage);
+    BigTexture & add_big_texture(const std::string & pathImage);
 
     /*
     PRE: Recibe el id de la textura a agregar.

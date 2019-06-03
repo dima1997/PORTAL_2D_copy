@@ -79,26 +79,6 @@ Levanta SdlException en caso de error.
 */
 void BigTexture::render(const Area & src, const Area & dest, 
                         textureFlip_t flip){
-    /*
-    SDL_Rect sdlSrc = {
-            (int)src.getX(), (int)src.getY(),
-            (int)src.getWidth(), (int)src.getHeight()
-    };
-    SDL_Rect sdlDest = {
-            (int)dest.getX(), (int)dest.getY(),
-            (int)dest.getWidth(), (int)dest.getHeight()
-    };
-    SDL_RendererFlip sdlFlip = SDL_FLIP_NONE;
-    if (flip == FLIP_HORIZONTAL) {
-        sdlFlip = SDL_FLIP_HORIZONTAL;
-    }
-    int sdlError = SDL_RenderCopyEx(this->renderer,this->texture, 
-                                    & sdlSrc, & sdlDest, 
-                                    0, NULL, sdlFlip);
-    if (sdlError < 0){
-        throw SdlException("Error al renderizar gran textura.",SDL_GetError());
-    }
-    */
     this->render(src, dest, flip, 0, 255, 255, 255);
 }
 
