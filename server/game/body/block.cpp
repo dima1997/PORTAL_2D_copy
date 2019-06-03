@@ -10,9 +10,6 @@ Block::Block(b2World &world, float32 xPos, float32 yPos, block_type_t type, uint
     createBody(xPos, yPos);
 }
 
-//Block::Block
-//    world.DestroyBody(body);
-//}
 Block::~Block() = default;
 
 void Block::createBody(float32 xPos, float32 yPos) {

@@ -11,7 +11,7 @@
 #include <Box2D/Dynamics/b2World.h>
 #include <Box2D/Dynamics/b2Body.h>
 
-typedef enum body_type {BLOCK, CHELL, PORTAL} body_type_t;
+typedef enum body_type {BLOCK, CHELL, PORTAL, CAKE} body_type_t;
 
 class Body {
 private:

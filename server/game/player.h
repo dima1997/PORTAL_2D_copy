@@ -22,9 +22,7 @@ private:
     Connector connector;
     std::thread outThread;
     std::thread inThread;
-    //BlockingQueue<Event *> outQueue;
     BlockingQueue<std::shared_ptr<Event>> outQueue;
-    //ThreadSafeQueue<GameAction *> *inQueue;
     ThreadSafeQueue<std::unique_ptr<GameAction>> &inQueue;
     std::mutex mutex;
     bool recvMsgs;
@@ -33,14 +31,11 @@ private:
     void sendEvents();
     void recvGameActions();
 public:
-    //Player(uint32_t id, Connector &connector, ThreadSafeQueue<GameAction *> *inQueue);
-    Player(uint32_t id, Connector &connector, 
-        ThreadSafeQueue<std::unique_ptr<GameAction>> &inQueue);
+    Player(uint32_t id, Connector &connector, ThreadSafeQueue<std::unique_ptr<GameAction>> &inQueue);
     Player(Player &&other) noexcept;
     ~Player();
     void start();
     void join();
-    //void addToQueue(Event *event);
     void addToQueue(std::shared_ptr<Event> &ptrEvent);
     uint32_t getPlayerId();
 };
