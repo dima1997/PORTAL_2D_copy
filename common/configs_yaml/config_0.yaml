@@ -97,7 +97,7 @@ energy_balls:
     height: 0.5
     id_color_coordinates:
         [
-            {id: 57, color: 'green', xCoord: 0.5, yCoord: 5.5}
+            {id: 57, color: 'green', xCoord: -5.5, yCoord: 7.5}
         ]
 buttons:
     width: 2
@@ -134,4 +134,11 @@ receivers:
     id_coordinates:
         [
             {id: 66, xCoord: 7.5, yCoord: 7.5}
+        ]
+emitters:
+    width: 1
+    height: 1
+    id_position_coordinates:
+        [
+            {id: 67, position: 'right', xCoord: -5.5, yCoord: 7.5}
         ]

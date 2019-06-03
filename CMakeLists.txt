@@ -124,6 +124,8 @@ file(GLOB client_files
 	"${CLIENT_FOLDER}/src/textures/receiver_texture/receiver_off_sprite.cpp"
 	"${CLIENT_FOLDER}/src/textures/receiver_texture/receiver_unlocking_sprite.cpp"
 	"${CLIENT_FOLDER}/src/textures/receiver_texture/receiver_sprite_strategy.cpp"
+	"${CLIENT_FOLDER}/src/textures/emitter_texture/emitter_right_texture.cpp"
+	"${CLIENT_FOLDER}/src/textures/emitter_texture/emitter_right_sprite.cpp"
         )
 
 add_executable(${CLIENT_NAME} ${common_files} ${client_files})

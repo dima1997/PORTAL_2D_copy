@@ -21,6 +21,7 @@
 #include "../../includes/textures/triangle_texture/triangle_top_left_texture.h"
 #include "../../includes/textures/triangle_texture/triangle_top_right_texture.h"
 #include "../../includes/textures/receiver_texture/receiver_texture.h"
+#include "../../includes/textures/emitter_texture/emitter_right_texture.h"
 
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
@@ -199,6 +200,21 @@ void Window::add_map(){
         float y = receiversIdCoords[i]["yCoord"].as<float>();
         Area area(x,y,receiverWidth, receiverHeight);
         this->add_receiver_texture(id,area);
+    }
+
+    YAML::Node emittersYaml = baseNode["emitters"];
+    float emitterWidth = emittersYaml["width"].as<float>(); 
+    float emitterHeight = emittersYaml["height"].as<float>(); 
+    YAML::Node emittersIdCoords = emittersYaml["id_position_coordinates"];
+    for (int i = 0; i < (int)emittersIdCoords.size(); ++i){
+        uint32_t id = emittersIdCoords[i]["id"].as<uint32_t>(); 
+        std::string position = emittersIdCoords[i]["position"].as<std::string>();
+        float x = emittersIdCoords[i]["xCoord"].as<float>();
+        float y = emittersIdCoords[i]["yCoord"].as<float>();
+        Area area(x,y,emitterWidth, emitterHeight);
+        if (position == "right"){
+            this->add_emitter_right_texture(id,area);
+        }
     }
 
     YAML::Node chellsYaml = baseNode["chells"];
@@ -674,6 +690,30 @@ void Window::add_receiver_texture(uint32_t id, Area areaMap){
     this->add_big_texture(ALL_BLOCKS_SPRITES);
     std::unique_ptr<Texture> ptrTexture(
                                     new ReceiverTexture(
+                                        this->bigTextures.at(
+                                            ALL_BLOCKS_SPRITES
+                                        ), 
+                                        areaMap
+                                    )
+                                );
+    this->add_texture(id, std::move(ptrTexture));
+}
+
+/*
+PRE: Recibe :
+    El id (uint32_t) de indentificacion de bloque emisor a derecha a agregar.
+    El area (Area) con las coordenadas y dimensiones del objeto
+    que representa la textura en el mapa de juego (en unidades de 
+    distancia del juego).
+POST: Agrega un nueva textura de bloque emisor a derecha a la ventana, bajo las 
+condiciones anteriores.
+Levanta OSException o SdlException en caso de error.
+*/
+void Window::add_emitter_right_texture(uint32_t id, Area areaMap){
+    this->add_id_texture(id);
+    this->add_big_texture(ALL_BLOCKS_SPRITES);
+    std::unique_ptr<Texture> ptrTexture(
+                                    new EmitterRightTexture(
                                         this->bigTextures.at(
                                             ALL_BLOCKS_SPRITES
                                         ), 
