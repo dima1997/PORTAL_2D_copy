@@ -69,21 +69,14 @@ void Game::manageActions(std::unique_ptr<GameAction> ptrAction) {
         case move_left:
             world.getChell(player_id)->updateState(LEFT);
             break;
-        case stop_left:
-            world.getChell(player_id)->updateState(STOP);
-            break;
         case move_right:
             world.getChell(player_id)->updateState(RIGHT);
             break;
-        case stop_right:
-            // TODO: are both "stop" necessary?
+        case stop_move:
             world.getChell(player_id)->updateState(STOP);
             break;
         case jump:
             world.getChell(player_id)->jump();
-            break;
-        case stop_jump:
-            // TODO: not necessary
             break;
         case open_blue_portal:
         {

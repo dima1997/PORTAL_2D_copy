@@ -119,6 +119,11 @@ file(GLOB client_files
 	"${CLIENT_FOLDER}/src/textures/triangle_texture/triangle_top_left_sprite.cpp"
 	"${CLIENT_FOLDER}/src/textures/triangle_texture/triangle_top_right_texture.cpp"
 	"${CLIENT_FOLDER}/src/textures/triangle_texture/triangle_top_right_sprite.cpp"
+	"${CLIENT_FOLDER}/src/textures/receiver_texture/receiver_texture.cpp"
+	"${CLIENT_FOLDER}/src/textures/receiver_texture/receiver_on_sprite.cpp"
+	"${CLIENT_FOLDER}/src/textures/receiver_texture/receiver_off_sprite.cpp"
+	"${CLIENT_FOLDER}/src/textures/receiver_texture/receiver_unlocking_sprite.cpp"
+	"${CLIENT_FOLDER}/src/textures/receiver_texture/receiver_sprite_strategy.cpp"
         )
 
 add_executable(${CLIENT_NAME} ${common_files} ${client_files})

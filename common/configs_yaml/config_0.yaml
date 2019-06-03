@@ -128,3 +128,10 @@ triangles:
             {id: 64, position: 'top_left', xCoord: -6.5, yCoord: 7.5},
             {id: 65, position: 'top_right', xCoord: 8.5, yCoord: 7.5},
         ]
+receivers:
+    width: 1
+    height: 1
+    id_coordinates:
+        [
+            {id: 66, xCoord: 7.5, yCoord: 7.5}
+        ]
