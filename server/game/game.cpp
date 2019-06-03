@@ -60,6 +60,7 @@ void Game::manageActions(std::unique_ptr<GameAction> ptrAction) {
             --numberOfPlayers;
             std::shared_ptr<Event> ptrEvent(new PlayerDiesEvent());
             for (auto &player : players) {
+                // TODO: send to all players, and add which player dies
                 if (player.getPlayerId() == player_id){
                     player.addToQueue(ptrEvent);
                 }
@@ -81,27 +82,21 @@ void Game::manageActions(std::unique_ptr<GameAction> ptrAction) {
         case open_blue_portal:
         {
             //Hago cosas con el portal azul
-            auto ptrAux = static_cast<CoordsAction *>(ptrAction.release());
+            auto ptrAux = dynamic_cast<CoordsAction *>(ptrAction.release());
             std::unique_ptr<CoordsAction> ptrCoordsAction(ptrAux);
             float xMap = ptrCoordsAction->getX();
             float yMap = ptrCoordsAction->getY();
             std::cout << "SERVER: Abriendo portal AZUL en x : "<< xMap << " y : " << yMap << "\n";
-            uint32_t idPortalAzul = player_id + 1; // hardcondeado
-            std::shared_ptr<Event> ptrEventHide(new ObjectSwitchEvent(idPortalAzul));
-            std::shared_ptr<Event> ptrEventMove(new ObjectMovesEvent(idPortalAzul, xMap, yMap));
-            std::shared_ptr<Event> ptrEventShow(new ObjectSwitchEvent(idPortalAzul));
-            for (auto &player : players) {
-                if (player.getPlayerId() == player_id){
-                    player.addToQueue(ptrEventHide);
-                    player.addToQueue(ptrEventMove);
-                    player.addToQueue(ptrEventShow);
-                }
-            }
-            /*
-            players.at(player_id).addToQueue(ptrEventHide);
-            players.at(player_id).addToQueue(ptrEventMove);
-            players.at(player_id).addToQueue(ptrEventShow);
-            */
+//            uint32_t idPortalAzul = player_id + 1; // hardcondeado
+            world.getChell(player_id)->moveBluePortal(xMap, yMap);
+//            std::shared_ptr<Event> ptrEventHide(new ObjectSwitchEvent(idPortalAzul));
+//            std::shared_ptr<Event> ptrEventMove(new ObjectMovesEvent(idPortalAzul, xMap, yMap));
+//            std::shared_ptr<Event> ptrEventShow(new ObjectSwitchEvent(idPortalAzul));
+//            for (auto &player : players) {
+//                player.addToQueue(ptrEventHide);
+//                player.addToQueue(ptrEventMove);
+//                player.addToQueue(ptrEventShow);
+//            }
         }
             break;
         case open_orange_portal:
@@ -112,22 +107,18 @@ void Game::manageActions(std::unique_ptr<GameAction> ptrAction) {
             float xMap = ptrCoordsAction->getX();
             float yMap = ptrCoordsAction->getY();
             std::cout << "SERVER: Abriendo portal NARANJA en x : "<< xMap << " y : " << yMap << "\n";
-            uint32_t idPortalNaranja = player_id + 2; // hardcondeado
-            std::shared_ptr<Event> ptrEventHide(new ObjectSwitchEvent(idPortalNaranja));
-            std::shared_ptr<Event> ptrEventMove(new ObjectMovesEvent(idPortalNaranja, xMap, yMap));
-            std::shared_ptr<Event> ptrEventShow(new ObjectSwitchEvent(idPortalNaranja));
-            for (auto &player : players) {
-                if (player.getPlayerId() == player_id){
-                    player.addToQueue(ptrEventHide);
-                    player.addToQueue(ptrEventMove);
-                    player.addToQueue(ptrEventShow);
-                }
-            }
-            /*
-            players.at(player_id).addToQueue(ptrEventHide);
-            players.at(player_id).addToQueue(ptrEventMove);
-            players.at(player_id).addToQueue(ptrEventShow);
-            */
+            world.getChell(player_id)->moveOrangePortal(xMap, yMap);
+//            uint32_t idPortalNaranja = player_id + 2; // hardcondeado
+//            std::shared_ptr<Event> ptrEventHide(new ObjectSwitchEvent(idPortalNaranja));
+//            std::shared_ptr<Event> ptrEventMove(new ObjectMovesEvent(idPortalNaranja, xMap, yMap));
+//            std::shared_ptr<Event> ptrEventShow(new ObjectSwitchEvent(idPortalNaranja));
+//            for (auto &player : players) {
+//                if (player.getPlayerId() == player_id){
+//                    player.addToQueue(ptrEventHide);
+//                    player.addToQueue(ptrEventMove);
+//                    player.addToQueue(ptrEventShow);
+//                }
+//            }
         }
             break;
         case pin_tool_on:

@@ -19,6 +19,7 @@ private:
     b2World *world;
     std::list<Chell *> chells;
     std::list<Body *> staticBodies;
+    std::vector<std::shared_ptr<b2ContactListener>> listeners;
     int numberOfPlayers;
     void loadMap(Map &map);
 public:

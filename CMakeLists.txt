@@ -27,9 +27,11 @@ file(GLOB server_files
         "${SERVER_FOLDER}/game/world.cpp"
         "${SERVER_FOLDER}/game/player.cpp"
         "${SERVER_FOLDER}/game/body/body.cpp"
-        "${SERVER_FOLDER}/game/body/rock_block.cpp"
+        "${SERVER_FOLDER}/game/body/block.cpp"
         "${SERVER_FOLDER}/game/body/chell.cpp"
+        "${SERVER_FOLDER}/game/body/portal.cpp"
         "${SERVER_FOLDER}/utils/id_generator.cpp"
+        "${SERVER_FOLDER}/game/contact_listeners/portal_contact_listener.cpp"
         )
 
 add_executable(${SERVER_NAME} ${server_files})

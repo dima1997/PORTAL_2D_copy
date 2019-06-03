@@ -9,10 +9,13 @@
 #include <cstdint>
 #include <Box2D/Common/b2Math.h>
 #include <Box2D/Dynamics/b2World.h>
+#include <Box2D/Dynamics/b2Body.h>
+
+typedef enum body_type {BLOCK, CHELL, PORTAL} body_type_t;
 
 class Body {
 private:
-    bool updated;
+    bool manually_updated;
     b2Vec2 lastPosition;
     virtual void createBody(float32 xPos, float32 yPos) = 0;
 protected:
@@ -26,6 +29,8 @@ public:
     uint32_t getId();
     float32 getXPos();
     float32 getYPos();
+    void moveTo(float32 x, float32 y);
+    virtual body_type_t getBodyType() = 0;
 };
 
 

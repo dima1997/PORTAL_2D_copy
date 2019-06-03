@@ -15,6 +15,7 @@ void Chell::createBody(float32 xPos, float32 yPos) {
     bodyDef.position.Set(xPos, yPos);
     bodyDef.fixedRotation = true;
     body = world.CreateBody(&bodyDef);
+    body->SetUserData(this);
 
     b2PolygonShape dynamicBox;
     dynamicBox.SetAsBox(0.35f, 0.5f);
@@ -43,7 +44,10 @@ Chell::Chell(b2World &world, float32 xPos, float32 yPos, uint32_t playerId):
     createBody(xPos, yPos);
 }
 
-Chell::~Chell() = default;
+Chell::~Chell() {
+    delete orangePortal;
+    delete bluePortal;
+}
 
 void Chell::move(float32 xSpeed, float32 ySpeed) {
     b2Vec2 vel = body->GetLinearVelocity();
@@ -63,32 +67,62 @@ void Chell::updateState(chell_state_t state) {
 
 void Chell::update() {
     const b2Vec2 &vel = body->GetLinearVelocity();
-    float32 yVel = vel.y;
-    if (jump_state && isNotJumping()) {
+    float32 jumpVel = vel.y;
+    if (jump_state && !isJumping()) {
         printf("jump\n");
-        yVel = 7.0f;
+        jumpVel = 7.0f;
     }
     jump_state = false;
     switch (state) {
         case LEFT:
             printf("move left\n");
-            move(-3.0f, yVel);
+            move(-3.0f, jumpVel);
             break;
         case RIGHT:
             printf("move right\n");
-            move(3.0f, yVel);
+            move(3.0f, jumpVel);
             break;
         case STOP:
-            if (vel.x != 0 || yVel != 0) {
-                move(0.0f, yVel);
+            if (isJumping()) {
+                move(vel.x, jumpVel);
+            } else {
+                move(0, jumpVel);
             }
             break;
     }
 }
 
-bool Chell::isNotJumping() {
+bool Chell::isJumping() {
     float32 velY = body->GetLinearVelocity().y;
-    return velY < 0.2 && velY > -0.2;
+    return velY > 0.2 || velY < -0.2;
+}
+
+void Chell::setOrangePortal(Portal *portal) {
+    orangePortal = portal;
+}
+
+void Chell::setBluePortal(Portal *portal) {
+    bluePortal = portal;
+}
+
+void Chell::moveBluePortal(float32 x, float32 y) {
+    bluePortal->moveTo(x, y);
+}
+
+void Chell::moveOrangePortal(float32 x, float32 y) {
+    orangePortal->moveTo(x, y);
+}
+
+Portal *Chell::getOrangePortal() {
+    return orangePortal;
+}
+
+Portal *Chell::getBluePortal() {
+    return bluePortal;
+}
+
+body_type_t Chell::getBodyType() {
+    return CHELL;
 }
 
 

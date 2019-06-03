@@ -3,25 +3,30 @@
 //
 
 #include <Box2D/Collision/Shapes/b2PolygonShape.h>
-#include "rock_block.h"
+#include "block.h"
 
-RockBlock::RockBlock(b2World &world, float32 xPos, float32 yPos, uint32_t id):
-           Body(world, xPos, yPos, id) {
+Block::Block(b2World &world, float32 xPos, float32 yPos, block_type_t type, uint32_t id):
+           Body(world, xPos, yPos, id), type(type) {
     createBody(xPos, yPos);
 }
 
-//RockBlock::~RockBlock() {
+//Block::Block
 //    world.DestroyBody(body);
 //}
-RockBlock::~RockBlock() = default;
+Block::~Block() = default;
 
-void RockBlock::createBody(float32 xPos, float32 yPos) {
+void Block::createBody(float32 xPos, float32 yPos) {
     b2BodyDef bodyDef;
     bodyDef.position.Set(xPos, yPos);
     body = world.CreateBody(&bodyDef);
+    body->SetUserData(this);
 
     b2PolygonShape box;
     box.SetAsBox(0.5f, 0.5f);
 
     body->CreateFixture(&box, 0.0f);
+}
+
+body_type_t Block::getBodyType() {
+    return BLOCK;
 }
