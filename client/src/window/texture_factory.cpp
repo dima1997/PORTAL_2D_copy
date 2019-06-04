@@ -25,6 +25,7 @@
 #include "../../includes/textures/receiver_texture/receiver_texture.h"
 #include "../../includes/textures/emitter_texture/emitter_right_texture.h"
 #include "../../includes/textures/cake_texture/cake_texture.h"
+#include "../../includes/textures/background_texture/background_one_texture.h"
 
 #include <memory>
 
@@ -136,8 +137,10 @@ create_portal_orange(Area areaMap){
 
 
 /*
-PRE: Recibe el area (Area) donde se ubicara la textura.
-POST: Devuelve un puntero unico a una textura(std::unique_ptr<Texture>), 
+PRE: Recibe el area (Area) donde 
+se ubicara la textura.
+POST: Devuelve un puntero unico 
+a una textura(std::unique_ptr<Texture>), 
 de la textura de puerta con numero 1.
 */
 std::unique_ptr<Texture> TextureFactory::
@@ -316,8 +319,10 @@ create_triangle_top_right(Area areaMap){
 }
 
 /*
-PRE: Recibe el area (Area) donde se ubicara la textura.
-POST: Devuelve un puntero unico a una textura(std::unique_ptr<Texture>), 
+PRE: Recibe el area (Area) donde 
+se ubicara la textura.
+POST: Devuelve un puntero unico 
+a una textura(std::unique_ptr<Texture>), 
 de la textura de bloque acido.
 */
 std::unique_ptr<Texture> TextureFactory::
@@ -352,8 +357,10 @@ create_receiver(Area areaMap){
 }
 
 /*
-PRE: Recibe el area (Area) donde se ubicara la textura.
-POST: Devuelve un puntero unico a una textura(std::unique_ptr<Texture>), 
+PRE: Recibe el area (Area) donde 
+se ubicara la textura.
+POST: Devuelve un puntero unico 
+a una textura(std::unique_ptr<Texture>), 
 de la textura de emisor.
 */
 std::unique_ptr<Texture> TextureFactory::
@@ -369,8 +376,10 @@ create_emitter_right(Area areaMap){
 }
 
 /*
-PRE: Recibe el area (Area) donde se ubicara la textura.
-POST: Devuelve un puntero unico a una textura(std::unique_ptr<Texture>), 
+PRE: Recibe el area (Area) donde 
+se ubicara la textura.
+POST: Devuelve un puntero unico 
+a una textura(std::unique_ptr<Texture>), 
 de la textura de torta.
 */
 std::unique_ptr<Texture> TextureFactory::
@@ -382,5 +391,24 @@ create_cake(Area areaMap){
         bigTexture, 
         areaMap
     ));   
+    return std::move(ptrTexture);
+}
+
+/*
+PRE: Recibe el area (Area) donde 
+se ubicara la textura.
+POST: Devuelve un puntero unico 
+a una textura(std::unique_ptr<Texture>), 
+de la textura de un bloque de metal.
+*/
+std::unique_ptr<Texture> TextureFactory::
+create_background(Area areaMap){
+    BigTexture & bigTexture = this->window.add_big_texture(
+                                    BACKGROUND
+                                );
+    std::unique_ptr<Texture> ptrTexture(new BackgroundOneTexture(
+        bigTexture, 
+        areaMap
+    ));
     return std::move(ptrTexture);
 }

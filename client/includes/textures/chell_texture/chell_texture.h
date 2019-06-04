@@ -11,7 +11,7 @@ class ChellTexture : public Texture {
 private:
     MoveSense moveSense;
     Area areaVision;
-
+    
     /*Actualiza el area de vision de Chell.*/
     void updateVisionArea();
 public:
@@ -50,12 +50,6 @@ public:
     Chell en el mapa de juego.
     */
     virtual Area getVisionArea() override;
-
-    /*
-    Retorna una referencia constante de su area en 
-    el mapa de juego.
-    */
-    //const Area & getMovingArea();
 };
 
 #endif // CHELL_TEXTURE_H

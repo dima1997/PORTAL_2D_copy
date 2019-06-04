@@ -4,8 +4,8 @@
 #include "../../../includes/textures/chell_texture/move_sense.h"
 #include "../../../includes/textures/common_texture/area.h"
 #include "../../../includes/textures/common_texture/big_texture.h"
-#include "../../../includes/textures/common_texture/renderizable.h"
-#include "../../../includes/textures/common_texture/movable.h"
+#include "../../../includes/textures/common_texture/sprite_strategy.h"
+#include "../../../includes/textures/common_texture/null_sprite.h"
 
 #include <map>
 
@@ -81,13 +81,3 @@ Area ChellTexture::getVisionArea() {
     Area areaVisionCopy = this->areaVision;
     return std::move(areaVisionCopy);
 }
-
-/*
-Retorna una referencia constante de su area en 
-el mapa de juego.
-*/
-/*
-const Area & ChellTexture::getMovingArea(){
-    return this->areaMap;
-}
-*/

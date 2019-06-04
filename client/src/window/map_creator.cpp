@@ -122,6 +122,13 @@ void MapCreator::add_chell(uint32_t id, Area area){
     ));
 }
 
+void MapCreator::add_background(uint32_t id, Area area){
+    TextureFactory tF(this->window);
+    this->window.add_texture(id,std::move(
+        tF.create_background(area)
+    ));
+}
+
 void MapCreator::add_texture(uint32_t id, Area area, 
                             std::string & subSectionName){
     if (subSectionName == "blocks_metal"){
@@ -195,6 +202,9 @@ void MapCreator::add_texture(uint32_t id, Area area,
     if (subSectionName == "chells") {
         this->add_chell(id, area);
         return;
+    }
+    if (subSectionName == "background"){
+        this->add_background(id, area);
     }
 }
 

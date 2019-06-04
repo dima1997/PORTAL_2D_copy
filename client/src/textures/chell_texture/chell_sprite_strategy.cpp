@@ -93,15 +93,11 @@ void ChellSpriteStrategy::move(float xBefore, float yBefore,float xNow, float yN
     return;
 }
 
-/*Por ahora no hace nada.*/
-void ChellSpriteStrategy::switch_sprite() {}
-
 /*
 Devuelve el area correspondiente al siguiente sprite de Chell, 
 en la imagen ALL_CHELL_IMAGE de images_path.h .
 */
 Area ChellSpriteStrategy::getNextArea(){
-    // Si se usa en distintos hilos necesitare colocar mutex
     if (this->keepMoving) { 
         keepMoving = false; 
     } else {

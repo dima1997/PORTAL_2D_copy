@@ -6,34 +6,9 @@
 #include "../../includes/textures/common_texture/big_texture.h"
 #include "../../includes/textures/common_texture/texture.h"
 #include "../../includes/textures/common_texture/sdl_exception.h"
-/*
-#include "../../includes/textures/common_texture/images_paths.h"
 
-#include "../../includes/textures/chell_texture/chell_texture.h"
-#include "../../includes/textures/block_metal_texture/block_metal_texture.h"
-#include "../../includes/textures/block_rock_texture/block_rock_texture.h"
-#include "../../includes/textures/block_acid_texture/block_acid_texture.h"
-#include "../../includes/textures/portal_texture/portal_blue_texture.h"
-#include "../../includes/textures/portal_texture/portal_orange_texture.h"
-#include "../../includes/textures/door_texture/door_one_texture.h"
-#include "../../includes/textures/energy_ball_texture/energy_ball_texture.h"
-#include "../../includes/textures/button_texture/button_texture.h"
-#include "../../includes/textures/rock_texture/rock_one_texture.h"
-#include "../../includes/textures/barrier_texture/barrier_texture.h"
-#include "../../includes/textures/triangle_texture/triangle_botom_left_texture.h"
-#include "../../includes/textures/triangle_texture/triangle_botom_right_texture.h"
-#include "../../includes/textures/triangle_texture/triangle_top_left_texture.h"
-#include "../../includes/textures/triangle_texture/triangle_top_right_texture.h"
-#include "../../includes/textures/receiver_texture/receiver_texture.h"
-#include "../../includes/textures/emitter_texture/emitter_right_texture.h"
-#include "../../includes/textures/cake_texture/cake_texture.h"
-*/
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
-
-//#include <configs_yaml/config_paths.h>
-//#include "yaml-cpp/yaml.h"
-
 #include <sstream>
 #include <mutex>
 

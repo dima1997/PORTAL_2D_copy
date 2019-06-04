@@ -186,6 +186,14 @@ public:
     */
     std::unique_ptr<Texture> create_cake(Area areaMap);
     
+    /*
+    PRE: Recibe el area (Area) donde 
+    se ubicara la textura.
+    POST: Devuelve un puntero unico 
+    a una textura(std::unique_ptr<Texture>), 
+    de la textura de un bloque de metal.
+    */
+    std::unique_ptr<Texture> create_background(Area areaMap);
 };
 
 #endif // TEXTURE_FACTORY_H
