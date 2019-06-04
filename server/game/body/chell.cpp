@@ -133,5 +133,3 @@ bool Chell::isAlive() {
 void Chell::die() {
     alive = false;
 }
-
-

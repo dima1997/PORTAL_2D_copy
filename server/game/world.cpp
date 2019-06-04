@@ -13,9 +13,7 @@
 #include <protocol/event/player_wins_event.h>
 #include <protocol/event/player_dies_event.h>
 #include "yaml-cpp/yaml.h"
-#include "contact_listeners/portal_contact_listener.h"
-#include "contact_listeners/cake_contact_listener.h"
-#include "contact_listeners/acid_contact_listener.h"
+#include "contact_listeners/contact_listener.h"
 
 #define TIME_STEP 1.0f / 60.0f
 #define VELOCITY_ITERATIONS 8
@@ -24,17 +22,9 @@
 World::World(Map &map): gravity(0.0f, -9.8f), world(new b2World(gravity)),
                               chells(), staticBodies(), numberOfPlayers(), cake(), finished(false) {
     loadMap(map);
-    std::unique_ptr<PortalContactListener> portalContactListener(new PortalContactListener());
-    world->SetContactListener(portalContactListener.get());
-    listeners.push_back(std::move(portalContactListener));
-
-    std::unique_ptr<CakeContactListener> cakeContactListener(new CakeContactListener());
-    world->SetContactListener(cakeContactListener.get());
-    listeners.push_back(std::move(cakeContactListener));
-
-    std::unique_ptr<AcidContactListener> acidContactListener(new AcidContactListener());
-    world->SetContactListener(acidContactListener.get());
-    listeners.push_back(std::move(acidContactListener));
+    std::unique_ptr<ContactListener> contactListener(new ContactListener());
+    world->SetContactListener(contactListener.get());
+    listeners.push_back(std::move(contactListener));
 }
 
 void World::step(std::list<std::shared_ptr<Event>> &events) {
