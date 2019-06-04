@@ -11,17 +11,18 @@
 #include <configs_yaml/config_paths.h>
 #include <portal_exception.h>
 #include <protocol/event/player_wins_event.h>
+#include <protocol/event/player_dies_event.h>
 #include "yaml-cpp/yaml.h"
 #include "contact_listeners/portal_contact_listener.h"
 #include "contact_listeners/cake_contact_listener.h"
+#include "contact_listeners/acid_contact_listener.h"
 
 #define TIME_STEP 1.0f / 60.0f
 #define VELOCITY_ITERATIONS 8
 #define POSITION_ITERATIONS 2
 
 World::World(Map &map): gravity(0.0f, -9.8f), world(new b2World(gravity)),
-                              chells(), staticBodies(), numberOfPlayers(), cake(), finished(false
-                              ) {
+                              chells(), staticBodies(), numberOfPlayers(), cake(), finished(false) {
     loadMap(map);
     std::unique_ptr<PortalContactListener> portalContactListener(new PortalContactListener());
     world->SetContactListener(portalContactListener.get());
@@ -30,6 +31,10 @@ World::World(Map &map): gravity(0.0f, -9.8f), world(new b2World(gravity)),
     std::unique_ptr<CakeContactListener> cakeContactListener(new CakeContactListener());
     world->SetContactListener(cakeContactListener.get());
     listeners.push_back(std::move(cakeContactListener));
+
+    std::unique_ptr<AcidContactListener> acidContactListener(new AcidContactListener());
+    world->SetContactListener(acidContactListener.get());
+    listeners.push_back(std::move(acidContactListener));
 }
 
 void World::step(std::list<std::shared_ptr<Event>> &events) {
@@ -45,7 +50,19 @@ void World::step(std::list<std::shared_ptr<Event>> &events) {
 
     world->Step(timeStep, velocityIterations, positionIterations);
 
+    if (cake->wasReached()) {
+        events.push_back(std::shared_ptr<Event>(new PlayerWinsEvent()));
+        finished = true;
+        return;
+    }
     for (Chell *chell : chells) {
+        if (!chell->isAlive()) {
+            if (--numberOfPlayers == 0) {
+                finished = true;
+            }
+            events.push_back(std::shared_ptr<Event>(new PlayerDiesEvent(chell->getId())));
+            break;
+        }
         if (chell->changedPosition()) {
             events.push_back(
                     std::shared_ptr<Event>(new ObjectMovesEvent(chell->getId(), chell->getXPos(), chell->getYPos())));
@@ -59,11 +76,6 @@ void World::step(std::list<std::shared_ptr<Event>> &events) {
         if (blue->changedPosition()) {
             events.push_back(
                     std::shared_ptr<Event>(new ObjectMovesEvent(blue->getId(), blue->getXPos(), blue->getYPos())));
-        }
-        if (cake->wasReached()) {
-            events.push_back(std::shared_ptr<Event>(new PlayerWinsEvent()));
-            finished = true;
-            break;
         }
     }
 

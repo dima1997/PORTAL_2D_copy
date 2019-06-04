@@ -56,7 +56,9 @@ void Game::manageActions(std::unique_ptr<GameAction> ptrAction) {
         case quit_game:
         {
             --numberOfPlayers;
-            std::shared_ptr<Event> ptrEvent(new PlayerDiesEvent());
+            --numberOfPlayers; // TODO: until client handles this
+            world.getChell(player_id)->die();
+            std::shared_ptr<Event> ptrEvent(new PlayerDiesEvent(player_id));
             for (auto &player : players) {
                 // TODO: send to all players, and add which player dies
                 if (player.getPlayerId() == player_id){

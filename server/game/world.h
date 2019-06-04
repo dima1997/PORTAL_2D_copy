@@ -31,6 +31,7 @@ public:
     ~World();
     void step(std::list<std::shared_ptr<Event>> &events);
     Chell *getChell(uint32_t i);
+    int getNumberOfPlayers();
 };
 
 
