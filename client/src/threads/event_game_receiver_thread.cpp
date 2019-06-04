@@ -36,10 +36,14 @@ void EventGameReceiverThread::receive_event(){
                 }
                 break;
             case player_dies:
-                {
-                    GameActionName quitGame = quit_game;
-                    this->stop();
-                    this->endQueue.push(quitGame);
+                {   
+                    uint32_t player_id_dead;
+                    this->connector >> player_id_dead;
+                    if (this->player_id == player_id_dead){
+                        GameActionName quitGame = quit_game;
+                        this->stop();
+                        this->endQueue.push(quitGame);
+                    }
                 }
                 break;
             case object_switch_state:
@@ -64,8 +68,12 @@ POST: Inicializa un hilo recibidor de eventos del juego.
 */
 EventGameReceiverThread::EventGameReceiverThread(Connector & connector, 
     ThreadSafeQueue<std::unique_ptr<Event>> & changesQueue,
-    BlockingQueue<GameActionName> & endQueue)
-: connector(connector), changesQueue(changesQueue), endQueue(endQueue), isDead(true) {}
+    BlockingQueue<GameActionName> & endQueue, uint32_t player_id)
+:   connector(connector), 
+    changesQueue(changesQueue), 
+    endQueue(endQueue), 
+    isDead(true),
+    player_id(player_id) {}
 
 /*Destruye el hilo recibidor de eventos del juego*/
 EventGameReceiverThread::~EventGameReceiverThread() = default;

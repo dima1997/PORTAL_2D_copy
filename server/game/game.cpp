@@ -55,7 +55,7 @@ void Game::manageActions(std::unique_ptr<GameAction> ptrAction) {
     switch (ptrAction->getGameActionName()){
         case quit_game:
             --numberOfPlayers;
-            --numberOfPlayers; // TODO: until client handles this
+            //--numberOfPlayers; // TODO: until client handles this
             world.getChell(player_id)->die();
             break;
         case move_left:

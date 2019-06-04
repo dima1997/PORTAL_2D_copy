@@ -15,6 +15,12 @@ private:
 public:
     explicit PlayerDiesEvent(uint32_t id);
     ~PlayerDiesEvent() override;
+
+    /*
+    PRE: Recibe un conector (Connector &) conectado.
+    POST: Envia el evento: evento + id, a traves del connector.
+    */
+    virtual void sendThrough(Connector & out) const;
     friend Connector &operator<<(Connector &out, const PlayerDiesEvent &c);
 };
 

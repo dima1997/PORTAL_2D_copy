@@ -56,10 +56,11 @@ void World::step(std::list<std::shared_ptr<Event>> &events) {
         return;
     }
     for (Chell *chell : chells) {
-        if (!chell->isAlive()) {
+        if ( (this->idPlayersDead.count(chell->getId()) == 0) && (!chell->isAlive()) ) {
             if (--numberOfPlayers == 0) {
                 finished = true;
             }
+            this->idPlayersDead.insert(chell->getId());
             events.push_back(std::shared_ptr<Event>(new PlayerDiesEvent(chell->getId())));
             break;
         }

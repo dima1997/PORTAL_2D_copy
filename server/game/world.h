@@ -14,6 +14,8 @@
 #include "body/cake.h"
 #include <protocol/event/object_moves_event.h>
 
+#include <set>
+
 class World {
 private:
     b2Vec2 gravity;
@@ -23,6 +25,7 @@ private:
     Cake *cake;
     std::vector<std::shared_ptr<b2ContactListener>> listeners;
     int numberOfPlayers;
+    std::set<uint32_t> idPlayersDead;
     bool finished;
     void loadMap(Map &map);
 public:

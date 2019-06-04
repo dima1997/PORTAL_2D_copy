@@ -17,17 +17,17 @@ Client :
 	MOVE_RIGHT/LEFT una sola vez => cuando toco tecla derecha -> LISTO
 	STOP => cuando suelto la tecla -> LISTO
 	JUMP una sola vez (por performance) -> LISTO
-	GRAB una sola vez
+	GRAB una sola vez -> LISTO
 	THROW una sola vez 
 	QUIT_GAME -> LISTO
 	PIN una sola vez (Facil) -> LISTO
 	texture bala,
-	texture pastel
-	Terminar todas las texturas
-	Investigar YAML
-	Resize
+	texture pastel -> LISTO
+	Terminar todas las texturas -> BAStante listo, falta refactor
+	Investigar YAML ->LISTo
+	Resize ->LISTO
 	fondo de pantalla
 	login, wait, win, lost.
 	Chell textura apunta 
-	Sonido, musica
-	ffmpegg
+	Sonido, musica 
+	ffmpegg -> ERROr

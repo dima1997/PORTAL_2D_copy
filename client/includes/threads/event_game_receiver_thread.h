@@ -12,14 +12,15 @@
 
 #include <memory>
 #include <mutex> 
+#include <cstdint>
 
 class EventGameReceiverThread : public Thread {
 private:
     Connector & connector;
     ThreadSafeQueue<std::unique_ptr<Event>> & changesQueue;
-    //ThreadSafeQueue<std::unique_ptr<TextureChange>> & changesQueue;
     BlockingQueue<GameActionName> & endQueue;
     bool isDead;
+    uint32_t player_id;
     std::mutex mutex;
 
     /*Recibe y procesa un evento del servidor.*/
@@ -32,7 +33,7 @@ public:
     */
     EventGameReceiverThread(Connector & connetor, 
         ThreadSafeQueue<std::unique_ptr<Event>> & changesQueue,
-        BlockingQueue<GameActionName> & endQueue);
+        BlockingQueue<GameActionName> & endQueue, uint32_t player_id);
 
     /*Destruye el hilo recibidor de eventos del juego*/
     ~EventGameReceiverThread();

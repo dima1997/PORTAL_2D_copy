@@ -49,9 +49,8 @@ void Game::run(){
     int windowWidthPixels = WINDOW_WIDTH;
     int windowHeightPixels = WINDOW_HEIGHT;
     Window window(windowWidthPixels, windowHeightPixels, this->playerId, 1);
-    this->threads.push_back(std::move(std::unique_ptr<Thread>(new EventGameReceiverThread(this->connector, this->changesMade, endQueue))));
+    this->threads.push_back(std::move(std::unique_ptr<Thread>(new EventGameReceiverThread(this->connector, this->changesMade, endQueue, playerId))));
     this->threads.push_back(std::move(std::unique_ptr<Thread>(new KeySenderThread(this->connector, this->changesAsk))));
-    
     this->threads.push_back(std::move(std::unique_ptr<Thread>(new PlayingLoopThread(window, this->changesMade, this->changesAsk, endQueue))));
 
     for (auto & thread : this->threads){
@@ -60,6 +59,7 @@ void Game::run(){
     GameActionName actionName;
     endQueue.pop(actionName);
     this->stop();
+    // Mostrar pantalla de Perder/Ganar
 }
 
 /*Detiene la ejecucion del juego.*/
