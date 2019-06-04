@@ -10,8 +10,10 @@
 #include "event.h"
 
 class PlayerDiesEvent: public Event {
+private:
+    uint32_t id;
 public:
-    PlayerDiesEvent();
+    explicit PlayerDiesEvent(uint32_t id);
     ~PlayerDiesEvent() override;
     friend Connector &operator<<(Connector &out, const PlayerDiesEvent &c);
 };

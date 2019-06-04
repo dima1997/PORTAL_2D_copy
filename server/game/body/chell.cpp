@@ -40,7 +40,8 @@ void Chell::createBody(float32 xPos, float32 yPos) {
     }
 
 Chell::Chell(b2World &world, float32 xPos, float32 yPos, uint32_t playerId):
-             Body(world, xPos, yPos, playerId), state(STOP), jump_state(false) {
+             Body(world, xPos, yPos, playerId), orangePortal(), bluePortal(),
+             state(STOP), jump_state(false), alive(true) {
     createBody(xPos, yPos);
 }
 
@@ -123,6 +124,14 @@ Portal *Chell::getBluePortal() {
 
 body_type_t Chell::getBodyType() {
     return CHELL;
+}
+
+bool Chell::isAlive() {
+    return alive;
+}
+
+void Chell::die() {
+    alive = false;
 }
 
 

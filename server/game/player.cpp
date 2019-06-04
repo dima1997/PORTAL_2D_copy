@@ -43,7 +43,11 @@ void Player::sendEvents() {
 void Player::recvGameActions() {
     while (stillRecvMsgs()) {
         uint8_t actionNameExplicit;
-        connector >> actionNameExplicit;
+        try {
+            connector >> actionNameExplicit;
+        } catch (SocketException &e) {
+            stopRecv();
+        }
         auto actionName = (GameActionName) actionNameExplicit;
         std::unique_ptr<GameAction> ptrAction;
         switch(actionName){

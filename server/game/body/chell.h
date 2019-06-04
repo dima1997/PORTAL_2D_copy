@@ -20,8 +20,10 @@ private:
     chell_state_t state;
     bool jump_state;
     bool isJumping();
+    bool alive;
 public:
     Chell(b2World &world, float32 xPos, float32 yPos, uint32_t playerId);
+    bool isAlive();
     void setOrangePortal(Portal *portal);
     void setBluePortal(Portal *portal);
     ~Chell() override;
@@ -33,6 +35,7 @@ public:
     Portal *getOrangePortal();
     Portal *getBluePortal();
     body_type_t getBodyType() override;
+    void die();
 };
 
 

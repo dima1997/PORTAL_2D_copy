@@ -11,6 +11,7 @@
 #include <Box2D/Dynamics/b2World.h>
 #include "body/chell.h"
 #include "map.h"
+#include "body/cake.h"
 #include <protocol/event/object_moves_event.h>
 
 class World {
@@ -19,16 +20,18 @@ private:
     b2World *world;
     std::list<Chell *> chells;
     std::list<Body *> staticBodies;
+    Cake *cake;
     std::vector<std::shared_ptr<b2ContactListener>> listeners;
     int numberOfPlayers;
+    bool finished;
     void loadMap(Map &map);
 public:
     explicit World(Map &map);
-//    World(World &&other) noexcept;
-//    World &operator=(World &&other) noexcept;
+    bool hasFinished();
     ~World();
-    void step(std::list<std::shared_ptr<ObjectMovesEvent>> &moved);
+    void step(std::list<std::shared_ptr<Event>> &events);
     Chell *getChell(uint32_t i);
+    int getNumberOfPlayers();
 };
 
 

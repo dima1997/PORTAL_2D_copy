@@ -5,14 +5,11 @@
 #include <Box2D/Collision/Shapes/b2PolygonShape.h>
 #include "block.h"
 
-Block::Block(b2World &world, float32 xPos, float32 yPos, block_type_t type, uint32_t id):
+Block::Block(b2World &world, float32 xPos, float32 yPos, body_type_t type, uint32_t id):
            Body(world, xPos, yPos, id), type(type) {
     createBody(xPos, yPos);
 }
 
-//Block::Block
-//    world.DestroyBody(body);
-//}
 Block::~Block() = default;
 
 void Block::createBody(float32 xPos, float32 yPos) {
@@ -28,5 +25,5 @@ void Block::createBody(float32 xPos, float32 yPos) {
 }
 
 body_type_t Block::getBodyType() {
-    return BLOCK;
+    return type;
 }

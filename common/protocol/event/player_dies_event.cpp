@@ -4,9 +4,10 @@
 
 #include "player_dies_event.h"
 
-PlayerDiesEvent::PlayerDiesEvent(): Event(player_wins) {}
+PlayerDiesEvent::PlayerDiesEvent(uint32_t id): Event(player_dies), id(id) {}
 
 Connector &operator<<(Connector &out, const PlayerDiesEvent &c) {
+//    return out << (uint8_t) c.eventType << c.id;
     return out << (uint8_t) c.eventType;
 }
 
