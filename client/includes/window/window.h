@@ -52,7 +52,7 @@ public:
     Agrega el mapa de juego inicial, con todas sus texturas.
     Levanta SdlError o OSError en caso de error.
     */
-    void add_map();
+    //void add_map();
 
 public:
     /*
@@ -60,10 +60,11 @@ public:
         La longitud y altura del ventanta en pixeles (ambos int).
         El id de la textura en la que se centrara e indicarara que mostrar 
         en la ventana.
+        El id del mapa del juego a cargar en la ventana.
     POST: Inicializa una ventana de las medidas recibidas.
     Levanta SDLException en caso de error.
     */
-    Window(int width, int height, uint32_t idMainTexture);
+    Window(int width, int height, uint32_t idMainTexture, uint8_t mapId);
 
     /*Destruye la ventana.*/
     ~Window();
@@ -95,7 +96,7 @@ public:
     condiciones anteriores.
     Levanta SdlException en caso de error.
     */
-    void add_block_metal_texture(uint32_t id, Area areaMap);
+    //void add_block_metal_texture(uint32_t id, Area areaMap);
 
     /*
     PRE: Recibe :
@@ -107,7 +108,7 @@ public:
     condiciones anteriores.
     Levanta SdlException en caso de error.
     */
-    void add_block_rock_texture(uint32_t id, Area areaMap);
+    //void add_block_rock_texture(uint32_t id, Area areaMap);
 
     /*
     PRE: Recibe :
@@ -119,7 +120,7 @@ public:
     condiciones anteriores.
     Levanta OSException o SdlException en caso de error.
     */
-    void add_block_acid_texture(uint32_t id, Area areaMap);
+    //void add_block_acid_texture(uint32_t id, Area areaMap);
 
     /*
     PRE: Recibe :
@@ -131,7 +132,7 @@ public:
     bajo las condiciones anteriores.
     Levanta SdlException en caso de error.
     */
-    void add_chell_texture(uint32_t id, Area areaMap);
+    //void add_chell_texture(uint32_t id, Area areaMap);
 
     /*
     PRE: Recibe :
@@ -143,7 +144,7 @@ public:
     condiciones anteriores.
     Levanta OSException o SdlException en caso de error.
     */
-    void add_portal_blue_texture(uint32_t id, Area areaMap);
+    //void add_portal_blue_texture(uint32_t id, Area areaMap);
 
     /*
     PRE: Recibe :
@@ -155,7 +156,7 @@ public:
     condiciones anteriores.
     Levanta OSException o SdlException en caso de error.
     */
-    void add_portal_orange_texture(uint32_t id, Area areaMap);
+    //void add_portal_orange_texture(uint32_t id, Area areaMap);
     /*
     PRE: Recibe :
         El id (uint32_t) de indentificacion de la puerta a agregar.
@@ -166,7 +167,7 @@ public:
     condiciones anteriores.
     Levanta OSException o SdlException en caso de error.
     */
-    void add_door_one_texture(uint32_t id, Area areaMap);
+    //void add_door_one_texture(uint32_t id, Area areaMap);
 
     /*
     PRE: Recibe :
@@ -179,7 +180,7 @@ public:
     condiciones anteriores.
     Levanta OSException o SdlException en caso de error.
     */
-    void add_energy_ball_texture(uint32_t id, Area areaMap);
+    //void add_energy_ball_texture(uint32_t id, Area areaMap);
 
     /*
     PRE: Recibe :
@@ -192,7 +193,7 @@ public:
     condiciones anteriores.
     Levanta OSException o SdlException en caso de error.
     */
-    void add_button_texture(uint32_t id, Area areaMap);
+    //void add_button_texture(uint32_t id, Area areaMap);
 
     /*
     PRE: Recibe :
@@ -205,7 +206,7 @@ public:
     condiciones anteriores.
     Levanta OSException o SdlException en caso de error.
     */
-    void add_rock_one_texture(uint32_t id, Area areaMap);
+    //void add_rock_one_texture(uint32_t id, Area areaMap);
 
     /*
     PRE: Recibe :
@@ -218,7 +219,7 @@ public:
     condiciones anteriores.
     Levanta OSException o SdlException en caso de error.
     */
-    void add_barrier_texture(uint32_t id, Area areaMap);
+    //void add_barrier_texture(uint32_t id, Area areaMap);
 
     /*
     PRE: Recibe :
@@ -232,7 +233,7 @@ public:
     condiciones anteriores.
     Levanta OSException o SdlException en caso de error.
     */
-    void add_triangle_botom_left_texture(uint32_t id, Area areaMap);
+    //void add_triangle_botom_left_texture(uint32_t id, Area areaMap);
 
     /*
     PRE: Recibe :
@@ -246,7 +247,7 @@ public:
     condiciones anteriores.
     Levanta OSException o SdlException en caso de error.
     */
-    void add_triangle_botom_right_texture(uint32_t id, Area areaMap);
+    //void add_triangle_botom_right_texture(uint32_t id, Area areaMap);
     
     /*
     PRE: Recibe :
@@ -260,7 +261,7 @@ public:
     condiciones anteriores.
     Levanta OSException o SdlException en caso de error.
     */
-    void add_triangle_top_left_texture(uint32_t id, Area areaMap);
+    //void add_triangle_top_left_texture(uint32_t id, Area areaMap);
 
     /*
     PRE: Recibe :
@@ -274,7 +275,7 @@ public:
     condiciones anteriores.
     Levanta OSException o SdlException en caso de error.
     */
-    void add_triangle_top_right_texture(uint32_t id, Area areaMap);
+    //void add_triangle_top_right_texture(uint32_t id, Area areaMap);
 
     /*
     PRE: Recibe :
@@ -286,7 +287,7 @@ public:
     condiciones anteriores.
     Levanta OSException o SdlException en caso de error.
     */
-    void add_receiver_texture(uint32_t id, Area areaMap);
+    //void add_receiver_texture(uint32_t id, Area areaMap);
 
     /*
     PRE: Recibe :
@@ -298,7 +299,7 @@ public:
     condiciones anteriores.
     Levanta OSException o SdlException en caso de error.
     */
-    void add_emitter_right_texture(uint32_t id, Area areaMap);
+    //void add_emitter_right_texture(uint32_t id, Area areaMap);
 
     /*
     PRE: Recibe :
@@ -310,7 +311,7 @@ public:
     condiciones anteriores.
     Levanta OSException o SdlException en caso de error.
     */
-    void add_cake_texture(uint32_t id, Area areaMap);
+    //void add_cake_texture(uint32_t id, Area areaMap);
 
     /*
     PRE: Recibe un identificador de una textura movible, 

@@ -90,9 +90,9 @@ public:
     se ubicara la textura.
     POST: Devuelve un puntero unico 
     a una textura(std::unique_ptr<Texture>), 
-    de la textura de bola de energia.
+    de la textura de bola de energia verde.
     */
-    std::unique_ptr<Texture> create_energy_ball(Area areaMap);
+    std::unique_ptr<Texture> create_energy_ball_green(Area areaMap);
 
     /*
     PRE: Recibe el area (Area) donde 

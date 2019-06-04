@@ -1,0 +1,210 @@
+---
+# Al agregar nuevos objetos, no repetir ids. 
+# Para facilitar el conteo de ids, ordenar la descripcion 
+# de cada objeto, por su id de menor a mayor.
+# Tambien se recomienda respetar las convenciones de ids,
+# descritas en cada seccion.
+player_number: 2
+sections: 
+    [
+        blocks_metal, 
+        blocks_rock, 
+        blocks_acid, 
+        portals_blue, 
+        portals_orange, 
+        doors_one, 
+        buttons, 
+        rocks_one, 
+        barriers,
+        energy_balls_green, 
+        receivers,
+        emitters_right,
+        triangles_botom_left,
+        triangles_botom_right,
+        triangles_top_left,
+        triangles_top_right,
+        cakes, 
+        chells
+    ]
+blocks_metal:
+    width: 1
+    height: 1
+    id_coordinates:
+    # Distanciar ids de a 1.
+        [
+            {id: 0, material: 'metal', xCoord: -7.5, yCoord: 8.5},
+            {id: 1, material: 'metal', xCoord: -6.5, yCoord: 8.5},
+            {id: 2, material: 'metal', xCoord: -5.5, yCoord: 8.5},
+            {id: 3, material: 'metal', xCoord: -4.5, yCoord: 8.5},
+            {id: 4, material: 'metal', xCoord: -3.5, yCoord: 8.5},
+            {id: 5, material: 'metal', xCoord: -2.5, yCoord: 8.5},
+            {id: 6, material: 'metal', xCoord: -1.5, yCoord: 8.5},
+            {id: 7, material: 'metal', xCoord: -0.5, yCoord: 8.5},
+            {id: 8, material: 'metal', xCoord: 0.5, yCoord: 8.5},
+            {id: 9, material: 'metal', xCoord: 1.5, yCoord: 8.5},
+            {id: 10, material: 'metal', xCoord: 2.5, yCoord: 8.5},
+            {id: 11, material: 'metal', xCoord: 3.5, yCoord: 8.5},
+            {id: 12, material: 'metal', xCoord: 4.5, yCoord: 8.5},
+            {id: 13, material: 'metal', xCoord: 5.5, yCoord: 8.5},
+            {id: 14, material: 'metal', xCoord: 6.5, yCoord: 8.5},
+            {id: 15, material: 'metal', xCoord: 7.5, yCoord: 8.5},
+            {id: 16, material: 'metal', xCoord: 8.5, yCoord: 8.5},
+            {id: 17, material: 'metal', xCoord: 9.5, yCoord: 8.5},
+            {id: 18, material: 'metal', xCoord: 9.5, yCoord: 7.5},
+            {id: 19, material: 'metal', xCoord: 9.5, yCoord: 6.5},
+            {id: 20, material: 'metal', xCoord: 9.5, yCoord: 5.5},
+            {id: 21, material: 'metal', xCoord: 9.5, yCoord: 4.5},
+            {id: 22, material: 'metal', xCoord: 9.5, yCoord: 3.5},
+            {id: 23, material: 'metal', xCoord: 9.5, yCoord: 2.5},
+            {id: 24, material: 'metal', xCoord: 9.5, yCoord: 1.5},
+            {id: 29, material: 'metal', xCoord: 5.5, yCoord: 0.5},
+            {id: 30, material: 'metal', xCoord: 4.5, yCoord: 0.5},
+            {id: 31, material: 'metal', xCoord: 3.5, yCoord: 0.5},
+            {id: 32, material: 'metal', xCoord: 2.5, yCoord: 0.5},
+            {id: 33, material: 'metal', xCoord: 1.5, yCoord: 0.5},
+            {id: 34, material: 'metal', xCoord: 0.5, yCoord: 0.5},
+            {id: 35, material: 'metal', xCoord: -0.5, yCoord: 0.5},
+            {id: 36, material: 'metal', xCoord: -1.5, yCoord: 0.5},
+            {id: 37, material: 'metal', xCoord: -2.5, yCoord: 0.5},
+            {id: 38, material: 'metal', xCoord: -3.5, yCoord: 0.5},
+            {id: 39, material: 'metal', xCoord: -4.5, yCoord: 0.5},
+            {id: 40, material: 'metal', xCoord: -5.5, yCoord: 0.5},
+            {id: 41, material: 'metal', xCoord: -6.5, yCoord: 0.5}
+
+        ]
+blocks_acid:
+    width: 1
+    height: 1
+    id_coordinates:
+        [
+            {id: 25, material: 'acid', xCoord: 9.5, yCoord: 0.5},
+            {id: 26, material: 'acid', xCoord: 8.5, yCoord: 0.5},
+            {id: 27, material: 'acid', xCoord: 7.5, yCoord: 0.5},
+            {id: 28, material: 'acid', xCoord: 6.5, yCoord: 0.5}
+        ]
+blocks_rock:
+    width: 1
+    height: 1
+    id_coordinates:
+        [
+            {id: 42, material: 'rock', xCoord: -7.5, yCoord: 0.5},
+            {id: 43, material: 'rock', xCoord: -7.5, yCoord: 1.5},
+            {id: 44, material: 'rock', xCoord: -7.5, yCoord: 2.5},
+            {id: 45, material: 'rock', xCoord: -7.5, yCoord: 3.5},
+            {id: 46, material: 'rock', xCoord: -7.5, yCoord: 4.5},
+            {id: 47, material: 'rock', xCoord: -7.5, yCoord: 5.5},
+            {id: 48, material: 'rock', xCoord: -7.5, yCoord: 6.5},
+            {id: 49, material: 'rock', xCoord: -7.5, yCoord: 7.5}
+        ]
+chells:
+    width: 1
+    height: 1.5
+    id_coordinates: 
+    # Usar ids distanciados de a 3 
+        [
+            {id: 50, xCoord: 0.5, yCoord: 1.75},
+            {id: 53, xCoord: 2.5, yCoord: 3.75}
+        ]
+portals_blue:
+    width: 1.5
+    height: 1.5
+    id_coordinates: 
+    # Distanciar los id de blue a orange de a 1,
+    # pero de orange a blue de a 2 
+    # Utilizar coordenadas fuera de los limites del mapa.
+        [
+
+            {id: 51, color: 'blue', xCoord: 10.5, yCoord: 9.5},
+            {id: 54, color: 'blue', xCoord: 10.5, yCoord: 9.5}
+
+        ]
+portals_orange:
+    width: 1.5
+    height: 1.5
+    id_coordinates: 
+        [
+            {id: 52, color: 'orange', xCoord: 10.5, yCoord: 9.5},
+            {id: 55, color: 'orange', xCoord: 10.5, yCoord: 9.5}
+        ]
+doors_one:
+    width: 1.0
+    height: 2.0
+    id_coordinates:
+        [
+            {id: 56, number: 1, xCoord: 5.5, yCoord: 2}
+        ]
+energy_balls_green:
+    width: 0.5
+    height: 0.5
+    id_coordinates:
+        [
+            {id: 57, color: 'green', xCoord: -5.5, yCoord: 7.5}
+        ]
+buttons:
+    width: 2
+    height: 0.5
+    id_coordinates:
+        [
+            {id: 58, xCoord: -0.5, yCoord: 1.25}
+        ]
+rocks_one:
+    width: 1.0
+    height: 1.0
+    id_coordinates:
+        [
+            {id: 59, xCoord: -2.5, yCoord: 1.5}
+        ]
+barriers:
+    [
+        {id: 60, width: 0.25, height: 4.0, xCoord: -5.5, yCoord: 3.0},
+    	{id: 61, width: 16.0, height: 0.25, xCoord: 1.0, yCoord: 6.125}
+    ]
+triangles_botom_left:
+    width: 1
+    height: 1
+    id_coordinates:
+        [
+            {id: 62, position: 'botom_left', xCoord: -6.5, yCoord: 1.5}
+        ]
+triangles_botom_right:
+    width: 1
+    height: 1
+    id_coordinates:
+        [
+            {id: 63, position: 'botom_right', xCoord: 8.5, yCoord: 1.5}
+        ]
+triangles_top_left:
+    width: 1
+    height: 1
+    id_coordinates:
+        [
+            {id: 64, position: 'top_left', xCoord: -6.5, yCoord: 7.5}
+        ]
+triangles_top_right:
+    width: 1
+    height: 1
+    id_coordinates:
+        [
+            {id: 65, position: 'top_right', xCoord: 8.5, yCoord: 7.5}
+        ]
+receivers:
+    width: 1
+    height: 1
+    id_coordinates:
+        [
+            {id: 66, xCoord: 7.5, yCoord: 7.5}
+        ]
+emitters_right:
+    width: 1
+    height: 1
+    id_coordinates:
+        [
+            {id: 67, position: 'right', xCoord: -5.5, yCoord: 7.5}
+        ]
+cakes:
+    width: 1
+    height: 1
+    id_coordinates:
+        [
+            {id: 68, xCoord: 6.5, yCoord: 1.5}
+        ]

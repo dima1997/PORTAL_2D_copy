@@ -6,7 +6,8 @@
 #include <string>
 
 const std::map<uint8_t, std::string> CONFIG_PATHS({
-    std::make_pair(0, "config_0.yaml")
+    std::make_pair(0, "config_0.yaml"),
+    std::make_pair(1, "config_1.yaml")
 });
 
 #endif // CONFIG_PATH_H

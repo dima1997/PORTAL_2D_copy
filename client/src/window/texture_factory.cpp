@@ -177,10 +177,10 @@ PRE: Recibe el area (Area) donde
 se ubicara la textura.
 POST: Devuelve un puntero unico 
 a una textura(std::unique_ptr<Texture>), 
-de la textura de bola de energia.
+de la textura de bola de energia verde.
 */
 std::unique_ptr<Texture> TextureFactory::
-create_energy_ball(Area areaMap){
+create_energy_ball_green(Area areaMap){
     BigTexture & bigTexture = this->window.add_big_texture(
                                     ALL_ROCKS_AND_BALLS_SPRITES
                                 );

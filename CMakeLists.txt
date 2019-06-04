@@ -5,12 +5,10 @@ set(CMAKE_CXX_STANDARD 11)
 set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -ggdb")
 
 # YAML
-#include_directories(${CMAKE_SOURCE_DIR}/lib) # Esto es importante para que compile
-#message("[INFO] Adding yaml-cpp as a library")
-#file(GLOB_RECURSE YAML_SOURCES RELATIVE ${CMAKE_SOURCE_DIR} "lib/yaml-cpp/*.cpp" "lib/yaml-cpp/*.h")
-#add_library(yaml-cpp STATIC ${YAML_SOURCES})
 add_subdirectory(lib/yaml-cpp)
 install(FILES common/configs_yaml/config_0.yaml DESTINATION ${CMAKE_BINARY_DIR})
+install(FILES common/configs_yaml/config_1.yaml DESTINATION ${CMAKE_BINARY_DIR})
+
 # SERVER -----------------------
 set(SERVER_NAME "PORTAL-server")
 set(SERVER_FOLDER "server")
@@ -63,6 +61,7 @@ file(GLOB client_files
         "${CLIENT_FOLDER}/src/threads/event_game_receiver_thread.cpp"
         "${CLIENT_FOLDER}/src/window/window.cpp"
         "${CLIENT_FOLDER}/src/window/texture_factory.cpp"
+        "${CLIENT_FOLDER}/src/window/map_creator.cpp"
         "${CLIENT_FOLDER}/src/window/os_exception.cpp"
         "${CLIENT_FOLDER}/src/textures/common_texture/area.cpp"
         "${CLIENT_FOLDER}/src/textures/common_texture/texture.cpp"

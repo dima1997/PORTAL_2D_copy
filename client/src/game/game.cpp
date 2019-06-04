@@ -48,7 +48,7 @@ void Game::run(){
     BlockingQueue<GameActionName> endQueue;
     int windowWidthPixels = WINDOW_WIDTH;
     int windowHeightPixels = WINDOW_HEIGHT;
-    Window window(windowWidthPixels, windowHeightPixels, this->playerId);
+    Window window(windowWidthPixels, windowHeightPixels, this->playerId, 1);
     this->threads.push_back(std::move(std::unique_ptr<Thread>(new EventGameReceiverThread(this->connector, this->changesMade, endQueue))));
     this->threads.push_back(std::move(std::unique_ptr<Thread>(new KeySenderThread(this->connector, this->changesAsk))));
     
