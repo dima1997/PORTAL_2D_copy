@@ -8,6 +8,8 @@
 
 #include <cstdint>
 #include <yaml-cpp/node/node.h>
+#include "body/cake.h"
+#include "body/chell.h"
 
 class Map {
     YAML::Node file;
@@ -15,8 +17,10 @@ class Map {
 public:
     explicit Map(uint8_t map_id);
     uint8_t getPlayersNumber();
-    YAML::Node &getFile();
     uint32_t getPlayerId(uint8_t i);
+    Cake *loadCake(b2World &world);
+    void loadBlocks(b2World &world, std::list<Body *> &blocks);
+    void loadChells(b2World &world, std::list<Chell *> &chells);
 };
 
 

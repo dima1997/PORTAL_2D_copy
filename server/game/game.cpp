@@ -10,10 +10,13 @@
 #include <protocol/event/player_wins_event.h>
 #include "game.h"
 
+#define SECONDS_WAIT_BEFORE_START 2
 #define TIME_WAIT_MICRO_SECONDS 10000
 #define ONE_SECOND_EQ_MICRO_SECONDS 100000
 
 void Game::start() {
+    // this to make time for the last window to load
+    std::this_thread::sleep_for(std::chrono::seconds(SECONDS_WAIT_BEFORE_START));
     for(auto &player : players) {
         player.start();
     }
@@ -45,11 +48,6 @@ void Game::start() {
         if (world.hasFinished()) break;
         std::this_thread::sleep_for(std::chrono::microseconds((int)(timeWaitMicroSeconds - timeSpendMicroSeconds)));
     }
-
-//    for (Player &player : players) {
-//        std::shared_ptr<Event> ptrEvent(new PlayerWinsEvent());
-//        player.addToQueue(ptrEvent);
-//    }
 }
 
 void Game::manageActions(std::unique_ptr<GameAction> ptrAction) {
