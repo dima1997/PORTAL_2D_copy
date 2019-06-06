@@ -29,7 +29,6 @@ private:
     std::vector<std::unique_ptr<Thread>> threads;
     bool isDead;
     ThreadSafeQueue<std::unique_ptr<Event>> changesMade;
-    //ThreadSafeQueue<std::unique_ptr<TextureChange>> changesMade;
     BlockingQueue<std::unique_ptr<GameAction>> changesAsk;
 public:
     Game(Connector &connector, uint8_t game_id, uint8_t player_id);

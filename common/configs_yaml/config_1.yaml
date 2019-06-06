@@ -210,7 +210,7 @@ cakes:
             {id: 68, xCoord: 6.5, yCoord: 1.5}
         ]
 background:
-    width: 30
+    width: 60
     height: 30
     id_coordinates:
         [

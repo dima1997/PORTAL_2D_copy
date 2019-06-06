@@ -50,6 +50,16 @@ target_link_libraries(${SERVER_NAME} yaml-cpp)
 # CLIENT ----------------------
 set(CLIENT_NAME "PORTAL")
 set(CLIENT_FOLDER "client")
+
+find_package(Qt5Widgets)
+qt5_wrap_ui(UIS_HEADERS
+	"${CLIENT_FOLDER}/src/user_interface/ui/Login.ui"
+	"${CLIENT_FOLDER}/src/user_interface/ui/LoginNew.ui"
+	"${CLIENT_FOLDER}/src/user_interface/ui/LoginJoin.ui"
+)
+
+include_directories(${PROJECT_BINARY_DIR})
+
 file(GLOB client_files
         "${CLIENT_FOLDER}/main.cpp"
         "${CLIENT_FOLDER}/src/game/client.cpp"
@@ -134,9 +144,12 @@ file(GLOB client_files
 	"${CLIENT_FOLDER}/src/textures/cake_texture/cake_sprite.cpp"
 	"${CLIENT_FOLDER}/src/textures/background_texture/background_one_texture.cpp"
 	"${CLIENT_FOLDER}/src/textures/background_texture/background_one_sprite.cpp"
+	"${CLIENT_FOLDER}/src/user_interface/login.cpp"
+	"${CLIENT_FOLDER}/src/user_interface/login_new.cpp"
+	"${CLIENT_FOLDER}/src/user_interface/login_join.cpp"
         )
 
-add_executable(${CLIENT_NAME} ${common_files} ${client_files})
+add_executable(${CLIENT_NAME} ${common_files} ${client_files} ${UIS_HEADERS})
 
 target_compile_features(${CLIENT_NAME} PUBLIC cxx_std_11)
 target_link_libraries(${CLIENT_NAME} PORTAL::Common)
@@ -147,6 +160,8 @@ target_link_libraries(${CLIENT_NAME} ${CMAKE_THREAD_LIBS_INIT})
 target_link_libraries(${CLIENT_NAME} SDL2 SDL2_image)
 
 target_link_libraries(${CLIENT_NAME} yaml-cpp)
+
+target_link_libraries(${CLIENT_NAME} Qt5::Widgets)
 
 install(FILES client/assets/all_blocks.png DESTINATION ${CMAKE_BINARY_DIR})
 install(FILES client/assets/all_chells_part_1.png DESTINATION ${CMAKE_BINARY_DIR})

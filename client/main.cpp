@@ -5,20 +5,34 @@
 #include <iostream>
 #include <exception> 
 #include <string>
-#include <iostream>
 
 int main(int argc, char **argv) {
+    
+    /*
     if (argc != 5) {
         std::cerr << "Usage:\n\t" << argv[0] << " host port command id" << std::endl;
         exit(1);
     }
+    */
+    
+    if (argc != 1) {
+        std::cerr << "Usage:\n\t" << argv[0] << std::endl;
+        exit(1);    
+    }
     try {
+
+        
+        /*
         std::string host = argv[1];
         std::string port = argv[2];
         std::string command = argv[3];
         uint8_t id = (uint8_t)std::stoul(argv[4]);
+        */
+        std::string host = "localhost";
+        std::string port = "8082";
         Client client;
-        client(host, port, command, id);
+        //client(host, port, command, id);
+        client.run(host, port, argc, argv);
     } catch (SdlException &error){
         std::cout << error.what() << "\n";
         return 1;

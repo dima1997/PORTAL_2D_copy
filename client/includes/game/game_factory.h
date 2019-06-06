@@ -6,13 +6,18 @@
 #define PORTAL_GAMEFACTORY_H
 
 
-#include <string>
 #include "game.h"
+#include <connector/connector.h>
+#include <string>
+#include <cstdint>
 
 class GameFactory {
 public:
     GameFactory();
-    static Game createGame(std::string &host, std::string &port, std::string &command, uint8_t id);
+    ~GameFactory();
+    Game createGame(std::string &host, std::string &port, std::string &command, uint8_t id); //static 
+    Game start_new_game(Connector & connector, uint8_t mapId);
+    Game start_join_game(Connector & connector, uint8_t gameId);
 };
 
 
