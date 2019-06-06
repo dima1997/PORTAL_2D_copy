@@ -16,6 +16,7 @@ Game GameFactory::createGame(std::string &host, std::string &port, std::string &
     if (command == "new") {
         connector << (uint8_t) new_game;
         connector << (uint8_t) id;
+        connector << "Hard-coded game name"; // TODO: ask user for name
         uint8_t status;
         connector >> status;
         std::cout << (unsigned) status << std::endl;
@@ -28,6 +29,16 @@ Game GameFactory::createGame(std::string &host, std::string &port, std::string &
     }
     if (command == "join") {
         connector << (uint8_t) join_game;
+        // TODO: show user all options and choose one
+        uint8_t gameCount;
+        connector >> gameCount;
+        for (uint8_t i = 0; i < gameCount; ++i) {
+            uint8_t gameId;
+            connector >> gameId;
+            std::string gameName;
+            connector >> gameName;
+        }
+        // ---
         connector << (uint8_t) id;
         uint8_t status;
         connector >> status;

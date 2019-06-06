@@ -19,11 +19,12 @@ private:
     uint8_t biggestKey;
     uint8_t getKey();
     void eraseFinished();
+    void sendAvailableGames(Connector &connector);
 public:
     GameManager();
     ~GameManager();
-    void addGame(Connector &connector, uint8_t mapId);
-    void joinToGame(uint8_t gameId, Connector &connector);
+    void addGame(Connector &connector);
+    void joinToGame(Connector &connector);
 };
 
 

@@ -25,13 +25,9 @@ void RequestExecutor::execute() {
         uint8_t instruction;
         connector >> instruction;
         if (instruction == new_game) {
-            uint8_t map_id;
-            connector >> map_id;
-            gameManager.addGame(connector, map_id);
+            gameManager.addGame(connector);
         } else if (instruction == join_game) {
-            uint8_t game_id;
-            connector >> game_id;
-            gameManager.joinToGame(game_id, connector);
+            gameManager.joinToGame(connector);
         } else {
             std::cerr << "Command not accepted: "
                       << (unsigned)instruction

@@ -34,8 +34,9 @@ private:
     std::vector<uint32_t> playerIds;
     Map map;
     std::unique_ptr<Game> game;
+    std::string gameName;
 public:
-    GameLobby(uint8_t id, uint8_t mapId, Connector &connector);
+    GameLobby(uint8_t id, uint8_t mapId, Connector &connector, std::string &gameName);
     ~GameLobby();
     GameLobby(GameLobby &&other) noexcept;
     GameLobby &operator=(GameLobby &&other) noexcept;
@@ -43,6 +44,9 @@ public:
     void join();
     bool isFinished();
     bool addPlayer(Connector &connector);
+    bool isReady();
+    std::string &getName();
+    uint8_t getId();
 };
 
 #endif //PORTAL_GAME_LOBBY_H

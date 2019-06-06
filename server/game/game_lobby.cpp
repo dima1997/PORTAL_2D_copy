@@ -26,7 +26,6 @@
 
 #define TIME_WAIT_MICRO_SECONDS 10000
 #define ONE_SECOND_EQ_MICRO_SECONDS 100000 
-#define SUMANDO_MAGICO 1000
 
 GameLobby &GameLobby::operator=(GameLobby &&other) noexcept {
     this->id = other.id;
@@ -38,10 +37,12 @@ GameLobby &GameLobby::operator=(GameLobby &&other) noexcept {
 }
 
 GameLobby::GameLobby(GameLobby &&other) noexcept: id(other.id), players(std::move(other.players)), mutex(), cv(),
-                                   ready(other.ready), playerIds(std::move(other.playerIds)), map(std::move(other.map)), game(std::move(other.game)) {}
+                                   ready(other.ready), playerIds(std::move(other.playerIds)), map(std::move(other.map)),
+                                   game(std::move(other.game)), gameName(std::move(other.gameName)) {}
 
-GameLobby::GameLobby(uint8_t id, uint8_t map_id, Connector &connector): id(id), players(), mutex(), cv(), ready(false),
-                                                              playerIds(), map(map_id), game() {
+GameLobby::GameLobby(uint8_t id, uint8_t map_id, Connector &connector, std::string &gameName):
+                     id(id), players(), mutex(), cv(), ready(false),playerIds(), map(map_id),
+                     game(), gameName(std::move(gameName)) {
     connector << (uint8_t) command_ok;
     connector << (uint8_t) id;
     std::unique_lock<std::mutex> l(mutex);
@@ -68,7 +69,6 @@ void GameLobby::startIfReady() {
     std::unique_lock<std::mutex> l(mutex);
     if (players.size() == map.getPlayersNumber() && !ready) {
         ready = true;
-//        game = std::make_unique<Game>(new Game(players, map));
         game = std::unique_ptr<Game>(new Game(players, map));
         (*game)();
     }
@@ -81,4 +81,16 @@ void GameLobby::join() {
 bool GameLobby::isFinished() {
     if(game == nullptr) return false;
     return game->isFinished();
+}
+
+std::string &GameLobby::getName() {
+    return gameName;
+}
+
+bool GameLobby::isReady() {
+    return ready;
+}
+
+uint8_t GameLobby::getId() {
+    return id;
 }

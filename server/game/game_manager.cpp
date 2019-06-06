@@ -8,16 +8,23 @@
 
 GameManager::GameManager(): games(), mutex(), biggestKey(0) {}
 
-void GameManager::addGame(Connector &connector, uint8_t map_id) {
+void GameManager::addGame(Connector &connector) {
     std::unique_lock<std::mutex> l(mutex);
+    uint8_t mapId;
+    connector >> mapId;
+    std::string gameName;
+    connector >> gameName;
     uint8_t game_id = this->getKey();
-    games.insert(std::make_pair(game_id, GameLobby(game_id, map_id, connector)));
+    games.insert(std::make_pair(game_id, GameLobby(game_id, mapId, connector, gameName)));
     games.at(game_id).startIfReady();
     this->eraseFinished();
 }
 
-void GameManager::joinToGame(uint8_t gameId, Connector &connector) {
+void GameManager::joinToGame(Connector &connector) {
     std::unique_lock<std::mutex> l(mutex);
+    sendAvailableGames(connector);
+    uint8_t gameId;
+    connector >> gameId;
     try {
         GameLobby &game = games.at(gameId);
         if (game.addPlayer(connector)) {
@@ -60,5 +67,20 @@ uint8_t GameManager::getKey() {
 GameManager::~GameManager() {
     for (auto &it: games) {
         it.second.join();
+    }
+}
+
+void GameManager::sendAvailableGames(Connector &connector) {
+    auto availableGames = std::list<GameLobby *>();
+    uint8_t availableGamesCount = 0;
+    for (auto &game : games) {
+        if (!game.second.isFinished() && !game.second.isReady()) {
+            availableGames.push_back(&game.second);
+            ++ availableGamesCount;
+        }
+    }
+    connector << availableGamesCount;
+    for (auto &game : availableGames) {
+        connector << game->getId() << game->getName();
     }
 }
