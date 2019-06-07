@@ -13,7 +13,7 @@
 #include <protocol/event/player_wins_event.h>
 #include <protocol/event/player_dies_event.h>
 #include "yaml-cpp/yaml.h"
-#include "contact_listeners/contact_listener.h"
+#include "contact_listener/contact_listener.h"
 
 #define TIME_STEP 1.0f / 60.0f
 #define VELOCITY_ITERATIONS 8
@@ -58,12 +58,12 @@ void World::step(std::list<std::shared_ptr<Event>> &events) {
             events.push_back(
                     std::shared_ptr<Event>(new ObjectMovesEvent(chell->getId(), chell->getXPos(), chell->getYPos())));
         }
-        Portal *orange = chell->getOrangePortal();
+        Portal *orange = chell->getPortal(ORANGE);
         if (orange->changedPosition()) {
             events.push_back(std::shared_ptr<Event>(
                     new ObjectMovesEvent(orange->getId(), orange->getXPos(), orange->getYPos())));
         }
-        Portal *blue = chell->getBluePortal();
+        Portal *blue = chell->getPortal(BLUE);
         if (blue->changedPosition()) {
             events.push_back(
                     std::shared_ptr<Event>(new ObjectMovesEvent(blue->getId(), blue->getXPos(), blue->getYPos())));

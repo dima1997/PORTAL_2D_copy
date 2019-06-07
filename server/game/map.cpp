@@ -73,8 +73,8 @@ void Map::loadChells(b2World &world, std::list<Chell *> &chells) {
     }
     int i = 0;
     for(auto chell : chells) {
-        chell->setBluePortal(portals[i++]);
-        chell->setOrangePortal(portals[i++]);
+        chell->setPortal(portals[i++], BLUE);
+        chell->setPortal(portals[i++], ORANGE);
         connect(portals[i - 1], portals[i - 2]);
     }
 }

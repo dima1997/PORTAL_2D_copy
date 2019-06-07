@@ -8,6 +8,7 @@
 #include <Box2D/Collision/Shapes/b2CircleShape.h>
 #include <Box2D/Dynamics/Joints/b2WheelJoint.h>
 #include "chell.h"
+#include "../ray_cast_callback/portal_ray_cast_callback.h"
 
 void Chell::createBody(float32 xPos, float32 yPos) {
     b2BodyDef bodyDef;
@@ -40,14 +41,14 @@ void Chell::createBody(float32 xPos, float32 yPos) {
     }
 
 Chell::Chell(b2World &world, float32 xPos, float32 yPos, uint32_t playerId):
-             Body(world, xPos, yPos, playerId), orangePortal(), bluePortal(),
+             Body(world, xPos, yPos, playerId), portals(),
              state(STOP), jump_state(false), alive(true) {
     createBody(xPos, yPos);
 }
 
 Chell::~Chell() {
-    delete orangePortal;
-    delete bluePortal;
+    delete portals[BLUE];
+    delete portals[ORANGE];
 }
 
 void Chell::move(float32 xSpeed, float32 ySpeed) {
@@ -98,28 +99,16 @@ bool Chell::isJumping() {
     return velY > 0.2 || velY < -0.2;
 }
 
-void Chell::setOrangePortal(Portal *portal) {
-    orangePortal = portal;
+void Chell::setPortal(Portal *portal, portal_color_t color) {
+    portals[color] = portal;
 }
 
-void Chell::setBluePortal(Portal *portal) {
-    bluePortal = portal;
+void Chell::movePortal(float32 x, float32 y, portal_color_t color) {
+    portals[color]->moveTo(x, y);
 }
 
-void Chell::moveBluePortal(float32 x, float32 y) {
-    bluePortal->moveTo(x, y);
-}
-
-void Chell::moveOrangePortal(float32 x, float32 y) {
-    orangePortal->moveTo(x, y);
-}
-
-Portal *Chell::getOrangePortal() {
-    return orangePortal;
-}
-
-Portal *Chell::getBluePortal() {
-    return bluePortal;
+Portal *Chell::getPortal(portal_color_t color) {
+    return portals[color];
 }
 
 body_type_t Chell::getBodyType() {
@@ -132,4 +121,18 @@ bool Chell::isAlive() {
 
 void Chell::die() {
     alive = false;
+}
+
+void Chell::shootPortal(float x, float y, portal_color_t color) {
+    auto portalRaycastCallback = new PortalRaycastCallback();
+    world.RayCast(portalRaycastCallback, body->GetPosition(), b2Vec2(x, y));
+    b2Fixture *fixture = portalRaycastCallback->getFixture();
+    if (fixture == nullptr)
+        return;
+    Body *body = (Body *)fixture->GetBody()->GetUserData();
+    if (body->getBodyType() == METAL_BLOCK) {
+        b2Vec2 position = portalRaycastCallback->getPoint();
+        this->movePortal(position.x, position.y, color);
+    }
+    delete portalRaycastCallback;
 }

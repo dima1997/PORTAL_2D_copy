@@ -10,13 +10,13 @@
 #include "portal.h"
 
 typedef enum chell_state {LEFT, RIGHT, STOP} chell_state_t;
+typedef enum portal_color {BLUE, ORANGE} portal_color_t;
 
 class Chell: public Body {
 private:
     void createBody(float32 xPos, float32 yPos) override;
     void move(float32 xSpeed, float32 ySpeed);
-    Portal *orangePortal;
-    Portal *bluePortal;
+    Portal *portals[2];
     chell_state_t state;
     bool jump_state;
     bool isJumping();
@@ -24,18 +24,16 @@ private:
 public:
     Chell(b2World &world, float32 xPos, float32 yPos, uint32_t playerId);
     bool isAlive();
-    void setOrangePortal(Portal *portal);
-    void setBluePortal(Portal *portal);
+    void setPortal(Portal *portal, portal_color_t color);
     ~Chell() override;
     void jump();
     void updateState(chell_state_t state);
     void update();
-    void moveBluePortal(float d, float d1);
-    void moveOrangePortal(float32 x, float32 y);
-    Portal *getOrangePortal();
-    Portal *getBluePortal();
+    void movePortal(float32 x, float32 y, portal_color_t color);
+    Portal *getPortal(portal_color_t color);
     body_type_t getBodyType() override;
     void die();
+    void shootPortal(float d, float d1, portal_color_t color);
 };
 
 
