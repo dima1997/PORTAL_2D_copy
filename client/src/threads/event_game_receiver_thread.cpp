@@ -1,9 +1,10 @@
 #include "../../includes/threads/event_game_receiver_thread.h"
 
-#include <protocol/event/event.h>
 #include "../../includes/textures/common_texture/texture_move_change.h"
 
+#include <protocol/event/event.h>
 #include <connector/connector.h>
+#include <connector/socket_exception.h>
 #include <protocol/protocol_code.h>
 #include <thread_safe_queue.h>
 #include <thread.h>
@@ -15,49 +16,44 @@
 
 /*Recibe y procesa un evento del servidor.*/
 void EventGameReceiverThread::receive_event(){
-    try {
-        uint8_t gameEventFromConnector;
-        this->connector >> gameEventFromConnector;
-        auto gameEvent = (EventType) gameEventFromConnector;
-        switch (gameEvent){
-            case object_moves:
-                {
-                    std::unique_ptr<Event> ptrEvent(
-                                        new ObjectMovesEvent(0,0,0));
-                    this->connector >> (*ptrEvent);
-                    this->changesQueue.push(ptrEvent);    
-                }
-                break;
-            case player_wins:
-                {    
+    uint8_t gameEventFromConnector;
+    this->connector >> gameEventFromConnector;
+    auto gameEvent = (EventType) gameEventFromConnector;
+    switch (gameEvent){
+        case object_moves:
+            {
+                std::unique_ptr<Event> ptrEvent(
+                                    new ObjectMovesEvent(0,0,0));
+                this->connector >> (*ptrEvent);
+                this->changesQueue.push(ptrEvent);    
+            }
+            break;
+        case player_wins:
+            {    
+                GameActionName quitGame = quit_game;
+                this->stop();
+                this->endQueue.push(quitGame);
+            }
+            break;
+        case player_dies:
+            {   
+                uint32_t player_id_dead;
+                this->connector >> player_id_dead;
+                if (this->player_id == player_id_dead){
                     GameActionName quitGame = quit_game;
                     this->stop();
                     this->endQueue.push(quitGame);
                 }
-                break;
-            case player_dies:
-                {   
-                    uint32_t player_id_dead;
-                    this->connector >> player_id_dead;
-                    if (this->player_id == player_id_dead){
-                        GameActionName quitGame = quit_game;
-                        this->stop();
-                        this->endQueue.push(quitGame);
-                    }
-                }
-                break;
-            case object_switch_state:
-            {
-                std::unique_ptr<Event> ptrEvent(
-                                        new ObjectSwitchEvent());
-                this->connector >> (*ptrEvent);
-                this->changesQueue.push(ptrEvent);
-                break;
             }
+            break;
+        case object_switch_state:
+        {
+            std::unique_ptr<Event> ptrEvent(
+                                    new ObjectSwitchEvent());
+            this->connector >> (*ptrEvent);
+            this->changesQueue.push(ptrEvent);
+            break;
         }
-    } catch (SocketException &error){
-        // Se detuvo la ejecucion del hilo.
-        return;
     }
 }
 
@@ -95,6 +91,10 @@ void EventGameReceiverThread::run(){
             this->receive_event();
         }
     } catch (SocketException &error){
+        std::cout << "Connection Lost at EGR.\n";
+        this->stop();
+        GameActionName quitName = quit_game;
+        this->endQueue.push(quitName);
         return;
     }
 }

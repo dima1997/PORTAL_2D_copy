@@ -49,13 +49,20 @@ void Game::run(){
         std::unique_lock<std::mutex> l(this->mutex);
         this->isDead = false;    
     }
+
     BlockingQueue<GameActionName> endQueue;
     int windowWidthPixels = WINDOW_WIDTH;
     int windowHeightPixels = WINDOW_HEIGHT;
     Window window(windowWidthPixels, windowHeightPixels, this->playerId, this->mapId + 1);
-    this->threads.push_back(std::move(std::unique_ptr<Thread>(new EventGameReceiverThread(this->connector, this->changesMade, endQueue, playerId))));
-    this->threads.push_back(std::move(std::unique_ptr<Thread>(new KeySenderThread(this->connector, this->changesAsk))));
-    this->threads.push_back(std::move(std::unique_ptr<Thread>(new PlayingLoopThread(window, this->changesMade, this->changesAsk, endQueue))));
+    this->threads.push_back(std::move(std::unique_ptr<Thread>(
+        new EventGameReceiverThread(this->connector, this->changesMade, endQueue, playerId)
+    )));
+    this->threads.push_back(std::move(std::unique_ptr<Thread>(
+        new KeySenderThread(this->connector, this->changesAsk)
+    )));
+    this->threads.push_back(std::move(std::unique_ptr<Thread>(
+        new PlayingLoopThread(window, this->changesMade, this->changesAsk, endQueue)
+    )));
 
     for (auto & thread : this->threads){
         (*thread).start();

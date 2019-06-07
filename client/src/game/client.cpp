@@ -4,6 +4,7 @@
 #include "../../includes/user_interface/line_interface.h"
 
 #include <portal_exception.h>
+#include <connector/socket_exception.h>
 #include <iostream>
 
 Client::Client() = default;
@@ -22,6 +23,8 @@ void Client::run(){
             game();
         } catch (PortalException &except) {
             std::cout << except.what() << "\n";
+        } catch (SocketException &except) {
+            std::cout << "Connection Lost at C.\n";
         }
     }
 }

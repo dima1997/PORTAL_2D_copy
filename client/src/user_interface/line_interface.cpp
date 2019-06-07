@@ -10,6 +10,7 @@
 #include <sstream>
 #include <algorithm>
 #include <map>
+#include <sstream>
 
 #define COMMAND_NEW "new"
 #define COMMAND_JOIN "join"
@@ -23,7 +24,7 @@ LineInterface::~LineInterface() = default;
 void LineInterface::keep_input(std::string & wantToQuit){
     if (wantToQuit == "q"){
         this->keepInput = false;
-        throw PortalException("Quiting game.\n");
+        throw PortalException("Quiting game.");
     }
 }
 
@@ -41,14 +42,18 @@ Connector LineInterface::log_to_server(){
         this->keep_input(host);
         return std::move(Connector(host, port));
     } catch (SocketException &error){
-        throw PortalException("Wrong ip and/or port.\n");        
+        std::stringstream msg;
+        msg << "Could no make connection:\n";
+        msg << "Check ip and/or port.\n";
+        msg << "Maybe server is not working." << std::endl;
+        throw PortalException(msg.str());        
     }
 }
 
 std::string LineInterface::choose_game_mode(){
     std::cout << "Put '"<< COMMAND_NEW <<"' to start new game,";
     std::cout << "'" << COMMAND_JOIN <<"' to join game in stock";
-    std::cout << "or '" << COMANDO_QUIT << "' to quit :\n";
+    std::cout << " or '" << COMANDO_QUIT << "' to quit :\n";
     std::string command;
     std::getline(std::cin, command);
     this->keep_input(command);
@@ -68,11 +73,11 @@ uint8_t LineInterface::choose_map_id(std::vector<uint8_t> & mapIds){
     std::string::const_iterator it = mapIdStr.begin();
     while (it != mapIdStr.end() && std::isdigit(*it)) ++it;
     if (!(!mapIdStr.empty() && it == mapIdStr.end())){
-        throw PortalException("Wrong map id.\n");
+        throw PortalException("Wrong map id.");
     }
     uint8_t mapId = (uint8_t) std::stoi(mapIdStr); 
-    if (std::find(mapIds.begin(),mapIds.end(),mapId) != mapIds.end()){
-        throw PortalException("Wrong map id.\n");
+    if (std::find(mapIds.begin(),mapIds.end(),mapId) == mapIds.end()){
+        throw PortalException("Wrong map id.");
     }
     return  mapId;
 }
@@ -125,7 +130,7 @@ uint8_t LineInterface::choose_game_id
 (std::map<uint8_t,std::string> & stockGames){
     std::cout << "Put one of the next game ids in stock,";
     std::cout << "or '"<< COMANDO_QUIT << "' to quit :\n";
-    std::cout << "Game stock : :\n";
+    std::cout << "Game stock :\n";
     for (std::map<uint8_t,std::string>::iterator it=stockGames.begin(); 
          it!=stockGames.end(); ++it){
         std::cout << "Game id : " << (unsigned) it->first;
@@ -138,11 +143,11 @@ uint8_t LineInterface::choose_game_id
     std::string::const_iterator it = gameIdStr.begin();
     while (it != gameIdStr.end() && std::isdigit(*it)) ++it;
     if (!(!gameIdStr.empty() && it == gameIdStr.end())){
-        throw PortalException("Wrong game id.\n");
+        throw PortalException("Wrong game id.");
     }
     uint8_t gameId = (uint8_t) std::stoi(gameIdStr);
     if (stockGames.count(gameId) == 0){
-        throw PortalException("Wrong game id.\n");
+        throw PortalException("Wrong game id.");
     }
     return gameId; 
 }
@@ -158,7 +163,7 @@ Game LineInterface::_get_join_game(Connector & connector, uint8_t gameId){
         std::cout << "Joining game.\n";
         std::cout << "Game id :" << (unsigned) gameId << "\n";
         std::cout << "Player id : " << playerId << "\n";
-        std::cout << "Map id" << (unsigned) mapId << "\n";
+        std::cout << "Map id : " << (unsigned) mapId << "\n";
         return std::move(Game(connector, gameId, playerId, mapId));
     } 
     if (status == game_is_full) {
@@ -171,7 +176,7 @@ Game LineInterface::_get_join_game(Connector & connector, uint8_t gameId){
         msg << "Game " << (unsigned) gameId << " does not exist." << std::endl;
         throw PortalException(msg.str());
     }
-    throw PortalException("Unexpected error...\n");
+    throw PortalException("Unexpected error...");
 
 }
 
@@ -180,7 +185,7 @@ Game LineInterface::get_join_game(Connector & connector){
         uint8_t gameCount;
         connector >> gameCount;
         if (gameCount == 0){
-            throw PortalException("No games in stock.\n");
+            throw PortalException("No games in stock.");
         }
         std::map<uint8_t,std::string> stockGames;
         for (uint8_t i = 0; i < gameCount; ++i) {
@@ -204,6 +209,6 @@ Game LineInterface::create_game(){
     } else if (command == COMMAND_JOIN){
         return std::move(this->get_join_game(connector));
     } else {
-        throw PortalException("Wrong game mode.\n");
+        throw PortalException("Wrong game mode.");
     }
 }

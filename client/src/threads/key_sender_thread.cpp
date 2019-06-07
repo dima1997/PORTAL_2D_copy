@@ -2,9 +2,11 @@
 
 #include <thread.h>
 #include <connector/connector.h>
+#include <connector/socket_exception.h>
 #include <protocol/protocol_code.h>
 #include <blocking_queue.h>
 #include <protocol/game_action/game_action.h>
+#include <iostream>
 
 /*
 PRE: Recibe una referencia a un conector (Connector &),
@@ -31,15 +33,21 @@ juego.
 */
 void KeySenderThread::run(){
     this->isDead = false;
-    while (! this->is_dead()){
-        std::unique_ptr<GameAction> ptrAction;
-        if (! this->actionsBlockQueue.pop(ptrAction)){
-            break;
+    try {
+        while (! this->is_dead()){
+            std::unique_ptr<GameAction> ptrAction;
+            if (! this->actionsBlockQueue.pop(ptrAction)){
+                break;
+            }
+            GameAction & action = *(ptrAction);
+            this->connector << action;
         }
-        GameAction & action = *(ptrAction);
-        this->connector << action;
+        this->stop();
+    } catch (SocketException &except){
+        this->stop();
+        std::cout << "Connection Lost at KS.\n";
+        return;
     }
-    this->stop();
 }
 
 /*Detiene la ejecucion del hilo.*/
