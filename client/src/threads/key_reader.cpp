@@ -29,10 +29,7 @@ BlockingQueue<GameActionName> & talkRefereeQueue)
 :   window(window), 
     toGameQueue(toGameQueue), 
     talkRefereeQueue(talkRefereeQueue),
-    keysPressed({
-        std::make_pair<KeyUsed,bool>(A, false),
-        std::make_pair<KeyUsed,bool>(D, false),
-        std::make_pair<KeyUsed,bool>(W, false),
+    keysSendOnce({
         std::make_pair<KeyUsed,bool>(SPACE, false),
         std::make_pair<KeyUsed,bool>(LSHIFT, false)
     }) {}
@@ -137,7 +134,9 @@ POST: Comunica la accion del juego, solo si la tecla fue liberada antes de ser
 presionada.
 */
 void KeyReader::process_key_up(KeyUsed actualKey, GameActionName actionName){
-    this->keysPressed[actualKey] = false;
+    if (this->keysSendOnce.count(actualKey) != 0){
+        this->keysSendOnce[actualKey] = false;
+    }
     if (actionName == null_action){
         return;
     }
@@ -184,10 +183,16 @@ POST: Comunica la accion del juego, solo si la tecla fue liberada antes de ser
 presionada.
 */
 void KeyReader::process_key_down(KeyUsed actualKey, GameActionName actionName){
-    if (this->keysPressed.at(actualKey) != false) {
+    if (this->keysSendOnce.count(actualKey) != 0) {
+        if (this->keysSendOnce.at(actualKey) != false){
+            return;
+        } else {
+            this->keysSendOnce[actualKey] = true;
+        }
+    }
+    if (actionName == null_action) {
         return;
     }
-    this->keysPressed[actualKey] = true;
     std::unique_ptr<GameAction> ptrGameAction(new GameAction(actionName));
     this->toGameQueue.push(ptrGameAction);
 }
