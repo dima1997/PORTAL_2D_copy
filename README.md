@@ -1,6 +1,32 @@
 # Portal
 Implementación del Portal 1 en 2D como TP final de la materia Taller de Programación I (FIUBA).
 
+## Compilar
+Crear carpeta de compilacion (ejemplo build/)
+Desde carpeta de compilacion ejecutar:
+
+cmake ..
+make && make install
+
+(Puede ser que make install tire algunos errores debido a problemas de la libreria yaml, en cuyo caso ignorarlos)
+
+## Ejecutar:
+Servidor:
+	./PORTAL-server
+Se cierra escribiendo 'q', por consola.
+
+Cliente:
+	./PORTAL 
+	(modo con ventanas qT, que hace que el juego ande trabado)
+	Ejecutar en dos terminales:
+		En la primera: utilizar la opcion new
+		En la segunda: utilizar la opcion join, tras haber 			realizado el primer paso 
+
+	./PORTAL localhost 8082 new 0
+	(Inicia partida)
+	./PORTAl localhost 8082 join 1
+	(Unirse a partida que se inicio desde otra terminal)
+
 ## Protocolo
 
 ### Crear nuevo juego

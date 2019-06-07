@@ -38,7 +38,7 @@ void Login::newGame() {
     //y cerrar, y continuar al siguiente loop
     this->loginJoin.close();
     std::vector<uint8_t> mapIds;
-    for (uint8_t i = 0; i < 2; ++i){
+    for (uint8_t i = 0; i < 1; ++i){
         mapIds.push_back(i);
     }
     this->loginNew.setMapIds(mapIds);
@@ -53,7 +53,7 @@ void Login::joinGame() {
     //y cerrar, y continuar al siguiente loop
     this->loginNew.close();
     std::vector<uint8_t> gameIds;
-    for (uint8_t i = 0; i < 2; ++i){
+    for (uint8_t i = 1; i < 2; ++i){
         gameIds.push_back(i);
     }
     this->loginJoin.setGameIds(gameIds);

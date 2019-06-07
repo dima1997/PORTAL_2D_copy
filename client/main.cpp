@@ -6,33 +6,37 @@
 #include <exception> 
 #include <string>
 
-int main(int argc, char **argv) {
-    
-    /*
-    if (argc != 5) {
-        std::cerr << "Usage:\n\t" << argv[0] << " host port command id" << std::endl;
-        exit(1);
-    }
-    */
-    
-    if (argc != 1) {
-        std::cerr << "Usage:\n\t" << argv[0] << std::endl;
-        exit(1);    
-    }
-    try {
+#include <QApplication>
+#include <QLabel>
 
-        
-        /*
-        std::string host = argv[1];
-        std::string port = argv[2];
-        std::string command = argv[3];
-        uint8_t id = (uint8_t)std::stoul(argv[4]);
-        */
-        std::string host = "localhost";
-        std::string port = "8082";
+void prueba_qt_ventanta(int argc, char** argv){
+    QApplication app(argc, argv);
+
+    QLabel label("Pleasssssssse work");
+    label.show();
+
+    app.exec();
+}
+
+int main(int argc, char **argv) {
+    //prueba_qt_ventanta(argc, argv);
+    try {
         Client client;
-        //client(host, port, command, id);
-        client.run(host, port, argc, argv);
+        if (argc == 5) {
+            std::string host = argv[1];
+            std::string port = argv[2];
+            std::string command = argv[3];
+            uint8_t id = (uint8_t)std::stoul(argv[4]);
+            client(host, port, command, id);
+        } else if (argc == 1) {
+            std::string host = "localhost";
+            std::string port = "8082";
+            client.run(host, port, argc, argv);
+        } else {
+            std::cerr << "Usage:\n\t" << argv[0] << std::endl;
+            std::cerr << "Usage:\n\t" << argv[0] << " host port command id" << std::endl;
+            exit(1);    
+        }
     } catch (SdlException &error){
         std::cout << error.what() << "\n";
         return 1;

@@ -76,7 +76,7 @@ Connector &Connector::operator<<(const uint32_t &_number) {
 Connector &Connector::operator>>(uint32_t &number) {
     uint32_t _number;
     socket.receive(&_number, sizeof(uint32_t));
-    number = be32toh(_number); // ANTES AQUI DECIA be16toh
+    number = be32toh(_number);
     return *this;
 }
 

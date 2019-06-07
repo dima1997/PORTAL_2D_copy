@@ -11,13 +11,9 @@
 Client::Client() = default;
 
 void Client::operator()(std::string &host, std::string &port, std::string &command, uint8_t id) {
-    //Aqui puedo crear el connector
-    //while que quiere hacer != salir
     GameFactory gameFactory;
-    //Game game = GameFactory::createGame(host, port, command, id);
     Game game = gameFactory.createGame(host, port, command, id);
     game();
-    // Volver a jugar ?
 }
 
 void Client::run(std::string &host, std::string &port, int argc, char **argv){
