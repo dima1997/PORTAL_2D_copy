@@ -102,10 +102,6 @@ bool Chell::isJumping() {
     return velY > 0.2 || velY < -0.2;
 }
 
-void Chell::movePortal(float32 x, float32 y, portal_color_t color) {
-    portals[color]->moveTo(x, y);
-}
-
 Portal *Chell::getPortal(portal_color_t color) {
     return portals[color];
 }
@@ -131,7 +127,8 @@ void Chell::shootPortal(float x, float y, portal_color_t color) {
     Body *body = (Body *)fixture->GetBody()->GetUserData();
     if (body->getBodyType() == METAL_BLOCK) {
         b2Vec2 position = portalRaycastCallback->getPoint();
-        this->movePortal(position.x, position.y, color);
+        portals[color]->moveTo(position.x, position.y);
+        portals[color]->setNormal(portalRaycastCallback->getNormal());
     }
     delete portalRaycastCallback;
 }

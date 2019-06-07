@@ -28,11 +28,10 @@ public:
     void jump();
     void updateState(chell_state_t state);
     void update();
-    void movePortal(float32 x, float32 y, portal_color_t color);
     Portal *getPortal(portal_color_t color);
     body_type_t getBodyType() override;
     void die();
-    void shootPortal(float d, float d1, portal_color_t color);
+    void shootPortal(float x, float y, portal_color_t color);
 };
 
 

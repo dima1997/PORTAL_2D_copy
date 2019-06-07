@@ -36,6 +36,16 @@ void Portal::startGoingThrough(Body *body) {
     if (!usable)
         return;
     body->moveTo(other->getXPos(), other->getYPos());
+
+    float32 angle = acos(b2Dot(this->normal, other->normal)/(this->normal.Length() * other->normal.Length()));
+    float32 cs = cosf(angle);
+    float32 sn = sinf(angle);
+
+    b2Vec2 currentVel = body->getCurrentVelocity();
+
+    float32 newX = currentVel.x * cs - currentVel.y * sn;
+    float32 newY = currentVel.x * sn + currentVel.y * cs;
+    body->updateVelocity(newX, newY);
     other->usable = false;
 }
 
@@ -45,6 +55,10 @@ body_type_t Portal::getBodyType() {
 
 void Portal::endGoingThrough() {
     usable = true;
+}
+
+void Portal::setNormal(b2Vec2 normal) {
+    this->normal = normal;
 }
 
 Portal::~Portal() = default;

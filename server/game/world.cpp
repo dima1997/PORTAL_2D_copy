@@ -47,6 +47,7 @@ void World::step(std::list<std::shared_ptr<Event>> &events) {
     }
     for (Chell *chell : chells) {
         if ( (this->idPlayersDead.count(chell->getId()) == 0) && (!chell->isAlive()) ) {
+            // TODO: check this
             if (--numberOfPlayers == 0) {
                 finished = true;
             }
@@ -54,17 +55,17 @@ void World::step(std::list<std::shared_ptr<Event>> &events) {
             events.push_back(std::shared_ptr<Event>(new PlayerDiesEvent(chell->getId())));
             break;
         }
-        if (chell->changedPosition()) {
+        if (chell->changedPositionOrVelocity()) {
             events.push_back(
                     std::shared_ptr<Event>(new ObjectMovesEvent(chell->getId(), chell->getXPos(), chell->getYPos())));
         }
         Portal *orange = chell->getPortal(ORANGE);
-        if (orange->changedPosition()) {
+        if (orange->changedPositionOrVelocity()) {
             events.push_back(std::shared_ptr<Event>(
                     new ObjectMovesEvent(orange->getId(), orange->getXPos(), orange->getYPos())));
         }
         Portal *blue = chell->getPortal(BLUE);
-        if (blue->changedPosition()) {
+        if (blue->changedPositionOrVelocity()) {
             events.push_back(
                     std::shared_ptr<Event>(new ObjectMovesEvent(blue->getId(), blue->getXPos(), blue->getYPos())));
         }
