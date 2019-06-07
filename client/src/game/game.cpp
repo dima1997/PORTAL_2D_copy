@@ -20,9 +20,10 @@
 #define WINDOW_HEIGHT 480
 
 
-Game::Game(Connector &connector, uint8_t game_id, uint8_t player_id)
-:   connector(std::move(connector)), gameId(game_id), playerId(player_id), 
-    isDead(true) {}
+Game::Game(Connector &connector, uint8_t game_id, 
+            uint8_t player_id, uint8_t mapId)
+:   connector(std::move(connector)), gameId(game_id), 
+    playerId(player_id), mapId(mapId), isDead(true) {}
 
 void Game::operator()() {
     this->run();
@@ -36,8 +37,11 @@ Game::Game(Game && other)
 :   connector(std::move(other.connector)),
     gameId(other.gameId),
     playerId(other.playerId),
+    mapId(other.mapId),
+    isDead(true), 
     threads(std::move(other.threads)),
-    isDead(true) {}
+    changesMade(std::move(other.changesMade)),
+    changesAsk(std::move(other.changesAsk)) {}
 
 /*Ejecuta el juego.*/
 void Game::run(){
@@ -48,7 +52,7 @@ void Game::run(){
     BlockingQueue<GameActionName> endQueue;
     int windowWidthPixels = WINDOW_WIDTH;
     int windowHeightPixels = WINDOW_HEIGHT;
-    Window window(windowWidthPixels, windowHeightPixels, this->playerId, 1);
+    Window window(windowWidthPixels, windowHeightPixels, this->playerId, this->mapId + 1);
     this->threads.push_back(std::move(std::unique_ptr<Thread>(new EventGameReceiverThread(this->connector, this->changesMade, endQueue, playerId))));
     this->threads.push_back(std::move(std::unique_ptr<Thread>(new KeySenderThread(this->connector, this->changesAsk))));
     this->threads.push_back(std::move(std::unique_ptr<Thread>(new PlayingLoopThread(window, this->changesMade, this->changesAsk, endQueue))));
@@ -64,7 +68,7 @@ void Game::run(){
 
 /*Detiene la ejecucion del juego.*/
 void Game::stop(){
-    //std::unique_lock<std::mutex> l(this->mutex);
+    std::unique_lock<std::mutex> l(this->mutex);
     this->changesAsk.close();
     for (int i = 0; i < this->threads.size(); ++i){
         (*(this->threads[i])).stop();

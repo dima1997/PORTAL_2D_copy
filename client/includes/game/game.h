@@ -9,7 +9,6 @@
 #include <thread.h>
 #include <blocking_queue.h>
 #include <thread_safe_queue.h>
-//#include <protocol/protocol_code.h>
 #include <protocol/game_action/game_action.h>
 #include <protocol/event/event.h>
 
@@ -24,15 +23,15 @@ private:
     Connector connector;
     uint8_t gameId;
     uint8_t  playerId;
-    std::mutex mutex;
-    std::condition_variable cv;
-    std::vector<std::unique_ptr<Thread>> threads;
+    uint8_t mapId;
     bool isDead;
+    std::vector<std::unique_ptr<Thread>> threads;
     ThreadSafeQueue<std::unique_ptr<Event>> changesMade;
-    //ThreadSafeQueue<std::unique_ptr<TextureChange>> changesMade;
     BlockingQueue<std::unique_ptr<GameAction>> changesAsk;
+    std::mutex mutex
 public:
-    Game(Connector &connector, uint8_t game_id, uint8_t player_id);
+    Game(Connector &connector, uint8_t game_id, 
+        uint8_t player_id, uint8_t mapId);
     
     /*
     PRE: Recibe un doble referencia a otra juego (Game &&).

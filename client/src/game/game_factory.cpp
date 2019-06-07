@@ -61,3 +61,5 @@ Game GameFactory::createGame(std::string &host, std::string &port, std::string &
         }
     }
 }
+
+Game GameFactory::get_new_game(Connector & connector) {
