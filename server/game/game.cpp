@@ -113,7 +113,7 @@ void Game::manageActions(std::unique_ptr<GameAction> ptrAction) {
 }
 
 Game::Game(std::vector<Connector> &connectors, Map &map): players(), thread(), numberOfPlayers(map.getPlayersNumber()), world(map), inQueue() {
-    for (int i = 0; i < connectors.size(); ++i) {
+    for (int i = 0; i < (int)connectors.size(); ++i) {
         auto playerId = map.getPlayerId(i);
         Connector &connector = connectors[i];
         players.emplace_back(playerId, connector, inQueue);

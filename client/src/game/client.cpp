@@ -10,14 +10,15 @@
 
 Client::Client() = default;
 
+/*Ejecuta el juego sin ventanas qt*/
 void Client::operator()(std::string &host, std::string &port, std::string &command, uint8_t id) {
     GameFactory gameFactory;
     Game game = gameFactory.createGame(host, port, command, id);
     game();
 }
 
+/*Ejecuta el juego con ventanas qt*/
 void Client::run(std::string &host, std::string &port, int argc, char **argv){
-    Connector connector(host, port);
     bool newed = false;
     uint8_t mapId;
     bool joined = false;
@@ -29,14 +30,14 @@ void Client::run(std::string &host, std::string &port, int argc, char **argv){
         
         LoginJoin loginJoin(joined, gameId);
 
-        Login login(connector, loginEvent, loginNew, loginJoin);
+        Login login(loginEvent, loginNew, loginJoin);
         
         login.show();
 
-        int erroro_code = app.exec();
-        std::cout << erroro_code << "\n";
+        app.exec();
     }
     
+    Connector connector(host, port);
     GameFactory gameFactory;
 
     if (loginEvent == NEW_LOGIN){
@@ -62,3 +63,4 @@ void Client::run(std::string &host, std::string &port, int argc, char **argv){
     }
     
 }
+

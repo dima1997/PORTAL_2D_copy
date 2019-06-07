@@ -60,7 +60,7 @@ void PlayingLoopThread::run(){
     }
     EventGameProcessor eventProcessor(this->window, this->fromGameQueue);
     KeyReader keyReader(this->window, this->toGameQueue, this->talkRefereeQueue);
-    unsigned t0, t1, t2;
+    unsigned t0, t1;
     double timeWaitMicroSeconds = TIME_WAIT_MICRO_SECONDS;
     while( ! this->is_dead() ){
         t0=clock();

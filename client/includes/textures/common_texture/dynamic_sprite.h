@@ -7,9 +7,9 @@
 
 class DynamicSprite {
 private:
+    std::vector<std::pair<int, int>> spritesCoordTape;
     int width;
     int height;
-    std::vector<std::pair<int, int>> spritesCoordTape;
     int index;
 public:
     /*

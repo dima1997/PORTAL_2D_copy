@@ -66,7 +66,7 @@ void Game::run(){
 void Game::stop(){
     //std::unique_lock<std::mutex> l(this->mutex);
     this->changesAsk.close();
-    for (int i = 0; i < this->threads.size(); ++i){
+    for (int i = 0; i < (int)this->threads.size(); ++i){
         (*(this->threads[i])).stop();
         (*(this->threads[i])).join();
     }

@@ -17,21 +17,18 @@ enum LoginEvent {
 
 class Login : public QWidget {
 public:
-    Login(Connector & connector, 
-          LoginEvent & loginEvent, 
+    Login(LoginEvent & loginEvent, 
           LoginNew & loginNew, 
           LoginJoin & loginJoin, 
           QWidget *parent = 0);
     virtual ~Login();
 private:
-    Connector & connector;
     LoginEvent & loginEvent;
     LoginNew & loginNew;
     LoginJoin & loginJoin;
     void newGame();
     void joinGame();
     void connectEvents();
-    //virtual void closeEvent(QCloseEvent *event);
 };
 
 #endif // LOGIN_H

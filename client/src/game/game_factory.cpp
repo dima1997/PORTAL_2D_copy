@@ -20,6 +20,7 @@ Game GameFactory::createGame(std::string &host, std::string &port, std::string &
     if (command == "join") {
         return this->start_join_game(connector, id);
     }
+    throw PortalException("GameFactory : Comando invalido");
 }
 
 Game GameFactory::start_new_game(Connector & connector, uint8_t mapId){

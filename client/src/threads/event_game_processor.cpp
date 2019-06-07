@@ -34,6 +34,8 @@ void EventGameProcessor::process_event(std::unique_ptr<Event> ptrEvent){
                 this->process_event(std::move(ptrSwitchEvent));
             }
             break;
+        default:
+            break;
     }
 }
 /*

@@ -61,9 +61,7 @@ PRE: Recibe :
     las coordenadas nuevas (int) x,y de Chell.
 POST: actualiza el sprite actual de Chell.
 */
-void ChellSpriteStrategy::move(float xBefore, float yBefore,float xNow, float yNow){
-    spriteNameStrategy_t spriteBefore = this->spriteName; 
-
+void ChellSpriteStrategy::move(float xBefore, float yBefore,float xNow, float yNow){ 
     if ((xBefore == xNow) && (yBefore != yNow)){
         this->setSpriteStrategy(JUMP_APEX_RIGHT);
         this->keepMoving = true;

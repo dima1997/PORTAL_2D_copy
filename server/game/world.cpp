@@ -20,7 +20,7 @@
 #define POSITION_ITERATIONS 2
 
 World::World(Map &map): gravity(0.0f, -9.8f), world(new b2World(gravity)),
-                              chells(), staticBodies(), numberOfPlayers(), cake(), finished(false) {
+                              chells(), staticBodies(), cake(), numberOfPlayers(), finished(false) {
     loadMap(map);
     std::unique_ptr<ContactListener> contactListener(new ContactListener());
     world->SetContactListener(contactListener.get());

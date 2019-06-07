@@ -37,7 +37,7 @@ void LoginNew::connectEvents() {
 
 void LoginNew::setMapIds(std::vector<uint8_t> & mapIds){
     QComboBox* comboBoxMapId = findChild<QComboBox*>("comboBoxMapId");
-    for (int i = 0; i < mapIds.size(); ++i){
+    for (int i = 0; i < (int)mapIds.size(); ++i){
         QString mapIdQStr = QString::number(mapIds[i]); 
         comboBoxMapId->addItem(mapIdQStr);
         

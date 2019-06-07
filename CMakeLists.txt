@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.13)
 project(PORTAL)
 
 set(CMAKE_CXX_STANDARD 11)
-set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -ggdb")
+set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -ggdb -DDEBUG -fno-inline -Wall -Werror -pedantic -pedantic-errors")
 
 # YAML
 add_subdirectory(lib/yaml-cpp)

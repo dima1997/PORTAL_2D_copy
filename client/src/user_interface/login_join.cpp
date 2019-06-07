@@ -37,7 +37,7 @@ void LoginJoin::connectEvents() {
 
 void LoginJoin::setGameIds(std::vector<uint8_t> & gameIds){
     QComboBox* comboBoxGameId = findChild<QComboBox*>("comboBoxGameId");
-    for (int i = 0; i < gameIds.size(); ++i){
+    for (int i = 0; i < (int)gameIds.size(); ++i){
         QString gameIdQStr = QString::number(gameIds[i]); 
         comboBoxGameId->addItem(gameIdQStr);
     }

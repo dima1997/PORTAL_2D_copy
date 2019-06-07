@@ -10,13 +10,11 @@
 #include <QCloseEvent>
 #include <iostream>
 
-Login::Login(Connector & connector, 
-          LoginEvent & loginEvent, 
+Login::Login(LoginEvent & loginEvent, 
           LoginNew & loginNew, 
           LoginJoin & loginJoin, 
           QWidget *parent)
 :   QWidget(parent),
-    connector(connector),
     loginEvent(loginEvent),
     loginNew(loginNew),
     loginJoin(loginJoin)
@@ -34,8 +32,6 @@ Login::~Login() = default;
 
 void Login::newGame() {
     // Simula recibir ids del connector
-    // Si no recibe ninguna puedo abrir un dialog de error, 
-    //y cerrar, y continuar al siguiente loop
     this->loginJoin.close();
     std::vector<uint8_t> mapIds;
     for (uint8_t i = 0; i < 1; ++i){
@@ -49,8 +45,6 @@ void Login::newGame() {
 
 void Login::joinGame() {
     // Simula recibir ids del connector
-    // Si no recibe ninguna puedo abrir un dialog de error, 
-    //y cerrar, y continuar al siguiente loop
     this->loginNew.close();
     std::vector<uint8_t> gameIds;
     for (uint8_t i = 1; i < 2; ++i){
