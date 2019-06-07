@@ -40,9 +40,12 @@ void Chell::createBody(float32 xPos, float32 yPos) {
     body->CreateFixture(&circleFixtureDef);
     }
 
-Chell::Chell(b2World &world, float32 xPos, float32 yPos, uint32_t playerId):
+Chell::Chell(b2World &world, float32 xPos, float32 yPos, uint32_t playerId, Portal *bluePortal, Portal *orangePortal):
              Body(world, xPos, yPos, playerId), portals(),
              state(STOP), jump_state(false), alive(true) {
+    connect(bluePortal, orangePortal);
+    portals[BLUE] = bluePortal;
+    portals[ORANGE] = orangePortal;
     createBody(xPos, yPos);
 }
 
@@ -97,10 +100,6 @@ void Chell::update() {
 bool Chell::isJumping() {
     float32 velY = body->GetLinearVelocity().y;
     return velY > 0.2 || velY < -0.2;
-}
-
-void Chell::setPortal(Portal *portal, portal_color_t color) {
-    portals[color] = portal;
 }
 
 void Chell::movePortal(float32 x, float32 y, portal_color_t color) {

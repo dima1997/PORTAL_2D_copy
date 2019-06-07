@@ -10,10 +10,14 @@
 #include <yaml-cpp/node/node.h>
 #include "body/cake.h"
 #include "body/chell.h"
+#include "body/block.h"
 
 class Map {
     YAML::Node file;
     uint8_t players_number;
+    Portal *loadPortal(const YAML::Node &portal, b2World &world);
+    Chell *loadChell(const YAML::Node &chell, b2World &world, Portal *bluePortal, Portal *orangePortal);
+    Block *loadBlock(const YAML::Node &block, b2World &world, body_type_t type);
 public:
     explicit Map(uint8_t map_id);
     uint8_t getPlayersNumber();

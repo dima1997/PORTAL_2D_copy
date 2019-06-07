@@ -7,7 +7,6 @@ set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -ggdb")
 # YAML
 add_subdirectory(lib/yaml-cpp)
 install(FILES common/configs_yaml/config_0.yaml DESTINATION ${CMAKE_BINARY_DIR})
-install(FILES common/configs_yaml/config_1.yaml DESTINATION ${CMAKE_BINARY_DIR})
 
 # SERVER -----------------------
 set(SERVER_NAME "PORTAL-server")

@@ -22,9 +22,8 @@ private:
     bool isJumping();
     bool alive;
 public:
-    Chell(b2World &world, float32 xPos, float32 yPos, uint32_t playerId);
+    Chell(b2World &world, float32 xPos, float32 yPos, uint32_t playerId, Portal *bluePortal, Portal *orangePortal);
     bool isAlive();
-    void setPortal(Portal *portal, portal_color_t color);
     ~Chell() override;
     void jump();
     void updateState(chell_state_t state);
