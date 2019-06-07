@@ -6,7 +6,7 @@
 #include "../../utils/id_generator.h"
 
 Body::Body(b2World &world, float32 xPos, float32 yPos, uint32_t id):
-           id(id), manually_updated(false), lastPosition(xPos, yPos), world(world), body() {}
+           manually_updated(false), lastPosition(xPos, yPos), id(id), world(world), body() {}
 
 bool Body::changedPosition() {
     if (manually_updated) {

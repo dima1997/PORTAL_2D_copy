@@ -22,16 +22,16 @@ class Game {
 private:
     Connector connector;
     uint8_t gameId;
-    uint8_t  playerId;
+    uint32_t  playerId;
     uint8_t mapId;
     bool isDead;
     std::vector<std::unique_ptr<Thread>> threads;
     ThreadSafeQueue<std::unique_ptr<Event>> changesMade;
     BlockingQueue<std::unique_ptr<GameAction>> changesAsk;
-    std::mutex mutex
+    std::mutex mutex;
 public:
-    Game(Connector &connector, uint8_t game_id, 
-        uint8_t player_id, uint8_t mapId);
+    Game(Connector &connector, uint8_t game_id,
+         uint32_t player_id, uint8_t mapId);
     
     /*
     PRE: Recibe un doble referencia a otra juego (Game &&).

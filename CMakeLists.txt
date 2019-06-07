@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.13)
 project(PORTAL)
 
 set(CMAKE_CXX_STANDARD 11)
-set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -ggdb")
+set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -ggdb -DDEBUG -fno-inline -Wall -Werror -pedantic -pedantic-errors")
 
 # YAML
 add_subdirectory(lib/yaml-cpp)
@@ -134,6 +134,7 @@ file(GLOB client_files
 	"${CLIENT_FOLDER}/src/textures/cake_texture/cake_sprite.cpp"
 	"${CLIENT_FOLDER}/src/textures/background_texture/background_one_texture.cpp"
 	"${CLIENT_FOLDER}/src/textures/background_texture/background_one_sprite.cpp"
+	"${CLIENT_FOLDER}/src/user_interface/line_interface.cpp"
         )
 
 add_executable(${CLIENT_NAME} ${common_files} ${client_files})
