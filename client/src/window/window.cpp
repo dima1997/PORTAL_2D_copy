@@ -317,7 +317,7 @@ void Window::render() {
         float newWidth = widthPixels/adjuster;
         newAreaCamera.setWidth(newWidth);
     }
-    for (int i = 0; i < this->ids.size(); ++i){
+    for (int i = 0; i < (int)this->ids.size(); ++i){
         uint32_t actualId = this->ids[i];
         Texture & actualTexture = *(this->allTextures.at(actualId));
         actualTexture.render(adjuster, newAreaCamera);

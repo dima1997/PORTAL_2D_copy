@@ -42,5 +42,5 @@ sprite de la tira de sprites que los constituyen;
 false en caso contrario.
 */
 bool DynamicSprite::is_last_sprite(){
-    return ((this->index + 1) >= this->spritesCoordTape.size());
+    return ((this->index + 1) >= (int)this->spritesCoordTape.size());
 }

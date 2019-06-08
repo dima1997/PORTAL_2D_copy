@@ -8,26 +8,40 @@
 #include <iostream>
 
 int main(int argc, char **argv) {
-    if (argc != 5) {
-        std::cerr << "Usage:\n\t" << argv[0] << " host port command id" << std::endl;
-        exit(1);
-    }
     try {
-        std::string host = argv[1];
-        std::string port = argv[2];
-        std::string command = argv[3];
-        uint8_t id = (uint8_t)std::stoul(argv[4]);
-        Client client;
-        client(host, port, command, id);
+        bool wrongUse = false;
+        if (argc == 5) {
+            std::string host = argv[1];
+            std::string port = argv[2];
+            std::string command = argv[3];
+            uint8_t id = (uint8_t)std::stoul(argv[4]);
+            Client client;
+            client(host, port, command, id);
+        }  
+        if (argc == 2){
+            std::string mode = argv[1];
+            if (mode == "line"){
+                Client client;
+                client.run();
+            } else {
+                wrongUse = true;
+            }
+        }
+        if ((argc != 2 && argc != 5) || (wrongUse)) {
+            std::cerr << "Usage:\n\t" << argv[0] << " host port command id" << std::endl;
+            std::cerr << "or" << std::endl;
+            std::cerr << "Usage:\n\t" << argv[0] << " line" << std::endl;
+            return 1;
+        }
     } catch (SdlException &error){
         std::cout << error.what() << "\n";
-        return 1;
+        return 2;
     } catch (OSException &error){
         std::cout << error.what() << "\n";
-        return 2;
+        return 3;
     } catch (std::exception &error){
         std::cout << error.what() << "\n";
-        return 3;
+        return 4;
     }
     return 0;
 }

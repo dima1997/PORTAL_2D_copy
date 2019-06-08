@@ -56,7 +56,7 @@ bool GameLobby::addPlayer(Connector &connector) {
     if (!ready) {
         connector << (uint8_t) command_ok;
         uint32_t playerId = map.getPlayerId(players.size());
-        connector << (uint8_t) playerId;
+        connector << playerId;
         players.push_back(std::move(connector));
         return true;
     }

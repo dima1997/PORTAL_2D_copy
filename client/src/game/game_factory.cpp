@@ -25,7 +25,7 @@ Game GameFactory::createGame(std::string &host, std::string &port, std::string &
         std::cout << (unsigned) game_id << std::endl;
         uint32_t player_id;
         connector >> player_id;
-        return std::move(Game(connector, game_id, player_id));
+        return std::move(Game(connector, game_id, player_id, 0));
     }
     if (command == "join") {
         connector << (uint8_t) join_game;
@@ -47,7 +47,7 @@ Game GameFactory::createGame(std::string &host, std::string &port, std::string &
             uint8_t player_id;
             connector >> player_id;
             std::cout << (unsigned) player_id << std::endl;
-            return std::move(Game(connector, id, player_id));
+            return std::move(Game(connector, id, player_id, 0));
         } else if (status == game_is_full) {
             std::stringstream msg;
             msg << "Game " << (unsigned) id << " is full." << std::endl;
@@ -60,4 +60,5 @@ Game GameFactory::createGame(std::string &host, std::string &port, std::string &
             throw PortalException("Unexpected error...\n");
         }
     }
+    throw PortalException("Invalid command.\n");
 }

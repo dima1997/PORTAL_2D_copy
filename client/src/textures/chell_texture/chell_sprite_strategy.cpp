@@ -62,8 +62,6 @@ PRE: Recibe :
 POST: actualiza el sprite actual de Chell.
 */
 void ChellSpriteStrategy::move(float xBefore, float yBefore,float xNow, float yNow){
-    spriteNameStrategy_t spriteBefore = this->spriteName; 
-
     if ((xBefore == xNow) && (yBefore != yNow)){
         this->setSpriteStrategy(JUMP_APEX_RIGHT);
         this->keepMoving = true;

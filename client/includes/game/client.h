@@ -11,6 +11,7 @@ class Client {
 public:
     Client();
     void operator()(std::string &host, std::string &port, std::string &command, uint8_t id);
+    void run();
 };
 
 
