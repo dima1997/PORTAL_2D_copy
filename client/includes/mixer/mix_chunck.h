@@ -18,6 +18,15 @@ public:
     /*Destruye el trozo de sonido.*/
     ~MixChunck();
 
+    /*Construccion por movimiento.*/
+    MixChunck(MixChunck && other);
+
+    /*Asignacion por movimiento.*/
+    MixChunck & operator=(MixChunck && other);
+
+    MixChunck(const MixChunck & other) = delete;
+    MixChunck & operator=(const MixChunck & other) = delete;
+
     /*Reproduce el trozo de sonido una sola vez.*/
     void play();
 };

@@ -135,6 +135,10 @@ file(GLOB client_files
 	"${CLIENT_FOLDER}/src/textures/background_texture/background_one_texture.cpp"
 	"${CLIENT_FOLDER}/src/textures/background_texture/background_one_sprite.cpp"
 	"${CLIENT_FOLDER}/src/user_interface/line_interface.cpp"
+	"${CLIENT_FOLDER}/src/mixer/mixer.cpp"
+	"${CLIENT_FOLDER}/src/mixer/mix_chunck.cpp"
+	"${CLIENT_FOLDER}/src/mixer/mix_music.cpp"
+	"${CLIENT_FOLDER}/src/sdl_system.cpp"
         )
 
 add_executable(${CLIENT_NAME} ${common_files} ${client_files})
@@ -145,7 +149,7 @@ target_link_libraries(${CLIENT_NAME} PORTAL::Common)
 find_package(Threads REQUIRED)
 target_link_libraries(${CLIENT_NAME} ${CMAKE_THREAD_LIBS_INIT})
 
-target_link_libraries(${CLIENT_NAME} SDL2 SDL2_image)
+target_link_libraries(${CLIENT_NAME} SDL2 SDL2_image SDL2_mixer)
 
 target_link_libraries(${CLIENT_NAME} yaml-cpp)
 
@@ -159,3 +163,7 @@ install(FILES client/assets/barrier.png DESTINATION ${CMAKE_BINARY_DIR})
 install(FILES client/assets/all_triangles.png DESTINATION ${CMAKE_BINARY_DIR})
 install(FILES client/assets/cake.png DESTINATION ${CMAKE_BINARY_DIR})
 install(FILES client/assets/background_1.png DESTINATION ${CMAKE_BINARY_DIR})
+install(FILES client/assets/portal_radio.wav DESTINATION ${CMAKE_BINARY_DIR})
+install(FILES client/assets/portal_shoot.wav DESTINATION ${CMAKE_BINARY_DIR})
+install(FILES client/assets/dying.wav DESTINATION ${CMAKE_BINARY_DIR})
+install(FILES client/assets/jump.wav DESTINATION ${CMAKE_BINARY_DIR})
