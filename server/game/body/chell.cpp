@@ -54,13 +54,13 @@ Chell::~Chell() {
     delete portals[ORANGE];
 }
 
-void Chell::move(float32 xSpeed, float32 ySpeed) {
-    b2Vec2 vel = body->GetLinearVelocity();
-    float32 dvx = xSpeed - vel.x;
-    float32 dvy = ySpeed - vel.y;
-    float32 mass = body->GetMass();
-    body->ApplyLinearImpulseToCenter(b2Vec2(mass * dvx, mass * dvy), true);
-}
+//void Chell::move(float32 xSpeed, float32 ySpeed) {
+//    b2Vec2 vel = body->GetLinearVelocity();
+//    float32 dvx = xSpeed - vel.x;
+//    float32 dvy = ySpeed - vel.y;
+//    float32 mass = body->GetMass();
+//    body->ApplyLinearImpulseToCenter(b2Vec2(mass * dvx, mass * dvy), true);
+//}
 
 void Chell::jump() {
     jump_state = true;
@@ -81,17 +81,17 @@ void Chell::update() {
     switch (state) {
         case LEFT:
             printf("move left\n");
-            move(-3.0f, jumpVel);
+            applyImpulse(-3.0f, jumpVel);
             break;
         case RIGHT:
             printf("move right\n");
-            move(3.0f, jumpVel);
+            applyImpulse(3.0f, jumpVel);
             break;
         case STOP:
             if (isJumping()) {
-                move(vel.x, jumpVel);
+                applyImpulse(vel.x, jumpVel);
             } else {
-                move(0, jumpVel);
+                applyImpulse(0, jumpVel);
             }
             break;
     }

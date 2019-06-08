@@ -38,10 +38,9 @@ void Portal::createBody(float32 xPos, float32 yPos) {
 void Portal::startGoingThrough(Body *body) {
     if (!usable)
         return;
-    body->moveTo(other->getXPos(), other->getYPos());
+    body->moveTo(other->getXPos() , other->getYPos());
 
-    float32 angle = acosf(b2Dot(this->normal, other->normal)/(this->normal.Length() * other->normal.Length()));
-//    float32 angle = acosf(b2Dot(this->normal, -other->normal)/(this->normal.Length() * other->normal.Length()));
+    float32 angle = acosf(b2Dot(this->normal, -other->normal)/(this->normal.Length() * other->normal.Length()));
     float32 cs = cosf(angle);
     float32 sn = sinf(angle);
 
@@ -49,8 +48,7 @@ void Portal::startGoingThrough(Body *body) {
 
     float32 newX = currentVel.x * cs - currentVel.y * sn;
     float32 newY = currentVel.x * sn + currentVel.y * cs;
-    body->updateVelocity(-newX, -newY);
-//    body->updateVelocity(newX, newY);
+    body->applyImpulse(newX, newY);
     other->usable = false;
 }
 

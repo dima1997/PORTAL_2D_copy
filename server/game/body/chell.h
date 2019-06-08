@@ -15,7 +15,6 @@ typedef enum portal_color {BLUE, ORANGE} portal_color_t;
 class Chell: public Body {
 private:
     void createBody(float32 xPos, float32 yPos) override;
-    void move(float32 xSpeed, float32 ySpeed);
     Portal *portals[2];
     chell_state_t state;
     bool jump_state;

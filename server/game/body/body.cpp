@@ -6,27 +6,27 @@
 #include "../../utils/id_generator.h"
 
 Body::Body(b2World &world, float32 xPos, float32 yPos, uint32_t id):
-           id(id), updated_position(false), updated_velocity(false), lastPosition(xPos, yPos), lastVelocity(0, 0), world(world), body() {}
+           id(id), updated_position(false), lastPosition(xPos, yPos), world(world), body() {}
 
 bool Body::changedPositionOrVelocity() {
-    bool status = false;
     if (updated_position) {
         body->SetTransform(lastPosition, body->GetAngle());
         updated_position = false;
-        status = true;
-    } else if (lastPosition.x != body->GetPosition().x || lastPosition.y != body->GetPosition().y) {
+        return true;
+    }
+    if (lastPosition.x != body->GetPosition().x || lastPosition.y != body->GetPosition().y) {
         lastPosition = body->GetPosition();
-        status = true;
+        return true;
     }
+    return false;
+}
 
-    if (updated_velocity) {
-        body->SetLinearVelocity(lastVelocity);
-        updated_velocity = false;
-        status = true;
-    } else if (lastVelocity != body->GetLinearVelocity()) {
-        lastVelocity = body->GetLinearVelocity();
-    }
-    return status;
+void Body::applyImpulse(float32 xSpeed, float32 ySpeed) {
+    b2Vec2 vel = body->GetLinearVelocity();
+    float32 dvx = xSpeed - vel.x;
+    float32 dvy = ySpeed - vel.y;
+    float32 mass = body->GetMass();
+    body->ApplyLinearImpulseToCenter(b2Vec2(mass * dvx, mass * dvy), true);
 }
 
 uint32_t Body::getId() {
@@ -44,11 +44,6 @@ float32 Body::getYPos() {
 void Body::moveTo(float32 x, float32 y) {
     lastPosition = b2Vec2(x, y);
     updated_position = true;
-}
-
-void Body::updateVelocity(float32 x, float32 y) {
-    lastVelocity = b2Vec2(x, y);
-    updated_velocity = true;
 }
 
 b2Vec2 Body::getCurrentVelocity() {
