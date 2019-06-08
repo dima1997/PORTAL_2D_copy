@@ -9,21 +9,24 @@ Body::Body(b2World &world, float32 xPos, float32 yPos, uint32_t id):
            id(id), updated_position(false), updated_velocity(false), lastPosition(xPos, yPos), lastVelocity(0, 0), world(world), body() {}
 
 bool Body::changedPositionOrVelocity() {
+    bool status = false;
     if (updated_position) {
-        body->SetTransform(b2Vec2(lastPosition), body->GetAngle());
+        body->SetTransform(lastPosition, body->GetAngle());
         updated_position = false;
-        return true;
-    }
-    if (updated_velocity) {
-        body->SetLinearVelocity(b2Vec2(lastVelocity));
-        updated_velocity = false;
-        return true;
-    }
-    if (lastPosition.x != body->GetPosition().x || lastPosition.y != body->GetPosition().y) {
+        status = true;
+    } else if (lastPosition.x != body->GetPosition().x || lastPosition.y != body->GetPosition().y) {
         lastPosition = body->GetPosition();
-        return true;
+        status = true;
     }
-    return false;
+
+    if (updated_velocity) {
+        body->SetLinearVelocity(lastVelocity);
+        updated_velocity = false;
+        status = true;
+    } else if (lastVelocity != body->GetLinearVelocity()) {
+        lastVelocity = body->GetLinearVelocity();
+    }
+    return status;
 }
 
 uint32_t Body::getId() {
