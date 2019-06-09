@@ -88,3 +88,24 @@ void Map::loadDoors(b2World &world, std::list<Door *> &doors) {
         doors.push_back(new Door(world, x, y, id, conditions));
     }
 }
+
+void Map::loadButtons(b2World &world, std::list<Button *> &buttons, std::list<Door *> &doors) {
+    YAML::Node buttonsInfo = file["buttons"]["id_coordinates"];
+    for (auto && buttonInfo : buttonsInfo) {
+        std::list<Door *> buttonDoors;
+        for (auto && doorIdNode : buttonInfo["door_ids"]) {
+            auto doorId = doorIdNode.as<uint32_t>();
+            for (auto door : doors) {
+                if (door->getId() == doorId) {
+                    buttonDoors.push_back(door);
+                    break;
+                }
+            }
+        }
+        auto id = buttonInfo["id"].as<uint32_t>();
+        auto x = buttonInfo["xCoord"].as<float32>();
+        auto y = buttonInfo["yCoord"].as<float32>();
+        buttons.push_back(new Button(world, x, y, id, buttonDoors));
+    }
+
+}

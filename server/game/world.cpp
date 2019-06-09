@@ -95,6 +95,7 @@ void World::loadMap(Map &map) {
     cake = map.loadCake(*world);
     map.loadChells(*world, chells);
     map.loadDoors(*world, doors);
+    map.loadButtons(*world, buttons, doors);
     numberOfPlayers = map.getPlayersNumber();
 }
 

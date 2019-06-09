@@ -24,7 +24,7 @@ void Door::createBody(float32 xPos, float32 yPos) {
     body->SetUserData(this);
 
     b2PolygonShape door;
-    door.SetAsBox(0.5f, 1.0f);
+    door.SetAsBox(0.4f, 1.0f);
 
     body->CreateFixture(&door, 0.0f);
 }

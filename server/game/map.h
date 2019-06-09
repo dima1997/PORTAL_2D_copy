@@ -12,6 +12,7 @@
 #include "body/chell.h"
 #include "body/block.h"
 #include "body/door.h"
+#include "body/button.h"
 
 class Map {
     YAML::Node file;
@@ -27,6 +28,7 @@ public:
     void loadBlocks(b2World &world, std::list<Block *> &blocks);
     void loadChells(b2World &world, std::list<Chell *> &chells);
     void loadDoors(b2World &world, std::list<Door *> &doors);
+    void loadButtons(b2World &world, std::list<Button *> &buttons, std::list<Door *> &doors);
 };
 
 

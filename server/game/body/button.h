@@ -6,15 +6,16 @@
 #define PORTAL_BUTTON_H
 
 
+#include <list>
 #include "body.h"
 #include "door.h"
 
 class Button: public Body {
 private:
     void createBody(float32 xPos, float32 yPos) override;
-    Door *door;
+    std::list<Door *> doors;
 public:
-    Button(b2World &world, float32 xPos, float32 yPos, uint32_t id, Door *door);
+    Button(b2World &world, float32 xPos, float32 yPos, uint32_t id, std::list<Door *> &doors);
     ~Button() override;
     body_type_t getBodyType() override;
 };
