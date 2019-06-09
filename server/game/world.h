@@ -12,6 +12,8 @@
 #include "body/chell.h"
 #include "map.h"
 #include "body/cake.h"
+#include "body/door.h"
+#include "body/button.h"
 #include <protocol/event/object_moves_event.h>
 
 #include <set>
@@ -21,7 +23,9 @@ private:
     b2Vec2 gravity;
     b2World *world;
     std::list<Chell *> chells;
-    std::list<Body *> staticBodies;
+    std::list<Block *> blocks;
+    std::list<Door *> doors;
+    std::list<Button *> buttons;
     Cake *cake;
     std::vector<std::shared_ptr<b2ContactListener>> listeners;
     int numberOfPlayers;
@@ -34,7 +38,6 @@ public:
     ~World();
     void step(std::list<std::shared_ptr<Event>> &events);
     Chell *getChell(uint32_t i);
-    int getNumberOfPlayers();
 };
 
 

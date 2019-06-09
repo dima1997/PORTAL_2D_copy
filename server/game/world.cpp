@@ -20,7 +20,7 @@
 #define POSITION_ITERATIONS 2
 
 World::World(Map &map): gravity(0.0f, -9.8f), world(new b2World(gravity)),
-                              chells(), staticBodies(), cake(), numberOfPlayers(), finished(false) {
+                              chells(), blocks(), cake(), numberOfPlayers(), finished(false) {
     loadMap(map);
     std::unique_ptr<ContactListener> contactListener(new ContactListener());
     world->SetContactListener(contactListener.get());
@@ -77,17 +77,24 @@ World::~World() {
     for (auto *chell : chells) {
         delete chell;
     }
-    for(auto *body : staticBodies) {
-        delete body;
+    for(auto *block : blocks) {
+        delete block;
+    }
+    for(auto *button : buttons) {
+        delete button;
+    }
+    for(auto *door : doors) {
+        delete door;
     }
     delete cake;
     delete world;
 }
 
 void World::loadMap(Map &map) {
-    map.loadBlocks(*world, staticBodies);
+    map.loadBlocks(*world, blocks);
     cake = map.loadCake(*world);
     map.loadChells(*world, chells);
+    map.loadDoors(*world, doors);
     numberOfPlayers = map.getPlayersNumber();
 }
 

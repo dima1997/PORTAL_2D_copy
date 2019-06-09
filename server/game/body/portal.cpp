@@ -39,7 +39,6 @@ void Portal::startGoingThrough(Body *body) {
     if (!usable)
         return;
     body->moveTo(other->getXPos() + (body->hx * other->normal.x), other->getYPos() + (body->hy * other->normal.y));
-//    body->moveTo(other->getXPos(), other->getYPos());
 
     float32 angle = acosf(b2Dot(this->normal, -other->normal)/(this->normal.Length() * other->normal.Length()));
     float32 cs = cosf(angle);

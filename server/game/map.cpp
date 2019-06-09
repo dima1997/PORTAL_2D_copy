@@ -26,7 +26,7 @@ Cake *Map::loadCake(b2World &world) {
     return new Cake(world, x, y, id);
 }
 
-void Map::loadBlocks(b2World &world, std::list<Body *> &blocks_list) {
+void Map::loadBlocks(b2World &world, std::list<Block *> &blocks_list) {
     YAML::Node metalBlocks = file["blocks_metal"]["id_coordinates"];
     for(auto &&block : metalBlocks) {
         blocks_list.push_back(loadBlock(block, world, METAL_BLOCK));
@@ -71,4 +71,20 @@ Block *Map::loadBlock(const YAML::Node &block, b2World &world, body_type_t type)
     auto x = block["xCoord"].as<float32>();
     auto y = block["yCoord"].as<float32>();
     return new Block(world, x, y, type, id);
+}
+
+void Map::loadDoors(b2World &world, std::list<Door *> &doors) {
+    YAML::Node doorsInfo = file["doors_one"]["id_coordinates"];
+    for (auto && doorInfo : doorsInfo) {
+        std::unordered_map<uint32_t, bool> conditions;
+        for (auto condition : doorInfo["conditions"]) {
+            auto button_id = condition["button_id"].as<uint32_t>();
+            auto cond = condition["condition"].as<bool>();
+            conditions.insert(std::make_pair(button_id, cond));
+        }
+        auto id = doorInfo["id"].as<uint32_t>();
+        auto x = doorInfo["xCoord"].as<float32>();
+        auto y = doorInfo["yCoord"].as<float32>();
+        doors.push_back(new Door(world, x, y, id, conditions));
+    }
 }

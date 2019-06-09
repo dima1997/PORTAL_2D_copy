@@ -131,7 +131,8 @@ doors_one:
     height: 2.0
     id_coordinates:
         [
-            {id: 56, number: 1, xCoord: 5.5, yCoord: 2}
+            {id: 56, number: 1, xCoord: 5.5, yCoord: 2.0, conditions: [{button_id: 58,  condition: true}]},
+            {id: 70, number: 1, xCoord: -5.0, yCoord: 2.0, conditions: [{button_id: 58,  condition: false}]}
         ]
 energy_balls_green:
     width: 0.5
@@ -145,7 +146,7 @@ buttons:
     height: 0.5
     id_coordinates:
         [
-            {id: 58, xCoord: -0.5, yCoord: 1.25}
+            {id: 58, xCoord: -0.5, yCoord: 1.25, door_ids: [56, 70]}
         ]
 rocks_one:
     width: 1.0

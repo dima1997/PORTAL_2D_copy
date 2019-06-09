@@ -11,6 +11,7 @@
 #include "body/cake.h"
 #include "body/chell.h"
 #include "body/block.h"
+#include "body/door.h"
 
 class Map {
     YAML::Node file;
@@ -23,8 +24,9 @@ public:
     uint8_t getPlayersNumber();
     uint32_t getPlayerId(uint8_t i);
     Cake *loadCake(b2World &world);
-    void loadBlocks(b2World &world, std::list<Body *> &blocks);
+    void loadBlocks(b2World &world, std::list<Block *> &blocks);
     void loadChells(b2World &world, std::list<Chell *> &chells);
+    void loadDoors(b2World &world, std::list<Door *> &doors);
 };
 
 
