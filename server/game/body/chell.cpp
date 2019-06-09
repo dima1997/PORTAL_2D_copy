@@ -51,7 +51,10 @@ void Chell::createBody(float32 xPos, float32 yPos) {
     sensorFixtureDef.userData = (void *)GROUND_CHECK;
 
     body->CreateFixture(&sensorFixtureDef);
-    }
+
+    hx = 0.175f;
+    hy = 0.65f;
+}
 
 Chell::Chell(b2World &world, float32 xPos, float32 yPos, uint32_t playerId, Portal *bluePortal, Portal *orangePortal):
              Body(world, xPos, yPos, playerId), portals(),
@@ -78,7 +81,7 @@ void Chell::update() {
     switch (state) {
         case AIR:
             applyImpulse(vel.x, vel.y);
-            if (!isJumping()) {
+            if (!isJumping() && !throughPortal) {
                 state = STOP;
             }
             break;

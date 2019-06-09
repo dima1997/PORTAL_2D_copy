@@ -14,8 +14,10 @@ void ContactListener::BeginContact(b2Contact *contact) {
     Body *dataB = (Body *)contact->GetFixtureB()->GetBody()->GetUserData();
     if (contact->IsTouching() && dataA && dataB) {
         if (dataA->getBodyType() == PORTAL) {
+            dataB->throughPortal = true;
             dynamic_cast<Portal *>(dataA)->startGoingThrough(dataB);
         } else if (dataB->getBodyType() == PORTAL) {
+            dataA->throughPortal = true;
             dynamic_cast<Portal *>(dataB)->startGoingThrough(dataA);
         } else if (dataA->getBodyType() == CHELL) {
             auto *chell = dynamic_cast<Chell *>(dataA);
@@ -51,8 +53,10 @@ void ContactListener::EndContact(b2Contact *contact) {
     Body *dataB = (Body *)contact->GetFixtureB()->GetBody()->GetUserData();
     if (dataA && dataB) {
         if (dataA->getBodyType() == PORTAL) {
+            dataB->throughPortal = false;
             dynamic_cast<Portal *>(dataA)->endGoingThrough();
         } else if (dataB->getBodyType() == PORTAL) {
+            dataA->throughPortal = false;
             dynamic_cast<Portal *>(dataB)->endGoingThrough();
         } else if (dataA->getBodyType() == CHELL) {
             auto *chell = dynamic_cast<Chell *>(dataA);
