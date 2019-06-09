@@ -21,6 +21,7 @@ void ContactListener::BeginContact(b2Contact *contact) {
             auto *chell = dynamic_cast<Chell *>(dataA);
             if (contact->GetFixtureA()->GetUserData() == (void *)GROUND_CHECK) {
                 ++chell->footContacts;
+                return;
             }
 
             if (dataB->getBodyType() == CAKE) {
@@ -33,6 +34,7 @@ void ContactListener::BeginContact(b2Contact *contact) {
             auto *chell = dynamic_cast<Chell *>(dataB);
             if (contact->GetFixtureB()->GetUserData() == (void *)GROUND_CHECK) {
                 ++chell->footContacts;
+                return;
             }
 
             if (dataA->getBodyType() == CAKE) {
@@ -56,11 +58,13 @@ void ContactListener::EndContact(b2Contact *contact) {
             auto *chell = dynamic_cast<Chell *>(dataA);
             if (contact->GetFixtureA()->GetUserData() == (void *)GROUND_CHECK) {
                 --chell->footContacts;
+                return;
             }
         } else if (dataB->getBodyType() == CHELL) {
             auto *chell = dynamic_cast<Chell *>(dataB);
             if (contact->GetFixtureB()->GetUserData() == (void *)GROUND_CHECK) {
                 --chell->footContacts;
+                return;
             }
         }
     }
