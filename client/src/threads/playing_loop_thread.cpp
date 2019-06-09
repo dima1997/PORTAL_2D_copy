@@ -1,8 +1,12 @@
 #include "../../includes/threads/playing_loop_thread.h"
 
 #include "../../includes/window/window.h"
+#include "../../includes/mixer/mixer.h"
+
 #include "../../includes/threads/key_reader.h"
 #include "../../includes/threads/event_game_processor.h"
+
+#include "../../includes/render_time.h" 
 
 #include <thread.h>
 #include <thread_safe_queue.h>
@@ -17,8 +21,8 @@
 #include <ctime>
 #include <chrono>
 
-#define TIME_WAIT_MICRO_SECONDS 50000
-#define ONE_SECOND_EQ_MICRO_SECONDS 100000 
+//#define TIME_WAIT_MICRO_SECONDS 50000
+//#define ONE_SECOND_EQ_MICRO_SECONDS 100000 
 
 /*
 PRE: Recibe:
@@ -32,12 +36,14 @@ POST: Inicializa un loop de juego (animaciones + input del usuario).
 PlayingLoopThread::PlayingLoopThread(Window &window, 
 ThreadSafeQueue<std::unique_ptr<Event>> & fromGameQueue,
 BlockingQueue<std::unique_ptr<GameAction>> & toGameQueue,
-BlockingQueue<GameActionName> & talkRefereeQueue)
+BlockingQueue<GameActionName> & talkRefereeQueue,
+Mixer & mixer)
 :   isDead(true),
     window(window), 
     fromGameQueue(fromGameQueue), 
     toGameQueue(toGameQueue),
-    talkRefereeQueue(talkRefereeQueue) {}
+    talkRefereeQueue(talkRefereeQueue),
+    mixer(mixer) {}
 
 /*
 Destruye el hilo: loop de juego. 
@@ -58,9 +64,13 @@ void PlayingLoopThread::run(){
         this->isDead = false;
     }
     EventGameProcessor eventProcessor(this->window, this->fromGameQueue);
-    KeyReader keyReader(this->window, this->toGameQueue, this->talkRefereeQueue);
-    unsigned t0, t1;
-    double timeWaitMicroSeconds = TIME_WAIT_MICRO_SECONDS;
+    KeyReader keyReader(this->window, 
+                        this->toGameQueue, 
+                        this->talkRefereeQueue);
+    unsigned t0, t1;//, t2;
+    //double timeWaitMicroSeconds = TIME_WAIT_MICRO_SECONDS;
+    double timeWaitMicroSeconds = FRAME_TIME_WAIT_MICRO_SECONDS;
+    //double timeProcessMicroSeconds = FRAME_TIME_WAIT_MICRO_SECONDS;
     while( ! this->is_dead() ){
         t0=clock();
         if (keyReader.process_some_events() == quit_game){
@@ -68,11 +78,23 @@ void PlayingLoopThread::run(){
             break;
         }
         eventProcessor.process_some_events(timeWaitMicroSeconds);
-        window.fill();
+        /*
+        t2 = clock();
+        double timeProcessMicroSeconds = 
+            (double(t2-t0)/CLOCKS_PER_SEC) * ONE_SECOND_EQ_MICRO_SECONDS;
+        std::this_thread::sleep_for(std::chrono::microseconds(
+            (int)(timeWaitMicroSeconds - timeSpendMicroSeconds)
+        ));
+        */
+        //window.fill();
         window.render();
+        window.sound(this->mixer);
         t1 = clock();
-        double timeSpendMicroSeconds = (double(t1-t0)/CLOCKS_PER_SEC) * ONE_SECOND_EQ_MICRO_SECONDS;
-        std::this_thread::sleep_for(std::chrono::microseconds((int)(timeWaitMicroSeconds - timeSpendMicroSeconds)));
+        double timeSpendMicroSeconds = 
+            (double(t1-t0)/CLOCKS_PER_SEC) * ONE_SECOND_EQ_MICRO_SECONDS;
+        std::this_thread::sleep_for(std::chrono::microseconds(
+            (int)(timeWaitMicroSeconds - timeSpendMicroSeconds)
+        ));
     }
     this->stop();
 }
@@ -89,6 +111,6 @@ void PlayingLoopThread::stop(){
 Devuelve true, si el hilo esta muerto; false en caso contrario.
 */
 bool PlayingLoopThread::is_dead(){
-        std::unique_lock<std::mutex> l(this->mutex);
+    std::unique_lock<std::mutex> l(this->mutex);
     return this->isDead;
 } 

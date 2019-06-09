@@ -2,6 +2,8 @@
 #define PLAYING_LOOP_THREAD_H
 
 #include "../window/window.h"
+#include "../mixer/mixer.h"
+
 #include <thread.h>
 #include <thread_safe_queue.h>
 #include <blocking_queue.h>
@@ -17,6 +19,8 @@ private:
     ThreadSafeQueue<std::unique_ptr<Event>> & fromGameQueue;
     BlockingQueue<std::unique_ptr<GameAction>> & toGameQueue;
     BlockingQueue<GameActionName> & talkRefereeQueue;
+    Mixer & mixer;
+
     std::mutex mutex;
 public:
     /*
@@ -31,7 +35,8 @@ public:
     PlayingLoopThread(Window &window, 
         ThreadSafeQueue<std::unique_ptr<Event>> & fromGameQueue,
         BlockingQueue<std::unique_ptr<GameAction>> & toGameQueue,
-        BlockingQueue<GameActionName> & talkRefereeQueue
+        BlockingQueue<GameActionName> & talkRefereeQueue,
+        Mixer & mixer
         );
     
     /*

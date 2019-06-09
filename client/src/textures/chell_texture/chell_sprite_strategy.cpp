@@ -10,6 +10,8 @@
 #include "../../../includes/textures/common_texture/dynamic_sprite.h"
 #include "../../../includes/textures/common_texture/area.h"
 
+#include "../../../includes/mixer/sounds_path.h"
+
 #include <memory>
 
 /*Inicializa el estado de sprite de Chell.*/
@@ -61,33 +63,36 @@ PRE: Recibe :
     las coordenadas nuevas (int) x,y de Chell.
 POST: actualiza el sprite actual de Chell.
 */
-void ChellSpriteStrategy::move(float xBefore, float yBefore,float xNow, float yNow){
-    if ((xBefore == xNow) && (yBefore != yNow)){
-        this->setSpriteStrategy(JUMP_APEX_RIGHT);
-        this->keepMoving = true;
-        return;
-    }
-
+void ChellSpriteStrategy::move(float xBefore, float yBefore, float xNow, float yNow,
+    std::vector<SOUND_NAME> & sounds){
     if (yBefore < yNow){
-        this->setSpriteStrategy(JUMP_RISE_RIGHT);
+        spriteNameStrategy_t jumpName = JUMP_APEX_RIGHT;
+        this->setSound(jumpName,sounds);
+    }
+    spriteNameStrategy_t newName = this->spriteName;
+    if ((xBefore == xNow) && (yBefore != yNow)){
+        newName = JUMP_APEX_RIGHT;
+    } else if (yBefore < yNow){
+        newName = JUMP_RISE_RIGHT;
+    } else if (yBefore > yNow){ 
+        newName = JUMP_FALL_RIGHT;
+    } else if (xBefore != xNow){
+        newName = RUN_RIGHT;
+    } else {
+        newName = SWEAT_RIGHT;
+    }
+    // Seguir haciendo esto luego de setear los sonidos
+    this->setSpriteStrategy(newName); 
+    if (newName != SWEAT_RIGHT){
+        //this->framesWait = CHELL_FRAMES_WAIT;
         this->keepMoving = true;
-        return;
     } 
-
-    if (yBefore > yNow){ 
-        this->setSpriteStrategy(JUMP_FALL_RIGHT);
-        this->keepMoving = true;
-        return;  
+    /*
+    else {
+        this->framesWait = 0;
+        this->keepMoving = false;
     }
-
-    if (xBefore != xNow){
-        this->setSpriteStrategy(RUN_RIGHT);
-        this->keepMoving = true;
-        return;
-    }
-
-    this->setSpriteStrategy(SWEAT_RIGHT);
-    this->keepMoving = false;
+    */ 
     return;
 }
 
@@ -96,11 +101,51 @@ Devuelve el area correspondiente al siguiente sprite de Chell,
 en la imagen ALL_CHELL_IMAGE de images_path.h .
 */
 Area ChellSpriteStrategy::getNextArea(){
+    if (this->framesWait > 0){
+        --this->framesWait;
+    }
     if (this->keepMoving) { 
-        keepMoving = false; 
+        this->keepMoving = false;
     } else {
         this->setSpriteStrategy(SWEAT_RIGHT);
     }
+    /*
+    if (this->framesWait != 0){
+        --this->framesWait;
+    } else {
+        this->setSpriteStrategy(SWEAT_RIGHT);
+    }*/
     DynamicSprite & actualSprite = *(this->ptrDynamicSprite);
     return std::move(actualSprite.getNextArea());
+}
+
+/*
+PRE: Recibe el nombre del nuevo sprite de chell, 
+aun sin asignar, y un vector de nombres de sonidos.
+POST: Setea un el sonido en correspondiente al 
+nuevo nombre de sprite, si es que no tiene dicho
+nombre ya.
+*/
+void ChellSpriteStrategy::setSound(spriteNameStrategy_t newSpriteName, 
+                                   std::vector<SOUND_NAME> & sounds) {
+    if (this->spriteName == newSpriteName){
+        return;
+    }
+    
+    if (this->framesWait > 0){
+        return;
+    }
+    
+    this->framesWait = CHELL_FRAMES_WAIT;
+    if (newSpriteName == JUMP_APEX_RIGHT){
+        // Para evitar repetir sonidos cuando Chell 
+        // cambia en un instante su sprite por default
+        // Funciona para dos sonidos iguales que deben
+        // ser reproducidos, porque se reproduciran en
+        // en ciclos distintos
+        if ((sounds.size()) != 0 && (sounds.back() == SOUND_JUMP)){
+            return;
+        } 
+        sounds.push_back(SOUND_JUMP);
+    }
 }

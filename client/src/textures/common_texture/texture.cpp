@@ -99,3 +99,8 @@ textura en el mapa del juego.
 const Area & Texture::getAreaMap(){
     return this->areaMap;
 }
+
+/*
+No reproduce ningun efecto de sonido. 
+*/
+void Texture::sound(Mixer & mixer) {}

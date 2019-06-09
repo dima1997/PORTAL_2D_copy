@@ -5,7 +5,13 @@
 #include "../common_texture/dynamic_sprite.h"
 #include "../common_texture/area.h"
 
+#include "../../mixer/sounds_path.h"
+
+#include "../../render_time.h" 
+
 #include <memory>
+
+#define CHELL_FRAMES_WAIT 23
 
 enum spriteNameStrategy_t {
     SWEAT_RIGHT,
@@ -19,6 +25,7 @@ class ChellSpriteStrategy : public SpriteStrategy {
 private:
     spriteNameStrategy_t spriteName;
     bool keepMoving;
+    int framesWait = 0; 
     
     /*
     PRE: Recibe un nombre de sprite strategy (spriteNameStrategy_t).
@@ -40,7 +47,8 @@ public:
     POST: actualiza el sprite actual de Chell.
     */
     virtual void move(float xBefore, float yBefore, 
-                        float xNow, float yNow) override;
+                      float xNow, float yNow,
+                      std::vector<SOUND_NAME> & sounds) override;
 
     /*Por ahora no hace nada*/
     virtual void switch_sprite() {}
@@ -49,7 +57,17 @@ public:
     Devuelve el area correspondiente al siguiente sprite de Chell, 
     en la imagen ALL_CHELL_IMAGE de images_path.h .
     */
-    virtual Area getNextArea() override;    
+    virtual Area getNextArea() override;
+
+    /*
+    PRE: Recibe el nombre del nuevo sprite de chell, 
+    aun sin asignar, y un vector de nombres de sonidos.
+    POST: Setea un el sonido en correspondiente al 
+    nuevo nombre de sprite, si es que no tiene dicho
+    nombre ya.
+    */
+    void setSound(spriteNameStrategy_t newSpriteName, 
+                  std::vector<SOUND_NAME> & sounds);    
 };
 
 #endif // CHELL_SPRITE_STATE_H

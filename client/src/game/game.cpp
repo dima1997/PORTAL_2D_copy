@@ -9,15 +9,17 @@
 
 #include "../../includes/threads/playing_loop_thread.h"
 
+#include "../../includes/sdl_system.h"
 #include "../../includes/window/window.h"
-
-#include "../../includes/textures/common_texture/texture_change.h"
+#include "../../includes/mixer/mixer.h"
+#include "../../includes/mixer/portal_mixer.h"
 
 #include <mutex>
 #include <condition_variable>
 
 #define WINDOW_WIDTH 640
 #define WINDOW_HEIGHT 480
+#define VOLUME_MUSIC 10
 
 
 Game::Game(Connector &connector, uint8_t game_id, 
@@ -51,9 +53,23 @@ void Game::run(){
     }
 
     BlockingQueue<GameActionName> endQueue;
+
+    //Inicializo SDL
+    SdlSystem sdlSystem;
+    sdlSystem.init_video();
+    sdlSystem.init_audio();
+
+    //Inicializo Window
     int windowWidthPixels = WINDOW_WIDTH;
     int windowHeightPixels = WINDOW_HEIGHT;
     Window window(windowWidthPixels, windowHeightPixels, this->playerId, this->mapId + 1);
+    
+    //Inicializo Mixer
+    PortalMixer portalMixer;
+    Mixer mixer = std::move(portalMixer.create_mixer());
+    mixer.volume_music(VOLUME_MUSIC);
+    mixer.play_music();
+
     this->threads.push_back(std::move(std::unique_ptr<Thread>(
         new EventGameReceiverThread(this->connector, this->changesMade, endQueue, playerId)
     )));
@@ -61,12 +77,14 @@ void Game::run(){
         new KeySenderThread(this->connector, this->changesAsk)
     )));
     this->threads.push_back(std::move(std::unique_ptr<Thread>(
-        new PlayingLoopThread(window, this->changesMade, this->changesAsk, endQueue)
+        new PlayingLoopThread(window, this->changesMade, this->changesAsk, endQueue, mixer)
     )));
 
     for (auto & thread : this->threads){
         (*thread).start();
     }
+
+    // Espero que termine el juego
     GameActionName actionName;
     endQueue.pop(actionName);
     this->stop();

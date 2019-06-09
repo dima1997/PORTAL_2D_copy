@@ -18,10 +18,10 @@ POST: Inicializa un mixer encargado
 de manejar todos los sonidos.
 */
 Mixer::Mixer(std::string pathMusic, 
-             const std::vector<std::string> &pathsChunks){
+             const std::vector<std::string> & pathsChunks){
     // Inicializa mix audio
     if (Mix_OpenAudio( 44100, MIX_DEFAULT_FORMAT, 2, 2048 ) < 0){
-        const std::string msg = "Error: no se pudo inicializar Mixer\n";  
+        const std::string msg = "Error: no se pudo inicializar Mixer\n";
         throw OSException(msg.c_str(),Mix_GetError());
     }
     // Agrego musica de fondo
@@ -40,6 +40,21 @@ Mixer::Mixer(std::string pathMusic,
 /*Destruye el mixer.*/
 Mixer::~Mixer(){
     Mix_Quit();
+}
+
+Mixer::Mixer(Mixer && other)
+:   chuncks(std::move(other.chuncks)),
+    musics(std::move(other.musics)),
+    pathMusic(std::move(other.pathMusic)) {}
+
+Mixer & Mixer::operator=(Mixer && other) {
+    if (this == & other){
+        return *this;
+    }
+    this->chuncks = std::move(other.chuncks);
+    this->musics = std::move(other.musics);
+    this->pathMusic = std::move(other.pathMusic);
+    return *this; 
 }
 
 /*
@@ -97,7 +112,7 @@ void Mixer::stop_music(){
 PRE: Recibe un volumen (int) de 0 a 128.
 POST: ajusta el volumen de la musica.
 */
-void Mixer::volumen_music(int volume){
+void Mixer::volume_music(int volume){
     MixMusic & music = this->musics.at(this->pathMusic);
     music.volume(volume);
 }

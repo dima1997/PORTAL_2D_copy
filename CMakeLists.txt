@@ -138,6 +138,7 @@ file(GLOB client_files
 	"${CLIENT_FOLDER}/src/mixer/mixer.cpp"
 	"${CLIENT_FOLDER}/src/mixer/mix_chunck.cpp"
 	"${CLIENT_FOLDER}/src/mixer/mix_music.cpp"
+	"${CLIENT_FOLDER}/src/mixer/portal_mixer.cpp"
 	"${CLIENT_FOLDER}/src/sdl_system.cpp"
         )
 

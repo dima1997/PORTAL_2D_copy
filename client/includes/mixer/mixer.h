@@ -36,6 +36,14 @@ public:
     */
     ~Mixer();
 
+    /*Construccion por movimiento.*/
+    Mixer(Mixer && other);
+
+    /*Asignacion por movimiento.*/
+    Mixer & operator=(Mixer && other);
+
+    Mixer(const Mixer & other) = delete;
+    Mixer & operator=(const Mixer & other) = delete;
 
     /*
     PRE: Recibe la ruta (std::string) de chunck agregado.
@@ -66,7 +74,7 @@ public:
     PRE: Recibe un volumen (int) de 0 a 128.
     POST: ajusta el volumen de la musica.
     */
-    void volumen_music(int volume);
+    void volume_music(int volume);
 
     /*
     Devuelve true si la musica se esta reproduciendo, 

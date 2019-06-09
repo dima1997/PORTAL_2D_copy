@@ -1,6 +1,8 @@
 #ifndef TEXTURE_H
 #define TEXTURE_H
 
+#include "../../../includes/mixer/mixer.h"
+
 #include "area.h"
 #include "big_texture.h"
 #include "sprite_strategy.h" 
@@ -12,6 +14,7 @@ protected:
     BigTexture & bigTexture;
     Area areaMap;
     std::unique_ptr<SpriteStrategy> ptrSpriteStrategy;
+
     /*
     Pre: Recibe un factor de ajuste (pixeles/<unidad de mapa>), 
     y una referencia constante al area de la camara en el mapa 
@@ -64,6 +67,7 @@ public:
     dimensiones de la textura a pixeles, con el factor recibido.
     */
     virtual void render(float adjuster, const Area & areaCamera);
+
     /*
     Retorna un area (Area) de vision nula.
     */
@@ -74,6 +78,11 @@ public:
     textura en el mapa del juego.
     */
     const Area & getAreaMap();
+
+    /*
+    No reproduce ningun efecto de sonido. 
+    */
+    virtual void sound(Mixer & mixer);
 };
 
 #endif // TEXTURE_H

@@ -22,14 +22,16 @@ void EventGameProcessor::process_event(std::unique_ptr<Event> ptrEvent){
     switch(ptrEvent->eventType){
         case object_moves:
             {
-                auto ptrAux = static_cast<ObjectMovesEvent* >(ptrEvent.release());
+                auto ptrAux = 
+                    static_cast<ObjectMovesEvent* >(ptrEvent.release());
                 std::unique_ptr<ObjectMovesEvent> ptrMovesEvent(ptrAux);
                 this->process_event(std::move(ptrMovesEvent));
             }
             break;
         case object_switch_state:
             {
-                auto ptrAux = static_cast<ObjectSwitchEvent* >(ptrEvent.release());
+                auto ptrAux = 
+                    static_cast<ObjectSwitchEvent* >(ptrEvent.release());
                 std::unique_ptr<ObjectSwitchEvent> ptrSwitchEvent(ptrAux);
                 this->process_event(std::move(ptrSwitchEvent));
             }
@@ -43,7 +45,8 @@ PRE: Recibe un puntero unico a un evento de mover
 objeto (std::unique_ptr<ObjectMovesEvent>).
 POST: Procesa el evento.
 */
-void EventGameProcessor::process_event(std::unique_ptr<ObjectMovesEvent> ptrMovesEvent){
+void EventGameProcessor::process_event
+(std::unique_ptr<ObjectMovesEvent> ptrMovesEvent){
     ObjectMovesEvent event = *(ptrMovesEvent);
     TextureMoveChange textureChange(event);
     textureChange.change(this->window);
@@ -54,7 +57,8 @@ PRE: Recibe un puntero unico a un evento de switchear
 un objecto (std::unique_ptr<ObjectSwitchEvent>).
 POST: Procesa el evento.
 */
-void EventGameProcessor::process_event(std::unique_ptr<ObjectSwitchEvent> ptrSwitchEvent){
+void EventGameProcessor::process_event
+(std::unique_ptr<ObjectSwitchEvent> ptrSwitchEvent){
     ObjectSwitchEvent event = *(ptrSwitchEvent);
     TextureSwitchChange textureChange(event);
     textureChange.change(this->window);
@@ -97,7 +101,8 @@ void EventGameProcessor::process_some_events
         this->process_event(std::move(ptrEvent));
         t1 = clock();
         double timeSpendSeconds = (double(t1-t0)/CLOCKS_PER_SEC); 
-        timeSpendMicroSeconds = timeSpendSeconds * ONE_SECOND_EQ_MICRO_SECONDS;
+        timeSpendMicroSeconds = 
+            timeSpendSeconds * ONE_SECOND_EQ_MICRO_SECONDS;
     }
 }
 

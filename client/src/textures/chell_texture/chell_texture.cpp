@@ -52,7 +52,8 @@ void ChellTexture::move_to(float x, float y) {
     float yNow = y;
     this->areaMap.setX(xNow);
     this->areaMap.setY(yNow);
-    (*this->ptrSpriteStrategy).move(xBefore, yBefore, xNow, yNow);
+    (*this->ptrSpriteStrategy).move(xBefore, yBefore, xNow, yNow, 
+                                    this->sounds);
     this->moveSense.move(xBefore, yBefore, xNow, yNow);
 }   
 
@@ -64,7 +65,7 @@ POST: Renderiza la textura de Chell.
 void ChellTexture::render(float adjuster, const Area & areaCamera) {
     // Necesitamos alternar el sprite de cualquier forma
     Area src = (*this->ptrSpriteStrategy).getNextArea();
-    // Solo renderizamos si la texture esta en el area de la camara
+    // Solo renderizamos si la textura esta en el area de la camara
     if (! this->areaMap.isIntersectedBy(areaCamera)){
         return;
     }
@@ -80,4 +81,15 @@ Area ChellTexture::getVisionArea() {
     this->updateVisionArea();
     Area areaVisionCopy = this->areaVision;
     return std::move(areaVisionCopy);
+}
+
+/*
+Reproduce todos los efectos de 
+sonido que hay acumulados.
+*/
+void ChellTexture::sound(Mixer & mixer){
+    for (auto it = this->sounds.begin(); it != this->sounds.end(); ) {
+        mixer.play_chunck(SOUNDS_PATH.at(*it));   
+        it = this->sounds.erase(it);
+    }
 }
