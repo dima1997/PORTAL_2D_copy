@@ -16,3 +16,14 @@ BlockMetalSprite::BlockMetalSprite()
     {}
 /*Destrue el sprite de bloque de metal estatico.*/
 BlockMetalSprite::~BlockMetalSprite() = default;
+
+DynamicSprite BlockMetalSprite::get_sprite(){
+    return std::move(
+        DynamicSprite(
+            {
+                {1,600}
+            },
+            193,193
+        )
+    );
+} 

@@ -10,6 +10,8 @@ public:
 
     /*Destruye el sprite de bloque emisor a derecha.*/
     virtual ~EmitterRightSprite();
+
+    static DynamicSprite get_sprite();
 };
 
 #endif // EMITTER_RIGHT_SPRITE_H

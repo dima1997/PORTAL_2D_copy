@@ -35,8 +35,25 @@ POST:
 */
 Texture::Texture(BigTexture & bigTexture, Area areaMap, 
 std::unique_ptr<SpriteStrategy> ptrSpriteStrategy)
-: bigTexture(bigTexture), areaMap(areaMap), 
-ptrSpriteStrategy(std::move(ptrSpriteStrategy)) {}
+:   bigTexture(bigTexture), 
+    areaMap(areaMap), 
+    ptrSpriteStrategy(std::move(ptrSpriteStrategy)) {}
+
+/*
+PRE: Recibe una referencia a una gran textura que 
+contiene la imagen donde se encuentra el/los sprite/s 
+que utiliza la textura; el area (Area) que ocupa el 
+objeto que representa la textura en el mapa de juego;
+y sprite dinamico que sera el unico sprite a usar en la
+vida de la textura.
+POST: Inicializa una textura.
+*/
+Texture::Texture(BigTexture & bigTexture, Area areaMap, 
+DynamicSprite dynamicSprite)
+:   bigTexture(bigTexture), 
+    areaMap(areaMap),
+    ptrSpriteStrategy(new SpriteStrategy(dynamicSprite)){}
+
 
 /*Destruye la textura.*/
 Texture::~Texture() = default;

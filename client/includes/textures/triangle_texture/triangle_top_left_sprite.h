@@ -16,6 +16,8 @@ public:
     superior izquierda.
     */
     virtual ~TriangleTopLeftSprite();
+
+    static DynamicSprite get_sprite();
 };
 
 #endif // V

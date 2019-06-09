@@ -15,6 +15,11 @@ textura.
 POST: Inicializa una texture de bloque de acido.
 */
 BlockAcidTexture::BlockAcidTexture(BigTexture & bigTexture, Area areaMap) 
+:   Texture(bigTexture, 
+            areaMap, 
+            BlockAcidSprite::get_sprite()
+    ) {}
+/*
 :    Texture(bigTexture, areaMap, 
         std::move(
             std::unique_ptr<SpriteStrategy>(new SpriteStrategy(
@@ -24,6 +29,8 @@ BlockAcidTexture::BlockAcidTexture(BigTexture & bigTexture, Area areaMap)
             ))
         )
     ) {}
+*/
+
 
 /*Destruye la textura del bloque de acido.*/
 BlockAcidTexture::~BlockAcidTexture() = default;

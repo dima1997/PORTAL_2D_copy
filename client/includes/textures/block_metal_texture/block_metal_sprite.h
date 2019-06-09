@@ -10,6 +10,8 @@ public:
 
     /*Destruye el sprite de bloque de metal estatico.*/
     virtual ~BlockMetalSprite();
+
+    static DynamicSprite get_sprite();
 };
 
 #endif // BLOCK_METAL_SPRITE_H

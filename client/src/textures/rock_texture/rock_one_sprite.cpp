@@ -17,3 +17,14 @@ RockOneSprite::RockOneSprite()
     {}
 /*Destrue el sprite de la roca de tipo 1.*/
 RockOneSprite::~RockOneSprite() = default;
+
+DynamicSprite RockOneSprite::get_sprite(){
+    return std::move(
+        DynamicSprite(
+            {
+                {517,4513}
+            },
+            85,83
+        )
+    );
+}

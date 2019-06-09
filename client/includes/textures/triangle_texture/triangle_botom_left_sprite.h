@@ -16,6 +16,8 @@ public:
     inferior izquierda.
     */
     virtual ~TriangleBotomLeftSprite();
+
+    static DynamicSprite get_sprite();
 };
 
 #endif // TRIANGLE_BOTOM_LEFT_SPRITE_H

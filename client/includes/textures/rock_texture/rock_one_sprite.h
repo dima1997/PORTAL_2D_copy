@@ -10,6 +10,8 @@ public:
 
     /*Destruye el sprite de roca de tipo 1.*/
     virtual ~RockOneSprite();
+
+    static DynamicSprite get_sprite();
 };
 
 #endif // ROCK_ONE_SPRITE_H

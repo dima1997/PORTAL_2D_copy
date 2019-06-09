@@ -19,3 +19,17 @@ EnergyBallSprite::EnergyBallSprite()
     {}
 /*Destruye el sprite de la bola de energia.*/
 EnergyBallSprite::~EnergyBallSprite() = default;
+
+DynamicSprite EnergyBallSprite::get_sprite(){
+    return std::move(
+        DynamicSprite(
+            {
+                {1,824},
+                {253,824},
+                {505,824},
+                {757,824},
+            },
+            251,252
+        )
+    );
+} 

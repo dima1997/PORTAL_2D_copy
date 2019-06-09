@@ -25,3 +25,18 @@ Destruye el sprite dinamico de Chell cayendo
 hacia la derecha (tras haber saltado).
 */
 ChellJumpFallRightSprite::~ChellJumpFallRightSprite() = default;
+
+DynamicSprite ChellJumpFallRightSprite::get_sprite(){
+    return std::move(
+        DynamicSprite(
+            {
+                {1,1835},
+                {158,1835},
+                {315,1835},
+                {472,1835}
+                
+            },
+            156, 217
+        )
+    );
+}

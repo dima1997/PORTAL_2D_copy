@@ -10,6 +10,8 @@ public:
 
     /*Destruye el sprite de bloque de torta.*/
     virtual ~CakeSprite();
+
+    static DynamicSprite get_sprite();
 };
 
 #endif // CAKE_SPRITE_H

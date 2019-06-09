@@ -23,3 +23,17 @@ ReceiverUnlockingSprite::ReceiverUnlockingSprite()
 Destruye el sprite de bloque recibidor desbloqueadose.
 */
 ReceiverUnlockingSprite::~ReceiverUnlockingSprite() = default;
+
+DynamicSprite ReceiverUnlockingSprite::get_sprite(){
+    return std::move(
+        DynamicSprite(
+            {
+                {202,2538},
+                {403,2538},
+                {604,2538},
+                {805,2538}
+            },
+            200,197
+        )
+    );
+}

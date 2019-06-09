@@ -10,6 +10,8 @@ public:
 
     /*Destruye el sprite de bloque de piedra estatico.*/
     virtual ~BlockRockSprite();
+
+    static DynamicSprite get_sprite();
 };
 
 #endif // BLOCK_ROCK_SPRITE_H

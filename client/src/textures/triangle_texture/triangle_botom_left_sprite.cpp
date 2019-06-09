@@ -20,3 +20,14 @@ Destruye el sprite del triangulo en la
 esquina inferior izquierda.
 */
 TriangleBotomLeftSprite::~TriangleBotomLeftSprite() = default;
+
+DynamicSprite TriangleBotomLeftSprite::get_sprite(){
+    return std::move(
+        DynamicSprite(
+            {
+                {3,217}
+            },
+            190,180
+        )
+    );
+} 

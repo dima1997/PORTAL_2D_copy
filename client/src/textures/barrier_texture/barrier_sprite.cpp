@@ -18,3 +18,14 @@ BarrierSprite::BarrierSprite()
 
 /*Destrue el sprite de barrera.*/
 BarrierSprite::~BarrierSprite() = default;
+
+DynamicSprite BarrierSprite::get_sprite(){
+    return std::move(
+        DynamicSprite(
+            {
+                {0,0}
+            },
+            135,6
+        )
+    );
+} 

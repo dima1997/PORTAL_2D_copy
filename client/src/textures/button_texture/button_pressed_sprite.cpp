@@ -17,3 +17,14 @@ ButtonPressedSprite::ButtonPressedSprite()
     {}
 /*Destruye el sprite del boton presionado.*/
 ButtonPressedSprite::~ButtonPressedSprite() = default;
+
+DynamicSprite ButtonPressedSprite::get_sprite(){
+    return std::move(
+        DynamicSprite(
+            {
+                {0,64}
+            },
+            174,54
+        )
+    );
+} 

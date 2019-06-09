@@ -10,8 +10,8 @@
 
 class SpriteStrategy {
 protected:
-    std::unique_ptr<DynamicSprite> ptrDynamicSprite;
-
+    //std::unique_ptr<DynamicSprite> ptrDynamicSprite;
+    DynamicSprite dynamicSprite;
 public:
     /*
     PRE: Recibe un puntero unico a un sprite dinamico 
@@ -19,7 +19,14 @@ public:
     POST: Inicializa un SpriteStrategy que alterna los 
     sprites del DynamicSprite recibido, uno a uno.
     */
-    SpriteStrategy(std::unique_ptr<DynamicSprite> ptrDynamicSprite);
+    //SpriteStrategy(std::unique_ptr<DynamicSprite> ptrDynamicSprite);
+
+    /*
+    PRE: Recibe un sprite dinamico 
+    POST: Inicializa un SpriteStrategy que alterna los 
+    sprites del DynamicSprite recibido, uno a uno.
+    */
+    SpriteStrategy(DynamicSprite dynamicSprite);
     
     /*Destruye el sprite strategy.*/
     virtual ~SpriteStrategy();

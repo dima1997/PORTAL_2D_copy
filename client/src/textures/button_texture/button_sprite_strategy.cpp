@@ -15,21 +15,28 @@ en images_paths.h .
 */
 ButtonSpriteStrategy::ButtonSpriteStrategy() 
 :   SpriteStrategy(
+        ButtonUnPressedSprite::get_sprite()    
+    ), 
+    spriteName(BUTTON_NOT_PRESSED) {}
+/*
+:   SpriteStrategy(
         std::move(
             std::unique_ptr<DynamicSprite>(new ButtonUnPressedSprite())
         )    
     ), spriteName(BUTTON_NOT_PRESSED) {}
-
+*/
 /*Destruye el sprite strategy del boton.*/
 ButtonSpriteStrategy::~ButtonSpriteStrategy() = default;
 
 /*Alterna entre boton presionado y no presionado.*/
 void ButtonSpriteStrategy::switch_sprite(){
     if (this->spriteName == BUTTON_PRESSED){
-        this->ptrDynamicSprite.reset(new ButtonUnPressedSprite());
+        //this->ptrDynamicSprite.reset(new ButtonUnPressedSprite());
+        this->dynamicSprite = ButtonUnPressedSprite::get_sprite();
         this->spriteName = BUTTON_NOT_PRESSED;
     } else {
-        this->ptrDynamicSprite.reset(new ButtonPressedSprite());
+        //this->ptrDynamicSprite.reset(new ButtonPressedSprite());
+        this->dynamicSprite = ButtonPressedSprite::get_sprite();
         this->spriteName = BUTTON_PRESSED;
     }
 }

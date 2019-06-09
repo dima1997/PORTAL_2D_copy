@@ -16,7 +16,12 @@ POST: Inicializa una textura de bloque emisor hacia la
 derecha.
 */
 EmitterRightTexture::EmitterRightTexture(BigTexture & bigTexture, Area areaMap) 
-:    Texture(bigTexture, areaMap, 
+:   Texture(bigTexture, 
+            areaMap, 
+            EmitterRightSprite::get_sprite()
+    ) {}
+/*    
+:   Texture(bigTexture, areaMap, 
         std::move(
             std::unique_ptr<SpriteStrategy>(new SpriteStrategy(
                 std::move(std::unique_ptr<DynamicSprite>(
@@ -25,7 +30,7 @@ EmitterRightTexture::EmitterRightTexture(BigTexture & bigTexture, Area areaMap)
             ))
         )
     ) {}
-
+*/
 /*
 Destruye la textura del bloque emisor hacia la 
 derecha.

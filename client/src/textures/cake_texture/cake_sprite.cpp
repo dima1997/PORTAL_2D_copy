@@ -23,3 +23,21 @@ CakeSprite::CakeSprite()
     {}
 /*Destruye el sprite de bloque de torta.*/
 CakeSprite::~CakeSprite() = default;
+
+DynamicSprite CakeSprite::get_sprite(){
+    return std::move(
+        DynamicSprite(
+            {
+                {6,6},
+                {92,6},
+                {179,6},
+                {275,6},
+                {362,6},
+                {448,6},
+                {534,6},
+                {620,6}
+            },
+            84,78
+        )
+    );
+}

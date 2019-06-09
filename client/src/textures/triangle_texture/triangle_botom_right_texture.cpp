@@ -15,7 +15,12 @@ mapa de juego que representa esta textura.
 POST: Inicializa una textura de triangulo en la 
 esquina inferior derecha.
 */
-TriangleBotomRightTexture::TriangleBotomRightTexture(BigTexture & bigTexture, Area areaMap) 
+TriangleBotomRightTexture::TriangleBotomRightTexture(BigTexture & bigTexture, Area areaMap)
+:   Texture(bigTexture, 
+            areaMap, 
+            TriangleBotomRightSprite::get_sprite()
+    ) {}
+/*
 :    Texture(bigTexture, areaMap, 
         std::move(
             std::unique_ptr<SpriteStrategy>(new SpriteStrategy(
@@ -25,7 +30,7 @@ TriangleBotomRightTexture::TriangleBotomRightTexture(BigTexture & bigTexture, Ar
             ))
         )
     ) {}
-
+*/
 /*
 Destruye la textura del triangulo en la 
 esquina inferior derecha.

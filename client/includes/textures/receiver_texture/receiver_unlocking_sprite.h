@@ -10,6 +10,8 @@ public:
 
     /*Destruye el sprite de recibidor desbloqueandose.*/
     virtual ~ReceiverUnlockingSprite();
+
+    static DynamicSprite get_sprite();
 };
 
 #endif // RECEIVER_UNLOCKIN_SPRITE_H

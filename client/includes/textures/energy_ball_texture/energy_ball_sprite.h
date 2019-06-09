@@ -11,6 +11,7 @@ public:
     /*Destruye el sprite de portal azul.*/
     virtual ~EnergyBallSprite();
     
+    static DynamicSprite get_sprite();  
 };
 
 #endif // ENERGY_BALL_SPRITE_H

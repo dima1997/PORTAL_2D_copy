@@ -15,3 +15,14 @@ NullSprite::NullSprite()
     {}
 /*Destrue el sprite nulo.*/
 NullSprite::~NullSprite() = default;
+
+DynamicSprite NullSprite::get_sprite(){
+    return std::move(
+        DynamicSprite(
+            {
+                {0,0}
+            },
+            0,0
+        )
+    );
+} 

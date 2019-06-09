@@ -16,6 +16,8 @@ public:
     superior derecha.
     */
     virtual ~TriangleTopRightSprite();
+
+    static DynamicSprite get_sprite();
 };
 
 #endif // TRIANGLE_TOP_RIGHT_SPRITE_H

@@ -17,3 +17,14 @@ ButtonUnPressedSprite::ButtonUnPressedSprite()
     {}
 /*Destruye el sprite del boton sin presionar.*/
 ButtonUnPressedSprite::~ButtonUnPressedSprite() = default;
+
+DynamicSprite ButtonUnPressedSprite::get_sprite(){
+    return std::move(
+        DynamicSprite(
+            {
+                {0,0},
+            },
+            174,54
+        )
+    );
+} 

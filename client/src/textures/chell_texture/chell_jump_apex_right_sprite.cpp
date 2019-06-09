@@ -21,3 +21,14 @@ Destruye el sprite dinamico de Chell saltando
 verticalemente (mirando hacia la derecha).
 */
 ChellJumpApexRightSprite::~ChellJumpApexRightSprite() {}
+
+DynamicSprite ChellJumpApexRightSprite::get_sprite(){
+    return std::move(
+        DynamicSprite(
+            {
+                {1,21}
+            },
+            137, 207
+        ) 
+    );
+}

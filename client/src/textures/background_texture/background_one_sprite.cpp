@@ -18,3 +18,14 @@ BackgroundOneSprite::BackgroundOneSprite()
 
 /*Destrue el sprite de fondo 1.*/
 BackgroundOneSprite::~BackgroundOneSprite() = default;
+
+DynamicSprite BackgroundOneSprite::get_sprite(){
+    return std::move(
+        DynamicSprite(
+            {
+                {0,0}
+            },
+            880,452
+        )
+    );
+} 

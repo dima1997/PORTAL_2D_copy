@@ -10,6 +10,8 @@ public:
 
     /*Destruye el sprite de barrera.*/
     virtual ~BarrierSprite();
+
+    static DynamicSprite get_sprite();
 };
 
 #endif // BARRIER_SPRITE_H

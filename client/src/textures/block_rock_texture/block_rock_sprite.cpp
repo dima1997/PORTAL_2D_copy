@@ -16,3 +16,14 @@ BlockRockSprite::BlockRockSprite()
     {}
 /*Destruye el sprite de bloque de piedra estatico.*/
 BlockRockSprite::~BlockRockSprite() = default;
+
+DynamicSprite BlockRockSprite::get_sprite(){
+    return std::move(
+        DynamicSprite(
+            {
+                {1,386}
+            },
+            193,193
+        )
+    );
+}

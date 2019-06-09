@@ -15,6 +15,8 @@ public:
 
     /*Destruye el sprite dinamico de chell sudando*/
     virtual ~ChellSweatRightSprite();
+
+    static DynamicSprite get_sprite();
 };
 
 #endif // CHELL_SWEAT_RIGHT_SPRITE_H

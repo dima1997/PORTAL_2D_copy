@@ -14,8 +14,19 @@ semantico.
 POST: Inicializa un SpriteStrategy que alterna los 
 sprites del DynamicSprite recibido, uno a uno.
 */
+/*
 SpriteStrategy::SpriteStrategy(std::unique_ptr<DynamicSprite> ptrDynamicSprite)
 : ptrDynamicSprite(std::move(ptrDynamicSprite)) {}
+*/
+
+/*
+PRE: Recibe un sprite dinamico 
+POST: Inicializa un SpriteStrategy que alterna los 
+sprites del DynamicSprite recibido, uno a uno.
+*/
+SpriteStrategy::SpriteStrategy(DynamicSprite dynamicSprite)
+:   dynamicSprite(dynamicSprite) {}
+
 
 /*Destruye el sprite strategy.*/
 SpriteStrategy::~SpriteStrategy() = default;
@@ -46,6 +57,9 @@ Devuelve el area correspondiente al siguiente sprite de la textura que
 representa, en la imagen.png correspondiente.
 */
 Area SpriteStrategy::getNextArea(){
+    /*
     DynamicSprite & actualSprite = *(this->ptrDynamicSprite);
     return std::move(actualSprite.getNextArea());
+    */
+    return std::move(this->dynamicSprite.getNextArea());
 }

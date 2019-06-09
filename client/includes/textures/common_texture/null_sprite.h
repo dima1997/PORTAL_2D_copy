@@ -11,6 +11,7 @@ public:
     /*Destruye el sprite nulo.*/
     virtual ~NullSprite();
     
+    static DynamicSprite get_sprite();    
 };
 
 #endif // NULL_SPRITE_H

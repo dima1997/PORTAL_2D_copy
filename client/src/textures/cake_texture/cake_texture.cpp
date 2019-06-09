@@ -15,6 +15,11 @@ textura.
 POST: Inicializa una texture de bloque de torta.
 */
 CakeTexture::CakeTexture(BigTexture & bigTexture, Area areaMap) 
+:   Texture(bigTexture, 
+            areaMap, 
+            CakeSprite::get_sprite()
+    ) {}
+/*
 :    Texture(bigTexture, areaMap, 
         std::move(
             std::unique_ptr<SpriteStrategy>(new SpriteStrategy(
@@ -24,6 +29,6 @@ CakeTexture::CakeTexture(BigTexture & bigTexture, Area areaMap)
             ))
         )
     ) {}
-
+*/
 /*Destruye la textura del bloque de torta.*/
 CakeTexture::~CakeTexture() = default;

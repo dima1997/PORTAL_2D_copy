@@ -11,6 +11,7 @@ public:
     /*Destruye el sprite de recibidor desbloqueado.*/
     virtual ~ReceiverOnSprite();
     
+    static DynamicSprite get_sprite();
 };
 
 #endif // RECEIVER_ON_SPRITE_H

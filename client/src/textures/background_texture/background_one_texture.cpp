@@ -15,14 +15,10 @@ mapa de juego que representa esta textura.
 POST: Inicializa una textura de fondo 1.
 */
 BackgroundOneTexture::BackgroundOneTexture(BigTexture & bigTexture, Area areaMap) 
-:    Texture(bigTexture, areaMap, 
-        std::move(
-            std::unique_ptr<SpriteStrategy>(new SpriteStrategy(
-                std::move(std::unique_ptr<DynamicSprite>(
-                    new BackgroundOneSprite()
-                ))
-            ))
-        )
+:   Texture(bigTexture, 
+            areaMap, 
+            BackgroundOneSprite::get_sprite()
+
     ) {}
 
 /*Destruye la textura de fondo 1.*/

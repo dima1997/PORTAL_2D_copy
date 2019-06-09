@@ -16,6 +16,11 @@ POST: Inicializa una textura de triangulo en la
 esquina superior izquierda.
 */
 TriangleTopLeftTexture::TriangleTopLeftTexture(BigTexture & bigTexture, Area areaMap) 
+:   Texture(bigTexture, 
+            areaMap, 
+            TriangleTopLeftSprite::get_sprite()
+    ) {}
+/*
 :    Texture(bigTexture, areaMap, 
         std::move(
             std::unique_ptr<SpriteStrategy>(new SpriteStrategy(
@@ -25,7 +30,7 @@ TriangleTopLeftTexture::TriangleTopLeftTexture(BigTexture & bigTexture, Area are
             ))
         )
     ) {}
-
+*/
 /*
 Destruye la textura del triangulo en la 
 esquina superior izquierda.

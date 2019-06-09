@@ -10,6 +10,8 @@ public:
 
     /*Destruye el sprite de recibidor bloqueado.*/
     virtual ~ReceiverOffSprite();
+
+    static DynamicSprite get_sprite();
     
 };
 

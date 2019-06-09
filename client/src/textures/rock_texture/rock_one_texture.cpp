@@ -14,7 +14,12 @@ ROCKS_AND_BALLS_SPRITE de images_paths.h; y el area del
 mapa de juego que representa esta textura.
 POST: Inicializa una textura de roca de tipo 1.
 */
-RockOneTexture::RockOneTexture(BigTexture & bigTexture, Area areaMap) 
+RockOneTexture::RockOneTexture(BigTexture & bigTexture, Area areaMap)
+:   Texture(bigTexture, 
+            areaMap, 
+            RockOneSprite::get_sprite()
+    ) {}
+/*
 :    Texture(bigTexture, areaMap, 
         std::move(
             std::unique_ptr<SpriteStrategy>(new SpriteStrategy(
@@ -24,6 +29,7 @@ RockOneTexture::RockOneTexture(BigTexture & bigTexture, Area areaMap)
             ))
         )
     ) {}
+*/
 
 /*Destruye la textura de la roca de tipo 1.*/
 RockOneTexture::~RockOneTexture() = default;

@@ -33,3 +33,26 @@ Destruye el sprite dinamico de chell sudando
 (mirando hacia la derecha).
 */
 ChellSweatRightSprite::~ChellSweatRightSprite() = default;
+
+DynamicSprite ChellSweatRightSprite::get_sprite(){
+    return std::move(
+        DynamicSprite(
+            {
+                {1,4993},
+                {217,4993},
+                {433,4993},
+                {649,4993},
+                {865,4993},
+                {1081,4993},
+                {1297,4993},
+                {1,5219},
+                {217,5219},
+                {433,5219},
+                {649,5219},
+                {865,5219},
+                {1081,5219},
+            },
+            215, 225
+        )
+    );
+} 

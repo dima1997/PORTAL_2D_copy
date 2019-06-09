@@ -15,6 +15,12 @@ textura.
 POST: Inicializa una textura de puerta con numero 1.
 */
 DoorOneTexture::DoorOneTexture(BigTexture & bigTexture, Area areaMap) 
+:   Texture(bigTexture, 
+            areaMap, 
+            DoorOneClosedSprite::get_sprite()
+
+    ) {}
+/*
 :   Texture(bigTexture, areaMap, 
         std::move(
             std::unique_ptr<SpriteStrategy>(new SpriteStrategy(
@@ -24,6 +30,7 @@ DoorOneTexture::DoorOneTexture(BigTexture & bigTexture, Area areaMap)
             ))
         )
     ) {}
+*/
 
 /*Destruye la textura de la puerta con el numero 1.*/
 DoorOneTexture::~DoorOneTexture() = default;

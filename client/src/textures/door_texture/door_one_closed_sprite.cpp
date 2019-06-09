@@ -13,3 +13,14 @@ DoorOneClosedSprite::DoorOneClosedSprite()
 
 /*Destruye el sprite de puerta cerrada con numero 1.*/
 DoorOneClosedSprite::~DoorOneClosedSprite() = default;
+
+DynamicSprite DoorOneClosedSprite::get_sprite(){
+    return std::move(
+        DynamicSprite(
+            {
+                {1,21}
+            },
+            193,385
+        )
+    );
+} 

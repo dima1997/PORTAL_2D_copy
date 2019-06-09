@@ -18,6 +18,8 @@ public:
     hacia la derecha.
     */
     virtual ~ChellRunRightSprite();
+
+    static DynamicSprite get_sprite();
 };
 
 #endif // CHELL_RUN_RIGHT_SPRITE_H

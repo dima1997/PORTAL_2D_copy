@@ -34,10 +34,22 @@ public:
     objeto que representa la textura en el mapa de juego;
     y un puntero unico con el sprite strategy que utiliza 
     la textura para ir variando sus sprites.
-    POST: 
+    POST: Inicializa una textura.
     */
     Texture(BigTexture & bigTexture, Area areaMap, 
         std::unique_ptr<SpriteStrategy> ptrSpriteStrategy);
+
+    /*
+    PRE: Recibe una referencia a una gran textura que 
+    contiene la imagen donde se encuentra el/los sprite/s 
+    que utiliza la textura; el area (Area) que ocupa el 
+    objeto que representa la textura en el mapa de juego;
+    y sprite dinamico que sera el unico sprite a usar en la
+    vida de la textura.
+    POST: Inicializa una textura.
+    */
+    Texture(BigTexture & bigTexture, Area areaMap, 
+        DynamicSprite dynamicSprite);
 
     /*Destruye la textura.*/
     virtual ~Texture();
@@ -77,7 +89,7 @@ public:
     Devuelve una referencia constante al area (const Area &) de la 
     textura en el mapa del juego.
     */
-    const Area & getAreaMap();
+    virtual const Area & getAreaMap();
 
     /*
     No reproduce ningun efecto de sonido. 

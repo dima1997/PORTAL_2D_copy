@@ -15,14 +15,9 @@ textura.
 POST: Inicializa una texture de bloque de piedra.
 */
 BlockRockTexture::BlockRockTexture(BigTexture & bigTexture, Area areaMap) 
-:    Texture(bigTexture, areaMap, 
-        std::move(
-            std::unique_ptr<SpriteStrategy>(new SpriteStrategy(
-                std::move(std::unique_ptr<DynamicSprite>(
-                    new BlockRockSprite()
-                ))
-            ))
-        )
+:   Texture(bigTexture, 
+            areaMap, 
+            BlockRockSprite::get_sprite()
     ) {}
 
 /*Destruye la textura del bloque de piedra.*/

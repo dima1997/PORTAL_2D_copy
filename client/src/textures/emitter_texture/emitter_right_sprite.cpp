@@ -17,3 +17,14 @@ EmitterRightSprite::EmitterRightSprite()
     {}
 /*Destruye el sprite de bloque emisor hacia derecha.*/
 EmitterRightSprite::~EmitterRightSprite() = default;
+
+DynamicSprite EmitterRightSprite::get_sprite(){
+    return std::move(
+        DynamicSprite(
+            {
+                {1,1028}
+            },
+            193,193
+        )
+    );
+} 

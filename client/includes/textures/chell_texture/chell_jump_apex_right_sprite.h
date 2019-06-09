@@ -18,6 +18,8 @@ public:
     verticalemente (mirando hacia la derecha).
     */
     virtual ~ChellJumpApexRightSprite();
+
+    static DynamicSprite get_sprite();
 };
 
 #endif // CHELL_JUMP_APEX_RIGHT_SPRITE_H

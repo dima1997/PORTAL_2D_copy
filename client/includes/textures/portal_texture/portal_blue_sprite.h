@@ -11,6 +11,7 @@ public:
     /*Destruye el sprite de portal azul.*/
     virtual ~PortalBlueSprite();
     
+    static DynamicSprite get_sprite();
 };
 
 #endif // PORTAL_BLUE_SPRITE_H

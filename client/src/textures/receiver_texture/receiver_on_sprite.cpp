@@ -21,3 +21,14 @@ Destruye el sprite de bloque recibidor de bolas de
 energia desbloqueado.
 */
 ReceiverOnSprite::~ReceiverOnSprite() = default;
+
+DynamicSprite ReceiverOnSprite::get_sprite(){
+    return std::move(
+        DynamicSprite(
+            {
+                {1006,2538}
+            },
+            200,197
+        ) 
+    );
+} 

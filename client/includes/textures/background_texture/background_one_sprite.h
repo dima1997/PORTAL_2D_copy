@@ -10,6 +10,8 @@ public:
 
     /*Destruye el sprite de fondo de pantalla 1.*/
     virtual ~BackgroundOneSprite();
+
+    static DynamicSprite get_sprite();
 };
 
 #endif // BACKGROUND_ONE_SPRITE_H

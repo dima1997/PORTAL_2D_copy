@@ -10,6 +10,8 @@ public:
 
     /*Destruye el sprite de bloque de acido estatico.*/
     virtual ~BlockAcidSprite();
+
+    static DynamicSprite get_sprite();
 };
 
 #endif // BLOCK_ACID_SPRITE_H

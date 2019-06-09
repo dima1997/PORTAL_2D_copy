@@ -19,3 +19,17 @@ PortalBlueSprite::PortalBlueSprite()
     {}
 /*Destrue el sprite de portal azul.*/
 PortalBlueSprite::~PortalBlueSprite() = default;
+
+DynamicSprite PortalBlueSprite::get_sprite(){
+    return std::move(
+        DynamicSprite(
+            {
+                {0,0},
+                {220,0},
+                {440,0},
+                {666,0},
+            },
+            220,450
+        ) 
+    );
+} 

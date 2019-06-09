@@ -10,6 +10,8 @@ public:
 
     /*Destruye el sprite de puerta cerrada con el numero 1.*/
     virtual ~DoorOneClosedSprite();
+
+    static DynamicSprite get_sprite();
 };
 
 #endif // DOOR_ONE_CLOSED_SPRITE_H

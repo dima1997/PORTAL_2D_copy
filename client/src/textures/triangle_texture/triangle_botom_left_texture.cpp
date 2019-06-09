@@ -16,6 +16,11 @@ POST: Inicializa una textura de triangulo en la
 esquina inferior izquierda.
 */
 TriangleBotomLeftTexture::TriangleBotomLeftTexture(BigTexture & bigTexture, Area areaMap) 
+:   Texture(bigTexture, 
+            areaMap, 
+            TriangleBotomLeftSprite::get_sprite()
+    ) {}
+/*
 :    Texture(bigTexture, areaMap, 
         std::move(
             std::unique_ptr<SpriteStrategy>(new SpriteStrategy(
@@ -25,6 +30,7 @@ TriangleBotomLeftTexture::TriangleBotomLeftTexture(BigTexture & bigTexture, Area
             ))
         )
     ) {}
+*/
 
 /*
 Destruye la textura del triangulo en la 

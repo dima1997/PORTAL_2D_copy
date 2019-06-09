@@ -16,3 +16,14 @@ BlockAcidSprite::BlockAcidSprite()
     {}
 /*Destruye el sprite de bloque de acido estatico.*/
 BlockAcidSprite::~BlockAcidSprite() = default;
+
+DynamicSprite BlockAcidSprite::get_sprite(){
+    return std::move(
+        DynamicSprite(
+            {
+                {1,172}
+            },
+            193,193
+        )
+    );
+} 

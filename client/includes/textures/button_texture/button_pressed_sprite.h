@@ -13,6 +13,8 @@ public:
 
     /*Destruye el sprite de boton presionado.*/
     virtual ~ButtonPressedSprite();
+
+    static DynamicSprite get_sprite();
 };
 
 #endif // BUTTON_PRESSED_SPRITE_H

@@ -15,14 +15,9 @@ mapa de juego que representa esta textura.
 POST: Inicializa una textura de barrera.
 */
 BarrierTexture::BarrierTexture(BigTexture & bigTexture, Area areaMap) 
-:    Texture(bigTexture, areaMap, 
-        std::move(
-            std::unique_ptr<SpriteStrategy>(new SpriteStrategy(
-                std::move(std::unique_ptr<DynamicSprite>(
-                    new BarrierSprite()
-                ))
-            ))
-        )
+:   Texture(bigTexture, 
+            areaMap, 
+            BarrierSprite::get_sprite()
     ) {}
 
 /*Destruye la textura de barrera.*/
