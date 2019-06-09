@@ -67,7 +67,7 @@ void Game::manageActions(std::unique_ptr<GameAction> ptrAction) {
             world.getChell(player_id)->updateState(STOP);
             break;
         case jump:
-            world.getChell(player_id)->jump();
+            world.getChell(player_id)->updateState(JUMP);
             break;
         case open_blue_portal:
         {

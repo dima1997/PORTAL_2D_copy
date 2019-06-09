@@ -7,8 +7,11 @@
 #include <Box2D/Dynamics/b2Fixture.h>
 #include <Box2D/Collision/Shapes/b2CircleShape.h>
 #include <Box2D/Dynamics/Joints/b2WheelJoint.h>
+#include <Box2D/Dynamics/Contacts/b2Contact.h>
 #include "chell.h"
 #include "../ray_cast_callback/portal_ray_cast_callback.h"
+
+#define JUMP_TIMEOUT 100
 
 void Chell::createBody(float32 xPos, float32 yPos) {
     b2BodyDef bodyDef;
@@ -38,11 +41,21 @@ void Chell::createBody(float32 xPos, float32 yPos) {
     circleFixtureDef.friction = 0.3f;
 
     body->CreateFixture(&circleFixtureDef);
+
+    b2PolygonShape sensorShape;
+    sensorShape.SetAsBox(0.1, 0.1, b2Vec2(0, -0.70), 0);
+
+    b2FixtureDef sensorFixtureDef;
+    sensorFixtureDef.shape = &sensorShape;
+    sensorFixtureDef.isSensor = true;
+    sensorFixtureDef.userData = (void *)GROUND_CHECK;
+
+    body->CreateFixture(&sensorFixtureDef);
     }
 
 Chell::Chell(b2World &world, float32 xPos, float32 yPos, uint32_t playerId, Portal *bluePortal, Portal *orangePortal):
              Body(world, xPos, yPos, playerId), portals(),
-             state(STOP), jump_state(false), alive(true) {
+             state(STOP), alive(true), footContacts(0), jumpTimer() {
     connect(bluePortal, orangePortal);
     portals[BLUE] = bluePortal;
     portals[ORANGE] = orangePortal;
@@ -54,52 +67,44 @@ Chell::~Chell() {
     delete portals[ORANGE];
 }
 
-//void Chell::move(float32 xSpeed, float32 ySpeed) {
-//    b2Vec2 vel = body->GetLinearVelocity();
-//    float32 dvx = xSpeed - vel.x;
-//    float32 dvy = ySpeed - vel.y;
-//    float32 mass = body->GetMass();
-//    body->ApplyLinearImpulseToCenter(b2Vec2(mass * dvx, mass * dvy), true);
-//}
-
-void Chell::jump() {
-    jump_state = true;
-}
-
 void Chell::updateState(chell_state_t state) {
-    this->state = state;
+    if (this->state != AIR && this->state != JUMP) {
+        this->state = state;
+    }
 }
 
 void Chell::update() {
     const b2Vec2 &vel = body->GetLinearVelocity();
-    float32 jumpVel = vel.y;
-    if (jump_state && !isJumping()) {
-        printf("jump\n");
-        jumpVel = 7.0f;
-    }
-    jump_state = false;
     switch (state) {
+        case AIR:
+            applyImpulse(vel.x, vel.y);
+            if (!isJumping()) {
+                state = STOP;
+            }
+            break;
+        case JUMP:
+            if (!isJumping()) {
+                applyImpulse(vel.x, 6.0f);
+                state = AIR;
+                jumpTimer.Reset();
+            }
+            break;
         case LEFT:
             printf("move left\n");
-            applyImpulse(-3.0f, jumpVel);
+            applyImpulse(-3.0f, vel.y);
             break;
         case RIGHT:
             printf("move right\n");
-            applyImpulse(3.0f, jumpVel);
+            applyImpulse(3.0f, vel.y);
             break;
         case STOP:
-            if (isJumping()) {
-                applyImpulse(vel.x, jumpVel);
-            } else {
-                applyImpulse(0, jumpVel);
-            }
+            applyImpulse(0, vel.y);
             break;
     }
 }
 
 bool Chell::isJumping() {
-    float32 velY = body->GetLinearVelocity().y;
-    return velY > 0.2 || velY < -0.2;
+    return footContacts == 0 || jumpTimer.GetMilliseconds() < JUMP_TIMEOUT;
 }
 
 Portal *Chell::getPortal(portal_color_t color) {
