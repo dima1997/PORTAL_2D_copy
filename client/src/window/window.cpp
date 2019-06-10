@@ -191,7 +191,7 @@ Devuelve una referencia constante al area (const Area &)
 de la textura de Chell principal de la ventana.
 */
 const Area Window::getMainTextureArea() {
-    return (*(this->allTextures.at(this->idMainTexture))).getAreaMap();
+    return (*(this->allTextures.at(this->idMainTexture))).get_area_map();
 }
 
 /*
@@ -228,4 +228,38 @@ void Window::sound(Mixer & mixer){
         Texture & actualTexture = *(this->allTextures.at(actualId));
         actualTexture.sound(mixer);
     }
+}
+
+/*
+PRE: Recibe el id (uint32_t) de dos texturas en la ventana.
+POST: Hace que la primera (idFollowing) se ponga a seguir 
+a la segunda (idFollowed).
+*/
+void Window::start_follow(uint32_t idFollowing, uint32_t idFollowed){
+    if (this->allTextures.count(idFollowing) == 0){
+        std::stringstream errDescription; 
+        errDescription << "No existe textura con id : " << idFollowing << ".";
+        throw OSException("Error en ventana:",errDescription.str().c_str());
+    } 
+    if (this->allTextures.count(idFollowed) == 0){
+        std::stringstream errDescription; 
+        errDescription << "No existe textura con id : " << idFollowed << ".";
+        throw OSException("Error en ventana:",errDescription.str().c_str());
+    } 
+    const Area & areaFollow = (this->allTextures.at(idFollowed))->get_area_map();
+    (this->allTextures.at(idFollowing))->follow_area(areaFollow);
+}
+
+/*
+PRE: Recibe el id de una textura en la ventana.
+POST: Hace que la textura deje de seguir a cualquier
+otra textura que este siguiendo.
+*/
+void Window::stop_follow(uint32_t idFollowing){
+    if (this->allTextures.count(idFollowing) == 0){
+        std::stringstream errDescription; 
+        errDescription << "No existe textura con id : " << idFollowing << ".";
+        throw OSException("Error en ventana:",errDescription.str().c_str());
+    } 
+    (this->allTextures.at(idFollowing))->stop_follow();
 }

@@ -37,7 +37,9 @@ Texture::Texture(BigTexture & bigTexture, Area areaMap,
 std::unique_ptr<SpriteStrategy> ptrSpriteStrategy)
 :   bigTexture(bigTexture), 
     areaMap(areaMap), 
-    ptrSpriteStrategy(std::move(ptrSpriteStrategy)) {}
+    ptrSpriteStrategy(std::move(ptrSpriteStrategy)),
+    following(false),
+    ptrFollowArea(NULL) {}
 
 /*
 PRE: Recibe una referencia a una gran textura que 
@@ -52,7 +54,9 @@ Texture::Texture(BigTexture & bigTexture, Area areaMap,
 DynamicSprite dynamicSprite)
 :   bigTexture(bigTexture), 
     areaMap(areaMap),
-    ptrSpriteStrategy(new SpriteStrategy(dynamicSprite)){}
+    ptrSpriteStrategy(new SpriteStrategy(dynamicSprite)),
+    following(false),
+    ptrFollowArea(NULL) {}
 
 
 /*Destruye la textura.*/
@@ -98,6 +102,10 @@ void Texture::render(float adjuster, const Area & areaCamera) {
     if (! this->areaMap.isIntersectedBy(areaCamera)){
         return;
     }
+    if (this->following) {
+        this->areaMap.setX(this->ptrFollowArea->getX());
+        this->areaMap.setY(this->ptrFollowArea->getY());
+    }
     Area dest = this->getAreaDest(adjuster, areaCamera);
     this->bigTexture.render(src, dest, NO_FLIP);
 }
@@ -113,7 +121,7 @@ Area Texture::getVisionArea() {
 Devuelve una referencia constante al area (const Area &) de la 
 textura en el mapa del juego.
 */
-const Area & Texture::getAreaMap(){
+const Area & Texture::get_area_map(){
     return this->areaMap;
 }
 
@@ -125,4 +133,20 @@ void Texture::sound(Mixer & mixer) {
         mixer.play_chunck(SOUNDS_PATH.at(*it));   
         it = this->sounds.erase(it);
     }
+}
+
+/*
+PRE: Recibe una referencia constante a un area (const Area &).
+POST: Ahora el area del mapa de esta textura, copia las 
+coordenadas del area recibida, cada vez que se renderiza.
+*/
+void Texture::follow_area(const Area & areaMap) {
+    this->ptrFollowArea = & areaMap;
+    this->following = true;
+}
+
+/*Deja de seguir al area que sigue.*/
+void Texture::stop_follow() {
+    this->ptrFollowArea = NULL;
+    this->following = false;
 }

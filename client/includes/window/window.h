@@ -126,6 +126,20 @@ public:
     las textura de la ventana.
     */
     void sound(Mixer & mixer);
+
+    /*
+    PRE: Recibe el id (uint32_t) de dos texturas en la ventana.
+    POST: Hace que la primera (idFollowing) se ponga a seguir 
+    a la segunda (idFollowed).
+    */
+    void start_follow(uint32_t idFollowing, uint32_t idFollowed);
+
+    /*
+    PRE: Recibe el id de una textura en la ventana.
+    POST: Hace que la textura deje de seguir a cualquier
+    otra textura que este siguiendo.
+    */
+    void stop_follow(uint32_t idFollowing);
 };
 
 #endif // WINDOW_H

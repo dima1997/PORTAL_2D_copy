@@ -16,6 +16,8 @@ protected:
     Area areaMap;
     std::unique_ptr<SpriteStrategy> ptrSpriteStrategy;
     std::vector<SOUND_NAME> sounds;
+    bool following;
+    const Area * ptrFollowArea;
 
     /*
     Pre: Recibe un factor de ajuste (pixeles/<unidad de mapa>), 
@@ -92,12 +94,22 @@ public:
     Devuelve una referencia constante al area (const Area &) de la 
     textura en el mapa del juego.
     */
-    virtual const Area & getAreaMap();
+    virtual const Area & get_area_map();
 
     /*
     Reproduce los sonidos que la textura tiene guardados.
     */
     virtual void sound(Mixer & mixer);
+
+    /*
+    PRE: Recibe una referencia constante a un area (const Area &).
+    POST: Ahora el area del mapa de esta textura, copia las 
+    coordenadas del area recibida, cada vez que se renderiza.
+    */
+    void follow_area(const Area & areaMap);
+
+    /*Deja de seguir al area que sigue.*/
+    void stop_follow();
 };
 
 #endif // TEXTURE_H
