@@ -56,9 +56,10 @@ void Chell::createBody(float32 xPos, float32 yPos) {
     hy = 0.65f;
 }
 
-Chell::Chell(b2World &world, float32 xPos, float32 yPos, uint32_t playerId, Portal *bluePortal, Portal *orangePortal):
+Chell::Chell(b2World &world, float32 xPos, float32 yPos, uint32_t playerId, Portal *bluePortal, Portal *orangePortal,
+             float32 maxReach) :
              Body(world, xPos, yPos, playerId), portals(),
-             state(STOP), alive(true), footContacts(0), jumpTimer() {
+             state(STOP), alive(true), footContacts(0), jumpTimer(), maxReach(maxReach) {
     connect(bluePortal, orangePortal);
     portals[BLUE] = bluePortal;
     portals[ORANGE] = orangePortal;
@@ -128,15 +129,21 @@ void Chell::die() {
 
 void Chell::shootPortal(float x, float y, portal_color_t color) {
     auto portalRaycastCallback = new PortalRaycastCallback();
-    world.RayCast(portalRaycastCallback, body->GetPosition(), b2Vec2(x, y));
-    b2Fixture *fixture = portalRaycastCallback->getFixture();
-    if (fixture == nullptr)
-        return;
-    Body *body = (Body *)fixture->GetBody()->GetUserData();
-    if (body->getBodyType() == METAL_BLOCK) {
-        b2Vec2 position = portalRaycastCallback->getPoint();
-        portals[color]->moveTo(position.x, position.y);
-        portals[color]->setNormal(portalRaycastCallback->getNormal());
+    b2Vec2 direction = b2Vec2(x, y);
+    b2Fixture *fixture;
+    while (direction.Length() < maxReach) {
+        world.RayCast(portalRaycastCallback, body->GetPosition(), direction);
+        fixture = portalRaycastCallback->getFixture();
+        if (fixture != nullptr) {
+            Body *body = (Body *)fixture->GetBody()->GetUserData();
+            if (body->getBodyType() == METAL_BLOCK) {
+                b2Vec2 position = portalRaycastCallback->getPoint();
+                portals[color]->moveTo(position.x, position.y);
+                portals[color]->setNormal(portalRaycastCallback->getNormal());
+            }
+            delete portalRaycastCallback;
+            return;
+        }
+    direction = 1.25f * direction;
     }
-    delete portalRaycastCallback;
 }

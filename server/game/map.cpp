@@ -60,10 +60,12 @@ Portal *Map::loadPortal(const YAML::Node &portal, b2World &world) {
 }
 
 Chell *Map::loadChell(const YAML::Node &chell, b2World &world, Portal *bluePortal, Portal *orangePortal) {
+    int maxHeight = file["background"]["height"].as<float32>();
+    int maxWidth = file["background"]["width"].as<float32 >();
     auto id = chell["id"].as<uint32_t>();
     auto x = chell["xCoord"].as<float32>();
     auto y = chell["yCoord"].as<float32>();
-    return new Chell(world, x, y, id, bluePortal, orangePortal);
+    return new Chell(world, x, y, id, bluePortal, orangePortal, fmax(maxHeight, maxWidth));
 }
 
 Block *Map::loadBlock(const YAML::Node &block, b2World &world, body_type_t type) {

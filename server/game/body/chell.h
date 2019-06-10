@@ -22,9 +22,11 @@ private:
     bool isJumping();
     bool alive;
     b2Timer jumpTimer;
+    float32 maxReach;
 public:
     int footContacts;
-    Chell(b2World &world, float32 xPos, float32 yPos, uint32_t playerId, Portal *bluePortal, Portal *orangePortal);
+    Chell(b2World &world, float32 xPos, float32 yPos, uint32_t playerId, Portal *bluePortal, Portal *orangePortal,
+          float32 maxReach);
     bool isAlive();
     ~Chell() override;
     void updateState(chell_state_t state);
