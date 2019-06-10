@@ -42,3 +42,20 @@ void PortalOrangeTexture::render(float adjuster, const Area & areaCamera) {
     Area dest = this->getAreaDest(adjuster, areaCamera);
     this->bigTexture.render(src, dest, NO_FLIP, 0, 255, 100, 1);
 }
+
+/*
+PRE: Recibe la coordenadas (float) x,y donde se desplaza 
+la textura.
+POST: Desplaza la textura al posicion indicada, y realiza
+cambios en su sprite segun indique el sprite strategy con 
+que se creo.
+*/
+void PortalOrangeTexture::move_to(float x, float y){
+    float xBefore = this->areaMap.getX();
+    float yBefere = this->areaMap.getY();
+    float xNow = x;
+    float yNow = y;
+    this->areaMap.setX(xNow);
+    this->areaMap.setY(yNow);
+    (*this->ptrSpriteStrategy).move(xBefore, yBefere, xNow, yNow, this->sounds);
+}

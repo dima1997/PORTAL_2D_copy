@@ -2,6 +2,7 @@
 #define TEXTURE_H
 
 #include "../../../includes/mixer/mixer.h"
+#include "../../../includes/mixer/sounds_path.h"
 
 #include "area.h"
 #include "big_texture.h"
@@ -14,6 +15,7 @@ protected:
     BigTexture & bigTexture;
     Area areaMap;
     std::unique_ptr<SpriteStrategy> ptrSpriteStrategy;
+    std::vector<SOUND_NAME> sounds;
 
     /*
     Pre: Recibe un factor de ajuste (pixeles/<unidad de mapa>), 
@@ -93,7 +95,7 @@ public:
     virtual const Area & getAreaMap();
 
     /*
-    No reproduce ningun efecto de sonido. 
+    Reproduce los sonidos que la textura tiene guardados.
     */
     virtual void sound(Mixer & mixer);
 };

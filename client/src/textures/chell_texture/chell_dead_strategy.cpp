@@ -25,6 +25,7 @@ Area ChellDeadStrategy::getNextArea(){
     if (this->spriteName != DEAD){
         if (this->dynamicSprite.is_last_sprite()) { 
             this->dynamicSprite = NullSprite::get_sprite();
+            this->spriteName = DEAD;
         }
     }
     return std::move(this->dynamicSprite.getNextArea());

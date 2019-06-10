@@ -32,7 +32,7 @@ POST: Inicializa una textura dinamica de Chell.
 ChellTexture::ChellTexture(BigTexture &bigTextureChell, Area areaMap) 
 :   Texture(
         bigTextureChell, 
-        std::move(areaMap),
+        areaMap,
         std::move(std::unique_ptr<SpriteStrategy>(new ChellSpriteStrategy())) 
     ),
     alive(true) {
@@ -93,16 +93,4 @@ Area ChellTexture::getVisionArea() {
     this->updateVisionArea();
     Area areaVisionCopy = this->areaVision;
     return std::move(areaVisionCopy);
-}
-
-
-/*
-Reproduce todos los efectos de 
-sonido que hay acumulados.
-*/
-void ChellTexture::sound(Mixer & mixer){
-    for (auto it = this->sounds.begin(); it != this->sounds.end(); ) {
-        mixer.play_chunck(SOUNDS_PATH.at(*it));   
-        it = this->sounds.erase(it);
-    }
 }

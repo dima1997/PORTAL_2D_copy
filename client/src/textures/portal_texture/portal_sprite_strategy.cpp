@@ -4,6 +4,9 @@
 #include "../../../includes/textures/common_texture/sprite_strategy.h"
 #include "../../../includes/textures/common_texture/dynamic_sprite.h"
 #include "../../../includes/textures/common_texture/null_sprite.h"
+
+#include "../../../includes/mixer/sounds_path.h"
+
 #include <memory>
 
 /*
@@ -37,4 +40,16 @@ void PortalSpriteStrategy::switch_sprite(){
         this->dynamicSprite = PortalBlueSprite::get_sprite();
         this->spriteName = PORTAL_OPEN;
     }
+}
+
+/*
+PRE: Recibe :
+    las coordenadas anteriores (int) x,y de la textura que representa.
+    las coordenadas nuevas (int) x,y de la textura que representa.
+    una referencia a un vector de nombre de sonidos.
+POST: No hace nada.
+*/
+void PortalSpriteStrategy::move(float xBefore, float yBefore, float xNow, float yNow, 
+                          std::vector<SOUND_NAME> & sounds) {
+    sounds.push_back(SOUND_PORTAL_SHOOT);
 }

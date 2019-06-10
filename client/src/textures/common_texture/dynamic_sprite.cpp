@@ -19,7 +19,11 @@ POST: Inicializa un sprite dinamico.
 */
 DynamicSprite::DynamicSprite(std::vector<std::pair<int, int>> spritesCoordTape,
                              int width, int height)
-: spritesCoordTape(spritesCoordTape), width(width), height(height), index(0) {}
+:   spritesCoordTape(spritesCoordTape), 
+    width(width), 
+    height(height), 
+    index(0), 
+    reverse(false) {}
 
 /*Destruye el sprite dinamico.*/
 DynamicSprite::~DynamicSprite(){}
@@ -29,7 +33,8 @@ DynamicSprite::DynamicSprite(const DynamicSprite & other)
 :   spritesCoordTape(other.spritesCoordTape),
     width(other.width),
     height(other.height),
-    index(other.index) {}
+    index(other.index),
+    reverse(other.reverse) {}
 
 /*Asignacion por copia.*/
 DynamicSprite & DynamicSprite::operator=(const DynamicSprite & other){
@@ -40,6 +45,7 @@ DynamicSprite & DynamicSprite::operator=(const DynamicSprite & other){
     this->width = other.width;
     this->height = other.height;
     this->index = other.index;
+    this->reverse = other.reverse;
     return *this;
 }
 
@@ -49,9 +55,11 @@ DynamicSprite::DynamicSprite(DynamicSprite && other)
     this->width = other.width;
     this->height = other.height;
     this->index = other.index;
+    this->reverse = other.reverse;
     other.width = 0;
     other.height = 0;
     other.index = 0;
+    other.reverse = false;
 }
 
 /*Asignacion por movimiento.*/
@@ -63,9 +71,11 @@ DynamicSprite & DynamicSprite::operator=(DynamicSprite && other){
     this->width = other.width;
     this->height = other.height;
     this->index = other.index;
+    this->reverse = other.reverse;
     other.width = 0;
     other.height = 0;
     other.index = 0;
+    other.reverse = false;
     return *this;
 }
 
@@ -76,14 +86,25 @@ ser usado.
 Area DynamicSprite::getNextArea(){
     float xCoord = this->spritesCoordTape[this->index].first;
     float yCoord = this->spritesCoordTape[this->index].second;
-    ++index;
+    if (this->reverse){
+        --index;
+    } else {
+        ++index;
+    }
     index = index % this->spritesCoordTape.size();
     return std::move(Area(xCoord, yCoord, this->width, this->height));
 }
 
-/*Reinicia el ciclo de sprites al sprite inicial.*/
+/*
+Reinicia el ciclo de sprites al sprite inicial,
+segun su orden interno.
+*/
 void DynamicSprite::restart(){
-    this->index = 0;
+    if (this->reverse){
+        this->index = this->spritesCoordTape.size()-1;
+    } else {
+        this->index = 0;
+    }
 }
 
 /*
@@ -92,5 +113,16 @@ sprite de la tira de sprites que los constituyen;
 false en caso contrario.
 */
 bool DynamicSprite::is_last_sprite(){
-    return ((this->index + 1) >= (int)this->spritesCoordTape.size());
+    if (this->reverse){
+        return this->index <= 0;
+    }
+    return ((this->index + 1) >= this->spritesCoordTape.size());
+}
+
+/*
+Invierte el orden en que se muetran los sprites, 
+empezando por el ultimo, y terminando por el primero.
+*/
+void DynamicSprite::reverse_sprite(){
+    this->reverse = true;
 }

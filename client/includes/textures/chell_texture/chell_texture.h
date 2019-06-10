@@ -13,7 +13,7 @@ class ChellTexture : public Texture {
 private:
     MoveSense moveSense;
     Area areaVision;
-    std::vector<SOUND_NAME> sounds;
+    //std::vector<SOUND_NAME> sounds;
     bool alive;
 
     /*Actualiza el area de vision de Chell.*/
@@ -59,12 +59,6 @@ public:
     Chell en el mapa de juego.
     */
     virtual Area getVisionArea() override;
-
-    /*
-    Reproduce todos los efectos de 
-    sonido que hay acumulados.
-    */
-    virtual void sound(Mixer & mixer);
 };
 
 #endif // CHELL_TEXTURE_H

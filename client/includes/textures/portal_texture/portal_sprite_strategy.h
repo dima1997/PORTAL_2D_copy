@@ -27,6 +27,16 @@ public:
     y no visible.
     */
     virtual void switch_sprite();
+
+    /*
+    PRE: Recibe :
+        las coordenadas anteriores (int) x,y de la textura que representa.
+        las coordenadas nuevas (int) x,y de la textura que representa.
+        una referencia a un vector de nombre de sonidos.
+    POST: No hace nada.
+    */
+    void move(float xBefore, float yBefore, float xNow, float yNow, 
+              std::vector<SOUND_NAME> & sounds);
 };
 
 #endif // PORTAL_SPRITE_STRATEGY_H

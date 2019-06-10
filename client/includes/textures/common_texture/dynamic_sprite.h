@@ -10,7 +10,8 @@ private:
     std::vector<std::pair<int, int>> spritesCoordTape;
     int width;
     int height;
-    int index;
+    unsigned int index;
+    bool reverse;
 
 public:
     /*Sprite nulo*/
@@ -49,17 +50,23 @@ public:
     Devuelve un area (Area) con las coordenadas y 
     dimension del proximo a sprite a ser usado.
     */
-    Area getNextArea();
+    virtual Area getNextArea();
 
     /*
     Devuelve true, si el sprite actual es el ultimo 
     sprite de la tira de sprites que los constituyen; 
     false en caso contrario.
     */
-    bool is_last_sprite();
+    virtual bool is_last_sprite();
     
     /*Reinicia el ciclo de sprites al sprite inicial.*/
-    void restart();
+    virtual void restart();
+
+    /*
+    Invierte el orden en que se muetran los sprites, 
+    empezando por el ultimo, y terminando por el primero.
+    */
+    virtual void reverse_sprite();
 };
 
 #endif // DYNAMIC_SPRITE_H

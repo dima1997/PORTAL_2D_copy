@@ -124,9 +124,6 @@ void ChellSpriteStrategy::setSound(spriteNameStrategy_t newSpriteName,
     if (newSpriteName == JUMP_APEX_RIGHT){
         // Para evitar repetir sonidos cuando Chell 
         // cambia en un instante su sprite por default
-        // Funciona para dos sonidos iguales que deben
-        // ser reproducidos, porque se reproduciran en
-        // en ciclos distintos
         if ((sounds.size()) != 0 && (sounds.back() == SOUND_JUMP)){
             return;
         } 

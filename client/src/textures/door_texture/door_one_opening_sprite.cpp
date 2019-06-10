@@ -1,6 +1,6 @@
-#include "../../includes/door_texture/door_one_opening_sprite.h"
+#include "../../../includes/textures/door_texture/door_one_opening_sprite.h"
 
-#include "../common_texture/dynamic_texture.h"
+#include "../../../includes/textures/common_texture/dynamic_sprite.h"
 
 /*Inicializa un sprite de puerta abriendose con el numero 1.*/
 DoorOneOpeningSprite::DoorOneOpeningSprite()

@@ -46,6 +46,8 @@ void MapCreator::add_portal_orange(uint32_t id, Area area){
 void MapCreator::add_door_one(uint32_t id, Area area){
     TextureFactory tF(this->window);
     this->window.add_texture(id,std::move(tF.create_door_one(area)));
+    //PRUEBA
+    this->window.switch_texture(id);
 }
 
 void MapCreator::add_button(uint32_t id, Area area){

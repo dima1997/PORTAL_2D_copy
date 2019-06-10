@@ -118,6 +118,11 @@ const Area & Texture::getAreaMap(){
 }
 
 /*
-No reproduce ningun efecto de sonido. 
+Reproduce los sonidos que la textura tiene guardada. 
 */
-void Texture::sound(Mixer & mixer) {}
+void Texture::sound(Mixer & mixer) {
+    for (auto it = this->sounds.begin(); it != this->sounds.end(); ) {
+        mixer.play_chunck(SOUNDS_PATH.at(*it));   
+        it = this->sounds.erase(it);
+    }
+}

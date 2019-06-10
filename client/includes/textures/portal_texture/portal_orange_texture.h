@@ -29,6 +29,15 @@ public:
     dimensiones de la textura a pixeles, con el factor recibido.
     */
     virtual void render(float adjuster, const Area & areaCamera);
+
+    /*
+    PRE: Recibe la coordenadas (float) x,y donde se desplaza 
+    la textura.
+    POST: Desplaza la textura al posicion indicada, y realiza
+    cambios en su sprite segun indique el sprite strategy con 
+    que se creo.
+    */
+    virtual void move_to(float x, float y);
 };
 
 #endif // PORTAL_ORANGE_TEXTURE_H
