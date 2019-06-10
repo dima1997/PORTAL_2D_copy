@@ -21,7 +21,7 @@ public:
     POST: Envia el evento: evento + id, a traves del connector.
     */
     virtual void sendThrough(Connector & out) const;
-    friend Connector &operator<<(Connector &out, const PlayerDiesEvent &c);
+    uint32_t get_id();
 };
 
 

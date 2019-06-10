@@ -4,6 +4,7 @@
 #define ALL_BLOCKS_SPRITES "all_blocks.png"
 #define ALL_CHELL_SPRITES_PART_1 "all_chells_part_1.png"
 #define ALL_CHELL_SPRITES_PART_2 "all_chells_part_2.png"
+#define ALL_CHELL_SPRITES "all_chells_half.png"
 #define PORTAL_SPRITES "portal_white.png"
 #define ALL_DOORS_SPRITES "doors.png"
 #define ALL_ROCKS_AND_BALLS_SPRITES "rocks_and_balls.png"

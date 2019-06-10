@@ -88,7 +88,7 @@ de la textura de Chell.
 std::unique_ptr<Texture> TextureFactory::
 create_chell(Area areaMap){
     BigTexture & bigTexture = this->window.add_big_texture(
-                                    ALL_CHELL_SPRITES_PART_1
+                                    ALL_CHELL_SPRITES
                                 );
     std::unique_ptr<Texture> ptrTexture(new ChellTexture(
         bigTexture, 

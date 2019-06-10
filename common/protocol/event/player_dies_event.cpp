@@ -15,3 +15,7 @@ void PlayerDiesEvent::sendThrough(Connector & out) const {
 }
 
 PlayerDiesEvent::~PlayerDiesEvent() = default;
+
+uint32_t PlayerDiesEvent::get_id(){
+    return this->id; 
+}

@@ -1,6 +1,6 @@
 #include "../../../includes/textures/chell_texture/chell_sprite_strategy.h"
 
-#include "../../../includes/textures/chell_texture/chell_sweat_right_sprite.h"
+#include "../../../includes/textures/chell_texture/chell_stand_right_sprite.h"
 #include "../../../includes/textures/chell_texture/chell_run_right_sprite.h"
 #include "../../../includes/textures/chell_texture/chell_jump_apex_right_sprite.h"
 #include "../../../includes/textures/chell_texture/chell_jump_rise_right_sprite.h"
@@ -15,9 +15,9 @@
 /*Inicializa el estado de sprite de Chell.*/
 ChellSpriteStrategy::ChellSpriteStrategy()
 :   SpriteStrategy(
-        ChellSweatRightSprite::get_sprite()
+        ChellStandRightSprite::get_sprite()
     ),
-    spriteName(SWEAT_RIGHT), 
+    spriteName(STAND_RIGHT), 
     keepMoving(false) 
     {}
 
@@ -46,11 +46,11 @@ void ChellSpriteStrategy::setSpriteStrategy(spriteNameStrategy_t newSpriteName){
         case JUMP_FALL_RIGHT:
             this->dynamicSprite = ChellJumpFallRightSprite::get_sprite();
             break;
-        case SWEAT_RIGHT:
-            this->dynamicSprite = ChellSweatRightSprite::get_sprite();
+        case STAND_RIGHT:
+            this->dynamicSprite = ChellStandRightSprite::get_sprite();
             break;
-        default: // igual que case SWEAT_RIGHT
-            this->dynamicSprite = ChellSweatRightSprite::get_sprite();
+        default: // igual que case STAND_RIGHT
+            this->dynamicSprite = ChellStandRightSprite::get_sprite();
             break;
     }
 }
@@ -77,11 +77,11 @@ void ChellSpriteStrategy::move(float xBefore, float yBefore, float xNow, float y
     } else if (xBefore != xNow){
         newName = RUN_RIGHT;
     } else {
-        newName = SWEAT_RIGHT;
+        newName = STAND_RIGHT;
     }
     // Seguir haciendo esto luego de setear los sonidos
     this->setSpriteStrategy(newName); 
-    if (newName != SWEAT_RIGHT){
+    if (newName != STAND_RIGHT){
         this->keepMoving = true;
     }  
     return;
@@ -98,7 +98,7 @@ Area ChellSpriteStrategy::getNextArea(){
     if (this->keepMoving) { 
         this->keepMoving = false;
     } else {
-        this->setSpriteStrategy(SWEAT_RIGHT);
+        this->setSpriteStrategy(STAND_RIGHT);
     }
     return std::move(this->dynamicSprite.getNextArea());
 }

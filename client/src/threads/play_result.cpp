@@ -60,16 +60,17 @@ void PlayResult::setGameStatus(GameStatus status){
 
 /*Imprime el resultado del juego por salida estandar.*/
 void PlayResult::print(){
-    std::cout << "Game Result : \n";
+    std::cout << "!!! Game Over !!! \n";
     std::cout << "Game status : " << GAME_STATUS_STR.at(this->gameStatus);
+    std::cout << "\n";
     for (std::map<uint32_t,PlayerStatus>::iterator 
          it=this->playersStatus.begin(); 
          it!=this->playersStatus.end(); 
          ++it){
         uint32_t id = it->first;
         PlayerStatus status = it->second;
-        std::cout << "Player of id : " << id;
-        std::cout << " with status : " << PLAYER_STATUS_STR.at(status);
+        std::cout << "Player id : " << id << "\n";
+        std::cout << "\t- Status : " << PLAYER_STATUS_STR.at(status);
         std::cout << "\n"; 
     }
 }

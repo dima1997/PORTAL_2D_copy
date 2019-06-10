@@ -1,9 +1,11 @@
 #ifndef EVENT_GAME_PROCESSOR_H
 #define EVENT_GAME_PROCESSOR_H
 
+#include "play_result.h"
 #include "../window/window.h"
 
 #include <thread_safe_queue.h>
+#include <protocol/protocol_code.h>
 #include <protocol/event/event.h>
 #include <protocol/event/object_moves_event.h>
 #include <protocol/event/object_switch_event.h>
@@ -14,6 +16,7 @@ class EventGameProcessor {
 private:
     Window & window;
     ThreadSafeQueue<std::unique_ptr<Event>> & fromGameQueue;
+    PlayResult & playResult;
     /*
     PRE: Recibe un puntero unico a un evento de mover 
     objeto (std::unique_ptr<ObjectMovesEvent>).
@@ -39,8 +42,11 @@ public:
         un tiempo (int) maximo de procesamiento, que superado
         se deja de procesar. 
     */
-    EventGameProcessor(Window & window, 
-    ThreadSafeQueue<std::unique_ptr<Event>> & fromGameQueue);
+    EventGameProcessor(
+        Window & window, 
+        ThreadSafeQueue<std::unique_ptr<Event>> & fromGameQueue,
+        PlayResult & playResult
+    );
 
     /*Destruye el procesador de eventos del juego.*/
     ~EventGameProcessor();
@@ -49,7 +55,7 @@ public:
     PRE: Recibe un puntero unico a un evento (std::unique_ptr<Event>).
     POST: Procesa el evento.
     */
-    void process_event(std::unique_ptr<Event> ptrEvent);
+    ThreadStatus process_event(std::unique_ptr<Event> ptrEvent);
 
     /*
     PRE: Recibe un tiempo maximo de procesamiento de eventos 
@@ -57,7 +63,7 @@ public:
     POST: Procesa eventos del juego durante el tiempo indicado
     o hasta que no hay mas eventos que procesar.
     */
-    void process_some_events(int timeMaxProcessMicroSeconds);
+    ThreadStatus process_some_events(int timeMaxProcessMicroSeconds);
 };
 
 #endif // EVENT_GAME_PROCESSOR_H

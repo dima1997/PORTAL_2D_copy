@@ -12,7 +12,7 @@
 #define CHELL_FRAMES_WAIT 23
 
 enum spriteNameStrategy_t {
-    SWEAT_RIGHT,
+    STAND_RIGHT,
     RUN_RIGHT,
     JUMP_APEX_RIGHT,
     JUMP_RISE_RIGHT,

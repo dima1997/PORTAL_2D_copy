@@ -64,7 +64,10 @@ void PlayingLoopThread::run(){
         std::unique_lock<std::mutex> l(this->mutex);
         this->isDead = false;
     }
-    EventGameProcessor eventProcessor(this->window, this->fromGameQueue);
+    EventGameProcessor eventProcessor(this->window, 
+                                      this->fromGameQueue,
+                                      this->playResult
+                                      );
     KeyReader keyReader(this->window,
                         this->mixer,
                         this->toGameQueue
@@ -76,7 +79,10 @@ void PlayingLoopThread::run(){
         if (keyReader.process_some_events() == quit_game){
             break;
         }
-        eventProcessor.process_some_events(timeWaitMicroSeconds);
+        if (eventProcessor.process_some_events(timeWaitMicroSeconds) 
+            == THREAD_STOP){
+            break;
+        }
         window.render();
         window.sound(this->mixer);
         t1 = clock();

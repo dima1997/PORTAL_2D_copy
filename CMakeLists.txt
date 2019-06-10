@@ -76,7 +76,6 @@ file(GLOB client_files
         "${CLIENT_FOLDER}/src/textures/common_texture/texture_switch_change.cpp"
         "${CLIENT_FOLDER}/src/textures/common_texture/null_sprite.cpp"
         "${CLIENT_FOLDER}/src/textures/block_metal_texture/block_metal_texture.cpp"
-#        "${CLIENT_FOLDER}/src/textures/block_metal_texture/block_metal_sprite_strategy.cpp"
         "${CLIENT_FOLDER}/src/textures/block_metal_texture/block_metal_sprite.cpp"
         "${CLIENT_FOLDER}/src/textures/block_rock_texture/block_rock_texture.cpp"
         "${CLIENT_FOLDER}/src/textures/block_rock_texture/block_rock_sprite.cpp"
@@ -88,7 +87,7 @@ file(GLOB client_files
         "${CLIENT_FOLDER}/src/textures/chell_texture/chell_sprite_strategy.cpp"
         "${CLIENT_FOLDER}/src/textures/chell_texture/chell_dead_strategy.cpp"
         "${CLIENT_FOLDER}/src/textures/chell_texture/chell_run_right_sprite.cpp"
-        "${CLIENT_FOLDER}/src/textures/chell_texture/chell_sweat_right_sprite.cpp"
+        "${CLIENT_FOLDER}/src/textures/chell_texture/chell_stand_right_sprite.cpp"
 	"${CLIENT_FOLDER}/src/textures/chell_texture/chell_jump_apex_right_sprite.cpp"
 	"${CLIENT_FOLDER}/src/textures/chell_texture/chell_jump_rise_right_sprite.cpp"
 	"${CLIENT_FOLDER}/src/textures/chell_texture/chell_jump_fall_right_sprite.cpp"
@@ -158,7 +157,7 @@ target_link_libraries(${CLIENT_NAME} SDL2 SDL2_image SDL2_mixer)
 target_link_libraries(${CLIENT_NAME} yaml-cpp)
 
 install(FILES client/assets/all_blocks.png DESTINATION ${CMAKE_BINARY_DIR})
-install(FILES client/assets/all_chells_part_1.png DESTINATION ${CMAKE_BINARY_DIR})
+install(FILES client/assets/all_chells_half.png DESTINATION ${CMAKE_BINARY_DIR})
 install(FILES client/assets/portal_white.png DESTINATION ${CMAKE_BINARY_DIR})
 install(FILES client/assets/doors.png DESTINATION ${CMAKE_BINARY_DIR})
 install(FILES client/assets/rocks_and_balls.png DESTINATION ${CMAKE_BINARY_DIR})

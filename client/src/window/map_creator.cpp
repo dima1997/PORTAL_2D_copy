@@ -13,9 +13,7 @@ las texturas del mapa.
 POST: Inicializa un creador de mapa. 
 */
 MapCreator::MapCreator(YAML::Node & gameConfig, Window & window)
-:   window(window), baseNode(gameConfig) {
-    //this->baseNode = YAML::LoadFile(CONFIG_PATHS.at(idMap));
-}
+:   window(window), baseNode(gameConfig) {}
 
 /*Destruye el creador de mapa*/
 MapCreator::~MapCreator() = default;
