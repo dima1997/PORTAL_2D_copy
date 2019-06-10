@@ -48,7 +48,7 @@ void Chell::createBody(float32 xPos, float32 yPos) {
     b2FixtureDef sensorFixtureDef;
     sensorFixtureDef.shape = &sensorShape;
     sensorFixtureDef.isSensor = true;
-    sensorFixtureDef.userData = (void *)GROUND_CHECK;
+    sensorFixtureDef.userData = (void *)CONTACT_CHECK;
 
     body->CreateFixture(&sensorFixtureDef);
 

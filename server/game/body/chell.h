@@ -10,7 +10,6 @@
 #include "body.h"
 #include "portal.h"
 
-#define GROUND_CHECK 1
 
 typedef enum chell_state {LEFT, RIGHT, STOP, JUMP, AIR} chell_state_t;
 typedef enum portal_color {BLUE, ORANGE} portal_color_t;

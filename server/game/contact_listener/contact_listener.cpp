@@ -7,6 +7,7 @@
 #include "../body/portal.h"
 #include "../body/cake.h"
 #include "../body/chell.h"
+#include "../body/button.h"
 #include <Box2D/Dynamics/Contacts/b2Contact.h>
 
 void ContactListener::BeginContact(b2Contact *contact) {
@@ -16,12 +17,9 @@ void ContactListener::BeginContact(b2Contact *contact) {
         if (dataA->getBodyType() == PORTAL) {
             dataB->throughPortal = true;
             dynamic_cast<Portal *>(dataA)->startGoingThrough(dataB);
-        } else if (dataB->getBodyType() == PORTAL) {
-            dataA->throughPortal = true;
-            dynamic_cast<Portal *>(dataB)->startGoingThrough(dataA);
         } else if (dataA->getBodyType() == CHELL) {
             auto *chell = dynamic_cast<Chell *>(dataA);
-            if (contact->GetFixtureA()->GetUserData() == (void *)GROUND_CHECK) {
+            if (contact->GetFixtureA()->GetUserData() == (void *)CONTACT_CHECK) {
                 ++chell->footContacts;
                 return;
             }
@@ -31,10 +29,19 @@ void ContactListener::BeginContact(b2Contact *contact) {
             } else if (dataB->getBodyType() == ACID_BLOCK) {
                 chell->die();
             }
+        } else if (dataA->getBodyType() == BUTTON) {
+            auto *button = dynamic_cast<Button *>(dataA);
+            if (contact->GetFixtureA()->GetUserData() == (void *)CONTACT_CHECK) {
+                button->increaseContact();
+            }
+        }
 
-        } else if (dataB->getBodyType() == CHELL) {
+        if (dataB->getBodyType() == PORTAL) {
+            dataA->throughPortal = true;
+            dynamic_cast<Portal *>(dataB)->startGoingThrough(dataA);
+        }else if (dataB->getBodyType() == CHELL) {
             auto *chell = dynamic_cast<Chell *>(dataB);
-            if (contact->GetFixtureB()->GetUserData() == (void *)GROUND_CHECK) {
+            if (contact->GetFixtureB()->GetUserData() == (void *)CONTACT_CHECK) {
                 ++chell->footContacts;
                 return;
             }
@@ -43,6 +50,11 @@ void ContactListener::BeginContact(b2Contact *contact) {
                 dynamic_cast<Cake *>(dataA)->reach();
             } else if (dataA->getBodyType() == ACID_BLOCK) {
                 chell->die();
+            }
+        } else if (dataB->getBodyType() == BUTTON) {
+            auto *button = dynamic_cast<Button *>(dataB);
+            if (contact->GetFixtureB()->GetUserData() == (void *)CONTACT_CHECK) {
+                button->increaseContact();
             }
         }
     }
@@ -55,20 +67,32 @@ void ContactListener::EndContact(b2Contact *contact) {
         if (dataA->getBodyType() == PORTAL) {
             dataB->throughPortal = false;
             dynamic_cast<Portal *>(dataA)->endGoingThrough();
-        } else if (dataB->getBodyType() == PORTAL) {
-            dataA->throughPortal = false;
-            dynamic_cast<Portal *>(dataB)->endGoingThrough();
         } else if (dataA->getBodyType() == CHELL) {
             auto *chell = dynamic_cast<Chell *>(dataA);
-            if (contact->GetFixtureA()->GetUserData() == (void *)GROUND_CHECK) {
+            if (contact->GetFixtureA()->GetUserData() == (void *)CONTACT_CHECK) {
                 --chell->footContacts;
                 return;
             }
+        } else if (dataA->getBodyType() == BUTTON) {
+            auto *button = dynamic_cast<Button *>(dataA);
+            if (contact->GetFixtureA()->GetUserData() == (void *)CONTACT_CHECK) {
+                button->decreaseContact();
+            }
+        }
+
+        if (dataB->getBodyType() == PORTAL) {
+            dataA->throughPortal = false;
+            dynamic_cast<Portal *>(dataB)->endGoingThrough();
         } else if (dataB->getBodyType() == CHELL) {
             auto *chell = dynamic_cast<Chell *>(dataB);
-            if (contact->GetFixtureB()->GetUserData() == (void *)GROUND_CHECK) {
+            if (contact->GetFixtureB()->GetUserData() == (void *)CONTACT_CHECK) {
                 --chell->footContacts;
                 return;
+            }
+        } else if (dataB->getBodyType() == BUTTON) {
+            auto *button = dynamic_cast<Button *>(dataB);
+            if (contact->GetFixtureB()->GetUserData() == (void *)CONTACT_CHECK) {
+                button->decreaseContact();
             }
         }
     }

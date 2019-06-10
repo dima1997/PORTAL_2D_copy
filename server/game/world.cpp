@@ -45,6 +45,9 @@ void World::step(std::list<std::shared_ptr<Event>> &events) {
         finished = true;
         return;
     }
+    for (Door *door : doors) {
+        door->update();
+    }
     for (Chell *chell : chells) {
         if ( (this->idPlayersDead.count(chell->getId()) == 0) && (!chell->isAlive()) ) {
             // TODO: check this

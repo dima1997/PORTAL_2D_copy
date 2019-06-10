@@ -11,6 +11,8 @@
 #include <Box2D/Dynamics/b2World.h>
 #include <Box2D/Dynamics/b2Body.h>
 
+#define CONTACT_CHECK 1
+
 typedef enum body_type {ROCK_BLOCK, METAL_BLOCK, ACID_BLOCK, CHELL, PORTAL, CAKE, DOOR, BUTTON} body_type_t;
 
 class Body {
