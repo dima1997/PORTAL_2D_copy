@@ -14,6 +14,7 @@ private:
     MoveSense moveSense;
     Area areaVision;
     std::vector<SOUND_NAME> sounds;
+    bool alive;
 
     /*Actualiza el area de vision de Chell.*/
     void updateVisionArea();
@@ -47,6 +48,11 @@ public:
     POST: Renderiza la textura de Chell.
     */
     virtual void render(float adjuster, const Area & areaCamera) override;
+
+    /*
+    Alterna entre Chell viva y muerta.
+    */
+    virtual void switch_sprite();
 
     /*
     Devuelve el area de vision actual del 

@@ -6,13 +6,16 @@
 
 #include "../../includes/threads/event_game_receiver_thread.h"
 #include "../../includes/threads/key_sender_thread.h"
-
 #include "../../includes/threads/playing_loop_thread.h"
+#include "../../includes/threads/play_result.h"
 
 #include "../../includes/sdl_system.h"
 #include "../../includes/window/window.h"
 #include "../../includes/mixer/mixer.h"
 #include "../../includes/mixer/portal_mixer.h"
+
+#include <configs_yaml/config_paths.h>
+#include <yaml-cpp/yaml.h>
 
 #include <mutex>
 #include <condition_variable>
@@ -52,17 +55,24 @@ void Game::run(){
         this->isDead = false;    
     }
 
-    BlockingQueue<GameActionName> endQueue;
+    //BlockingQueue<GameActionName> endQueue;
+    ThreadSafeQueue<ThreadStatus> stopQueue;
 
     //Inicializo SDL
     SdlSystem sdlSystem;
     sdlSystem.init_video();
     sdlSystem.init_audio();
 
+    //Cargo YAML
+    YAML::Node baseNode = YAML::LoadFile(CONFIG_PATHS.at(this->mapId+1));
+    
+    //Inicializo resultado del juego
+    PlayResult playResult(baseNode);
+
     //Inicializo Window
     int windowWidthPixels = WINDOW_WIDTH;
     int windowHeightPixels = WINDOW_HEIGHT;
-    Window window(windowWidthPixels, windowHeightPixels, this->playerId, this->mapId + 1);
+    Window window(windowWidthPixels, windowHeightPixels, this->playerId, baseNode);
     
     //Inicializo Mixer
     PortalMixer portalMixer;
@@ -71,24 +81,35 @@ void Game::run(){
     mixer.play_music();
 
     this->threads.push_back(std::move(std::unique_ptr<Thread>(
-        new EventGameReceiverThread(this->connector, this->changesMade, endQueue, playerId)
+        new EventGameReceiverThread(this->connector, this->changesMade, stopQueue)
     )));
     this->threads.push_back(std::move(std::unique_ptr<Thread>(
-        new KeySenderThread(this->connector, this->changesAsk)
+        new KeySenderThread(this->connector, this->changesAsk, stopQueue)
     )));
+    /*
     this->threads.push_back(std::move(std::unique_ptr<Thread>(
-        new PlayingLoopThread(window, this->changesMade, this->changesAsk, endQueue, mixer)
+        new PlayingLoopThread(window, this->changesMade, this->changesAsk, endQueue, mixer, playResult)
     )));
+    */
+    PlayingLoopThread playingLoop(this->changesMade, 
+                                  this->changesAsk, 
+                                  window, 
+                                  mixer, 
+                                  playResult, 
+                                  stopQueue);
 
     for (auto & thread : this->threads){
         (*thread).start();
     }
 
+    playingLoop.run();
+
     // Espero que termine el juego
-    GameActionName actionName;
-    endQueue.pop(actionName);
+    //GameActionName actionName;
+    //endQueue.pop(actionName);
     this->stop();
     // Mostrar pantalla de Perder/Ganar
+    playResult.print();
 }
 
 /*Detiene la ejecucion del juego.*/

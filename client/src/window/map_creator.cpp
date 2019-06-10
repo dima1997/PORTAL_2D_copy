@@ -12,9 +12,9 @@ y la ventana (Window &) donde se agregaran
 las texturas del mapa.
 POST: Inicializa un creador de mapa. 
 */
-MapCreator::MapCreator(uint8_t idMap, Window & window)
-:   window(window) {
-    this->baseNode = YAML::LoadFile(CONFIG_PATHS.at(idMap));
+MapCreator::MapCreator(YAML::Node & gameConfig, Window & window)
+:   window(window), baseNode(gameConfig) {
+    //this->baseNode = YAML::LoadFile(CONFIG_PATHS.at(idMap));
 }
 
 /*Destruye el creador de mapa*/

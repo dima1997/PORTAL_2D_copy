@@ -23,12 +23,14 @@ PRE: Recibe:
     salir del mismo (BlockingQueue<GameActionName>> &);
 POST: Inicializa un lector de eventos de entrada.
 */
-KeyReader::KeyReader(Window & window, 
-BlockingQueue<std::unique_ptr<GameAction>> & toGameQueue, 
-BlockingQueue<GameActionName> & talkRefereeQueue)
+KeyReader::KeyReader(
+    Window & window,
+    Mixer & mixer, 
+    BlockingQueue<std::unique_ptr<GameAction>> & toGameQueue
+)
 :   window(window), 
+    mixer(mixer),
     toGameQueue(toGameQueue), 
-    talkRefereeQueue(talkRefereeQueue),
     keysSendOnce({
         std::make_pair<KeyUsed,bool>(SPACE, false),
         std::make_pair<KeyUsed,bool>(LSHIFT, false)
@@ -70,7 +72,7 @@ GameActionName KeyReader::process_event(SDL_Event & event){
                     new GameAction(quitName)
                 );
                 this->toGameQueue.push(ptrAction);
-                this->talkRefereeQueue.push(quitName);
+                //this->talkRefereeQueue.push(quitName);
                 return quitName;
             }
             break;
@@ -170,6 +172,15 @@ void KeyReader::process_event_down(SDL_KeyboardEvent & keyEvent){
         case SDLK_LSHIFT:
         case SDLK_MINUS:
             this->process_key_down(LSHIFT, throw_it);
+            break;
+        case SDLK_m:
+            {
+                if (this->mixer.is_playing_music()){
+                    this->mixer.pause_music();
+                } else {
+                    this->mixer.play_music();
+                }
+            }
             break;
         default:
             return;

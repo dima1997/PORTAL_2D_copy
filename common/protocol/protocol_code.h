@@ -9,7 +9,13 @@
 
 enum CommandName: uint8_t { new_game, join_game };
 enum JoinGameResponse: uint8_t { command_ok, game_is_full, non_existent_game };
-enum EventType: uint8_t {object_moves, player_wins, player_dies, object_switch_state};
+enum EventType: uint8_t {
+    object_moves, 
+    object_switch_state, 
+    player_wins, 
+    player_loses, 
+    player_dies
+};
 
 enum GameActionName : uint8_t {
     null_action, 
@@ -25,6 +31,11 @@ enum GameActionName : uint8_t {
     throw_it,
     stop_grab,
     stop_throw
+};
+
+enum ThreadStatus{
+    THREAD_STOP,
+    THREAD_GO
 };
 
 #endif

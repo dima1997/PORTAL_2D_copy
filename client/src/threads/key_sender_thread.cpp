@@ -14,9 +14,14 @@ ya conectado con el servidor del juego.
 POST: Inicializa un hilo enviador de acciones del usuario 
 sobre objetos del juego.
 */
-KeySenderThread::KeySenderThread(Connector & connector, 
-                BlockingQueue<std::unique_ptr<GameAction>> & actionsBlockQueue)
-: connector(connector), actionsBlockQueue(actionsBlockQueue), isDead(true) {}
+KeySenderThread::KeySenderThread(
+                Connector & connector, 
+                BlockingQueue<std::unique_ptr<GameAction>> & actionsBlockQueue,
+                ThreadSafeQueue<ThreadStatus> & stopQueue)
+:   isDead(true), 
+    connector(connector), 
+    actionsBlockQueue(actionsBlockQueue),
+    stopQueue(stopQueue) {}
 
 /*
 Destruye un hilo enviador de acciones 
@@ -46,6 +51,8 @@ void KeySenderThread::run(){
     } catch (SocketException &except){
         this->stop();
         std::cout << "Connection Lost at KS.\n";
+        ThreadStatus stop = THREAD_STOP;
+        this->stopQueue.push(stop);
         return;
     }
 }

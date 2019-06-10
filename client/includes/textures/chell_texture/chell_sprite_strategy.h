@@ -9,8 +9,6 @@
 
 #include "../../render_time.h" 
 
-#include <memory>
-
 #define CHELL_FRAMES_WAIT 23
 
 enum spriteNameStrategy_t {

@@ -4,16 +4,18 @@
 #include <thread.h>
 #include <connector/connector.h>
 #include <protocol/protocol_code.h>
-#include <blocking_queue.h>
 #include <protocol/game_action/game_action.h>
+#include <blocking_queue.h>
+#include <thread_safe_queue.h>
 
 #include <mutex>
 
 class KeySenderThread : public Thread {
 private:
+    bool isDead;
     Connector & connector;
     BlockingQueue<std::unique_ptr<GameAction>> & actionsBlockQueue;
-    bool isDead;
+    ThreadSafeQueue<ThreadStatus> & stopQueue;
     std::mutex mutex;
     
 public:
@@ -23,13 +25,16 @@ public:
     POST: Inicializa un hilo enviador de acciones del usuario 
     sobre objetos del juego.
     */
-    KeySenderThread(Connector & connector, 
-            BlockingQueue<std::unique_ptr<GameAction>> & actionsBlockQueue);
+    KeySenderThread(
+            Connector & connector, 
+            BlockingQueue<std::unique_ptr<GameAction>> & actionsBlockQueue,
+            ThreadSafeQueue<ThreadStatus> & stopQueue
+            );
     /*
     Destruye un hilo enviador de acciones 
     del usuario sobre objetos del juego.
     */
-    ~KeySenderThread();
+    virtual ~KeySenderThread();
 
     /*
     Ejecuta un hilo enviador de acciones 

@@ -12,8 +12,6 @@
 
 #include "../../../includes/mixer/sounds_path.h"
 
-#include <memory>
-
 /*Inicializa el estado de sprite de Chell.*/
 ChellSpriteStrategy::ChellSpriteStrategy()
 :   SpriteStrategy(
@@ -22,14 +20,7 @@ ChellSpriteStrategy::ChellSpriteStrategy()
     spriteName(SWEAT_RIGHT), 
     keepMoving(false) 
     {}
-/*
-:   SpriteStrategy(
-        std::move(std::unique_ptr<DynamicSprite>(new ChellSweatRightSprite()))
-    ),
-    spriteName(SWEAT_RIGHT), 
-    keepMoving(false) 
-    {}
-*/
+
 /*Destruye el estado de sprite de Chell*/
 ChellSpriteStrategy::~ChellSpriteStrategy() = default;
 
@@ -44,27 +35,21 @@ void ChellSpriteStrategy::setSpriteStrategy(spriteNameStrategy_t newSpriteName){
     this->spriteName = newSpriteName;
     switch (newSpriteName){
         case RUN_RIGHT:
-            //this->ptrDynamicSprite.reset(new ChellRunRightSprite());
             this->dynamicSprite = ChellRunRightSprite::get_sprite();
             break;
         case JUMP_APEX_RIGHT:
-            //this->ptrDynamicSprite.reset(new ChellJumpApexRightSprite());
             this->dynamicSprite = ChellJumpApexRightSprite::get_sprite();
             break;
         case JUMP_RISE_RIGHT:
-            //this->ptrDynamicSprite.reset(new ChellJumpRiseRightSprite());
             this->dynamicSprite = ChellJumpRiseRightSprite::get_sprite();
             break;
         case JUMP_FALL_RIGHT:
-            //this->ptrDynamicSprite.reset(new ChellJumpFallRightSprite());
             this->dynamicSprite = ChellJumpFallRightSprite::get_sprite();
             break;
         case SWEAT_RIGHT:
-            //this->ptrDynamicSprite.reset(new ChellSweatRightSprite());
             this->dynamicSprite = ChellSweatRightSprite::get_sprite();
             break;
         default: // igual que case SWEAT_RIGHT
-            //this->ptrDynamicSprite.reset(new ChellSweatRightSprite());
             this->dynamicSprite = ChellSweatRightSprite::get_sprite();
             break;
     }
@@ -115,10 +100,6 @@ Area ChellSpriteStrategy::getNextArea(){
     } else {
         this->setSpriteStrategy(SWEAT_RIGHT);
     }
-    /*
-    DynamicSprite & actualSprite = *(this->ptrDynamicSprite);
-    return std::move(actualSprite.getNextArea());
-    */
     return std::move(this->dynamicSprite.getNextArea());
 }
 

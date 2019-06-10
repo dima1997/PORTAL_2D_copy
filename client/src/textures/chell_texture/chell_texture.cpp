@@ -1,6 +1,7 @@
 #include "../../../includes/textures/chell_texture/chell_texture.h"
 
 #include "../../../includes/textures/chell_texture/chell_sprite_strategy.h"
+#include "../../../includes/textures/chell_texture/chell_dead_strategy.h"
 #include "../../../includes/textures/chell_texture/move_sense.h"
 #include "../../../includes/textures/common_texture/area.h"
 #include "../../../includes/textures/common_texture/big_texture.h"
@@ -33,7 +34,8 @@ ChellTexture::ChellTexture(BigTexture &bigTextureChell, Area areaMap)
         bigTextureChell, 
         std::move(areaMap),
         std::move(std::unique_ptr<SpriteStrategy>(new ChellSpriteStrategy())) 
-    ) {
+    ),
+    alive(true) {
     this->updateVisionArea();
 }
 
@@ -56,6 +58,16 @@ void ChellTexture::move_to(float x, float y) {
                                     this->sounds);
     this->moveSense.move(xBefore, yBefore, xNow, yNow);
 }   
+
+/*
+Alterna entre Chell viva y muerta.
+*/
+void ChellTexture::switch_sprite(){
+    if (this->alive){
+        this->ptrSpriteStrategy.reset(new ChellDeadStrategy());
+        this->sounds.push_back(SOUND_DYING);
+    }
+}
 
 /*
 PRE: Recibe un factor de ajuster para redimensionar el area 
@@ -82,6 +94,7 @@ Area ChellTexture::getVisionArea() {
     Area areaVisionCopy = this->areaVision;
     return std::move(areaVisionCopy);
 }
+
 
 /*
 Reproduce todos los efectos de 

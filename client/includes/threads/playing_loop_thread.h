@@ -3,6 +3,7 @@
 
 #include "../window/window.h"
 #include "../mixer/mixer.h"
+#include "play_result.h"
 
 #include <thread.h>
 #include <thread_safe_queue.h>
@@ -15,34 +16,36 @@
 class PlayingLoopThread : public Thread {
 private:
     bool isDead;
-    Window & window;
     ThreadSafeQueue<std::unique_ptr<Event>> & fromGameQueue;
     BlockingQueue<std::unique_ptr<GameAction>> & toGameQueue;
-    BlockingQueue<GameActionName> & talkRefereeQueue;
+    Window & window;
     Mixer & mixer;
-
+    PlayResult & playResult;
+    ThreadSafeQueue<ThreadStatus> & stopQueue;
     std::mutex mutex;
 public:
     /*
     PRE: Recibe:
-        la ventana (Window &) donde se renderizan las texturas;
         una cola segura en hilos donde se para recibir eventos del juego;
         una cola bloqueante para enviar acciones a realizar al juego;
-        una cola bloquante para comunicarse con los 'referis' del juego, y
-        reportar que el jugador se desea desconectar del juego.
-    POST: Inicializa un loop de juego (animaciones + input del usuario).
+        la ventana (Window &) donde se renderizan las texturas;
+        el mixer que reproduce los sonidos del juego;
+        el resultado del juego donde ir volcando estadisticas.
+    POST: Inicializa un loop de juego.
     */
-    PlayingLoopThread(Window &window, 
+    PlayingLoopThread( 
         ThreadSafeQueue<std::unique_ptr<Event>> & fromGameQueue,
         BlockingQueue<std::unique_ptr<GameAction>> & toGameQueue,
-        BlockingQueue<GameActionName> & talkRefereeQueue,
-        Mixer & mixer
-        );
+        Window & window,
+        Mixer & mixer,
+        PlayResult & playResult,
+        ThreadSafeQueue<ThreadStatus> & stopQueue
+    );
     
     /*
     Destruye el hilo: loop de juego. 
     */
-    ~PlayingLoopThread();
+    virtual ~PlayingLoopThread();
     
     /*
     Ejecuta el hilo: loop de juego.

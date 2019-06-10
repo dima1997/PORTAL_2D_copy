@@ -9,15 +9,15 @@
 class MapCreator {
 private: 
     Window & window;
-    YAML::Node baseNode;
+    YAML::Node & baseNode;
 public:
     /*
-    PRE: Recibe el id (unt8_t) del mapa a crear, 
-    y la ventana (Window &) donde se agregaran 
-    las texturas del mapa.
+    PRE: Recibe la configuracion del mapa (YAML::Node) 
+    a crear, y la ventana (Window &) donde se agregaran 
+    las texturas del mismo.
     POST: Inicializa un creador de mapa. 
     */
-    MapCreator(uint8_t idMap, Window & window);
+    MapCreator(YAML::Node & mapConfig, Window & window);
 
     /*Destruye el creador de mapa*/
     ~MapCreator();

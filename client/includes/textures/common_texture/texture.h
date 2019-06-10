@@ -62,6 +62,7 @@ public:
     que se creo.
     */
     virtual void move_to(float x, float y);
+    
     /*
     Realiza un switch en su sprite actual, segun el sprite 
     strategy con que se creo.

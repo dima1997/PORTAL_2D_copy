@@ -59,17 +59,13 @@ PRE: Recibe:
     La longitud y altura del ventanta en pixeles (ambos int).
     El id de la textura en la que se centrara e indicarara que mostrar 
     en la ventana.
+    La configuracion del mapa de juego (YAML::Node &).
 POST: Inicializa una ventana de las medidas recibidas.
 Levanta SDLException en caso de error.
 */
-Window::Window(int width, int height, uint32_t idMainTexture, uint8_t idMap)
+Window::Window(int width, int height, uint32_t idMainTexture, 
+               YAML::Node & mapConfig)
 : width(width), height(height), idMainTexture(idMainTexture) {
-    /*
-    int errCode = SDL_Init(SDL_INIT_VIDEO);
-    if (errCode) {
-        throw SdlException("Error en la inicialización", SDL_GetError());
-    }
-    */
     this->window = SDL_CreateWindow(
         "Portal Window",
         SDL_WINDOWPOS_CENTERED,
@@ -82,10 +78,10 @@ Window::Window(int width, int height, uint32_t idMainTexture, uint8_t idMap)
     }
     this->renderer = SDL_CreateRenderer(this->window,-1,SDL_RENDERER_ACCELERATED);
     if (this->renderer == NULL) {
-        // Deberia destruir la ventana, o se destruye sola ?
+        SDL_DestroyWindow(this->window);
         throw SdlException("Error al crear renderizador.", SDL_GetError());   
     }
-    MapCreator mapCreator(idMap,*this);
+    MapCreator mapCreator(mapConfig,*this);
     mapCreator.add_map(); 
     {
         std::unique_lock<std::mutex> l(this->mutex);

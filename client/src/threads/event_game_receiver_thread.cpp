@@ -3,14 +3,18 @@
 #include "../../includes/textures/common_texture/texture_move_change.h"
 
 #include <protocol/event/event.h>
+#include <protocol/event/player_wins_event.h>
+#include <protocol/event/player_loses_event.h>
+#include <protocol/event/player_dies_event.h>
+#include <protocol/event/object_moves_event.h>
+#include <protocol/event/object_switch_event.h>
+
 #include <connector/connector.h>
 #include <connector/socket_exception.h>
 #include <protocol/protocol_code.h>
 #include <thread_safe_queue.h>
 #include <thread.h>
 
-#include <protocol/event/object_moves_event.h>
-#include <protocol/event/object_switch_event.h>
 
 #include <iostream>
 
@@ -20,40 +24,51 @@ void EventGameReceiverThread::receive_event(){
     this->connector >> gameEventFromConnector;
     auto gameEvent = (EventType) gameEventFromConnector;
     switch (gameEvent){
-        case object_moves:
-            {
-                std::unique_ptr<Event> ptrEvent(
-                                    new ObjectMovesEvent(0,0,0));
-                this->connector >> (*ptrEvent);
-                this->changesQueue.push(ptrEvent);    
-            }
-            break;
         case player_wins:
             {    
-                GameActionName quitGame = quit_game;
+                std::unique_ptr<Event> ptrEvent(
+                    new PlayerWinsEvent()
+                );
+                this->changesQueue.push(ptrEvent);
                 this->stop();
-                this->endQueue.push(quitGame);
             }
             break;
+        case player_loses:
+            {
+                std::unique_ptr<Event> ptrEvent(
+                    new PlayerLosesEvent()
+                );
+                this->changesQueue.push(ptrEvent);
+                this->stop();
+            }
         case player_dies:
             {   
                 uint32_t player_id_dead;
                 this->connector >> player_id_dead;
-                if (this->player_id == player_id_dead){
-                    GameActionName quitGame = quit_game;
-                    this->stop();
-                    this->endQueue.push(quitGame);
-                }
+                std::unique_ptr<Event> ptrEvent(
+                    new PlayerDiesEvent(player_id_dead)
+                );
+                this->changesQueue.push(ptrEvent);
+            }
+            break;
+        case object_moves:
+            {
+                std::unique_ptr<Event> ptrEvent(
+                    new ObjectMovesEvent(0,0,0)
+                );
+                this->connector >> (*ptrEvent);
+                this->changesQueue.push(ptrEvent);    
             }
             break;
         case object_switch_state:
-        {
-            std::unique_ptr<Event> ptrEvent(
-                                    new ObjectSwitchEvent());
-            this->connector >> (*ptrEvent);
-            this->changesQueue.push(ptrEvent);
-            break;
-        }
+            {
+                std::unique_ptr<Event> ptrEvent(
+                    new ObjectSwitchEvent()
+                );
+                this->connector >> (*ptrEvent);
+                this->changesQueue.push(ptrEvent);
+                break;
+            }
     }
 }
 
@@ -62,14 +77,15 @@ PRE: Recibe una referencia a un conector (Connector &),
 ya conectado con el servidor del juego.
 POST: Inicializa un hilo recibidor de eventos del juego.
 */
-EventGameReceiverThread::EventGameReceiverThread(Connector & connector, 
+EventGameReceiverThread::EventGameReceiverThread(
+    Connector & connector, 
     ThreadSafeQueue<std::unique_ptr<Event>> & changesQueue,
-    BlockingQueue<GameActionName> & endQueue, uint32_t player_id)
-:   connector(connector), 
-    changesQueue(changesQueue), 
-    endQueue(endQueue), 
-    isDead(true),
-    player_id(player_id) {}
+    ThreadSafeQueue<ThreadStatus> & stopQueue
+)
+:   isDead(true),
+    connector(connector), 
+    changesQueue(changesQueue),
+    stopQueue(stopQueue) {}
 
 /*Destruye el hilo recibidor de eventos del juego*/
 EventGameReceiverThread::~EventGameReceiverThread() = default;
@@ -91,10 +107,10 @@ void EventGameReceiverThread::run(){
             this->receive_event();
         }
     } catch (SocketException &error){
-        std::cout << "Connection Lost at EGR.\n";
+        std::cerr << "Connection Lost at EGR.\n";
         this->stop();
-        GameActionName quitName = quit_game;
-        this->endQueue.push(quitName);
+        ThreadStatus stop = THREAD_STOP;
+        this->stopQueue.push(stop);
         return;
     }
 }

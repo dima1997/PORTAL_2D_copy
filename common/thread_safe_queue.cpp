@@ -67,8 +67,8 @@ ThreadSafeQueue<T> &ThreadSafeQueue<T>::operator=(ThreadSafeQueue<T> &&other) no
 //template class ThreadSafaQueue<int>;
 template class ThreadSafeQueue<std::unique_ptr<ObjectMovesEvent>>;
 template class ThreadSafeQueue<std::pair<uint32_t, gameObjectAction_t>>;
-//template class ThreadSafeQueue<GameAction *>;
 template class ThreadSafeQueue<std::unique_ptr<Event>>;
 template class ThreadSafeQueue<std::unique_ptr<GameAction>>;
 template class ThreadSafeQueue<GameActionName>;
+template class ThreadSafeQueue<ThreadStatus>;
 

@@ -2,6 +2,7 @@
 #define KEY_READER_H
 
 #include "../window/window.h"
+#include "../mixer/mixer.h"
 
 #include <blocking_queue.h>
 #include <protocol/protocol_code.h>
@@ -23,8 +24,8 @@ enum KeyUsed {
 class KeyReader {
 private:
     Window & window; 
+    Mixer & mixer;
     BlockingQueue<std::unique_ptr<GameAction>> & toGameQueue; 
-    BlockingQueue<GameActionName> & talkRefereeQueue;
     std::map<KeyUsed,bool> keysSendOnce;
 
     /*
@@ -77,9 +78,11 @@ public:
         salir del mismo (BlockingQueue<GameActionName>> &);
     POST: Inicializa un lector de eventos de entrada.
     */
-    KeyReader(Window & window, 
-    BlockingQueue<std::unique_ptr<GameAction>> & toGameQueue, 
-    BlockingQueue<GameActionName> & talkRefereeQueue);
+    KeyReader(
+        Window & window,
+        Mixer & mixer, 
+        BlockingQueue<std::unique_ptr<GameAction>> & toGameQueue
+    );
 
     /*Destruye el lector de eventos de entrada.*/
     ~KeyReader();

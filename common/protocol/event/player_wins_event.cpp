@@ -3,11 +3,8 @@
 //
 
 #include "player_wins_event.h"
+#include "event.h"
 
 PlayerWinsEvent::PlayerWinsEvent(): Event(player_wins) {}
-
-Connector &operator<<(Connector &out, const PlayerWinsEvent &c) {
-    return out << (uint8_t) c.eventType;
-}
 
 PlayerWinsEvent::~PlayerWinsEvent() = default;

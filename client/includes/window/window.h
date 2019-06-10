@@ -4,8 +4,11 @@
 #include "../textures/common_texture/big_texture.h"
 #include "../textures/common_texture/texture.h"
 #include "../mixer/mixer.h"
+
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
+#include <yaml-cpp/yaml.h>
+
 #include <map>
 #include <vector> 
 #include <string>
@@ -60,11 +63,12 @@ public:
         La longitud y altura del ventanta en pixeles (ambos int).
         El id de la textura en la que se centrara e indicarara que mostrar 
         en la ventana.
-        El id del mapa del juego a cargar en la ventana.
+        La configuracion del mapa de juego (YAML::Node &).
     POST: Inicializa una ventana de las medidas recibidas.
     Levanta SDLException en caso de error.
     */
-    Window(int width, int height, uint32_t idMainTexture, uint8_t mapId);
+    Window(int width, int height, uint32_t idMainTexture, 
+           YAML::Node & mapConfig);
 
     /*Destruye la ventana.*/
     ~Window();

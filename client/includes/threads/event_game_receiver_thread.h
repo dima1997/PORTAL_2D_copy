@@ -16,11 +16,10 @@
 
 class EventGameReceiverThread : public Thread {
 private:
+    bool isDead;
     Connector & connector;
     ThreadSafeQueue<std::unique_ptr<Event>> & changesQueue;
-    BlockingQueue<GameActionName> & endQueue;
-    bool isDead;
-    uint32_t player_id;
+    ThreadSafeQueue<ThreadStatus> & stopQueue;
     std::mutex mutex;
 
     /*Recibe y procesa un evento del servidor.*/
@@ -31,12 +30,14 @@ public:
     ya conectado con el servidor del juego.
     POST: Inicializa un hilo recibidor de eventos del juego.
     */
-    EventGameReceiverThread(Connector & connetor, 
+    EventGameReceiverThread(
+        Connector & connetor, 
         ThreadSafeQueue<std::unique_ptr<Event>> & changesQueue,
-        BlockingQueue<GameActionName> & endQueue, uint32_t player_id);
+        ThreadSafeQueue<ThreadStatus> & stopQueue
+        );
 
     /*Destruye el hilo recibidor de eventos del juego*/
-    ~EventGameReceiverThread();
+    virtual ~EventGameReceiverThread();
 
     /*
     Ejecuta el hilo recibidor de eventos del juego.
