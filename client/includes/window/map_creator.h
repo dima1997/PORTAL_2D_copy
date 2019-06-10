@@ -64,8 +64,6 @@ public:
 
     void add_custom_textures(std::string & subSectionName);
 
-    void add_door_textures();
-
     void add_map();
 };
 

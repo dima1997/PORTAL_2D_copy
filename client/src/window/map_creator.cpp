@@ -217,29 +217,6 @@ void MapCreator::add_custom_textures(std::string & subSectionName){
         Area area(x, y, width, height);
         this->add_texture(id, area, subSectionName);
     }
-} 
-
-void MapCreator::add_door_textures() {
-    std::string subSectionName = "doors_one";
-    YAML::Node subSectionNode = this->baseNode[subSectionName];
-    float width = subSectionNode["width"].as<float>();
-    float height = subSectionNode["height"].as<float>();
-    YAML::Node idCoordsNode = subSectionNode["id_coordinates"];
-    for (int j = 0; j < (int)idCoordsNode.size(); ++j){
-        uint32_t id = idCoordsNode[j]["id"].as<uint32_t>();  
-        float x = idCoordsNode[j]["xCoord"].as<float>();
-        float y = idCoordsNode[j]["yCoord"].as<float>();
-        YAML::Node conditionsNode = idCoordsNode[j]["conditions"];
-        bool is_open = conditionsNode[0]["condition"].as<bool>(); 
-        // Hardcode, seria mejor si el servidor me envia el estado en el que inicia
-        Area area(x, y, width, height);
-        this->add_texture(id, area, subSectionName);
-        /*
-        if (is_open){
-            this->window.switch_texture(id);
-        }
-        */
-    }
 }
 
 void MapCreator::add_map(){
@@ -249,10 +226,6 @@ void MapCreator::add_map(){
         std::string subSectionName = sectionsNode[i].as<std::string>();
         if (subSectionName == "barriers"){
             this->add_custom_textures(subSectionName);
-            continue;
-        }
-        if (subSectionName == "doors_one"){
-            this->add_door_textures();
             continue;
         }
         YAML::Node subSectionNode = this->baseNode[subSectionName.c_str()];
