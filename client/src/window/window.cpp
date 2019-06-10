@@ -263,3 +263,23 @@ void Window::stop_follow(uint32_t idFollowing){
     } 
     (this->allTextures.at(idFollowing))->stop_follow();
 }
+
+/*
+Devuelve el id de la textura principal de la ventana.
+*/
+uint32_t Window::get_main_id(){
+    return this->idMainTexture;
+}
+
+/*
+PRE: Recibe un id de una textura en el ventana.
+POST: Setea el id recibido como id de textura principal.
+*/
+void Window::set_main_id(uint32_t id){
+    if (this->allTextures.count(id) == 0){
+        std::stringstream errDescription; 
+        errDescription << "No existe textura con id : " << id << ".";
+        throw OSException("Error en ventana:",errDescription.str().c_str());
+    } 
+    this->idMainTexture = id;
+}

@@ -41,8 +41,10 @@ PlayResult::PlayResult(YAML::Node & gameConfig){
 PlayResult::~PlayResult() = default;
 
 /*
-Setea el status (PlayerStatus) del juegado 
+Setea el status (PlayerStatus) del jugador 
 de id (uint32_t) recibido.
+Levanta PortalException si no existe jugador 
+con dicho id.  
 */
 void PlayResult::setPlayerStatus(uint32_t id, PlayerStatus status){
     if (this->playersStatus.count(id) == 0){
@@ -73,4 +75,38 @@ void PlayResult::print(){
         std::cout << "\t- Status : " << PLAYER_STATUS_STR.at(status);
         std::cout << "\n"; 
     }
+}
+
+/*
+PRE: Recibe el id (uint32_t) de un jugador.
+POST: Devuelve true si el jugador esta vivo; 
+false en caso contrario.
+Levanta PortalException si no existe jugador 
+con dicho id.  
+*/
+bool PlayResult::is_player_alive(uint32_t id){
+    if (this->playersStatus.count(id) == 0){
+        std::stringstream err;
+        err << "Not player with id: " << id << "\n";
+        throw PortalException(err.str().c_str());
+    }
+    return (this->playersStatus.at(id) == ALIVE);
+}
+
+/*
+Devuelve el id (uint32_t) de un jugador vivo.
+Si no hay jugadores vivos devuelve (uint32_t)(-1)
+*/
+uint32_t PlayResult::get_player_alive(){ 
+    for (std::map<uint32_t,PlayerStatus>::iterator 
+         it=this->playersStatus.begin(); 
+         it!=this->playersStatus.end(); 
+         ++it){
+        uint32_t id = it->first;
+        PlayerStatus status = it->second;
+        if (status == ALIVE){
+            return id;
+        }
+    }
+    return (uint32_t)(-1);
 }

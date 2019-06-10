@@ -12,7 +12,7 @@
 PRE: Recibe una gran textura que contiene de la imagen PORTAL_SPRITES 
 de images_paths.h; y el area del mapa de juego que representa esta 
 textura.
-POST: Inicializa una texture de portal azul.
+POST: Inicializa una textura de portal azul.
 */
 PortalBlueTexture::PortalBlueTexture(BigTexture & bigTexture, Area areaMap) 
 :    Texture(bigTexture, areaMap, 
