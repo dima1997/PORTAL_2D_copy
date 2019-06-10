@@ -24,12 +24,12 @@ public:
     PRE: Recibe un conector (Connector &) conectado.
     POST: Recibe el evento, desde el connector.
     */
-    virtual void receiveFrom(Connector & in);
+    void receiveFrom(Connector & in) override;
     /*
     PRE: Recibe un conector (Connector &) conectado.
     POST: Envia el evento, a traves del connector.
     */
-    virtual void sendThrough(Connector & out) const;
+    void sendThrough(Connector & out) const override;
     friend Connector &operator<<(Connector &out, const ObjectMovesEvent &c);
     friend Connector &operator>>(Connector &in, ObjectMovesEvent &c);
 };
