@@ -85,7 +85,8 @@ EventGameReceiverThread::EventGameReceiverThread(
 :   isDead(true),
     connector(connector), 
     changesQueue(changesQueue),
-    stopQueue(stopQueue) {}
+    stopQueue(stopQueue),
+    mutex() {}
 
 /*Destruye el hilo recibidor de eventos del juego*/
 EventGameReceiverThread::~EventGameReceiverThread() = default;

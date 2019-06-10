@@ -12,19 +12,17 @@
 #include <protocol/game_action/game_action.h>
 #include <protocol/event/event.h>
 
-#include "../../includes/textures/common_texture/texture_change.h"
-
 #include <mutex>
 #include <condition_variable>
 #include <vector>
 
 class Game {
 private:
+    bool isDead;
     Connector connector;
     uint8_t gameId;
     uint32_t  playerId;
     uint8_t mapId;
-    bool isDead;
     std::vector<std::unique_ptr<Thread>> threads;
     ThreadSafeQueue<std::unique_ptr<Event>> changesMade;
     BlockingQueue<std::unique_ptr<GameAction>> changesAsk;

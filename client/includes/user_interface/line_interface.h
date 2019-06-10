@@ -5,6 +5,7 @@
 
 #include <connector/connector.h>
 #include <cstdint>
+#include <map>
 
 class LineInterface {
 private:

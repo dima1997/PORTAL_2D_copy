@@ -27,8 +27,16 @@
 
 Game::Game(Connector &connector, uint8_t game_id, 
             uint32_t player_id, uint8_t mapId)
-:   connector(std::move(connector)), gameId(game_id), 
-    playerId(player_id), mapId(mapId), isDead(true) {}
+:   isDead(true),
+    connector(std::move(connector)), 
+    gameId(game_id), 
+    playerId(player_id), 
+    mapId(mapId),
+    threads(),
+    changesMade(),
+    changesAsk(),
+    mutex()
+    {}
 
 void Game::operator()() {
     this->run();
@@ -39,14 +47,15 @@ PRE: Recibe un doble referencia a otra juego (Game &&).
 POST: Inicializa un nuevo juego por movimiento semantico.
 */
 Game::Game(Game && other)
-:   connector(std::move(other.connector)),
+:   isDead(true), 
+    connector(std::move(other.connector)),
     gameId(other.gameId),
     playerId(other.playerId),
     mapId(other.mapId),
-    isDead(true), 
     threads(std::move(other.threads)),
     changesMade(std::move(other.changesMade)),
-    changesAsk(std::move(other.changesAsk)) {}
+    changesAsk(std::move(other.changesAsk)),
+    mutex() {}
 
 /*Ejecuta el juego.*/
 void Game::run(){

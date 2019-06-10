@@ -21,7 +21,8 @@ KeySenderThread::KeySenderThread(
 :   isDead(true), 
     connector(connector), 
     actionsBlockQueue(actionsBlockQueue),
-    stopQueue(stopQueue) {}
+    stopQueue(stopQueue),
+    mutex() {}
 
 /*
 Destruye un hilo enviador de acciones 
