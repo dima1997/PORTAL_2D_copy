@@ -42,6 +42,6 @@ MOUSE:
 
 - CLICK IZQUIERDO -> Abrir portal azul 
 - CLICK DERECHO -> Abrir portal naranja
-- CLICK MEDIO -> Pin tool 
+- CLICK MEDIO -> Pin tool (Proximamente)
 
 
