@@ -21,27 +21,27 @@ Si se puede unir exitosamente, el servidor le responde con un status _command_ok
 
 ## Modos de ejecucion
 
-El server se inica ejecutando el comando (por terminal):
+El server se inica ejecutando el comando (por terminal):  
 	./PORTAL-server
 
-El Cliente se inicia ejecutando el comando (por terminal):
+El Cliente se inicia ejecutando el comando (por terminal):  
 	./PORTAL line
 
 ## Controles del juego (Jugador)
 
 TECLADO:
-
-A/FLECHA IZQUIERDA -> Moverse hacia izquierda
-W/FLECHA ARRIBA -> Saltar
-D/FLECHA DERECHA -> Moverse hacia derecha
-ESPACIO/CONTROL DERECHO -> Tomar una roca (Proximamente)
-SHIFT IZQUIERDO/MENOS -> Soltar una roca (Proximamente)
-M -> Pausar/Continuar musica de fondo
-
+  
+- A/FLECHA IZQUIERDA -> Moverse hacia izquierda
+- W/FLECHA ARRIBA -> Saltar
+- D/FLECHA DERECHA -> Moverse hacia derecha
+- ESPACIO/CONTROL DERECHO -> Tomar una roca (Proximamente)
+- SHIFT IZQUIERDO/MENOS -> Soltar una roca (Proximamente)
+- M -> Pausar/Continuar musica de fondo
+  
 MOUSE:
 
-CLICK IZQUIERDO -> Abrir portal azul 
-CLICK DERECHO -> Abrir portal naranja
-CLICK MEDIO -> Pin tool 
+- CLICK IZQUIERDO -> Abrir portal azul 
+- CLICK DERECHO -> Abrir portal naranja
+- CLICK MEDIO -> Pin tool 
 
 
