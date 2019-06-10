@@ -34,7 +34,8 @@ KeyReader::KeyReader(
     keysSendOnce({
         std::make_pair<KeyUsed,bool>(SPACE, false),
         std::make_pair<KeyUsed,bool>(LSHIFT, false)
-    }) {}
+    }),
+    deadKeys(false) {}
 
 /*Destruye el lector de eventos de entrada.*/
 KeyReader::~KeyReader() = default;
@@ -72,8 +73,7 @@ GameActionName KeyReader::process_event(SDL_Event & event){
                     new GameAction(quitName)
                 );
                 this->toGameQueue.push(ptrAction);
-                //this->talkRefereeQueue.push(quitName);
-                return quitName;
+                return quitName; // Podemos cambiarlo a un THREAD_STATUS
             }
             break;
         case SDL_KEYDOWN: 
@@ -136,6 +136,9 @@ POST: Comunica la accion del juego, solo si la tecla fue liberada antes de ser
 presionada.
 */
 void KeyReader::process_key_up(KeyUsed actualKey, GameActionName actionName){
+    if (this->deadKeys){
+        return;
+    }
     if (this->keysSendOnce.count(actualKey) != 0){
         this->keysSendOnce[actualKey] = false;
     }
@@ -194,6 +197,9 @@ POST: Comunica la accion del juego, solo si la tecla fue liberada antes de ser
 presionada.
 */
 void KeyReader::process_key_down(KeyUsed actualKey, GameActionName actionName){
+    if (this->deadKeys){
+        return;
+    }
     if (this->keysSendOnce.count(actualKey) != 0) {
         if (this->keysSendOnce.at(actualKey) != false){
             return;
@@ -213,6 +219,9 @@ PRE: Recibe un evento de boton de raton de sdl (SDL_MouseButtonEvent &).
 POST: Procesa el evento.
 */
 void KeyReader::process_event(SDL_MouseButtonEvent & mouseEvent){
+    if (this->deadKeys){
+        return;
+    }
     int xWindow,yWindow;
     xWindow = mouseEvent.x;
     yWindow = mouseEvent.y;
@@ -236,4 +245,14 @@ void KeyReader::process_event(SDL_MouseButtonEvent & mouseEvent){
         new CoordsAction(actionName,xMap,yMap)
     );
     this->toGameQueue.push(ptrAction);   
+}
+
+/*
+Hace que el lector de eventos de entrada, 
+deje de procesar eventos correspondientes 
+a un jugador vivo, sino que solo le permita
+manejar la musica y salir del juego.
+*/
+void KeyReader::set_dead_keys(){
+    this->deadKeys = true;
 }

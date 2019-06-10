@@ -27,6 +27,7 @@ private:
     Mixer & mixer;
     BlockingQueue<std::unique_ptr<GameAction>> & toGameQueue; 
     std::map<KeyUsed,bool> keysSendOnce;
+    bool deadKeys;
 
     /*
     PRE: Recibe un evento de teclado de sdl (SDL_KeyboardEvent &),
@@ -104,6 +105,14 @@ public:
     si debe seguir leyendo (GameActionName). 
     */
     GameActionName process_some_events();
+
+    /*
+    Hace que el lector de eventos de entrada, 
+    deje de procesar eventos correspondientes 
+    a un jugador vivo, sino que solo le permita
+    manejar la musica y salir del juego.
+    */
+    void set_dead_keys();
 };
 
 #endif // KEY_READER_H

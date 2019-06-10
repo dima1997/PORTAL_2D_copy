@@ -40,6 +40,21 @@ public:
 
     /*Imprime el resultado del juego por salida estandar.*/
     void print();
+
+    /*
+    PRE: Recibe el id (uint32_t) de un jugador.
+    POST: Devuelve true si el jugador esta vivo; 
+    false en caso contrario.
+    Levanta PortalException si no existe jugador 
+    con dicho id.  
+    */
+    bool is_player_alive(uint32_t id);
+
+    /*
+    Devuelve el id (uint32_t) de un jugador vivo.
+    Si no hay jugadores vivos devuelve (uint32_t)(-1)
+    */
+    uint32_t get_player_alive();
 };
 
 #endif // PLAY_RESULT_H

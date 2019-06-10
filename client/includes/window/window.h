@@ -50,12 +50,6 @@ public:
     POST: Agrega la textura recibida.
     */
     void add_texture(uint32_t id, std::unique_ptr<Texture> ptrTexture);
-    
-    /*
-    Agrega el mapa de juego inicial, con todas sus texturas.
-    Levanta SdlError o OSError en caso de error.
-    */
-    //void add_map();
 
 public:
     /*
@@ -140,6 +134,17 @@ public:
     otra textura que este siguiendo.
     */
     void stop_follow(uint32_t idFollowing);
+
+    /*
+    Devuelve el id de la textura principal de la ventana.
+    */
+    uint32_t get_main_id();
+
+    /*
+    PRE: Recibe un id de una textura en el ventana.
+    POST: Setea el id recibido como id de textura principal.
+    */
+    void set_main_id(uint32_t id);
 };
 
 #endif // WINDOW_H

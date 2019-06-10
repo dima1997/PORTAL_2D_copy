@@ -83,8 +83,16 @@ void PlayingLoopThread::run(){
             == THREAD_STOP){
             break;
         }
-        window.render();
-        window.sound(this->mixer);
+        uint32_t mainPlayerId = this->window.get_main_id();
+        if (! this->playResult.is_player_alive(mainPlayerId)){
+            keyReader.set_dead_keys();
+            uint32_t playerIdAlive = this->playResult.get_player_alive();
+            if (playerIdAlive != (uint32_t)(-1)){
+                this->window.set_main_id(playerIdAlive);
+            }
+        }
+        this->window.render();
+        this->window.sound(this->mixer);
         t1 = clock();
         double timeSpendMicroSeconds = 
             (double(t1-t0)/CLOCKS_PER_SEC) * ONE_SECOND_EQ_MICRO_SECONDS;
