@@ -14,6 +14,7 @@
 #include "body/cake.h"
 #include "body/door.h"
 #include "body/button.h"
+#include "body/rock.h"
 #include <protocol/event/object_moves_event.h>
 
 #include <set>
@@ -26,6 +27,7 @@ private:
     std::list<Block *> blocks;
     std::list<Door *> doors;
     std::list<Button *> buttons;
+    std::list<Rock *> rocks;
     Cake *cake;
     std::vector<std::shared_ptr<b2ContactListener>> listeners;
     int numberOfPlayers;

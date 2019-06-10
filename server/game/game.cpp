@@ -93,13 +93,13 @@ void Game::manageActions(std::unique_ptr<GameAction> ptrAction) {
             std::cout << "SERVER: pin tool on.\n";
             break;
         case grab_it:
-            std::cout << "SERVER: grab it.\n";
+            world.getChell(player_id)->grabRock();
             break;
         case stop_grab:
             std::cout << "SERVER: stop grab.\n";
             break;
         case throw_it:
-            std::cout << "SERVER: throw it.\n";
+            world.getChell(player_id)->throwRock();
             break;
         case stop_throw:
             std::cout << "SERVER: stop throw.\n";

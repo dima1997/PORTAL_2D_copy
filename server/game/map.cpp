@@ -60,10 +60,12 @@ Portal *Map::loadPortal(const YAML::Node &portal, b2World &world) {
 }
 
 Chell *Map::loadChell(const YAML::Node &chell, b2World &world, Portal *bluePortal, Portal *orangePortal) {
+    auto maxHeight = file["background"]["height"].as<float32>();
+    auto maxWidth = file["background"]["width"].as<float32 >();
     auto id = chell["id"].as<uint32_t>();
     auto x = chell["xCoord"].as<float32>();
     auto y = chell["yCoord"].as<float32>();
-    return new Chell(world, x, y, id, bluePortal, orangePortal);
+    return new Chell(world, x, y, id, bluePortal, orangePortal, fmax(maxHeight, maxWidth));
 }
 
 Block *Map::loadBlock(const YAML::Node &block, b2World &world, body_type_t type) {
@@ -108,4 +110,14 @@ void Map::loadButtons(b2World &world, std::list<Button *> &buttons, std::list<Do
         buttons.push_back(new Button(world, x, y, id, buttonDoors));
     }
 
+}
+
+void Map::loadRocks(b2World &world, std::list<Rock *> &rocks) {
+    YAML::Node rocksInfo = file["rocks_one"]["id_coordinates"];
+    for (auto && rockInfo : rocksInfo) {
+        auto id = rockInfo["id"].as<uint32_t>();
+        auto x = rockInfo["xCoord"].as<float32>();
+        auto y = rockInfo["yCoord"].as<float32>();
+        rocks.push_back(new Rock(world, x, y, id, 0.2f, 0.28f));
+    }
 }
