@@ -6,7 +6,6 @@
 #include <configs_yaml/config_paths.h>
 #include <yaml-cpp/yaml.h>
 #include "map.h"
-#include "body/block.h"
 
 Map::Map(uint8_t map_id): file(YAML::LoadFile(CONFIG_PATHS.at(map_id))),
                           players_number(file["player_number"].as<int>()) {}
@@ -27,54 +26,86 @@ Cake *Map::loadCake(b2World &world) {
     return new Cake(world, x, y, id);
 }
 
-void Map::loadBlocks(b2World &world, std::list<Body *> &blocks_list) {
-    YAML::Node blocks = file["blocks"];
-//    float widthBlock = blocks["width"].as<float>(); // TODO : Actualizar codigo para utilizar estos tamanios del YAML
-//    float heightBlock = blocks["height"].as<float>(); //  Puedes usar float32 si gustas
-    YAML::Node blocksIdCoords = blocks["id_material_coordinates"];
-    for(auto && blocksIdCoord : blocksIdCoords) {
-        auto id = blocksIdCoord["id"].as<uint32_t>();
-        auto material = blocksIdCoord["material"].as<std::string>();
-        auto x = blocksIdCoord["xCoord"].as<float32>();
-        auto y = blocksIdCoord["yCoord"].as<float32>();
-        if (material == "rock") {
-            blocks_list.push_back(new Block(world, x, y, ROCK_BLOCK, id));
-        } else if (material == "metal") {
-            blocks_list.push_back(new Block(world, x, y, METAL_BLOCK, id));
-        } else if (material == "acid") {
-            blocks_list.push_back(new Block(world, x, y, ACID_BLOCK, id));
-        }
+void Map::loadBlocks(b2World &world, std::list<Block *> &blocks_list) {
+    YAML::Node metalBlocks = file["blocks_metal"]["id_coordinates"];
+    for(auto &&block : metalBlocks) {
+        blocks_list.push_back(loadBlock(block, world, METAL_BLOCK));
+    }
+    YAML::Node rockBlocks = file["blocks_rock"]["id_coordinates"];
+    for(auto &&block : rockBlocks) {
+        blocks_list.push_back(loadBlock(block, world, ROCK_BLOCK));
+    }
+    YAML::Node acidBlocks = file["blocks_acid"]["id_coordinates"];
+    for(auto &&block : acidBlocks) {
+        blocks_list.push_back(loadBlock(block, world, ACID_BLOCK));
     }
 }
 
 void Map::loadChells(b2World &world, std::list<Chell *> &chells) {
-    YAML::Node chellsYaml = file["chells"];
-//    float widthChell = chellsYaml["width"].as<float>();
-//    float heightChell = chellsYaml["height"].as<float>();
-    YAML::Node chellsIdCoords = chellsYaml["id_coordinates"];
-    for (auto && chellsIdCoord : chellsIdCoords){
-        auto id = chellsIdCoord["id"].as<uint32_t>();
-        auto x = chellsIdCoord["xCoord"].as<float32>();
-        auto y = chellsIdCoord["yCoord"].as<float32>();
-        chells.push_back(new Chell(world, x, y, id));
+    YAML::Node chellsCoord = file["chells"]["id_coordinates"];
+    const YAML::Node &bluePortalCoords = file["portals_blue"]["id_coordinates"];
+    const YAML::Node &orangePortalCoords = file["portals_orange"]["id_coordinates"];
+    for (int i = 0; i < chellsCoord.size(); ++i) {
+        Portal *bluePortal = loadPortal(bluePortalCoords[i], world);
+        Portal *orangePortal = loadPortal(orangePortalCoords[i], world);
+        chells.push_back(loadChell(chellsCoord[i], world, bluePortal, orangePortal));
     }
-    YAML::Node portalsYaml = file["portals"];
-//    float portalWidth = portalsYaml["width"].as<float>();
-//    float portalHeight = portalsYaml["height"].as<float>();
-    YAML::Node portalsIdColorCoords = portalsYaml["id_color_coordinates"];
-    std::vector<Portal *> portals;
-    for (auto && portalsIdColorCoord : portalsIdColorCoords){
-        auto id = portalsIdColorCoord["id"].as<uint32_t>();
-        auto color = portalsIdColorCoord["color"].as<std::string>();
-        auto x = portalsIdColorCoord["xCoord"].as<float32>();
-        auto y = portalsIdColorCoord["yCoord"].as<float32>();
-        portals.push_back(new Portal(world, x, y, id));
-        // Aqui se agregan los portales
+}
+
+Portal *Map::loadPortal(const YAML::Node &portal, b2World &world) {
+    auto id = portal["id"].as<uint32_t>();
+    auto x = portal["xCoord"].as<float32>();
+    auto y = portal["yCoord"].as<float32>();
+    return new Portal(world, x, y, id);
+}
+
+Chell *Map::loadChell(const YAML::Node &chell, b2World &world, Portal *bluePortal, Portal *orangePortal) {
+    auto id = chell["id"].as<uint32_t>();
+    auto x = chell["xCoord"].as<float32>();
+    auto y = chell["yCoord"].as<float32>();
+    return new Chell(world, x, y, id, bluePortal, orangePortal);
+}
+
+Block *Map::loadBlock(const YAML::Node &block, b2World &world, body_type_t type) {
+    auto id = block["id"].as<uint32_t>();
+    auto x = block["xCoord"].as<float32>();
+    auto y = block["yCoord"].as<float32>();
+    return new Block(world, x, y, type, id);
+}
+
+void Map::loadDoors(b2World &world, std::list<Door *> &doors) {
+    YAML::Node doorsInfo = file["doors_one"]["id_coordinates"];
+    for (auto && doorInfo : doorsInfo) {
+        std::unordered_map<uint32_t, bool> conditions;
+        for (auto condition : doorInfo["conditions"]) {
+            auto button_id = condition["button_id"].as<uint32_t>();
+            auto cond = condition["condition"].as<bool>();
+            conditions.insert(std::make_pair(button_id, cond));
+        }
+        auto id = doorInfo["id"].as<uint32_t>();
+        auto x = doorInfo["xCoord"].as<float32>();
+        auto y = doorInfo["yCoord"].as<float32>();
+        doors.push_back(new Door(world, x, y, id, conditions));
     }
-    int i = 0;
-    for(auto chell : chells) {
-        chell->setBluePortal(portals[i++]);
-        chell->setOrangePortal(portals[i++]);
-        connect(portals[i - 1], portals[i - 2]);
+}
+
+void Map::loadButtons(b2World &world, std::list<Button *> &buttons, std::list<Door *> &doors) {
+    YAML::Node buttonsInfo = file["buttons"]["id_coordinates"];
+    for (auto && buttonInfo : buttonsInfo) {
+        std::list<Door *> buttonDoors;
+        for (auto && doorIdNode : buttonInfo["door_ids"]) {
+            auto doorId = doorIdNode.as<uint32_t>();
+            for (auto door : doors) {
+                if (door->getId() == doorId) {
+                    buttonDoors.push_back(door);
+                    break;
+                }
+            }
+        }
+        auto id = buttonInfo["id"].as<uint32_t>();
+        auto x = buttonInfo["xCoord"].as<float32>();
+        auto y = buttonInfo["yCoord"].as<float32>();
+        buttons.push_back(new Button(world, x, y, id, buttonDoors));
     }
+
 }

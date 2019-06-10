@@ -55,7 +55,6 @@ void Game::manageActions(std::unique_ptr<GameAction> ptrAction) {
     switch (ptrAction->getGameActionName()){
         case quit_game:
             --numberOfPlayers;
-            //--numberOfPlayers; // TODO: until client handles this
             world.getChell(player_id)->die();
             break;
         case move_left:
@@ -68,7 +67,7 @@ void Game::manageActions(std::unique_ptr<GameAction> ptrAction) {
             world.getChell(player_id)->updateState(STOP);
             break;
         case jump:
-            world.getChell(player_id)->jump();
+            world.getChell(player_id)->updateState(JUMP);
             break;
         case open_blue_portal:
         {
@@ -77,7 +76,7 @@ void Game::manageActions(std::unique_ptr<GameAction> ptrAction) {
             float xMap = ptrCoordsAction->getX();
             float yMap = ptrCoordsAction->getY();
             std::cout << "SERVER: Abriendo portal AZUL en x : "<< xMap << " y : " << yMap << "\n";
-            world.getChell(player_id)->moveBluePortal(xMap, yMap);
+            world.getChell(player_id)->shootPortal(xMap, yMap, BLUE);
         }
             break;
         case open_orange_portal:
@@ -87,7 +86,7 @@ void Game::manageActions(std::unique_ptr<GameAction> ptrAction) {
             float xMap = ptrCoordsAction->getX();
             float yMap = ptrCoordsAction->getY();
             std::cout << "SERVER: Abriendo portal NARANJA en x : "<< xMap << " y : " << yMap << "\n";
-            world.getChell(player_id)->moveOrangePortal(xMap, yMap);
+            world.getChell(player_id)->shootPortal(xMap, yMap, ORANGE);
         }
             break;
         case pin_tool_on:

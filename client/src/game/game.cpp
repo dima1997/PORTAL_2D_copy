@@ -64,7 +64,7 @@ void Game::run(){
     sdlSystem.init_audio();
 
     //Cargo YAML
-    YAML::Node baseNode = YAML::LoadFile(CONFIG_PATHS.at(this->mapId+1));
+    YAML::Node baseNode = YAML::LoadFile(CONFIG_PATHS.at(this->mapId));
     
     //Inicializo resultado del juego
     PlayResult playResult(baseNode);

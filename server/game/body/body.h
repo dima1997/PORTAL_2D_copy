@@ -11,11 +11,13 @@
 #include <Box2D/Dynamics/b2World.h>
 #include <Box2D/Dynamics/b2Body.h>
 
-typedef enum body_type {ROCK_BLOCK, METAL_BLOCK, ACID_BLOCK, CHELL, PORTAL, CAKE} body_type_t;
+#define CONTACT_CHECK 1
+
+typedef enum body_type {ROCK_BLOCK, METAL_BLOCK, ACID_BLOCK, CHELL, PORTAL, CAKE, DOOR, BUTTON} body_type_t;
 
 class Body {
 private:
-    bool manually_updated;
+    bool updated_position;
     b2Vec2 lastPosition;
     virtual void createBody(float32 xPos, float32 yPos) = 0;
 protected:
@@ -25,11 +27,16 @@ protected:
 public:
     Body(b2World &world, float32 xPos, float32 yPos, uint32_t id);
     virtual ~Body();
-    bool changedPosition();
+    bool throughPortal;
+    float32 hx;
+    float32 hy;
+    void applyImpulse(float32 xSpeed, float32 ySpeed);
+    bool changedPositionOrVelocity();
     uint32_t getId();
     float32 getXPos();
     float32 getYPos();
     void moveTo(float32 x, float32 y);
+    b2Vec2 getCurrentVelocity();
     virtual body_type_t getBodyType() = 0;
 };
 
