@@ -44,7 +44,7 @@ Game GameFactory::createGame(std::string &host, std::string &port, std::string &
         connector >> status;
         std::cout << (unsigned) status << std::endl;
         if (status == command_ok) {
-            uint8_t player_id;
+            uint32_t player_id;
             connector >> player_id;
             std::cout << (unsigned) player_id << std::endl;
             return std::move(Game(connector, id, player_id, 0));
