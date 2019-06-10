@@ -18,3 +18,30 @@ El cliente le envía el _game_id_ al que se quiere unir (uint8_t).
 Si este juego no existe, el servidor le responde con un status _non_existent_game_.
 Si la partida está llena, el servidor le responde con un status _game_is_full_.
 Si se puede unir exitosamente, el servidor le responde con un status _command_ok_, seguido del _player_id_ (uint8_t).
+
+## Modos de ejecucion
+
+El server se inica ejecutando el comando (por terminal):
+	./PORTAL-server
+
+El Cliente se inicia ejecutando el comando (por terminal):
+	./PORTAL line
+
+## Controles del juego (Jugador)
+
+TECLADO:
+
+A/FLECHA IZQUIERDA -> Moverse hacia izquierda
+W/FLECHA ARRIBA -> Saltar
+D/FLECHA DERECHA -> Moverse hacia derecha
+ESPACIO/CONTROL DERECHO -> Tomar una roca (Proximamente)
+SHIFT IZQUIERDO/MENOS -> Soltar una roca (Proximamente)
+M -> Pausar/Continuar musica de fondo
+
+MOUSE:
+
+CLICK IZQUIERDO -> Abrir portal azul 
+CLICK DERECHO -> Abrir portal naranja
+CLICK MEDIO -> Pin tool 
+
+

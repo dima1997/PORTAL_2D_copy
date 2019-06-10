@@ -55,7 +55,6 @@ void Game::run(){
         this->isDead = false;    
     }
 
-    //BlockingQueue<GameActionName> endQueue;
     ThreadSafeQueue<ThreadStatus> stopQueue;
 
     //Inicializo SDL
@@ -86,11 +85,6 @@ void Game::run(){
     this->threads.push_back(std::move(std::unique_ptr<Thread>(
         new KeySenderThread(this->connector, this->changesAsk, stopQueue)
     )));
-    /*
-    this->threads.push_back(std::move(std::unique_ptr<Thread>(
-        new PlayingLoopThread(window, this->changesMade, this->changesAsk, endQueue, mixer, playResult)
-    )));
-    */
     PlayingLoopThread playingLoop(this->changesMade, 
                                   this->changesAsk, 
                                   window, 
@@ -103,12 +97,7 @@ void Game::run(){
     }
 
     playingLoop.run();
-
-    // Espero que termine el juego
-    //GameActionName actionName;
-    //endQueue.pop(actionName);
     this->stop();
-    // Mostrar pantalla de Perder/Ganar
     playResult.print();
 }
 
