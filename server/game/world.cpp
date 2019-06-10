@@ -12,6 +12,7 @@
 #include <portal_exception.h>
 #include <protocol/event/player_wins_event.h>
 #include <protocol/event/player_dies_event.h>
+#include <protocol/event/object_switch_event.h>
 #include "yaml-cpp/yaml.h"
 #include "contact_listener/contact_listener.h"
 
@@ -46,7 +47,9 @@ void World::step(std::list<std::shared_ptr<Event>> &events) {
         return;
     }
     for (Door *door : doors) {
-        door->update();
+        if (door->update()) {
+            events.push_back(std::shared_ptr<Event>(new ObjectSwitchEvent(door->getId())));
+        }
     }
     for (Chell *chell : chells) {
         if ( (this->idPlayersDead.count(chell->getId()) == 0) && (!chell->isAlive()) ) {

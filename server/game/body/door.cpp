@@ -7,7 +7,7 @@
 
 Door::Door(b2World &world, float32 xPos, float32 yPos, uint32_t id,
            std::unordered_map<uint32_t, bool> &conditions):
-           Body(world, xPos, yPos, id), conditions(std::move(conditions)), current() {
+           Body(world, xPos, yPos, id), conditions(std::move(conditions)), current(), lastStatus(false) {
     for (auto &cond : this->conditions) {
         current.insert(std::make_pair(cond.first, false));
     }
@@ -43,8 +43,14 @@ void Door::updateConditionStatus(uint32_t id, bool status) {
     current[id] = status;
 }
 
-void Door::update() {
-    body->SetActive(!isOpen());
+bool Door::update() {
+    bool isOpenNow = isOpen();
+    body->SetActive(!isOpenNow);
+    if (isOpenNow != lastStatus) {
+        lastStatus = isOpenNow;
+        return true;
+    }
+    return false;
 }
 
 Door::~Door() = default;
