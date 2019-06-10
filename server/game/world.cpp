@@ -51,6 +51,11 @@ void World::step(std::list<std::shared_ptr<Event>> &events) {
             events.push_back(std::shared_ptr<Event>(new ObjectSwitchEvent(door->getId())));
         }
     }
+    for (Rock *rock : rocks) {
+        if (rock->changedPositionOrVelocity()) {
+            events.push_back(std::shared_ptr<Event>(new ObjectMovesEvent(rock->getId(), rock->getXPos(), rock->getYPos())));
+        }
+    }
     for (Chell *chell : chells) {
         if ( (this->idPlayersDead.count(chell->getId()) == 0) && (!chell->isAlive()) ) {
             // TODO: check this
@@ -92,6 +97,9 @@ World::~World() {
     for(auto *door : doors) {
         delete door;
     }
+    for(auto *rock : rocks) {
+        delete rock;
+    }
     delete cake;
     delete world;
 }
@@ -102,6 +110,7 @@ void World::loadMap(Map &map) {
     map.loadChells(*world, chells);
     map.loadDoors(*world, doors);
     map.loadButtons(*world, buttons, doors);
+    map.loadRocks(*world, rocks);
     numberOfPlayers = map.getPlayersNumber();
 }
 

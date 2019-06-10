@@ -35,6 +35,8 @@ public:
     body_type_t getBodyType() override;
     void die();
     void shootPortal(float x, float y, portal_color_t color);
+    void grabRock();
+    void throwRock();
 };
 
 

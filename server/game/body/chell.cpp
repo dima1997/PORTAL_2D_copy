@@ -147,3 +147,11 @@ void Chell::shootPortal(float x, float y, portal_color_t color) {
     direction = 1.25f * direction;
     }
 }
+
+void Chell::grabRock() {
+
+}
+
+void Chell::throwRock() {
+
+}
