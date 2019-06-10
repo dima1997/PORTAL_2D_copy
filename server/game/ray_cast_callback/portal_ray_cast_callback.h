@@ -8,14 +8,16 @@
 
 #include <Box2D/Dynamics/b2WorldCallbacks.h>
 #include <Box2D/Common/b2Math.h>
+#include "../body/chell.h"
 
 class PortalRaycastCallback: public b2RayCastCallback {
 private:
+    Chell * chell;
     b2Fixture *lastFixture;
     b2Vec2 point;
     b2Vec2 normal;
 public:
-    PortalRaycastCallback();
+    explicit PortalRaycastCallback(Chell *chell);
     float32 ReportFixture(b2Fixture* fixture, const b2Vec2& point,
                           const b2Vec2& normal, float32 fraction) override;
     b2Fixture *getFixture();

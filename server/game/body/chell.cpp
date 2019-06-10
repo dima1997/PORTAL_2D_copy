@@ -128,7 +128,7 @@ void Chell::die() {
 }
 
 void Chell::shootPortal(float x, float y, portal_color_t color) {
-    auto portalRaycastCallback = new PortalRaycastCallback();
+    auto portalRaycastCallback = new PortalRaycastCallback(this);
     b2Vec2 direction = b2Vec2(x, y);
     b2Fixture *fixture;
     while (direction.Length() < maxReach) {
