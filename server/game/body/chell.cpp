@@ -58,7 +58,7 @@ void Chell::createBody(float32 xPos, float32 yPos) {
 
 Chell::Chell(b2World &world, float32 xPos, float32 yPos, uint32_t playerId, Portal *bluePortal, Portal *orangePortal):
              Body(world, xPos, yPos, playerId), portals(),
-             state(STOP), alive(true), footContacts(0), jumpTimer() {
+             state(STOP), alive(true), jumpTimer(), footContacts(0) {
     connect(bluePortal, orangePortal);
     portals[BLUE] = bluePortal;
     portals[ORANGE] = orangePortal;

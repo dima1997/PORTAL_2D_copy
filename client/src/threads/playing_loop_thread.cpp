@@ -44,7 +44,8 @@ PlayingLoopThread::PlayingLoopThread(
     window(window), 
     mixer(mixer),
     playResult(playResult),
-    stopQueue(stopQueue) {}
+    stopQueue(stopQueue),
+    mutex() {}
 
 /*
 Destruye el hilo: loop de juego. 

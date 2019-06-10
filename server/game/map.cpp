@@ -45,7 +45,7 @@ void Map::loadChells(b2World &world, std::list<Chell *> &chells) {
     YAML::Node chellsCoord = file["chells"]["id_coordinates"];
     const YAML::Node &bluePortalCoords = file["portals_blue"]["id_coordinates"];
     const YAML::Node &orangePortalCoords = file["portals_orange"]["id_coordinates"];
-    for (int i = 0; i < chellsCoord.size(); ++i) {
+    for (int i = 0; i < (int)chellsCoord.size(); ++i) {
         Portal *bluePortal = loadPortal(bluePortalCoords[i], world);
         Portal *orangePortal = loadPortal(orangePortalCoords[i], world);
         chells.push_back(loadChell(chellsCoord[i], world, bluePortal, orangePortal));
