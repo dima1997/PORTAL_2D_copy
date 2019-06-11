@@ -51,7 +51,7 @@ GameLobby::GameLobby(uint8_t id, uint8_t map_id, Connector &connector, std::stri
         connector << (uint32_t) playerId;
         players.push_back(std::move(connector));
     } catch(SocketException &se) {
-        std::cerr << se.what();
+        std::cerr << se.what() << std::endl;
     }
 
 }
@@ -66,7 +66,7 @@ bool GameLobby::addPlayer(Connector &connector) {
             players.push_back(std::move(connector));
             return true;
         } catch(SocketException &se) {
-            std::cerr << se.what();
+            std::cerr << se.what() << std::endl;
         }
     }
     return false;

@@ -16,6 +16,8 @@
 #include <protocol/game_action/coords_action.h>
 
 #include <memory>
+#include <err.h>
+#include <iostream>
 
 Player::Player(uint32_t id, Connector &connector,
                 ThreadSafeQueue<std::unique_ptr<GameAction>> &inQueue) :
@@ -45,26 +47,26 @@ void Player::recvGameActions() {
         uint8_t actionNameExplicit;
         try {
             connector >> actionNameExplicit;
+            auto actionName = (GameActionName) actionNameExplicit;
+            std::unique_ptr<GameAction> ptrAction;
+            switch(actionName){
+                case open_blue_portal:
+                case open_orange_portal:
+                case pin_tool_on:
+                    ptrAction = std::unique_ptr<CoordsAction>(new CoordsAction(actionName));
+                    connector >> *ptrAction;
+                    break;
+                case quit_game:
+                    stopRecv();
+                default:
+                    ptrAction = std::unique_ptr<GameAction>(new GameAction(actionName));
+                    break;
+            }
+            ptrAction->setPlayerId(id);
+            inQueue.push(ptrAction);
         } catch (SocketException &e) {
             stopRecv();
         }
-        auto actionName = (GameActionName) actionNameExplicit;
-        std::unique_ptr<GameAction> ptrAction;
-        switch(actionName){
-            case open_blue_portal:
-            case open_orange_portal:
-            case pin_tool_on:
-                ptrAction = std::unique_ptr<CoordsAction>(new CoordsAction(actionName));
-                connector >> *ptrAction;
-                break;
-            case quit_game:
-                stopRecv();
-            default:
-                ptrAction = std::unique_ptr<GameAction>(new GameAction(actionName));
-                break;
-        }
-        ptrAction->setPlayerId(id);
-        inQueue.push(ptrAction);
     }
 }
 

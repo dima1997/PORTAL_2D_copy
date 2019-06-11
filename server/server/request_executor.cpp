@@ -26,7 +26,7 @@ void RequestExecutor::execute() {
         try {
             connector >> instruction;
         } catch(SocketException &se) {
-            std::cerr << se.what();
+            std::cerr << se.what() << std::endl;
         }
         if (instruction == new_game) {
             gameManager.addGame(connector);
