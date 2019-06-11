@@ -70,7 +70,7 @@ void World::step(std::list<std::shared_ptr<Event>> &events) {
         if (chell->grabbedRock()) {
             events.push_back(std::shared_ptr<Event>(new GrabRockEvent(chell->getId(), chell->getRock()->getId())));
         }
-        if (chell->threwedRock()) {
+        if (chell->threwRock()) {
             events.push_back(std::shared_ptr<Event>(new ThrowRockEvent(chell->getRock()->getId())));
         }
         Portal *orange = chell->getPortal(ORANGE);

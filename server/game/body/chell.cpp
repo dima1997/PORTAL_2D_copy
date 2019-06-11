@@ -189,14 +189,15 @@ Rock *Chell::getRock() {
     return rock;
 }
 
-bool Chell::threwedRock() {
+bool Chell::threwRock() {
     if (!carriesRock)
         return false;
     bool updated = threwRockUpdated;
     threwRockUpdated = false;
-    rock->setActive(true);
-    rock->moveTo(getXPos(), getYPos() + rock->hy);
-    carriesRock = false;
-    rock = nullptr;
+    if (updated) {
+        rock->setActive(true);
+        rock->moveTo(getXPos(), getYPos() + rock->hy);
+        carriesRock = false;
+    }
     return updated;
 }
