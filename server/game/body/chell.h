@@ -44,7 +44,7 @@ public:
     void grabRock();
     void throwRock();
     bool grabbedRock();
-    bool threwedRock();
+    bool threwRock();
     Rock *getRock();
 };
 

@@ -10,12 +10,20 @@
 #include <Box2D/Dynamics/b2Body.h>
 #include "body.h"
 
+typedef enum orientation {SQUARE, BOTTOM_LEFT, BOTTOM_RIGHT, TOP_LEFT, TOP_RIGHT} orientation_t;
+
 class Block: public Body {
 private:
     void createBody(float32 xPos, float32 yPos) override;
     body_type_t type;
+    orientation_t orientation;
+    void createSquare();
+    void createTopLeft();
+    void createBottomLeft();
+    void createBottomRight();
+    void createTopRight();
 public:
-    Block(b2World &world, float32 xPos, float32 yPos, body_type_t type, uint32_t id);
+    Block(b2World &world, float32 xPos, float32 yPos, body_type_t type, uint32_t id, orientation_t orientation);
     ~Block() override;
     body_type_t getBodyType() override;
 };

@@ -5,7 +5,7 @@
 #include "throw_rock_event.h"
 
 ThrowRockEvent::ThrowRockEvent(uint32_t rockId):
-                               Event(grab_rock), rockId(rockId) {}
+                               Event(throw_rock), rockId(rockId) {}
 
 uint32_t ThrowRockEvent::getRockId() const {
     return rockId;
