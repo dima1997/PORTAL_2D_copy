@@ -23,7 +23,11 @@ void RequestExecutor::execute() {
     Connector connector;
     while (queue.pop(connector)) {
         uint8_t instruction;
-        connector >> instruction;
+        try {
+            connector >> instruction;
+        } catch(SocketException &se) {
+            std::cerr << se.what();
+        }
         if (instruction == new_game) {
             gameManager.addGame(connector);
         } else if (instruction == join_game) {

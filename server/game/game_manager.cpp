@@ -5,15 +5,20 @@
 #include "game_manager.h"
 #include <protocol/protocol_code.h>
 #include <portal_exception.h>
+#include <iostream>
 
 GameManager::GameManager(): games(), mutex(), biggestKey(0) {}
 
 void GameManager::addGame(Connector &connector) {
     std::unique_lock<std::mutex> l(mutex);
     uint8_t mapId;
-    connector >> mapId;
     std::string gameName;
-    connector >> gameName;
+    try {
+        connector >> mapId;
+        connector >> gameName;
+    } catch(SocketException &se) {
+        std::cerr << se.what();
+    }
     uint8_t game_id = this->getKey();
     games.insert(std::make_pair(game_id, GameLobby(game_id, mapId, connector, gameName)));
     games.at(game_id).startIfReady();
@@ -24,16 +29,20 @@ void GameManager::joinToGame(Connector &connector) {
     std::unique_lock<std::mutex> l(mutex);
     sendAvailableGames(connector);
     uint8_t gameId;
-    connector >> gameId;
     try {
-        GameLobby &game = games.at(gameId);
-        if (game.addPlayer(connector)) {
-            game.startIfReady();
-        } else {
-            connector << (uint8_t) game_is_full;
+        connector >> gameId;
+        try {
+            GameLobby &game = games.at(gameId);
+            if (game.addPlayer(connector)) {
+                game.startIfReady();
+            } else {
+                connector << (uint8_t) game_is_full;
+            }
+        } catch (const std::out_of_range &e) {
+            connector << (uint8_t) non_existent_game;
         }
-    } catch (const std::out_of_range &e) {
-        connector << (uint8_t) non_existent_game;
+    } catch(SocketException &se) {
+        std::cerr << se.what();
     }
 }
 
@@ -79,8 +88,12 @@ void GameManager::sendAvailableGames(Connector &connector) {
             ++ availableGamesCount;
         }
     }
-    connector << availableGamesCount;
-    for (auto &game : availableGames) {
-        connector << game->getId() << game->getName();
+    try {
+        connector << availableGamesCount;
+        for (auto &game : availableGames) {
+            connector << game->getId() << game->getName();
+        }
+    } catch(SocketException &se) {
+        std::cerr << se.what();
     }
 }
