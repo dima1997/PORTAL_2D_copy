@@ -125,7 +125,6 @@ bool Chell::isAlive() {
 }
 
 void Chell::die() {
-    body->SetActive(false);
     alive = false;
     _justDied = true;
 }
@@ -208,6 +207,7 @@ bool Chell::threwRock() {
 bool Chell::justDied() {
     if (_justDied) {
         _justDied = false;
+        body->SetActive(false);
         return true;
     }
     return false;

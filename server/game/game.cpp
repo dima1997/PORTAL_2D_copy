@@ -8,17 +8,18 @@
 #include <protocol/event/object_switch_event.h>
 #include <portal_exception.h>
 #include <protocol/event/player_wins_event.h>
+#include <protocol/event/game_starts_event.h>
+#include <protocol/event/game_ends_event.h>
 #include "game.h"
 
-#define SECONDS_WAIT_BEFORE_START 2
 #define TIME_WAIT_MICRO_SECONDS 10000
 #define ONE_SECOND_EQ_MICRO_SECONDS 100000
 
 void Game::start() {
-    // this to make time for the last window to load
-    std::this_thread::sleep_for(std::chrono::seconds(SECONDS_WAIT_BEFORE_START));
     for(auto &player : players) {
         player.start();
+        auto event = std::shared_ptr<Event>(new GameStartsEvent());
+        player.addToQueue(event);
     }
     double timeWaitMicroSeconds = TIME_WAIT_MICRO_SECONDS;
     unsigned t0,t1,t2;
@@ -26,7 +27,7 @@ void Game::start() {
         t0 = clock();
         t2 = clock();
         double timeProcessMicroSeconds = (double(t2-t0)/CLOCKS_PER_SEC) * ONE_SECOND_EQ_MICRO_SECONDS;
-        while (timeProcessMicroSeconds <= timeWaitMicroSeconds && numberOfPlayers > 0) {
+        while (timeProcessMicroSeconds <= timeWaitMicroSeconds && !world.hasFinished()) {
             std::unique_ptr<GameAction> ptrAction;
             if (!this->inQueue.pop(ptrAction)){
                 break;
@@ -43,10 +44,14 @@ void Game::start() {
                 player.addToQueue(ptrEvent);
             }
         }
+        if (world.hasFinished()) break;
         t1 = clock();
         double timeSpendMicroSeconds = (double(t1-t0)/CLOCKS_PER_SEC) * ONE_SECOND_EQ_MICRO_SECONDS;
-        if (world.hasFinished()) break;
         std::this_thread::sleep_for(std::chrono::microseconds((int)(timeWaitMicroSeconds - timeSpendMicroSeconds)));
+    }
+    for(auto &player : players) {
+        auto event = std::shared_ptr<Event>(new GameEndsEvent());
+        player.addToQueue(event);
     }
 }
 
