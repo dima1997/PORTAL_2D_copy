@@ -9,6 +9,7 @@
 #include <Box2D/Common/b2Timer.h>
 #include "body.h"
 #include "portal.h"
+#include "rock.h"
 
 
 typedef enum chell_state {LEFT, RIGHT, STOP, JUMP, AIR} chell_state_t;
@@ -23,6 +24,11 @@ private:
     bool alive;
     b2Timer jumpTimer;
     float32 maxReach;
+    bool carriesRock;
+    bool grabbedRockUpdated;
+    bool threwRockUpdated;
+    Rock *rock;
+    bool grabIfRock(Body *body);
 public:
     int footContacts;
     Chell(b2World &world, float32 xPos, float32 yPos, uint32_t playerId, Portal *bluePortal, Portal *orangePortal,
@@ -37,6 +43,9 @@ public:
     void shootPortal(float x, float y, portal_color_t color);
     void grabRock();
     void throwRock();
+    bool grabbedRock();
+    bool threwedRock();
+    Rock *getRock();
 };
 
 

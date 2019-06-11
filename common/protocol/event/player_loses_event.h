@@ -6,7 +6,7 @@
 class PlayerLosesEvent : public Event {
 public:
     PlayerLosesEvent();
-    ~PlayerLosesEvent();
+    ~PlayerLosesEvent() override;
 };
 
 #endif // PLAYER_LOSES_EVENT_H

@@ -13,6 +13,8 @@
 #include <protocol/event/player_wins_event.h>
 #include <protocol/event/player_dies_event.h>
 #include <protocol/event/object_switch_event.h>
+#include <protocol/event/grab_rock_event.h>
+#include <protocol/event/throw_rock_event.h>
 #include "yaml-cpp/yaml.h"
 #include "contact_listener/contact_listener.h"
 
@@ -51,11 +53,6 @@ void World::step(std::list<std::shared_ptr<Event>> &events) {
             events.push_back(std::shared_ptr<Event>(new ObjectSwitchEvent(door->getId())));
         }
     }
-    for (Rock *rock : rocks) {
-        if (rock->changedPositionOrVelocity()) {
-            events.push_back(std::shared_ptr<Event>(new ObjectMovesEvent(rock->getId(), rock->getXPos(), rock->getYPos())));
-        }
-    }
     for (Chell *chell : chells) {
         if ( (this->idPlayersDead.count(chell->getId()) == 0) && (!chell->isAlive()) ) {
             // TODO: check this
@@ -70,6 +67,12 @@ void World::step(std::list<std::shared_ptr<Event>> &events) {
             events.push_back(
                     std::shared_ptr<Event>(new ObjectMovesEvent(chell->getId(), chell->getXPos(), chell->getYPos())));
         }
+        if (chell->grabbedRock()) {
+            events.push_back(std::shared_ptr<Event>(new GrabRockEvent(chell->getId(), chell->getRock()->getId())));
+        }
+        if (chell->threwedRock()) {
+            events.push_back(std::shared_ptr<Event>(new ThrowRockEvent(chell->getRock()->getId())));
+        }
         Portal *orange = chell->getPortal(ORANGE);
         if (orange->changedPositionOrVelocity()) {
             events.push_back(std::shared_ptr<Event>(
@@ -79,6 +82,11 @@ void World::step(std::list<std::shared_ptr<Event>> &events) {
         if (blue->changedPositionOrVelocity()) {
             events.push_back(
                     std::shared_ptr<Event>(new ObjectMovesEvent(blue->getId(), blue->getXPos(), blue->getYPos())));
+        }
+    }
+    for (Rock *rock : rocks) {
+        if (rock->changedPositionOrVelocity()) {
+            events.push_back(std::shared_ptr<Event>(new ObjectMovesEvent(rock->getId(), rock->getXPos(), rock->getYPos())));
         }
     }
 

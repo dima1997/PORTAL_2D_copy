@@ -15,7 +15,7 @@ public:
     Rock(b2World &world, float32 xPos, float32 yPos, uint32_t id, float32 hy, float32 hx);
     ~Rock() override;
     body_type_t getBodyType() override;
-    bool update();
+    void setActive(bool active);
 };
 
 

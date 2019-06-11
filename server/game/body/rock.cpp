@@ -6,7 +6,8 @@
 #include <Box2D/Dynamics/b2Fixture.h>
 #include "rock.h"
 
-Rock::Rock(b2World &world, float32 xPos, float32 yPos, uint32_t id, float32 hx, float32 hy) : Body(world, xPos, yPos, id) {
+Rock::Rock(b2World &world, float32 xPos, float32 yPos, uint32_t id, float32 hx, float32 hy):
+           Body(world, xPos, yPos, id) {
     this->hx = hx;
     this->hy = hy;
     createBody(xPos, yPos);
@@ -33,6 +34,10 @@ void Rock::createBody(float32 xPos, float32 yPos) {
     fixtureDef.friction = 3.0f;
 
     body->CreateFixture(&fixtureDef);
+}
+
+void Rock::setActive(bool active) {
+    body->SetActive(active);
 }
 
 Rock::~Rock() = default;

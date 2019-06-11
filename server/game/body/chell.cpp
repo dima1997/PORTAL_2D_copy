@@ -58,8 +58,8 @@ void Chell::createBody(float32 xPos, float32 yPos) {
 
 Chell::Chell(b2World &world, float32 xPos, float32 yPos, uint32_t playerId, Portal *bluePortal, Portal *orangePortal,
              float32 maxReach) :
-             Body(world, xPos, yPos, playerId), portals(),
-             state(STOP), alive(true), jumpTimer(), maxReach(maxReach), footContacts(0) {
+             Body(world, xPos, yPos, playerId), portals(), state(STOP), alive(true), footContacts(0),
+             jumpTimer(), maxReach(maxReach), carriesRock(false), rock(nullptr), grabbedRockUpdated(false), threwRockUpdated(false) {
     connect(bluePortal, orangePortal);
     portals[BLUE] = bluePortal;
     portals[ORANGE] = orangePortal;
@@ -149,9 +149,54 @@ void Chell::shootPortal(float x, float y, portal_color_t color) {
 }
 
 void Chell::grabRock() {
-
+    for (b2ContactEdge *contactEdge = body->GetContactList(); contactEdge != nullptr; contactEdge = contactEdge->next) {
+        b2Contact *contact = contactEdge->contact; 
+        if (!contact->IsTouching()) continue;
+        Body *body = (Body *) contact->GetFixtureA()->GetBody()->GetUserData();
+        if (grabIfRock(body)) {
+            return;
+        }
+        body = (Body *) contact->GetFixtureB()->GetBody()->GetUserData();
+        grabIfRock(body);
+    }
 }
 
 void Chell::throwRock() {
+    if (!carriesRock) return;
+    threwRockUpdated = true;
+}
 
+bool Chell::grabIfRock(Body *body) {
+    if (body->getBodyType() == ROCK) {
+        carriesRock = true;
+        rock = dynamic_cast<Rock *>(body);
+        grabbedRockUpdated = true;
+        return true;
+    }
+    return false;
+}
+
+bool Chell::grabbedRock() {
+    if (!carriesRock)
+        return false;
+    bool updated = grabbedRockUpdated;
+    grabbedRockUpdated = false;
+    rock->setActive(false);
+    return updated;
+}
+
+Rock *Chell::getRock() {
+    return rock;
+}
+
+bool Chell::threwedRock() {
+    if (!carriesRock)
+        return false;
+    bool updated = threwRockUpdated;
+    threwRockUpdated = false;
+    rock->setActive(true);
+    rock->moveTo(getXPos(), getYPos() + rock->hy);
+    carriesRock = false;
+    rock = nullptr;
+    return updated;
 }

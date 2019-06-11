@@ -23,7 +23,7 @@ PRE: Recibe un conector (Connector &) conectado.
 POST: Envia el evento, a traves del connector.
 */
 void Event::sendThrough(Connector & out) const{
-    uint8_t eventTypeExplicit = (uint8_t) this->eventType;
+    auto eventTypeExplicit = (uint8_t) this->eventType;
     out << eventTypeExplicit;
 }
 
