@@ -12,6 +12,7 @@
 #include <protocol/event/game_ends_event.h>
 #include "game.h"
 
+#define SECONDS_WAIT_BEFORE_START 2
 #define TIME_WAIT_MICRO_SECONDS 10000
 #define ONE_SECOND_EQ_MICRO_SECONDS 100000
 
@@ -21,6 +22,8 @@ void Game::start() {
         auto event = std::shared_ptr<Event>(new GameStartsEvent());
         player.addToQueue(event);
     }
+    // this to make time for the last window to load
+    std::this_thread::sleep_for(std::chrono::seconds(SECONDS_WAIT_BEFORE_START));
     double timeWaitMicroSeconds = TIME_WAIT_MICRO_SECONDS;
     unsigned t0,t1,t2;
     while (numberOfPlayers > 0){
