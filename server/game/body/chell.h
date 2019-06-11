@@ -22,6 +22,7 @@ private:
     chell_state_t state;
     bool isJumping();
     bool alive;
+    bool _justDied;
     b2Timer jumpTimer;
     float32 maxReach;
     bool carriesRock;
@@ -40,6 +41,7 @@ public:
     Portal *getPortal(portal_color_t color);
     body_type_t getBodyType() override;
     void die();
+    bool justDied();
     void shootPortal(float x, float y, portal_color_t color);
     void grabRock();
     void throwRock();
