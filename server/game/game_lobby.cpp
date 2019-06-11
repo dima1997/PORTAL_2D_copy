@@ -83,10 +83,6 @@ void GameLobby::startIfReady() {
     }
 }
 
-void GameLobby::join() {
-    game->join();
-}
-
 bool GameLobby::isFinished() {
     if(game == nullptr) return false;
     return game->isFinished();

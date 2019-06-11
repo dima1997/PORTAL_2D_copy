@@ -21,10 +21,12 @@ class Game {
     ThreadSafeQueue<std::unique_ptr<GameAction>> inQueue;
     void start();
     void manageActions(std::unique_ptr<GameAction> ptrAction);
+    bool finished;
+    void join();
 public:
     Game(std::vector<Connector> &vector, Map &map);
+    ~Game();
     void operator()();
-    void join();
     bool isFinished();
 };
 

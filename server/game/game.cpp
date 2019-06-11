@@ -53,6 +53,7 @@ void Game::start() {
         auto event = std::shared_ptr<Event>(new GameEndsEvent());
         player.addToQueue(event);
     }
+    finished = true;
 }
 
 void Game::manageActions(std::unique_ptr<GameAction> ptrAction) {
@@ -116,7 +117,8 @@ void Game::manageActions(std::unique_ptr<GameAction> ptrAction) {
     }
 }
 
-Game::Game(std::vector<Connector> &connectors, Map &map): players(), thread(), numberOfPlayers(map.getPlayersNumber()), world(map), inQueue() {
+Game::Game(std::vector<Connector> &connectors, Map &map): players(), thread(),numberOfPlayers(map.getPlayersNumber()),
+           world(map), inQueue(), finished(false) {
     for (int i = 0; i < (int)connectors.size(); ++i) {
         auto playerId = map.getPlayerId(i);
         Connector &connector = connectors[i];
@@ -136,5 +138,9 @@ void Game::join() {
 }
 
 bool Game::isFinished() {
-    return numberOfPlayers == 0;
+    return finished;
+}
+
+Game::~Game() {
+    this->join();
 }

@@ -51,7 +51,6 @@ void GameManager::eraseFinished() {
     for (uint8_t i = 0; i <= biggestKey; i++) {
         if (games.count(i) > 0) {
             if (games.at(i).isFinished()) {
-                games.at(i).join();
                 games.erase(i);
             } else {
                 if (i > biggest) biggest = i;
@@ -73,11 +72,7 @@ uint8_t GameManager::getKey() {
     throw PortalException("A new game can't be added in this moment.");
 }
 
-GameManager::~GameManager() {
-    for (auto &it: games) {
-        it.second.join();
-    }
-}
+GameManager::~GameManager() = default;
 
 void GameManager::sendAvailableGames(Connector &connector) {
     auto availableGames = std::list<GameLobby *>();
