@@ -58,13 +58,13 @@ set(CLIENT_FOLDER "client")
 
 #find_package(Qt5Widgets)
 #qt5_wrap_ui(UIS_HEADERS
-#	"${CLIENT_FOLDER}/src/user_interface/ui/LoginServer.ui"
-#	"${CLIENT_FOLDER}/src/user_interface/ui/LoginMode.ui"
 #	"${CLIENT_FOLDER}/src/user_interface/ui/LoginNew.ui"
 #	"${CLIENT_FOLDER}/src/user_interface/ui/LoginJoin.ui"
+#	"${CLIENT_FOLDER}/src/user_interface/ui/LoginServer.ui"
+#	"${CLIENT_FOLDER}/src/user_interface/ui/LoginMode.ui"
 #)
 
-#include_directories(${PROJECT_BINARY_DIR})
+include_directories(${PROJECT_BINARY_DIR})
 
 file(GLOB client_files
         "${CLIENT_FOLDER}/main.cpp"

@@ -5,7 +5,7 @@
 
 #include "login_mode.h"
 
-class LoginServer : public Widget {
+class LoginServer : public QWidget {
     Q_OBJECT
 
 private:
@@ -14,12 +14,12 @@ private:
     void login();
 
 public:
-    Login_server(LoginMode & loginMode, QWidget *parent = 0);
-    virtual ~Login_server();
+    LoginServer(LoginMode & loginMode, QWidget *parent = 0);
+    virtual ~LoginServer();
     
 signals:
-    void login_server_succesful();
-    void login_server_fail();
+    void login_server_success();
+    void login_server_failed();
 };
 
 #endif // LOGIN_SERVER_H

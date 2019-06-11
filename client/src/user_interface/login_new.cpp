@@ -6,8 +6,10 @@
 
 #include <QWidget>
 #include <QMessageBox>
+#include <QLineEdit>
 
 #include <cstdint>
+#include <sstream>
 
 LoginNew::LoginNew(GameConfig & gameConfig, QWidget *parent)
 :   QWidget(parent),
@@ -16,7 +18,7 @@ LoginNew::LoginNew(GameConfig & gameConfig, QWidget *parent)
 {
     Ui::LoginNew loginNew;
     loginNew.setupUi(this);
-    this->connectEvents();
+    this->connect_events();
 }
 
 LoginNew::~LoginNew() = default;
@@ -25,8 +27,8 @@ void LoginNew::config_new_game() {
     this->hide();
     QComboBox* comboBoxMapId = findChild<QComboBox*>("comboBoxMapId");
     QString currentMapIdStr = comboBoxMapId->currentText();
-    bool ok;
-    uint8_t mapId = (uint8_t) currentMapIdStr.toInt(&ok, 10);
+    bool allOk;
+    uint8_t mapId = (uint8_t) currentMapIdStr.toInt(&allOk, 10);
     QLineEdit* lineGameName = findChild<QLineEdit*>("lineGameName");
     QString gameNameQStr = lineGameName->text();
     std::string gameName = gameNameQStr.toUtf8().constData();
@@ -49,15 +51,15 @@ void LoginNew::config_new_game() {
     this->connector >> gameId;
     uint32_t playerId;
     this->connector >> playerId;
-    this->gameConfig.setConnector(this->connector);
-    this->gameConfig.setGameId(gameId);
-    this->gameConfig.setPlayerId(playerId);
-    this->gameConfig.setMapId(mapId);
+    this->gameConfig.set_connector(this->connector);
+    this->gameConfig.set_game_id(gameId);
+    this->gameConfig.set_player_id(playerId);
+    this->gameConfig.set_map_id(mapId);
     QMessageBox qMsg;
     qMsg.setWindowTitle("Portal");
     std::stringstream ok;
     ok << "New game success.\n";
-    qMsg.setText(QString(err.str().c_str()));
+    qMsg.setText(QString(ok.str().c_str()));
     qMsg.exec();
     this->close();
     emit login_new_success();

@@ -24,7 +24,7 @@ LoginMode::LoginMode(
     this->hide();
     Ui::LoginMode loginMode;
     loginMode.setupUi(this);
-    this->connectEvents();
+    this->connect_events();
 }
 
 LoginMode::~LoginMode() = default;
@@ -45,8 +45,8 @@ void LoginMode::config_new_game() {
     for (uint8_t i = 0; i < 1; ++i){
         mapIds.push_back(i);
     }
-    this->loginNew.setConnector(this->connector);
-    this->loginNew.setMapIds(mapIds);
+    this->loginNew.set_connector(this->connector);
+    this->loginNew.set_map_ids(mapIds);
     this->close();
     emit login_mode_new();
     return;
@@ -59,8 +59,8 @@ void LoginMode::config_join_game() {
     uint8_t gameCount;
     this->connector >> gameCount;
     if (gameCount == 0){
-        QMessageBox msg;
-        msg.setWindowTitle("PORTAL");
+        QMessageBox qMsg;
+        qMsg.setWindowTitle("PORTAL");
         std::stringstream err;
         err << "No games in stock.\n"; 
         qMsg.setText(QString(err.str().c_str()));
@@ -79,8 +79,8 @@ void LoginMode::config_join_game() {
         std::pair<uint8_t,std::string> oneGame(gameId, gameName);
         stockGames.insert(oneGame);
     }
-    this->loginJoin.setConnector(this->connector);
-    this->loginJoin.setGameIds(gameIds);
+    this->loginJoin.set_connector(this->connector);
+    this->loginJoin.set_game_ids(stockGames);
     this->close();
     emit login_mode_join();
     return;
@@ -89,9 +89,9 @@ void LoginMode::config_join_game() {
 void LoginMode::connect_events() {
     QPushButton* buttonNew = findChild<QPushButton*>("buttonNew");
     QObject::connect(buttonNew, &QPushButton::clicked,
-                     this, &Login::config_new_game);
+                     this, &LoginMode::config_new_game);
 
     QPushButton* buttonJoin = findChild<QPushButton*>("buttonJoin");
     QObject::connect(buttonJoin, &QPushButton::clicked,
-                     this, &Login::config_join_game);
+                     this, &LoginMode::config_join_game);
 }

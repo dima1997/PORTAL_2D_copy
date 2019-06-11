@@ -9,13 +9,15 @@
 
 #include <connector/socket_exception.h>
 
+#include <sstream>
+
 LoginServer::LoginServer(LoginMode & loginMode, QWidget *parent)
 :   QWidget(parent), 
     loginMode(loginMode) 
 {
     this->hide();
 
-    Ui::LoginMode loginServer;
+    Ui::LoginServer loginServer;
     loginServer.setupUi(this);
 }
 
@@ -31,7 +33,7 @@ void LoginServer::login(){
     std::string portStr = portQStr.toUtf8().constData();
     try {
         Connector connector(ipStr, portStr);
-        this->loginMode.setConnector(connector);
+        this->loginMode.set_connector(connector);
         QMessageBox qMsg;
         qMsg.setWindowTitle("Portal");
         std::stringstream ok;
@@ -41,7 +43,7 @@ void LoginServer::login(){
         this->close();
         emit login_server_success();
         return;
-    } catch (SocketException & err){
+    } catch (SocketException & error){
         QMessageBox qMsg;
         qMsg.setWindowTitle("Portal");
         std::stringstream err;

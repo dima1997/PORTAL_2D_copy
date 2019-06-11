@@ -14,7 +14,7 @@ class LoginMode : public QWidget {
 private:
     LoginNew & loginNew;
     LoginJoin & loginJoin;
-    Connector & connector;
+    Connector connector;
     void config_new_game();
     void config_join_game();
     void connect_events();
@@ -24,7 +24,7 @@ public:
         LoginNew & loginNew, 
         LoginJoin & loginJoin, 
         QWidget *parent = 0);
-    virtual ~Login();
+    virtual ~LoginMode();
     void set_connector(Connector & connector);
 
 
