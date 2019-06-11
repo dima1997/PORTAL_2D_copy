@@ -88,6 +88,8 @@ void EventGameReceiverThread::receive_event(){
                 this->changesQueue.push(ptrEvent);
             }
             break;
+        case game_ends:
+            this->stop();
     }
 }
 

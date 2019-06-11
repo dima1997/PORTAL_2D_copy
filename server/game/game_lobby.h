@@ -41,7 +41,6 @@ public:
     GameLobby(GameLobby &&other) noexcept;
     GameLobby &operator=(GameLobby &&other) noexcept;
     void startIfReady();
-    void join();
     bool isFinished();
     bool addPlayer(Connector &connector);
     bool isReady();

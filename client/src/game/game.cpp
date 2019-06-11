@@ -19,6 +19,7 @@
 
 #include <mutex>
 #include <condition_variable>
+#include <portal_exception.h>
 
 #define WINDOW_WIDTH 640
 #define WINDOW_HEIGHT 480
@@ -88,6 +89,12 @@ void Game::run(){
     mixer.volume_music(VOLUME_MUSIC);
     mixer.play_music();
 
+    uint8_t start;
+    connector >> start;
+    if ((EventType) start != game_starts ) {
+        this->stop();
+        throw PortalException("Game could not start");
+    }
     this->threads.push_back(std::move(std::unique_ptr<Thread>(
         new EventGameReceiverThread(this->connector, this->changesMade, stopQueue)
     )));
@@ -104,7 +111,6 @@ void Game::run(){
     for (auto & thread : this->threads){
         (*thread).start();
     }
-
     playingLoop.run();
     this->stop();
     playResult.print();

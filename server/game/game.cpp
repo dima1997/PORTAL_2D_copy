@@ -8,6 +8,8 @@
 #include <protocol/event/object_switch_event.h>
 #include <portal_exception.h>
 #include <protocol/event/player_wins_event.h>
+#include <protocol/event/game_starts_event.h>
+#include <protocol/event/game_ends_event.h>
 #include "game.h"
 
 #define SECONDS_WAIT_BEFORE_START 2
@@ -15,18 +17,20 @@
 #define ONE_SECOND_EQ_MICRO_SECONDS 100000
 
 void Game::start() {
-    // this to make time for the last window to load
-    std::this_thread::sleep_for(std::chrono::seconds(SECONDS_WAIT_BEFORE_START));
     for(auto &player : players) {
         player.start();
+        auto event = std::shared_ptr<Event>(new GameStartsEvent());
+        player.addToQueue(event);
     }
+    // this to make time for the last window to load
+    std::this_thread::sleep_for(std::chrono::seconds(SECONDS_WAIT_BEFORE_START));
     double timeWaitMicroSeconds = TIME_WAIT_MICRO_SECONDS;
     unsigned t0,t1,t2;
     while (numberOfPlayers > 0){
         t0 = clock();
         t2 = clock();
         double timeProcessMicroSeconds = (double(t2-t0)/CLOCKS_PER_SEC) * ONE_SECOND_EQ_MICRO_SECONDS;
-        while (timeProcessMicroSeconds <= timeWaitMicroSeconds && numberOfPlayers > 0) {
+        while (timeProcessMicroSeconds <= timeWaitMicroSeconds && !world.hasFinished()) {
             std::unique_ptr<GameAction> ptrAction;
             if (!this->inQueue.pop(ptrAction)){
                 break;
@@ -43,11 +47,16 @@ void Game::start() {
                 player.addToQueue(ptrEvent);
             }
         }
+        if (world.hasFinished()) break;
         t1 = clock();
         double timeSpendMicroSeconds = (double(t1-t0)/CLOCKS_PER_SEC) * ONE_SECOND_EQ_MICRO_SECONDS;
-        if (world.hasFinished()) break;
         std::this_thread::sleep_for(std::chrono::microseconds((int)(timeWaitMicroSeconds - timeSpendMicroSeconds)));
     }
+    for(auto &player : players) {
+        auto event = std::shared_ptr<Event>(new GameEndsEvent());
+        player.addToQueue(event);
+    }
+    finished = true;
 }
 
 void Game::manageActions(std::unique_ptr<GameAction> ptrAction) {
@@ -111,7 +120,8 @@ void Game::manageActions(std::unique_ptr<GameAction> ptrAction) {
     }
 }
 
-Game::Game(std::vector<Connector> &connectors, Map &map): players(), thread(), numberOfPlayers(map.getPlayersNumber()), world(map), inQueue() {
+Game::Game(std::vector<Connector> &connectors, Map &map): players(), thread(),numberOfPlayers(map.getPlayersNumber()),
+           world(map), inQueue(), finished(false) {
     for (int i = 0; i < (int)connectors.size(); ++i) {
         auto playerId = map.getPlayerId(i);
         Connector &connector = connectors[i];
@@ -131,5 +141,9 @@ void Game::join() {
 }
 
 bool Game::isFinished() {
-    return numberOfPlayers == 0;
+    return finished;
+}
+
+Game::~Game() {
+    this->join();
 }

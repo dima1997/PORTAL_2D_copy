@@ -15,6 +15,8 @@ set(SOURCES
         "${PROJECT_SOURCE_DIR}/protocol/event/player_dies_event.cpp"
         "${PROJECT_SOURCE_DIR}/protocol/event/grab_rock_event.cpp"
         "${PROJECT_SOURCE_DIR}/protocol/event/throw_rock_event.cpp"
+        "${PROJECT_SOURCE_DIR}/protocol/event/game_starts_event.cpp"
+        "${PROJECT_SOURCE_DIR}/protocol/event/game_ends_event.cpp"
         "${PROJECT_SOURCE_DIR}/thread.cpp"
         "${PROJECT_SOURCE_DIR}/thread_safe_queue.cpp"
         "${PROJECT_SOURCE_DIR}/protocol/game_action/game_action.cpp"
