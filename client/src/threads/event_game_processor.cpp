@@ -13,6 +13,8 @@
 #include <protocol/event/player_dies_event.h>
 #include <protocol/event/object_moves_event.h>
 #include <protocol/event/object_switch_event.h>
+#include <protocol/event/grab_rock_event.h>
+#include <protocol/event/throw_rock_event.h>
 
 #include <memory>
 #include <ctime>
@@ -62,6 +64,25 @@ ThreadStatus EventGameProcessor::process_event(std::unique_ptr<Event> ptrEvent){
                 uint32_t playerId = ptrDiesEvent->get_id();
                 this->playResult.setPlayerStatus(playerId, DEAD);
                 this->window.switch_texture(playerId);
+            }
+            break;
+        case grab_rock:
+            {
+                auto ptrAux = 
+                        static_cast<GrabRockEvent* >(ptrEvent.release());
+                std::unique_ptr<GrabRockEvent> ptrGrabEvent(ptrAux);
+                uint32_t chellId = ptrGrabEvent->getChellId();
+                uint32_t rockId = ptrGrabEvent->getRockId();
+                this->window.start_follow(rockId, chellId);
+            }
+            break;
+        case throw_rock:
+            {
+                auto ptrAux = 
+                        static_cast<ThrowRockEvent* >(ptrEvent.release());
+                std::unique_ptr<ThrowRockEvent> ptrThrowEvent(ptrAux);
+                uint32_t rockId = ptrThrowEvent->getRockId();
+                this->window.stop_follow(rockId);
             }
             break;
         default:

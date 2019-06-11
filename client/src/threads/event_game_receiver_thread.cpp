@@ -8,13 +8,14 @@
 #include <protocol/event/player_dies_event.h>
 #include <protocol/event/object_moves_event.h>
 #include <protocol/event/object_switch_event.h>
+#include <protocol/event/grab_rock_event.h>
+#include <protocol/event/throw_rock_event.h>
 
 #include <connector/connector.h>
 #include <connector/socket_exception.h>
 #include <protocol/protocol_code.h>
 #include <thread_safe_queue.h>
 #include <thread.h>
-
 
 #include <iostream>
 
@@ -69,6 +70,24 @@ void EventGameReceiverThread::receive_event(){
                 this->changesQueue.push(ptrEvent);
                 break;
             }
+        case grab_rock:
+            {
+                std::unique_ptr<Event> ptrEvent(
+                    new GrabRockEvent(0,0)
+                );
+                this->connector >> (*ptrEvent);
+                this->changesQueue.push(ptrEvent);
+            }
+            break;
+        case throw_rock:
+            {
+                std::unique_ptr<Event> ptrEvent(
+                    new ThrowRockEvent(0)
+                );
+                this->connector >> (*ptrEvent);
+                this->changesQueue.push(ptrEvent);
+            }
+            break;
     }
 }
 
