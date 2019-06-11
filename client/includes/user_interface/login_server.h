@@ -10,7 +10,7 @@ class LoginServer : public Widget {
 
 private:
     LoginMode & loginMode;
-    virtual void connectEvents();
+    virtual void connect_events();
     void login();
 
 public:
