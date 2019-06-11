@@ -2,29 +2,32 @@
 
 #include "ui_LoginJoin.h"
 
-#include "../game/game_config.h"
+#include "../../includes/game/game_config.h"
 
 #include <connector/connector.h>
 
 #include <QWidget>
+#include <QMessageBox>
 
 #include <cstdint>
 #include <map>
+#include <sstream>
 
 LoginJoin::LoginJoin(GameConfig & gameConfig, QWidget *parent)
 :   QWidget(parent),
     gameConfig(gameConfig),
-    connector()
+    connector(),
+    gameIds()
 {
     this->hide();
     Ui::LoginJoin loginJoin;
     loginJoin.setupUi(this);
-    this->connectEvents();
+    this->connect_events();
 }
 
 LoginJoin::~LoginJoin() = default;
 
-void LoginJoin::joinGame() {
+void LoginJoin::config_join_game() {
     QComboBox* comboBoxGameId = findChild<QComboBox*>("comboBoxGameId");
     QString currentMapIdStr = comboBoxGameId->currentText();
     bool ok;
@@ -45,7 +48,7 @@ void LoginJoin::joinGame() {
         qMsg.setWindowTitle("Portal");
         std::stringstream ok;
         ok << "Join game success.\n";
-        qMsg.setText(QString(ok.str.c_str()));
+        qMsg.setText(QString(ok.str().c_str()));
         qMsg.exec();
         this->close();
         emit login_join_success();
@@ -56,7 +59,7 @@ void LoginJoin::joinGame() {
         qMsg.setWindowTitle("Portal");
         std::stringstream err;
         err << "Game " << (unsigned) gameId << " is full." << std::endl;
-        qMsg.setText(QString(err.str.c_str()));
+        qMsg.setText(QString(err.str().c_str()));
         qMsg.exec();
         this->close();
         emit login_join_failed();
@@ -67,7 +70,7 @@ void LoginJoin::joinGame() {
         qMsg.setWindowTitle("Portal");
         std::stringstream err;
         err << "Game " << (unsigned) gameId << " does not exist." << std::endl;
-        qMsg.setText(QString(err.str.c_str()));
+        qMsg.setText(QString(err.str().c_str()));
         qMsg.exec();
         this->close();
         emit login_join_failed();
@@ -78,7 +81,7 @@ void LoginJoin::joinGame() {
 void LoginJoin::connect_events() {
     QPushButton* buttonJoin = findChild<QPushButton*>("buttonJoin");
     QObject::connect(buttonJoin, &QPushButton::clicked,
-                     this, &LoginJoin::joinGame);
+                     this, &LoginJoin::config_join_game);
 }
 
 void LoginJoin::set_game_ids(std::map<uint8_t,std::string> & stockGames){
@@ -89,10 +92,11 @@ void LoginJoin::set_game_ids(std::map<uint8_t,std::string> & stockGames){
         std::string gameName = it->second;
         std::stringstream oneGame;
         oneGame << (unsigned) gameId << " - " << gameName;
-        this->gamesId.insert(std::make_pair<std::string, uint8_t>(
-            oneGame.str(),gameId
+        std::string oneGameStr = oneGame.str();
+        this->gameIds.insert(std::pair<std::string, uint8_t>(
+            oneGameStr,gameId
         ));
-        comboBoxGameId->addItem(QString(oneGame.str().c_str()));
+        comboBoxGameId->addItem(QString(oneGameStr.c_str()));
     }
 }
 

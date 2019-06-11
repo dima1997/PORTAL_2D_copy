@@ -4,6 +4,9 @@
 
 #include "../../includes/user_interface/login_mode.h"
 
+#include <QWidget>
+#include <QMessageBox>
+
 #include <connector/socket_exception.h>
 
 LoginServer::LoginServer(LoginMode & loginMode, QWidget *parent)
@@ -33,7 +36,7 @@ void LoginServer::login(){
         qMsg.setWindowTitle("Portal");
         std::stringstream ok;
         ok << "Connection Success.\n";
-        qMsg.setText(QString(ok.str.c_str()));
+        qMsg.setText(QString(ok.str().c_str()));
         qMsg.exec();
         this->close();
         emit login_server_success();
@@ -45,7 +48,7 @@ void LoginServer::login(){
         err << "Connection Failed.\n";
         err << "Check ip/port.\n";
         err << "Maybe server is not working.\n"; 
-        qMsg.setText(QString(err.str.c_str()));
+        qMsg.setText(QString(err.str().c_str()));
         qMsg.setIcon(QMessageBox::Warning);
         qMsg.exec();
         this->close();

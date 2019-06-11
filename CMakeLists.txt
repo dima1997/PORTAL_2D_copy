@@ -55,10 +55,22 @@ target_link_libraries(${SERVER_NAME} yaml-cpp)
 # CLIENT ----------------------
 set(CLIENT_NAME "PORTAL")
 set(CLIENT_FOLDER "client")
+
+find_package(Qt5Widgets)
+qt5_wrap_ui(UIS_HEADERS
+	"${CLIENT_FOLDER}/src/user_interface/ui/LoginServer.ui"
+	"${CLIENT_FOLDER}/src/user_interface/ui/LoginMode.ui"
+	"${CLIENT_FOLDER}/src/user_interface/ui/LoginNew.ui"
+	"${CLIENT_FOLDER}/src/user_interface/ui/LoginJoin.ui"
+)
+
+include_directories(${PROJECT_BINARY_DIR})
+
 file(GLOB client_files
         "${CLIENT_FOLDER}/main.cpp"
         "${CLIENT_FOLDER}/src/game/client.cpp"
         "${CLIENT_FOLDER}/src/game/game.cpp"
+        "${CLIENT_FOLDER}/src/game/game_config.cpp"
         "${CLIENT_FOLDER}/src/game/game_factory.cpp"
         "${CLIENT_FOLDER}/src/threads/playing_loop_thread.cpp"
         "${CLIENT_FOLDER}/src/threads/play_result.cpp"
@@ -145,6 +157,10 @@ file(GLOB client_files
 	"${CLIENT_FOLDER}/src/mixer/mix_music.cpp"
 	"${CLIENT_FOLDER}/src/mixer/portal_mixer.cpp"
 	"${CLIENT_FOLDER}/src/sdl_system.cpp"
+	"${CLIENT_FOLDER}/src/user_interface/login_server.cpp"
+	"${CLIENT_FOLDER}/src/user_interface/login_mode.cpp"
+	"${CLIENT_FOLDER}/src/user_interface/login_new.cpp"
+	"${CLIENT_FOLDER}/src/user_interface/login_join.cpp"
         )
 
 add_executable(${CLIENT_NAME} ${common_files} ${client_files})
@@ -158,6 +174,8 @@ target_link_libraries(${CLIENT_NAME} ${CMAKE_THREAD_LIBS_INIT})
 target_link_libraries(${CLIENT_NAME} SDL2 SDL2_image SDL2_mixer)
 
 target_link_libraries(${CLIENT_NAME} yaml-cpp)
+
+target_link_libraries(${CLIENT_NAME} Qt5::Widgets)
 
 install(FILES client/assets/all_blocks.png DESTINATION ${CMAKE_BINARY_DIR})
 install(FILES client/assets/all_chells_half.png DESTINATION ${CMAKE_BINARY_DIR})
