@@ -16,6 +16,7 @@
 class Game {
     std::vector<Player> players;
     std::thread thread;
+    // TODO: remove
     int numberOfPlayers;
     World world;
     ThreadSafeQueue<std::unique_ptr<GameAction>> inQueue;

@@ -73,10 +73,9 @@ void Game::run(){
     sdlSystem.init_audio();
 
     //Cargo YAML
-    // TODO: use string from server instead of file
     std::string mapFile;
     connector >> mapFile;
-    YAML::Node baseNode = YAML::LoadFile(CONFIG_PATHS.at(this->mapId));
+    YAML::Node baseNode = YAML::Load(mapFile);
     
     //Inicializo resultado del juego
     PlayResult playResult(baseNode);
