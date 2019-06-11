@@ -16,24 +16,16 @@ EnergyBallSpriteStrategy::EnergyBallSpriteStrategy()
         EnergyBallSprite::get_sprite()    
     ), 
     spriteName(BALL_SHOW) {}
-/*
-:   SpriteStrategy(
-        std::move(
-            std::unique_ptr<DynamicSprite>(new EnergyBallSprite())
-        )    
-    ), spriteName(BALL_SHOW) {}
-*/
+
 /*Destruye el sprite strategy de la bola de energia.*/
 EnergyBallSpriteStrategy::~EnergyBallSpriteStrategy() = default;
 
 /*Alterna entre mostrar o ocultar los sprites.*/
 void EnergyBallSpriteStrategy::switch_sprite(){
     if (this->spriteName == BALL_SHOW){
-        //this->ptrDynamicSprite.reset(new NullSprite());
         this->dynamicSprite = NullSprite::get_sprite();
         this->spriteName = BALL_HIDE;
     } else {
-        //this->ptrDynamicSprite.reset(new EnergyBallSprite());
         this->dynamicSprite = EnergyBallSprite::get_sprite(); 
         this->spriteName = BALL_SHOW;
     }

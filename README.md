@@ -34,8 +34,8 @@ TECLADO:
 - A/FLECHA IZQUIERDA -> Moverse hacia izquierda
 - W/FLECHA ARRIBA -> Saltar
 - D/FLECHA DERECHA -> Moverse hacia derecha
-- ESPACIO/CONTROL DERECHO -> Tomar una roca (Proximamente)
-- SHIFT IZQUIERDO/MENOS -> Soltar una roca (Proximamente)
+- ESPACIO/CONTROL DERECHO -> Tomar una roca 
+- SHIFT IZQUIERDO/MENOS -> Soltar una roca 
 - M -> Pausar/Continuar musica de fondo
   
 MOUSE:

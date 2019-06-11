@@ -19,13 +19,6 @@ BlockMetalTexture::BlockMetalTexture(BigTexture & bigTexture, Area areaMap)
             areaMap, 
             BlockMetalSprite::get_sprite()
     ) {}
-/*
-:    Texture(bigTexture, areaMap, 
-        std::move(
-            std::unique_ptr<SpriteStrategy>(new BlockMetalSpriteStrategy())
-        )
-    ) {}
-*/
 
 /*Destruye la textura del bloque de metal.*/
 BlockMetalTexture::~BlockMetalTexture() = default;
