@@ -1,6 +1,11 @@
 #ifndef GAME_CONFIG_H
 #define GAME_CONFIG_H
 
+#include "../../includes/game/game.h"
+
+#include <connector/connector.h>
+#include <cstdint>
+
 class GameConfig {
 private:
     Connector connector;
@@ -11,7 +16,7 @@ private:
 public:
     GameConfig();
 
-    ~GameConfig();
+    virtual ~GameConfig();
 
     void set_connector(Connector & connector);
 

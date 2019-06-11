@@ -5,6 +5,7 @@
 #include "ui_LoginNew.h"
 
 #include <QWidget>
+#include <QMessageBox>
 
 #include <cstdint>
 
@@ -38,7 +39,7 @@ void LoginNew::config_new_game() {
         qMsg.setWindowTitle("Portal");
         std::stringstream err;
         err << "Server rejected new game.\n";
-        qMsg.setText(QString(err.str.c_str()));
+        qMsg.setText(QString(err.str().c_str()));
         qMsg.exec();
         this->close();
         emit login_new_failed();
@@ -56,7 +57,7 @@ void LoginNew::config_new_game() {
     qMsg.setWindowTitle("Portal");
     std::stringstream ok;
     ok << "New game success.\n";
-    qMsg.setText(QString(err.str.c_str()));
+    qMsg.setText(QString(err.str().c_str()));
     qMsg.exec();
     this->close();
     emit login_new_success();
@@ -66,7 +67,7 @@ void LoginNew::config_new_game() {
 void LoginNew::connect_events() {
     QPushButton* buttonNew = findChild<QPushButton*>("buttonNew");
     QObject::connect(buttonNew, &QPushButton::clicked,
-                     this, &LoginNew::newGame);
+                     this, &LoginNew::config_new_game);
 }
 
 void LoginNew::set_map_ids(std::vector<uint8_t> & mapIds){

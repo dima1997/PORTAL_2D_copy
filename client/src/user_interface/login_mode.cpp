@@ -7,6 +7,9 @@
 
 #include <connector/connector.h>
 
+#include <QWidget>
+#include <QMessageBox>
+
 #include <sstream>
 
 LoginMode::LoginMode( 
@@ -60,7 +63,7 @@ void LoginMode::config_join_game() {
         msg.setWindowTitle("PORTAL");
         std::stringstream err;
         err << "No games in stock.\n"; 
-        qMsg.setText(QString(err.str.c_str()));
+        qMsg.setText(QString(err.str().c_str()));
         qMsg.setIcon(QMessageBox::Warning);
         qMsg.exec();
         this->close();
@@ -86,9 +89,9 @@ void LoginMode::config_join_game() {
 void LoginMode::connect_events() {
     QPushButton* buttonNew = findChild<QPushButton*>("buttonNew");
     QObject::connect(buttonNew, &QPushButton::clicked,
-                     this, &Login::newGame);
+                     this, &Login::config_new_game);
 
     QPushButton* buttonJoin = findChild<QPushButton*>("buttonJoin");
     QObject::connect(buttonJoin, &QPushButton::clicked,
-                     this, &Login::joinGame);
+                     this, &Login::config_join_game);
 }
