@@ -17,6 +17,7 @@
 
 class Map {
     YAML::Node file;
+    uint8_t id;
     uint8_t players_number;
     Portal *loadPortal(const YAML::Node &portal, b2World &world);
     Chell *loadChell(const YAML::Node &chell, b2World &world, Portal *bluePortal, Portal *orangePortal);
@@ -31,6 +32,7 @@ public:
     void loadChells(b2World &world, std::list<Chell *> &chells);
     void loadDoors(b2World &world, std::list<Door *> &doors);
     void loadButtons(b2World &world, std::list<Button *> &buttons, std::list<Door *> &doors);
+    std::string toString();
 };
 
 

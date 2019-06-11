@@ -17,7 +17,7 @@ void GameManager::addGame(Connector &connector) {
         connector >> mapId;
         connector >> gameName;
     } catch(SocketException &se) {
-        std::cerr << se.what();
+        std::cerr << se.what() << std::endl;
     }
     uint8_t game_id = this->getKey();
     games.insert(std::make_pair(game_id, GameLobby(game_id, mapId, connector, gameName)));
@@ -42,7 +42,7 @@ void GameManager::joinToGame(Connector &connector) {
             connector << (uint8_t) non_existent_game;
         }
     } catch(SocketException &se) {
-        std::cerr << se.what();
+        std::cerr << se.what() << std::endl;
     }
 }
 
@@ -89,6 +89,6 @@ void GameManager::sendAvailableGames(Connector &connector) {
             connector << game->getId() << game->getName();
         }
     } catch(SocketException &se) {
-        std::cerr << se.what();
+        std::cerr << se.what() << std::endl;
     }
 }

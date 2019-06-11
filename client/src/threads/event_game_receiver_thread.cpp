@@ -42,6 +42,7 @@ void EventGameReceiverThread::receive_event(){
                 this->changesQueue.push(ptrEvent);
                 this->stop();
             }
+            break;
         case player_dies:
             {   
                 uint32_t player_id_dead;

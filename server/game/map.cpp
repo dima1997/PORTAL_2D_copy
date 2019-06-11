@@ -5,9 +5,10 @@
 #include <yaml-cpp/node/node.h>
 #include <configs_yaml/config_paths.h>
 #include <yaml-cpp/yaml.h>
+#include <fstream>
 #include "map.h"
 
-Map::Map(uint8_t map_id): file(YAML::LoadFile(CONFIG_PATHS.at(map_id))),
+Map::Map(uint8_t map_id): id(map_id), file(YAML::LoadFile(CONFIG_PATHS.at(map_id))),
                           players_number(file["player_number"].as<int>()) {}
 
 uint8_t Map::getPlayersNumber() {
@@ -137,4 +138,10 @@ void Map::loadRocks(b2World &world, std::list<Rock *> &rocks) {
         auto y = rockInfo["yCoord"].as<float32>();
         rocks.push_back(new Rock(world, x, y, id, 0.2f, 0.28f));
     }
+}
+
+std::string Map::toString() {
+    std::ifstream t(CONFIG_PATHS.at(id));
+    return std::string((std::istreambuf_iterator<char>(t)),
+                    std::istreambuf_iterator<char>());
 }
