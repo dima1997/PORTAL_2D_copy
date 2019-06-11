@@ -30,11 +30,11 @@ LoginMode::~LoginMode() = default;
 PRE: Recibe un connector (Connector &).
 POST: Toma posesion del connector por movimiento. 
 */
-void LoginMode::setConnector(Connector & connector){
+void LoginMode::set_connector(Connector & connector){
     this->connector = std::move(connector);
 }
 
-void LoginMode::newGame() {
+void LoginMode::config_new_game() {
     this->loginJoin.close();
     this->connector << (uint8_t) new_game;
     // Simula recibir ids del connector
@@ -49,7 +49,7 @@ void LoginMode::newGame() {
     return;
 }
 
-void LoginMode::joinGame() {
+void LoginMode::config_join_game() {
     this->loginNew.close();
 
     this->connector << (uint8_t) join_game;
@@ -83,7 +83,7 @@ void LoginMode::joinGame() {
     return;
 }
 
-void LoginMode::connectEvents() {
+void LoginMode::connect_events() {
     QPushButton* buttonNew = findChild<QPushButton*>("buttonNew");
     QObject::connect(buttonNew, &QPushButton::clicked,
                      this, &Login::newGame);

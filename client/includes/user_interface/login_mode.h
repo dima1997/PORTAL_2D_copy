@@ -11,20 +11,22 @@
 class LoginMode : public QWidget {
     Q_OBJECT
 
+private:
+    LoginNew & loginNew;
+    LoginJoin & loginJoin;
+    Connector & connector;
+    void config_new_game();
+    void config_join_game();
+    void connect_events();
+
 public:
     LoginMode( 
         LoginNew & loginNew, 
         LoginJoin & loginJoin, 
         QWidget *parent = 0);
     virtual ~Login();
-    void setConnector(Connector & connector);
+    void set_connector(Connector & connector);
 
-private:
-    LoginNew & loginNew;
-    LoginJoin & loginJoin;
-    void newGame();
-    void joinGame();
-    void connectEvents();
 
 signals:
     void login_mode_new();

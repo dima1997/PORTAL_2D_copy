@@ -54,7 +54,7 @@ void LoginServer::login(){
     }
 }
 
-void LoginServer::connectEvents(){
+void LoginServer::connect_events(){
     QPushButton* buttonLogin = findChild<QPushButton*>("buttonLogin");
     QObject::connect(buttonLogin, &QPushButton::clicked,
                      this, &LoginServer::login);

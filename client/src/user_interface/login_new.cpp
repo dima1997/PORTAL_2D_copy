@@ -20,7 +20,7 @@ LoginNew::LoginNew(GameConfig & gameConfig, QWidget *parent)
 
 LoginNew::~LoginNew() = default;
 
-void LoginNew::newGame() {
+void LoginNew::config_new_game() {
     this->hide();
     QComboBox* comboBoxMapId = findChild<QComboBox*>("comboBoxMapId");
     QString currentMapIdStr = comboBoxMapId->currentText();
@@ -63,13 +63,13 @@ void LoginNew::newGame() {
     return;
 }
 
-void LoginNew::connectEvents() {
+void LoginNew::connect_events() {
     QPushButton* buttonNew = findChild<QPushButton*>("buttonNew");
     QObject::connect(buttonNew, &QPushButton::clicked,
                      this, &LoginNew::newGame);
 }
 
-void LoginNew::setMapIds(std::vector<uint8_t> & mapIds){
+void LoginNew::set_map_ids(std::vector<uint8_t> & mapIds){
     QComboBox* comboBoxMapId = findChild<QComboBox*>("comboBoxMapId");
     for (int i = 0; i < (int)mapIds.size(); ++i){
         QString mapIdQStr = QString::number(mapIds[i]); 
@@ -77,6 +77,6 @@ void LoginNew::setMapIds(std::vector<uint8_t> & mapIds){
     }
 }
 
-void LoginNew::setConnector(Connector & connector){
+void LoginNew::set_connector(Connector & connector){
     this->connector = std::move(connector);
 }

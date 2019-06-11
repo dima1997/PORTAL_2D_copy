@@ -7,21 +7,22 @@
 #include <QWidget>
 
 #include <cstdint>
+#include <vector>
 
 class LoginNew : public QWidget {
     Q_OBJECT
 private:
-    GameConfig & gameConfig;
     Connector connector;
+    GameConfig & gameConfig;
 
-    void newGame();
-    void connectEvents();
-    void setMapIds(std::vector<uint8_t> & mapIds);
+    void config_new_game();
+    void connect_events();
 
 public:
     LoginNew(GameConfig & gameConfig, QWidget *parent = 0);
     virtual ~LoginNew();
-    void setConnector(Connector & connector);
+    void set_connector(Connector & connector);
+    void set_map_ids(std::vector<uint8_t> & mapIds);
 
 signals:
     void login_new_success();
