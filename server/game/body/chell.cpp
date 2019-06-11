@@ -27,7 +27,7 @@ void Chell::createBody(float32 xPos, float32 yPos) {
     b2FixtureDef fixtureDef;
     fixtureDef.shape = &dynamicBox;
     fixtureDef.density = 0.5f;
-    fixtureDef.friction = 0.3f;
+    fixtureDef.friction = 0.1f;
 
     body->CreateFixture(&fixtureDef);
 
@@ -196,7 +196,7 @@ bool Chell::threwRock() {
     threwRockUpdated = false;
     if (updated) {
         rock->setActive(true);
-        rock->moveTo(getXPos(), getYPos() + rock->hy);
+        rock->moveTo(getXPos(), getYPos() + hy + rock->hy);
         carriesRock = false;
     }
     return updated;
