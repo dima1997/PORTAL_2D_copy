@@ -9,7 +9,6 @@
 #include <portal_exception.h>
 #include <protocol/event/player_wins_event.h>
 #include <protocol/event/game_starts_event.h>
-#include <protocol/event/game_ends_event.h>
 #include "game.h"
 
 #define SECONDS_WAIT_BEFORE_START 2
@@ -51,10 +50,6 @@ void Game::start() {
         t1 = clock();
         double timeSpendMicroSeconds = (double(t1-t0)/CLOCKS_PER_SEC) * ONE_SECOND_EQ_MICRO_SECONDS;
         std::this_thread::sleep_for(std::chrono::microseconds((int)(timeWaitMicroSeconds - timeSpendMicroSeconds)));
-    }
-    for(auto &player : players) {
-        auto event = std::shared_ptr<Event>(new GameEndsEvent());
-        player.addToQueue(event);
     }
     finished = true;
 }

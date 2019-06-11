@@ -15,6 +15,7 @@
 #include <protocol/event/object_switch_event.h>
 #include <protocol/event/grab_rock_event.h>
 #include <protocol/event/throw_rock_event.h>
+#include <protocol/event/player_loses_event.h>
 #include "yaml-cpp/yaml.h"
 #include "contact_listener/contact_listener.h"
 
@@ -55,10 +56,12 @@ void World::step(std::list<std::shared_ptr<Event>> &events) {
     }
     for (Chell *chell : chells) {
         if ( chell->justDied() ) {
-            if (--numberOfPlayers == 0) {
-                finished = true;
-            }
             events.push_back(std::shared_ptr<Event>(new PlayerDiesEvent(chell->getId())));
+            if (--numberOfPlayers == 0) {
+                events.push_back(std::shared_ptr<Event>(new PlayerLosesEvent()));
+                finished = true;
+                return;
+            }
             break;
         }
         if (chell->changedPositionOrVelocity()) {
