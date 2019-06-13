@@ -21,6 +21,8 @@
 #include <condition_variable>
 #include <portal_exception.h>
 
+#include <iostream>
+
 #define WINDOW_WIDTH 640
 #define WINDOW_HEIGHT 480
 #define VOLUME_MUSIC 10
@@ -64,6 +66,19 @@ void Game::run(){
         std::unique_lock<std::mutex> l(this->mutex);
         this->isDead = false;    
     }
+    //Cargo YAML
+    std::string mapFile;
+    connector >> mapFile;
+    YAML::Node baseNode = YAML::Load(mapFile);
+
+    uint8_t start;
+    std::cout << "Waiting for other players ... \n";
+    connector >> start;
+    if ((EventType) start != game_starts ) {
+        this->stop();
+        throw PortalException("Game could not start");
+    }
+    std::cout << "Game is about to start.\n";
 
     ThreadSafeQueue<ThreadStatus> stopQueue;
 
@@ -72,10 +87,6 @@ void Game::run(){
     sdlSystem.init_video();
     sdlSystem.init_audio();
 
-    //Cargo YAML
-    std::string mapFile;
-    connector >> mapFile;
-    YAML::Node baseNode = YAML::Load(mapFile);
     
     //Inicializo resultado del juego
     PlayResult playResult(baseNode);
@@ -91,12 +102,6 @@ void Game::run(){
     mixer.volume_music(VOLUME_MUSIC);
     mixer.play_music();
 
-    uint8_t start;
-    connector >> start;
-    if ((EventType) start != game_starts ) {
-        this->stop();
-        throw PortalException("Game could not start");
-    }
     this->threads.push_back(std::move(std::unique_ptr<Thread>(
         new EventGameReceiverThread(this->connector, this->changesMade, stopQueue)
     )));

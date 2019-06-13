@@ -16,7 +16,7 @@ BackgroundOneSprite::BackgroundOneSprite()
     )
     {}
 
-/*Destrue el sprite de fondo 1.*/
+/*Destruye el sprite de fondo 1.*/
 BackgroundOneSprite::~BackgroundOneSprite() = default;
 
 DynamicSprite BackgroundOneSprite::get_sprite(){
@@ -25,7 +25,9 @@ DynamicSprite BackgroundOneSprite::get_sprite(){
             {
                 {0,0}
             },
-            880,452
+            //880,452 // 0
+            //1920,1080 // 1 y 2
+            900, 550 // 3
         )
     );
 } 

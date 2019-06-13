@@ -12,6 +12,6 @@
 #define BARRIER_SPRITE "barrier.png"
 #define ALL_TRIANGLES_SPRITES "all_triangles.png"
 #define CAKE_SPRITES "cake.png"
-#define BACKGROUND "background_1.png"
+#define BACKGROUND "portal_background_3.jpg"
 
 #endif // IMAGES_PATH_H

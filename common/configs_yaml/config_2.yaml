@@ -1,0 +1,324 @@
+---
+# Al agregar nuevos objetos, no repetir ids. 
+# Para facilitar el conteo de ids, ordenar la descripcion 
+# de cada objeto, por su id de menor a mayor.
+# Tambien se recomienda respetar las convenciones de ids,
+# descritas en cada seccion.
+player_number: 2
+sections: 
+    [
+        background,
+        blocks_metal, 
+        blocks_rock, 
+        blocks_acid, 
+        doors_one, 
+        buttons, 
+        triangles_botom_left,
+        triangles_botom_right,
+        triangles_top_left,
+        triangles_top_right,
+        barriers,
+        energy_balls_green, 
+        receivers,
+        emitters_right,
+        cakes, 
+        rocks_one, 
+        portals_blue, 
+        portals_orange, 
+        chells
+    ]
+blocks_metal:
+    width: 1
+    height: 1
+    id_coordinates:
+    # Distanciar ids de a 1.
+        [      
+            # Limites del mapa
+            # Pared izquierda
+            {id: 0, xCoord: -7.5, yCoord: 0.5},
+            {id: 1, xCoord: -7.5, yCoord: 1.5},
+            {id: 2, xCoord: -7.5, yCoord: 2.5},
+            {id: 3, xCoord: -7.5, yCoord: 3.5},
+            {id: 4, xCoord: -7.5, yCoord: 4.5},
+            {id: 5, xCoord: -7.5, yCoord: 5.5},
+            {id: 6, xCoord: -7.5, yCoord: 6.5},
+            {id: 7, xCoord: -7.5, yCoord: 7.5},
+            {id: 8, xCoord: -7.5, yCoord: 8.5},
+            {id: 9, xCoord: -7.5, yCoord: 9.5},
+            {id: 10, xCoord: -7.5, yCoord: 10.5},
+            {id: 11, xCoord: -7.5, yCoord: 11.5},
+            {id: 12, xCoord: -7.5, yCoord: 12.5},
+            {id: 13, xCoord: -7.5, yCoord: 13.5},
+            {id: 14, xCoord: -7.5, yCoord: 14.5},
+            {id: 15, xCoord: -7.5, yCoord: 15.5},
+            # Techo izquierdo
+            {id: 16, xCoord: -6.5, yCoord: 15.5},
+            {id: 17, xCoord: -5.5, yCoord: 15.5},
+            {id: 18, xCoord: -4.5, yCoord: 15.5},
+            {id: 19, xCoord: -3.5, yCoord: 15.5},
+            {id: 20, xCoord: -2.5, yCoord: 15.5},
+            {id: 21, xCoord: -1.5, yCoord: 15.5},
+            # Techo medio
+            {id: 22, xCoord: -0.5, yCoord: 15.5},
+            {id: 23, xCoord: 0.5, yCoord: 15.5},
+            #Techo derecho
+            {id: 24, xCoord: 1.5, yCoord: 15.5},
+            {id: 25, xCoord: 2.5, yCoord: 15.5},
+            {id: 26, xCoord: 3.5, yCoord: 15.5},
+            {id: 27, xCoord: 4.5, yCoord: 15.5},
+            {id: 28, xCoord: 5.5, yCoord: 15.5},
+            {id: 29, xCoord: 6.5, yCoord: 15.5},
+            # Pared derecha
+            {id: 30, xCoord: 7.5, yCoord: 15.5},
+            {id: 31, xCoord: 7.5, yCoord: 14.5},
+            {id: 32, xCoord: 7.5, yCoord: 13.5},
+            {id: 33, xCoord: 7.5, yCoord: 12.5},
+            {id: 34, xCoord: 7.5, yCoord: 11.5},
+            {id: 35, xCoord: 7.5, yCoord: 10.5},
+            {id: 36, xCoord: 7.5, yCoord: 9.5},
+            {id: 37, xCoord: 7.5, yCoord: 8.5},
+            {id: 38, xCoord: 7.5, yCoord: 7.5},
+            {id: 39, xCoord: 7.5, yCoord: 6.5},
+            {id: 40, xCoord: 7.5, yCoord: 5.5},
+            {id: 41, xCoord: 7.5, yCoord: 4.5},
+            {id: 42, xCoord: 7.5, yCoord: 3.5},
+            {id: 43, xCoord: 7.5, yCoord: 2.5},
+            {id: 44, xCoord: 7.5, yCoord: 1.5},
+            {id: 45, xCoord: 7.5, yCoord: 0.5},
+            # Piso izquierdo
+            {id: 46, xCoord: 6.5, yCoord: 0.5},
+            {id: 47, xCoord: 5.5, yCoord: 0.5},
+            {id: 48, xCoord: 4.5, yCoord: 0.5},
+            {id: 49, xCoord: 3.5, yCoord: 0.5},
+            {id: 50, xCoord: 2.5, yCoord: 0.5},
+            {id: 51, xCoord: 1.5, yCoord: 0.5},
+            # Piso medio
+            {id: 52, xCoord: 0.5, yCoord: 0.5},
+            {id: 53, xCoord: -0.5, yCoord: 0.5},
+            # Piso derecho
+            {id: 54, xCoord: -1.5, yCoord: 0.5},
+            {id: 55, xCoord: -2.5, yCoord: 0.5},
+            {id: 56, xCoord: -3.5, yCoord: 0.5},
+            {id: 57, xCoord: -4.5, yCoord: 0.5},
+            {id: 58, xCoord: -5.5, yCoord: 0.5},
+            {id: 59, xCoord: -6.5, yCoord: 0.5},
+            # Pared media izquierda
+            {id: 60, xCoord: -0.5, yCoord: 1.5},
+            {id: 61, xCoord: -0.5, yCoord: 2.5},
+            {id: 62, xCoord: -0.5, yCoord: 3.5},
+            {id: 63, xCoord: -0.5, yCoord: 4.5},
+            {id: 64, xCoord: -0.5, yCoord: 5.5},
+            {id: 65, xCoord: -0.5, yCoord: 6.5},
+            {id: 66, xCoord: -0.5, yCoord: 7.5},
+            # Aqui va puerta izquierda
+            {id: 67, xCoord: -0.5, yCoord: 10.5},
+            {id: 68, xCoord: -0.5, yCoord: 11.5},
+            {id: 69, xCoord: -0.5, yCoord: 12.5},
+            {id: 70, xCoord: -0.5, yCoord: 13.5},
+            {id: 71, xCoord: -0.5, yCoord: 14.5},
+            {id: 72, xCoord: -0.5, yCoord: 15.5},
+            # Pared media derecha
+            # Pared media izquierda
+            {id: 73, xCoord: 0.5, yCoord: 1.5},
+            {id: 74, xCoord: 0.5, yCoord: 2.5},
+            {id: 75, xCoord: 0.5, yCoord: 3.5},
+            {id: 76, xCoord: 0.5, yCoord: 4.5},
+            {id: 77, xCoord: 0.5, yCoord: 5.5},
+            {id: 78, xCoord: 0.5, yCoord: 6.5},
+            {id: 79, xCoord: 0.5, yCoord: 7.5},
+            # Aqui va puerta derecha
+            {id: 80, xCoord: 0.5, yCoord: 10.5},
+            {id: 81, xCoord: 0.5, yCoord: 11.5},
+            {id: 82, xCoord: 0.5, yCoord: 12.5},
+            {id: 83, xCoord: 0.5, yCoord: 13.5},
+            {id: 84, xCoord: 0.5, yCoord: 14.5},
+            {id: 85, xCoord: 0.5, yCoord: 15.5},
+            # Piso torta
+            {id: 86, xCoord: -6.5, yCoord: 6.5},
+            {id: 87, xCoord: -5.5, yCoord: 6.5},
+            # Tabique torta
+            {id: 88, xCoord: -5.5, yCoord: 7.5},
+            {id: 89, xCoord: -6.5, yCoord: 10.5},
+            {id: 90, xCoord: -5.5, yCoord: 10.5},
+            # Piso chell inicial derecho
+            {id: 91, xCoord: 6.5, yCoord: 10.5},
+            {id: 92, xCoord: 5.5, yCoord: 10.5},
+            # Cubo portales inicial 1 (CPI)
+            # CPI 1 lado izq
+            {id: 93, xCoord: 21.5, yCoord: 0.5},
+            {id: 94, xCoord: 21.5, yCoord: 1.5},
+            {id: 95, xCoord: 21.5, yCoord: 2.5},
+            {id: 96, xCoord: 21.5, yCoord: 3.5},
+            {id: 97, xCoord: 21.5, yCoord: 4.5},
+            {id: 98, xCoord: 21.5, yCoord: 5.5},
+            # CPI 1 techo
+            {id: 99, xCoord: 22.5, yCoord: 5.5},
+            {id: 100, xCoord: 23.5, yCoord: 5.5},
+            {id: 101, xCoord: 24.5, yCoord: 5.5},
+            {id: 102, xCoord: 25.5, yCoord: 5.5},
+            {id: 103, xCoord: 26.5, yCoord: 5.5},
+            # CPI 1 lado der
+            {id: 104, xCoord: 27.5, yCoord: 5.5},
+            {id: 105, xCoord: 27.5, yCoord: 4.5},
+            {id: 106, xCoord: 27.5, yCoord: 3.5},
+            {id: 107, xCoord: 27.5, yCoord: 2.5},
+            {id: 108, xCoord: 27.5, yCoord: 1.5},
+            {id: 109, xCoord: 27.5, yCoord: 0.5},
+            # CPI 1 piso
+            {id: 110, xCoord: 26.5, yCoord: 0.5},
+            {id: 111, xCoord: 25.5, yCoord: 0.5},
+            {id: 112, xCoord: 24.5, yCoord: 0.5},
+            {id: 113, xCoord: 23.5, yCoord: 0.5},
+            {id: 114, xCoord: 22.5, yCoord: 0.5},
+            # Cubo portales inicial 2 (CPI)
+            # CPI 2 lado izq
+            {id: 115, xCoord: 29.5, yCoord: 0.5},
+            {id: 116, xCoord: 29.5, yCoord: 1.5},
+            {id: 117, xCoord: 29.5, yCoord: 2.5},
+            {id: 118, xCoord: 29.5, yCoord: 3.5},
+            {id: 119, xCoord: 29.5, yCoord: 4.5},
+            {id: 120, xCoord: 29.5, yCoord: 5.5},
+            # CPI 2 techo
+            {id: 121, xCoord: 30.5, yCoord: 5.5},
+            {id: 122, xCoord: 31.5, yCoord: 5.5},
+            {id: 123, xCoord: 32.5, yCoord: 5.5},
+            {id: 124, xCoord: 33.5, yCoord: 5.5},
+            {id: 125, xCoord: 34.5, yCoord: 5.5},
+            # CPI 2 lado der
+            {id: 126, xCoord: 35.5, yCoord: 5.5},
+            {id: 127, xCoord: 35.5, yCoord: 4.5},
+            {id: 128, xCoord: 35.5, yCoord: 3.5},
+            {id: 129, xCoord: 35.5, yCoord: 2.5},
+            {id: 130, xCoord: 35.5, yCoord: 1.5},
+            {id: 131, xCoord: 35.5, yCoord: 0.5},
+            # CPI 2 piso
+            {id: 132, xCoord: 34.5, yCoord: 0.5},
+            {id: 133, xCoord: 33.5, yCoord: 0.5},
+            {id: 134, xCoord: 32.5, yCoord: 0.5},
+            {id: 135, xCoord: 31.5, yCoord: 0.5},
+            {id: 136, xCoord: 30.5, yCoord: 0.5},
+            # EGG Piso
+            {id: 137, xCoord: 28.5, yCoord: 0.5}
+        ]
+blocks_acid:
+    width: 1
+    height: 1
+    id_coordinates:
+        [
+            {id: 138, xCoord: 3.5, yCoord: 0.5},
+            {id: 139, xCoord: 4.5, yCoord: 0.5},
+            {id: 140, xCoord: 5.5, yCoord: 0.5}
+        ]
+blocks_rock:
+    width: 1
+    height: 1
+    id_coordinates:
+        [
+            # Piso chell inicial izquierdo
+            {id: 141, xCoord: -6.5, yCoord: 10.5},
+            {id: 142, xCoord: -5.5, yCoord: 10.5},
+            # Piso chell inicial derecho
+            {id: 143, xCoord: 6.5, yCoord: 10.5},
+            {id: 144, xCoord: 5.5, yCoord: 10.5}
+        ]
+chells:
+    width: 1
+    height: 1.5
+    id_coordinates: 
+        [
+             {id: 145, xCoord: -6.5, yCoord: 11.75},
+             {id: 148, xCoord: 6.5, yCoord: 11.75},
+        ]
+portals_blue:
+    width: 1.5
+    height: 1.5
+    id_coordinates: 
+    # Distanciar los id de blue a orange de a 1,
+    # pero de orange a blue de a 2 
+    # Utilizar coordenadas fuera de los limites del mapa.
+        [
+            {id: 146, xCoord: 25.75, yCoord: 3.75},
+            {id: 149, xCoord: 30.75, yCoord: 3.75}
+        ]
+portals_orange:
+    width: 1.5
+    height: 1.5
+    id_coordinates: 
+        [
+            {id: 147, xCoord: 25.75, yCoord: 3.75},
+            {id: 150, xCoord: 30.75, yCoord: 3.75}
+        ]
+doors_one:
+    width: 1.0
+    height: 2.0
+    id_coordinates:
+        [   
+            {id: 151, xCoord: -5.5, yCoord: 9, conditions: [{button_id: 154,  condition: true}]},
+            {id: 152, xCoord: -0.5, yCoord: 9, conditions: [{button_id: 154,  condition: true}]},
+            {id: 153, xCoord: 0.5, yCoord: 9, conditions: [{button_id: 154,  condition: true}]}
+        ]
+energy_balls_green:
+    width: 0.5
+    height: 0.5
+    id_coordinates:
+        []
+buttons:
+    width: 2
+    height: 0.5
+    id_coordinates:
+        [
+            {id: 154, xCoord: -2.0, yCoord: 1.25, door_ids: [151, 152, 153]}
+        ]
+rocks_one:
+    width: 1.0
+    height: 1.0
+    id_coordinates:
+        []
+barriers:
+    []
+triangles_botom_left:
+    width: 1
+    height: 1
+    id_coordinates:
+        []
+triangles_botom_right:
+    width: 1
+    height: 1
+    id_coordinates:
+        []
+triangles_top_left:
+    width: 1
+    height: 1
+    id_coordinates:
+        []
+triangles_top_right:
+    width: 1
+    height: 1
+    id_coordinates:
+        []
+receivers:
+    width: 1
+    height: 1
+    id_coordinates:
+        []
+emitters_right:
+    width: 1
+    height: 1
+    id_coordinates:
+        []
+cakes:
+    width: 1
+    height: 1
+    id_coordinates:
+        [
+            {id: 155, xCoord: -6.5, yCoord: 7.5},
+            # EGG
+            {id: 156, xCoord: 28.5, yCoord: 1.5}
+        ]
+background:
+    width: 100
+    height: 50
+    id_coordinates:
+        [
+            {id: 157, xCoord: 0, yCoord: 0}
+        ]

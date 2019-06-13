@@ -109,7 +109,7 @@ Game LineInterface::_get_new_game(Connector & connector,
     std::cout << "Game name : " << gameName << "\n";
     std::cout << "Game id : " << (unsigned) gameId << "\n";
     std::cout << "Player id : " << playerId << "\n";
-    std::cout << "Map id : " << mapId << "\n";
+    std::cout << "Map id : " << (unsigned) mapId << "\n";
     return std::move(Game(connector, gameId, playerId, mapId));
 } 
 
@@ -118,7 +118,7 @@ Game LineInterface::get_new_game(Connector & connector){
     // TODO : Pedir mapas al servidor
     // Ids de mapa hard-codeados
     std::vector<uint8_t> mapIds;
-    for (uint8_t i = 0; i < 1; ++i){
+    for (uint8_t i = 0; i < 3; ++i){
         mapIds.push_back(i);
     }
     uint8_t mapId = this->choose_map_id(mapIds);
