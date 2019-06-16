@@ -18,8 +18,8 @@
 
 class Window {
 public:
-    int width;
-    int height;
+    int videoWidth;
+    int videoHeight;
     uint32_t idMainTexture;
     SDL_Window* window;
     SDL_Renderer* renderer;
@@ -28,6 +28,8 @@ public:
     std::map<uint32_t, std::unique_ptr<Texture>> allTextures;
     Area areaCamera;
     std::mutex mutex;
+    SDL_Texture * videoTexture;
+
     /*
     PRE: Recibe la ruta (const std::string &) de un gran textura 
     (imagen con varios sprites en ella).
@@ -51,6 +53,34 @@ public:
     */
     void add_texture(uint32_t id, std::unique_ptr<Texture> ptrTexture);
 
+    /*
+    PRE: Las dimensiones del video ya fueron 
+    inicializadas.
+    POST: Inicializa la ventana.
+    */
+    void init_window();
+
+    /*
+    PRE: SDL_window fue inicializado.
+    POST: Inicializa el renderer.
+    */
+    void init_renderer();
+
+    /*
+    PRE: La ventana y el renderizador ya fueron 
+    inicializados.
+    POST: Inicializa los atributos de para 
+    grabar video.
+    */
+    void init_video_record();
+
+    /*
+    PRE: Recibe el factor de ajuste; y el area de la camara
+    que representa la ventana.
+    POST: Renderiza todas las texturas segun estos datos.
+    */
+    void _render(float adjuster, Area areaCamera);
+    
 public:
     /*
     PRE: Recibe:
@@ -82,7 +112,7 @@ public:
     en el orden en que fueron agregadas; y por la ultimo la ventana 
     en si.
     */
-    void render();
+    void render(std::vector<char> & videoFrameBuffer);
 
     /*
     PRE: Recibe un identificador de una textura movible, 

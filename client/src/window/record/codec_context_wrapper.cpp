@@ -1,6 +1,6 @@
-#include "codec_context_wrapper.h"
+#include "../../../includes/window/record/codec_context_wrapper.h"
 
-#include "sws_context_wrapper.h"
+#include "../../../includes/window/record/sws_context_wrapper.h"
 
 extern "C" {
 #include <libavformat/avformat.h>

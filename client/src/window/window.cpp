@@ -14,6 +14,8 @@
 #include <sstream>
 #include <mutex>
 
+#include <iostream>
+
 /*
 PRE: Recibe la ruta (const std::string &) de un gran textura 
 (imagen con varios sprites en ella).
@@ -65,22 +67,11 @@ Levanta SDLException en caso de error.
 */
 Window::Window(int width, int height, uint32_t idMainTexture, 
                YAML::Node & mapConfig)
-: width(width), height(height), idMainTexture(idMainTexture) {
-    this->window = SDL_CreateWindow(
-        "Portal Window",
-        SDL_WINDOWPOS_CENTERED,
-        SDL_WINDOWPOS_CENTERED,
-        width,
-        height,
-        SDL_WINDOW_RESIZABLE);
-    if (this->window == NULL){
-        throw SdlException("Error al crear ventana.", SDL_GetError());
-    }
-    this->renderer = SDL_CreateRenderer(this->window,-1,SDL_RENDERER_ACCELERATED);
-    if (this->renderer == NULL) {
-        SDL_DestroyWindow(this->window);
-        throw SdlException("Error al crear renderizador.", SDL_GetError());   
-    }
+: videoWidth(width), videoHeight(height), idMainTexture(idMainTexture) {
+    this->init_window();
+    this->init_renderer();
+    this->init_video_record();
+
     MapCreator mapCreator(mapConfig,*this);
     mapCreator.add_map(); 
     {
@@ -90,8 +81,72 @@ Window::Window(int width, int height, uint32_t idMainTexture,
     }
 }
 
+/*
+PRE: Las dimensiones del video ya fueron 
+inicializadas.
+POST: Inicializa la ventana.
+*/
+void Window::init_window(){
+    this->window = SDL_CreateWindow(
+        "Portal Window",
+        SDL_WINDOWPOS_CENTERED,
+        SDL_WINDOWPOS_CENTERED,
+        this->videoWidth,
+        this->videoHeight,
+        SDL_WINDOW_RESIZABLE
+    );
+    if (this->window == NULL){
+        throw SdlException("Error al crear ventana.", SDL_GetError());
+    }
+}
+
+/*
+PRE: SDL_window fue inicializado.
+POST: Inicializa el renderer.
+*/
+void Window::init_renderer(){
+    this->renderer = SDL_CreateRenderer(
+        this->window,
+        -1,
+        SDL_RENDERER_ACCELERATED
+    );
+    if (this->renderer == NULL) {
+        SDL_DestroyWindow(this->window);
+        throw SdlException("Error al crear renderizador.", SDL_GetError());   
+    }
+}
+
+/*
+PRE: SDL_window y SDL_Renderer ya fueron 
+inicializados.
+POST: Inicializa los atributos de para 
+grabar video.
+*/
+void Window::init_video_record(){
+    this->videoTexture = SDL_CreateTexture(
+        this->renderer,
+        SDL_PIXELFORMAT_RGB24, 
+        SDL_TEXTUREACCESS_TARGET, 
+        this->videoWidth, 
+        this->videoHeight
+    );
+    if (! this->videoTexture){
+        SDL_DestroyRenderer(this->renderer);
+        SDL_DestroyWindow(this->window);
+        throw SdlException(
+            "On Window: initialization of video texture failed.",
+            SDL_GetError()
+        );
+    
+    }
+}
+
 /*Destruye la ventana.*/
 Window::~Window() {
+    if (this->videoTexture){
+        SDL_DestroyTexture(this->videoTexture);
+        this->videoTexture = nullptr;
+    }
     if (this->renderer) {
         SDL_DestroyRenderer(this->renderer);
         this->renderer = nullptr;
@@ -124,8 +179,7 @@ Renderiza todas las texturas que se agregaron a la ventana,
 en el orden en que fueron agregadas; y por la ultimo la ventana 
 en si.
 */
-void Window::render() {
-    this->fill();
+void Window::render(std::vector<char> & videoFrameBuffer) {
     Texture & mainTexture = *(this->allTextures.at(this->idMainTexture));
     Area newAreaCamera = mainTexture.getVisionArea(); 
     int widthPixels;
@@ -141,15 +195,38 @@ void Window::render() {
         float newWidth = widthPixels/adjuster;
         newAreaCamera.setWidth(newWidth);
     }
-    for (int i = 0; i < (int)this->ids.size(); ++i){
-        uint32_t actualId = this->ids[i];
-        Texture & actualTexture = *(this->allTextures.at(actualId));
-        actualTexture.render(adjuster, newAreaCamera);
-    }
+    SDL_SetRenderTarget(this->renderer, NULL);
+    this->_render(adjuster, newAreaCamera);
+    SDL_SetRenderTarget(this->renderer, videoTexture); 
     SDL_RenderPresent(this->renderer);
     {
         std::unique_lock<std::mutex> l(this->mutex);
         this->areaCamera = newAreaCamera;
+    }
+    videoFrameBuffer.resize(this->videoWidth*this->videoHeight*3);
+    int res = SDL_RenderReadPixels(
+        this->renderer, 
+        NULL, 
+        SDL_PIXELFORMAT_RGB24, 
+        videoFrameBuffer.data(), 
+        this->videoWidth * 3
+    );
+    if (res) {
+        throw SdlException("RendererReadPixels error", SDL_GetError());
+    }
+}
+
+/*
+PRE: Recibe el factor de ajuste; y el area de la camara
+que representa la ventana.
+POST: Renderiza todas las texturas segun estos datos.
+*/
+void Window::_render(float adjuster, Area areaCamera){
+    this->fill();
+    for (int i = 0; i < (int)this->ids.size(); ++i){
+        uint32_t actualId = this->ids[i];
+        Texture & actualTexture = *(this->allTextures.at(actualId));
+        actualTexture.render(adjuster, areaCamera);
     }
 }
 

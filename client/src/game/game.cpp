@@ -58,6 +58,8 @@ Game::Game(Game && other)
     threads(std::move(other.threads)),
     changesMade(std::move(other.changesMade)),
     changesAsk(std::move(other.changesAsk)),
+    stopQueue(std::move(stopQueue)),
+    videoFramesQueue(std::move(videoFramesQueue)),
     mutex() {}
 
 /*Ejecuta el juego.*/
@@ -80,7 +82,8 @@ void Game::run(){
     }
     std::cout << "Game is about to start.\n";
 
-    ThreadSafeQueue<ThreadStatus> stopQueue;
+    //ThreadSafeQueue<ThreadStatus> stopQueue;
+    //BlockingQueue<std::vector<char>> videoFramesQueue;
 
     //Inicializo SDL
     SdlSystem sdlSystem;
@@ -103,17 +106,19 @@ void Game::run(){
     mixer.play_music();
 
     this->threads.push_back(std::move(std::unique_ptr<Thread>(
-        new EventGameReceiverThread(this->connector, this->changesMade, stopQueue)
+        new EventGameReceiverThread(this->connector, this->changesMade, this->stopQueue)
     )));
     this->threads.push_back(std::move(std::unique_ptr<Thread>(
-        new KeySenderThread(this->connector, this->changesAsk, stopQueue)
+        new KeySenderThread(this->connector, this->changesAsk, this->stopQueue)
     )));
     PlayingLoopThread playingLoop(this->changesMade, 
                                   this->changesAsk, 
                                   window, 
                                   mixer, 
                                   playResult, 
-                                  stopQueue);
+                                  this->stopQueue,
+                                  videoFramesQueue
+                                  );
 
     for (auto & thread : this->threads){
         (*thread).start();
@@ -127,6 +132,7 @@ void Game::run(){
 void Game::stop(){
     std::unique_lock<std::mutex> l(this->mutex);
     this->changesAsk.close();
+    this->videoFramesQueue.close();
     for (int i = 0; i < (int)this->threads.size(); ++i){
         (*(this->threads[i])).stop();
         (*(this->threads[i])).join();

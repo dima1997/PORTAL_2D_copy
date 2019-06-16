@@ -22,6 +22,7 @@ private:
     Mixer & mixer;
     PlayResult & playResult;
     ThreadSafeQueue<ThreadStatus> & stopQueue;
+    BlockingQueue<std::vector<char>> & videoFramesQueue;
     std::mutex mutex;
 public:
     /*
@@ -39,7 +40,8 @@ public:
         Window & window,
         Mixer & mixer,
         PlayResult & playResult,
-        ThreadSafeQueue<ThreadStatus> & stopQueue
+        ThreadSafeQueue<ThreadStatus> & stopQueue,
+        BlockingQueue<std::vector<char>> & videoFramesQueue
     );
     
     /*

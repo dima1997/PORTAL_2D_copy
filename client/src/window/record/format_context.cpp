@@ -1,4 +1,4 @@
-#include "format_context.h"
+#include "../../../includes/window/record/format_context.h"
 
 extern "C" {
 #include <libavformat/avformat.h>

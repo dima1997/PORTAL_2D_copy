@@ -20,6 +20,7 @@
 #include <mutex>
 #include <ctime>
 #include <chrono>
+#include <vector>
 
 /*
 PRE: Recibe:
@@ -36,7 +37,8 @@ PlayingLoopThread::PlayingLoopThread(
     Window & window,
     Mixer & mixer,
     PlayResult & playResult,
-    ThreadSafeQueue<ThreadStatus> & stopQueue
+    ThreadSafeQueue<ThreadStatus> & stopQueue,
+    BlockingQueue<std::vector<char>> & videoFramesQueue
 )
 :   isDead(true),
     fromGameQueue(fromGameQueue), 
@@ -45,6 +47,7 @@ PlayingLoopThread::PlayingLoopThread(
     mixer(mixer),
     playResult(playResult),
     stopQueue(stopQueue),
+    videoFramesQueue(videoFramesQueue),
     mutex() {}
 
 /*
@@ -92,7 +95,9 @@ void PlayingLoopThread::run(){
                 this->window.set_main_id(playerIdAlive);
             }
         }
-        this->window.render();
+        std::vector<char> videoFrameData;
+        this->window.render(videoFrameData);
+        // hacer push a cola bloqueante.
         this->window.sound(this->mixer);
         t1 = clock();
         double timeSpendMicroSeconds = 

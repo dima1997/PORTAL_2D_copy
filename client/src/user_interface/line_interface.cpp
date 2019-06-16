@@ -39,7 +39,7 @@ Connector LineInterface::log_to_server(){
         std::cout << "'" << COMANDO_QUIT << "' to quit: \n";
         std::string port;
         std::getline(std::cin, port);
-        this->keep_input(host);
+        this->keep_input(port);
         return std::move(Connector(host, port));
     } catch (SocketException &error){
         std::stringstream msg;

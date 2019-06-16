@@ -157,6 +157,11 @@ file(GLOB client_files
 	"${CLIENT_FOLDER}/src/mixer/mix_music.cpp"
 	"${CLIENT_FOLDER}/src/mixer/portal_mixer.cpp"
 	"${CLIENT_FOLDER}/src/sdl_system.cpp"
+	"${CLIENT_FOLDER}/src/window/record/format_context.cpp"
+	"${CLIENT_FOLDER}/src/window/record/codec_context_wrapper.cpp"
+	"${CLIENT_FOLDER}/src/window/record/sws_context_wrapper.cpp"
+	"${CLIENT_FOLDER}/src/window/record/output_format.cpp"
+	"${CLIENT_FOLDER}/src/threads/video_record_thread.cpp"
 #	"${CLIENT_FOLDER}/src/user_interface/login_server.cpp"
 #	"${CLIENT_FOLDER}/src/user_interface/login_mode.cpp"
 #	"${CLIENT_FOLDER}/src/user_interface/login_new.cpp"
@@ -176,6 +181,8 @@ target_link_libraries(${CLIENT_NAME} SDL2 SDL2_image SDL2_mixer)
 target_link_libraries(${CLIENT_NAME} yaml-cpp)
 
 #target_link_libraries(${CLIENT_NAME} Qt5::Widgets)
+
+target_link_libraries(${CLIENT_NAME} avformat avcodec avutil swscale)
 
 install(FILES client/assets/all_blocks.png DESTINATION ${CMAKE_BINARY_DIR})
 install(FILES client/assets/all_chells_half.png DESTINATION ${CMAKE_BINARY_DIR})

@@ -1,7 +1,7 @@
-#include "output_format.h"
+#include "../../../includes/window/record/output_format.h"
 
-#include "format_context.h"
-#include "codec_context_wrapper.h"
+#include "../../../includes/window/record/format_context.h"
+#include "../../../includes/window/record/codec_context_wrapper.h"
 
 #include <cstdio>
 #include <string>

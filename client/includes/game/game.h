@@ -26,6 +26,8 @@ private:
     std::vector<std::unique_ptr<Thread>> threads;
     ThreadSafeQueue<std::unique_ptr<Event>> changesMade;
     BlockingQueue<std::unique_ptr<GameAction>> changesAsk;
+    ThreadSafeQueue<ThreadStatus> stopQueue;
+    BlockingQueue<std::vector<char>> videoFramesQueue;
     std::mutex mutex;
 public:
     Game(Connector &connector, uint8_t game_id,

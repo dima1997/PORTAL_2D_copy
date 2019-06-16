@@ -50,9 +50,9 @@ BlockingQueue<T>::BlockingQueue(BlockingQueue<T> &&other) noexcept:
 
 // To use this template just add here, for example:
 template class BlockingQueue<Connector>;
-//template class BlockingQueue<Event *>;
 template class BlockingQueue<std::shared_ptr<Event>>;
 template class BlockingQueue<GameActionName>;
 template class BlockingQueue<std::unique_ptr<GameAction>>;
 template class BlockingQueue<std::unique_ptr<ObjectMovesEvent>>;
+template class BlockingQueue<std::vector<char>>;
 

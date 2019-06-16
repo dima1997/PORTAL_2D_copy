@@ -1,4 +1,4 @@
-#include "sws_context_wrapper.h"
+#include "../../../includes/window/record/sws_context_wrapper.h"
 
 extern "C" {
 #include <libswscale/swscale.h>
