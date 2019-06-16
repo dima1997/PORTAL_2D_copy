@@ -80,6 +80,9 @@ public:
     POST: Renderiza todas las texturas segun estos datos.
     */
     void _render(float adjuster, Area areaCamera);
+
+    /*Actualiza todas las texturas de la ventana.*/
+    void _update();
     
 public:
     /*

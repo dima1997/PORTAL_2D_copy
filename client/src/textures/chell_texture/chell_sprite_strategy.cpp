@@ -92,6 +92,7 @@ Devuelve el area correspondiente al siguiente sprite de Chell,
 en la imagen ALL_CHELL_IMAGE de images_path.h .
 */
 Area ChellSpriteStrategy::getNextArea(){
+    /*
     if (this->framesWait > 0){
         --this->framesWait;
     }
@@ -100,6 +101,7 @@ Area ChellSpriteStrategy::getNextArea(){
     } else {
         this->setSpriteStrategy(STAND_RIGHT);
     }
+    */
     return std::move(this->dynamicSprite.getNextArea());
 }
 
@@ -128,5 +130,17 @@ void ChellSpriteStrategy::setSound(spriteNameStrategy_t newSpriteName,
             return;
         } 
         sounds.push_back(SOUND_JUMP);
+    }
+}
+
+/*Actualiza el sprite al siguiente a ser usado.*/
+void ChellSpriteStrategy::update(){
+    if (this->framesWait > 0){
+        --this->framesWait;
+    }
+    if (this->keepMoving) { 
+        this->keepMoving = false;
+    } else {
+        this->setSpriteStrategy(STAND_RIGHT);
     }
 }

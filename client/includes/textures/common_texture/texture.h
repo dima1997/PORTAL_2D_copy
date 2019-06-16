@@ -110,6 +110,10 @@ public:
 
     /*Deja de seguir al area que sigue.*/
     void stop_follow();
+
+
+    /*Actualiza la textura.*/
+    virtual void update();
 };
 
 #endif // TEXTURE_H

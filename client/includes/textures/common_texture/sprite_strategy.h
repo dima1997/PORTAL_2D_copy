@@ -10,17 +10,9 @@
 
 class SpriteStrategy {
 protected:
-    //std::unique_ptr<DynamicSprite> ptrDynamicSprite;
     DynamicSprite dynamicSprite;
-public:
-    /*
-    PRE: Recibe un puntero unico a un sprite dinamico 
-    (std::unique_ptr<DynamicSprite>)
-    POST: Inicializa un SpriteStrategy que alterna los 
-    sprites del DynamicSprite recibido, uno a uno.
-    */
-    //SpriteStrategy(std::unique_ptr<DynamicSprite> ptrDynamicSprite);
 
+public:
     /*
     PRE: Recibe un sprite dinamico 
     POST: Inicializa un SpriteStrategy que alterna los 
@@ -53,10 +45,14 @@ public:
     virtual void switch_sprite();
     
     /*
-    Devuelve el area correspondiente al siguiente sprite de la textura que 
-    representa, en la imagen.png correspondiente.
+    Devuelve el area correspondiente al siguiente 
+    sprite de la textura que representa, en la 
+    imagen.png correspondiente.
     */
     virtual Area getNextArea();  
+
+    /*Actualiza el sprite al siguiente a ser usado.*/
+    virtual void update();
 };
 
 #endif // SPRITE_STRATEGY_H

@@ -57,9 +57,10 @@ Devuelve el area correspondiente al siguiente sprite de la textura que
 representa, en la imagen.png correspondiente.
 */
 Area SpriteStrategy::getNextArea(){
-    /*
-    DynamicSprite & actualSprite = *(this->ptrDynamicSprite);
-    return std::move(actualSprite.getNextArea());
-    */
     return std::move(this->dynamicSprite.getNextArea());
+}
+
+/*Actualiza el sprite al siguiente.*/
+void SpriteStrategy::update(){
+    this->dynamicSprite.update();
 }

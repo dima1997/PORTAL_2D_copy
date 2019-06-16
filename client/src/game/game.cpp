@@ -8,6 +8,7 @@
 #include "../../includes/threads/key_sender_thread.h"
 #include "../../includes/threads/playing_loop_thread.h"
 #include "../../includes/threads/play_result.h"
+#include "../../includes/threads/video_record_thread.h"
 
 #include "../../includes/sdl_system.h"
 #include "../../includes/window/window.h"
@@ -23,6 +24,8 @@
 
 #include <iostream>
 
+#define VIDEO_FILE_NAME "portal_video_"
+#define VIDEO_FILE_END ".mp4"
 #define WINDOW_WIDTH 640
 #define WINDOW_HEIGHT 480
 #define VOLUME_MUSIC 10
@@ -82,9 +85,6 @@ void Game::run(){
     }
     std::cout << "Game is about to start.\n";
 
-    //ThreadSafeQueue<ThreadStatus> stopQueue;
-    //BlockingQueue<std::vector<char>> videoFramesQueue;
-
     //Inicializo SDL
     SdlSystem sdlSystem;
     sdlSystem.init_video();
@@ -111,13 +111,25 @@ void Game::run(){
     this->threads.push_back(std::move(std::unique_ptr<Thread>(
         new KeySenderThread(this->connector, this->changesAsk, this->stopQueue)
     )));
+    /*
+    std::stringstream videoFileName;
+    videoFileName << VIDEO_FILE_NAME << this->playerId << VIDEO_FILE_END;
+    this->threads.push_back(std::move(std::unique_ptr<Thread>(
+        new VideoRecordThread(
+            videoFileName.str(),
+            WINDOW_WIDTH,
+            WINDOW_HEIGHT,
+            this->videoFramesQueue
+        )
+    )));
+    */
     PlayingLoopThread playingLoop(this->changesMade, 
                                   this->changesAsk, 
                                   window, 
                                   mixer, 
                                   playResult, 
                                   this->stopQueue,
-                                  videoFramesQueue
+                                  this->videoFramesQueue
                                   );
 
     for (auto & thread : this->threads){

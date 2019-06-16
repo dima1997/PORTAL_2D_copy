@@ -67,6 +67,9 @@ public:
     empezando por el ultimo, y terminando por el primero.
     */
     virtual void reverse_sprite();
+
+    /*Actualiza el sprite al siguiente a ser usado.*/
+    virtual void update();
 };
 
 #endif // DYNAMIC_SPRITE_H

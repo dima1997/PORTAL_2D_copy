@@ -195,14 +195,21 @@ void Window::render(std::vector<char> & videoFrameBuffer) {
         float newWidth = widthPixels/adjuster;
         newAreaCamera.setWidth(newWidth);
     }
-    SDL_SetRenderTarget(this->renderer, NULL);
-    this->_render(adjuster, newAreaCamera);
-    SDL_SetRenderTarget(this->renderer, videoTexture); 
-    SDL_RenderPresent(this->renderer);
     {
         std::unique_lock<std::mutex> l(this->mutex);
         this->areaCamera = newAreaCamera;
     }
+
+    SDL_SetRenderTarget(this->renderer, NULL);
+    this->_render(adjuster, newAreaCamera);
+
+    SDL_SetRenderTarget(this->renderer, this->videoTexture); 
+    this->_render(adjuster, newAreaCamera);
+    
+    this->_update();
+
+    SDL_RenderPresent(this->renderer);
+    
     videoFrameBuffer.resize(this->videoWidth*this->videoHeight*3);
     int res = SDL_RenderReadPixels(
         this->renderer, 
@@ -227,6 +234,14 @@ void Window::_render(float adjuster, Area areaCamera){
         uint32_t actualId = this->ids[i];
         Texture & actualTexture = *(this->allTextures.at(actualId));
         actualTexture.render(adjuster, areaCamera);
+    }
+}
+
+void Window::_update(){
+    for (int i = 0; i < (int)this->ids.size(); ++i){
+        uint32_t actualId = this->ids[i];
+        Texture & actualTexture = *(this->allTextures.at(actualId));
+        actualTexture.update();
     }
 }
 

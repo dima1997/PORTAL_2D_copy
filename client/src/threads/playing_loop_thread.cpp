@@ -22,6 +22,11 @@
 #include <chrono>
 #include <vector>
 
+#include "../../includes/window/record/output_format.h"
+
+#define VIDEO_FILE_NAME "portal_video_"
+#define VIDEO_FILE_END ".mp4"
+
 /*
 PRE: Recibe:
     la ventana (Window &) donde se renderizan las texturas;
@@ -76,6 +81,16 @@ void PlayingLoopThread::run(){
                         this->mixer,
                         this->toGameQueue
                         );
+    
+    uint32_t mainPlayerId = this->window.get_main_id();
+    std::stringstream videoFileName; 
+    videoFileName << VIDEO_FILE_NAME << mainPlayerId << VIDEO_FILE_END;
+    OutputFormat outputFormat(
+        videoFileName.str(),
+        640,
+        480
+    );
+    
     unsigned t0, t1;
     double timeWaitMicroSeconds = FRAME_TIME_WAIT_MICRO_SECONDS;
     while( ! this->is_dead() ){
@@ -95,9 +110,10 @@ void PlayingLoopThread::run(){
                 this->window.set_main_id(playerIdAlive);
             }
         }
-        std::vector<char> videoFrameData;
-        this->window.render(videoFrameData);
-        // hacer push a cola bloqueante.
+        std::vector<char> videoFrameBuffer;
+        this->window.render(videoFrameBuffer);
+        //this->videoFramesQueue.push(videoFrameBuffer);
+        outputFormat.write_frame(videoFrameBuffer.data());
         this->window.sound(this->mixer);
         t1 = clock();
         double timeSpendMicroSeconds = 
