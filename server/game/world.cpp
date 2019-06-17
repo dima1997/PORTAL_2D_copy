@@ -49,6 +49,11 @@ void World::step(std::list<std::shared_ptr<Event>> &events) {
         finished = true;
         return;
     }
+    for (Button *button : buttons) {
+        if (button->wasUpdated()) {
+            events.push_back(std::shared_ptr<Event>(new ObjectSwitchEvent(button->getId())));
+        }
+    }
     for (Door *door : doors) {
         if (door->update()) {
             events.push_back(std::shared_ptr<Event>(new ObjectSwitchEvent(door->getId())));

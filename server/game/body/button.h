@@ -16,12 +16,14 @@ private:
     std::list<Door *> doors;
     int contactCount;
     void updateDoors(bool status);
+    bool updated;
 public:
     Button(b2World &world, float32 xPos, float32 yPos, uint32_t id, std::list<Door *> &doors);
     ~Button() override;
     body_type_t getBodyType() override;
     void increaseContact();
     void decreaseContact();
+    bool wasUpdated();
 };
 
 
