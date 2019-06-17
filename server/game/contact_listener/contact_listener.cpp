@@ -36,6 +36,10 @@ void ContactListener::BeginContact(b2Contact *contact) {
             if (contact->GetFixtureA()->GetUserData() == (void *)CONTACT_CHECK) {
                 button->increaseContact();
             }
+        } else if (dataA->getBodyType() == BARRIER) {
+            if (dataB->getBodyType() == ROCK) {
+                dynamic_cast<Rock *>(dataB)->moveToInitial();
+            }
         }
 
         if (dataB->getBodyType() == PORTAL) {
@@ -59,6 +63,10 @@ void ContactListener::BeginContact(b2Contact *contact) {
             auto *button = dynamic_cast<Button *>(dataB);
             if (contact->GetFixtureB()->GetUserData() == (void *)CONTACT_CHECK) {
                 button->increaseContact();
+            }
+        } else if (dataB->getBodyType() == BARRIER) {
+            if (dataA->getBodyType() == ROCK) {
+                dynamic_cast<Rock *>(dataA)->moveToInitial();
             }
         }
     }
