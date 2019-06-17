@@ -14,6 +14,7 @@
 #include "body/door.h"
 #include "body/button.h"
 #include "body/rock.h"
+#include "body/barrier.h"
 
 class Map {
     YAML::Node file;
@@ -32,6 +33,7 @@ public:
     void loadChells(b2World &world, std::list<Chell *> &chells);
     void loadDoors(b2World &world, std::list<Door *> &doors);
     void loadButtons(b2World &world, std::list<Button *> &buttons, std::list<Door *> &doors);
+    void loadBarriers(b2World &world, std::list<Barrier *> &barriers);
     std::string toString();
 };
 

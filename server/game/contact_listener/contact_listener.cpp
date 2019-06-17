@@ -28,11 +28,17 @@ void ContactListener::BeginContact(b2Contact *contact) {
                 dynamic_cast<Cake *>(dataB)->reach();
             } else if (dataB->getBodyType() == ACID_BLOCK) {
                 chell->die();
+            } else if (dataB->getBodyType() == BARRIER) {
+                chell->throwRock(true);
             }
         } else if (dataA->getBodyType() == BUTTON) {
             auto *button = dynamic_cast<Button *>(dataA);
             if (contact->GetFixtureA()->GetUserData() == (void *)CONTACT_CHECK) {
                 button->increaseContact();
+            }
+        } else if (dataA->getBodyType() == BARRIER) {
+            if (dataB->getBodyType() == ROCK) {
+                dynamic_cast<Rock *>(dataB)->moveToInitial();
             }
         }
 
@@ -50,11 +56,17 @@ void ContactListener::BeginContact(b2Contact *contact) {
                 dynamic_cast<Cake *>(dataA)->reach();
             } else if (dataA->getBodyType() == ACID_BLOCK) {
                 chell->die();
+            } else if (dataA->getBodyType() == BARRIER) {
+                chell->throwRock(true);
             }
         } else if (dataB->getBodyType() == BUTTON) {
             auto *button = dynamic_cast<Button *>(dataB);
             if (contact->GetFixtureB()->GetUserData() == (void *)CONTACT_CHECK) {
                 button->increaseContact();
+            }
+        } else if (dataB->getBodyType() == BARRIER) {
+            if (dataA->getBodyType() == ROCK) {
+                dynamic_cast<Rock *>(dataA)->moveToInitial();
             }
         }
     }

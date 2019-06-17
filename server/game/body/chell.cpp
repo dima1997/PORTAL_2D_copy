@@ -60,7 +60,7 @@ Chell::Chell(b2World &world, float32 xPos, float32 yPos, uint32_t playerId, Port
              float32 maxReach) :
              Body(world, xPos, yPos, playerId), portals(), state(STOP), alive(true), footContacts(0),
              jumpTimer(), maxReach(maxReach), carriesRock(false), rock(nullptr), grabbedRockUpdated(false),
-             threwRockUpdated(false), _justDied(false) {
+             threwRockUpdated(false), forceThrew(false), _justDied(false) {
     connect(bluePortal, orangePortal);
     portals[BLUE] = bluePortal;
     portals[ORANGE] = orangePortal;
@@ -163,9 +163,10 @@ void Chell::grabRock() {
     }
 }
 
-void Chell::throwRock() {
+void Chell::throwRock(bool force) {
     if (!carriesRock) return;
     threwRockUpdated = true;
+    forceThrew = force;
 }
 
 bool Chell::grabIfRock(Body *body) {
@@ -198,7 +199,12 @@ bool Chell::threwRock() {
     threwRockUpdated = false;
     if (updated) {
         rock->setActive(true);
-        rock->moveTo(getXPos(), getYPos() + hy + rock->hy);
+        if (forceThrew) {
+            rock->moveToInitial();
+            forceThrew = false;
+        } else {
+            rock->moveTo(getXPos(), getYPos() + hy + rock->hy);
+        }
         carriesRock = false;
     }
     return updated;

@@ -114,6 +114,9 @@ World::~World() {
     for(auto *rock : rocks) {
         delete rock;
     }
+    for(auto *barrier: barriers) {
+        delete barrier;
+    }
     delete cake;
     delete world;
 }
@@ -125,6 +128,7 @@ void World::loadMap(Map &map) {
     map.loadDoors(*world, doors);
     map.loadButtons(*world, buttons, doors);
     map.loadRocks(*world, rocks);
+    map.loadBarriers(*world, barriers);
     numberOfPlayers = map.getPlayersNumber();
 }
 

@@ -11,11 +11,14 @@
 class Rock: public Body {
 private:
     void createBody(float32 xPos, float32 yPos) override;
+    float32 initialX;
+    float32 initialY;
 public:
     Rock(b2World &world, float32 xPos, float32 yPos, uint32_t id, float32 hy, float32 hx);
     ~Rock() override;
     body_type_t getBodyType() override;
     void setActive(bool active);
+    void moveToInitial();
 };
 
 

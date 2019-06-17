@@ -28,6 +28,7 @@ private:
     bool carriesRock;
     bool grabbedRockUpdated;
     bool threwRockUpdated;
+    bool forceThrew;
     Rock *rock;
     bool grabIfRock(Body *body);
 public:
@@ -44,7 +45,7 @@ public:
     bool justDied();
     void shootPortal(float x, float y, portal_color_t color);
     void grabRock();
-    void throwRock();
+    void throwRock(bool force);
     bool grabbedRock();
     bool threwRock();
     Rock *getRock();
