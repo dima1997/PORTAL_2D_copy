@@ -405,7 +405,7 @@ Cuando se pone a grabar, lleva la ventana al
 modo de grabacion.
 */
 void Window::record(){
-    this->switch_texture(158); // Hardcodeado
+    this->switch_texture(this->idRecordTexture);
     if (this->isRecording){
         this->isRecording = false;
         SDL_DisplayMode displayMode;
@@ -421,4 +421,13 @@ void Window::record(){
         SDL_SetWindowMinimumSize(this->window, this->videoWidth, this->videoHeight);
         SDL_RestoreWindow(this->window);
     }
+}
+
+/*
+PRE: Recibe el id de la textura utilizada 
+para indicar grabacion.
+POST: Setea el id de dicha textura.
+*/
+void Window::set_record_id(uint32_t id){
+    this->idRecordTexture = id;
 }

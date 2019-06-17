@@ -25,7 +25,8 @@ sections:
         rocks_one, 
         portals_blue, 
         portals_orange, 
-        chells
+        chells,
+        records
     ]
 blocks_metal:
     width: 1
@@ -323,7 +324,7 @@ background:
             {id: 157, xCoord: 0, yCoord: 0}
         ]
 records:
-    widht: 1
+    width: 1
     height: 1
     id_coordinates:
         [

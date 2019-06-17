@@ -21,14 +21,14 @@ RecordTexture::RecordTexture(BigTexture & bigTexture, Area areaMap)
 RecordTexture::~RecordTexture() = default;
 
 /*
-Devuelve el area de destino de la textura de grabacion de forma 
-que quede siempre el la esquina superior izquierda de la ventana
+Renderiza la textura de grabacion de forma 
+que quede siempre en la esquina superior 
+izquierda de la ventana.
 */
-Area RecordTexture::getAreaDest(float adjuster, const Area & areaCamera) {
-    Area areaCameraTopLeft = areaCamera.from_center_to_top_left(); 
-    this->areaMap.setX(areaCameraTopLeft.getX());
-    this->areaMap.setY(areaCameraTopLeft.getY());
-    Area dest = this->areaMap.from_center_to_top_left();
-    dest = dest.adjust(adjuster);
-    return std::move(dest);
+void RecordTexture::render(float adjuster, const Area & areaCamera) {
+    Area src = (*this->ptrSpriteStrategy).getNextArea();
+    Area dest = this->areaMap.adjust(adjuster);
+    dest.setX(0);
+    dest.setY(0);
+    this->bigTexture.render(src, dest, NO_FLIP);
 }

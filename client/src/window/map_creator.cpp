@@ -127,6 +127,15 @@ void MapCreator::add_background(uint32_t id, Area area){
     ));
 }
 
+void MapCreator::add_record(uint32_t id, Area area){
+    TextureFactory tF(this->window);
+    this->window.add_texture(id,std::move(
+        tF.create_record(area)
+    ));
+    this->window.set_record_id(id);
+}
+
+
 void MapCreator::add_texture(uint32_t id, Area area, 
                             std::string & subSectionName){
     if (subSectionName == "blocks_metal"){
@@ -203,6 +212,9 @@ void MapCreator::add_texture(uint32_t id, Area area,
     }
     if (subSectionName == "background"){
         this->add_background(id, area);
+    }
+    if (subSectionName == "records"){
+        this->add_record(id, area);
     }
 }
 

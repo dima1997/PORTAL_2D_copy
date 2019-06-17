@@ -8,16 +8,16 @@
 #include <memory>
 
 class RecordTexture : public Texture {
-protected:
-    /*
-    Devuelve el area de destino de la textura de grabacion de forma 
-    que quede siempre el la esquina superior izquierda de la ventana
-    */
-    Area getAreaDest(float adjuster, const Area & areaCamera);
-    
 public:
     RecordTexture(BigTexture & bigTexture, Area areaMap);
     virtual ~RecordTexture();
+    
+    /*
+    Renderiza la textura de grabacion de forma 
+    que quede siempre en la esquina superior 
+    izquierda de la ventana.
+    */
+    virtual void render(float adjuster, const Area & areaCamera);
 };
 
 #endif // RECORD_TEXTURE_H

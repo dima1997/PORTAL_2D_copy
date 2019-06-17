@@ -30,6 +30,7 @@ public:
     std::mutex mutex;
     SDL_Texture * videoTexture;
     bool isRecording;
+    uint32_t idRecordTexture;
 
     /*
     PRE: Recibe la ruta (const std::string &) de un gran textura 
@@ -186,6 +187,13 @@ public:
     modo de grabacion.
     */
     void record();
+
+    /*
+    PRE: Recibe el id de la textura utilizada 
+    para indicar grabacion.
+    POST: Setea el id de dicha textura.
+    */
+    void set_record_id(uint32_t id);
 };
 
 #endif // WINDOW_H
