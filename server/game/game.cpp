@@ -103,7 +103,7 @@ void Game::manageActions(std::unique_ptr<GameAction> ptrAction) {
             std::cout << "SERVER: stop grab.\n";
             break;
         case throw_it:
-            world.getChell(player_id)->throwRock();
+            world.getChell(player_id)->throwRock(false);
             break;
         case stop_throw:
             std::cout << "SERVER: stop throw.\n";

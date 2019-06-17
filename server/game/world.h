@@ -28,6 +28,7 @@ private:
     std::list<Door *> doors;
     std::list<Button *> buttons;
     std::list<Rock *> rocks;
+    std::list<Barrier *> barriers;
     Cake *cake;
     std::vector<std::shared_ptr<b2ContactListener>> listeners;
     int numberOfPlayers;

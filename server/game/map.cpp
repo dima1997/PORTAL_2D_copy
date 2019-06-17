@@ -145,3 +145,15 @@ std::string Map::toString() {
     return std::string((std::istreambuf_iterator<char>(t)),
                     std::istreambuf_iterator<char>());
 }
+
+void Map::loadBarriers(b2World &world, std::list<Barrier *> &barriers) {
+    YAML::Node barriersInfo = file["barriers"];
+    for (auto && barrierInfo : barriersInfo) {
+        auto id = barrierInfo["id"].as<uint32_t>();
+        auto x = barrierInfo["xCoord"].as<float32>();
+        auto y = barrierInfo["yCoord"].as<float32>();
+        auto height = barrierInfo["height"].as<float32>();
+        auto width = barrierInfo["width"].as<float32>();
+        barriers.push_back(new Barrier(world, x, y, id, height/2, width/2));
+    }
+}
