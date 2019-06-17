@@ -35,6 +35,9 @@ public:
     imagen.png correspondiente.
     */
     virtual Area getNextArea();
+
+    /*Actualiza el sprite al siguiente a ser usado.*/
+    virtual void update();
 };
 
 #endif // RECEIVER_SPRITE_STRATEGY_H

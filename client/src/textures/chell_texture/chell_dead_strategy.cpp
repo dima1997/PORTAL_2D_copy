@@ -30,3 +30,13 @@ Area ChellDeadStrategy::getNextArea(){
     }
     return std::move(this->dynamicSprite.getNextArea());
 }
+
+void ChellDeadStrategy::update(){
+    this->dynamicSprite.update();
+    if (this->spriteName != DEAD){
+        if (this->dynamicSprite.is_last_sprite()) { 
+            this->dynamicSprite = NullSprite::get_sprite();
+            this->spriteName = DEAD;
+        }
+    }
+}

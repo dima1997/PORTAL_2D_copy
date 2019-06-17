@@ -18,8 +18,8 @@
 
 class Window {
 public:
-    int width;
-    int height;
+    int videoWidth;
+    int videoHeight;
     uint32_t idMainTexture;
     SDL_Window* window;
     SDL_Renderer* renderer;
@@ -28,6 +28,10 @@ public:
     std::map<uint32_t, std::unique_ptr<Texture>> allTextures;
     Area areaCamera;
     std::mutex mutex;
+    SDL_Texture * videoTexture;
+    bool isRecording;
+    uint32_t idRecordTexture;
+
     /*
     PRE: Recibe la ruta (const std::string &) de un gran textura 
     (imagen con varios sprites en ella).
@@ -51,6 +55,37 @@ public:
     */
     void add_texture(uint32_t id, std::unique_ptr<Texture> ptrTexture);
 
+    /*
+    PRE: Las dimensiones del video ya fueron 
+    inicializadas.
+    POST: Inicializa la ventana.
+    */
+    void init_window();
+
+    /*
+    PRE: SDL_window fue inicializado.
+    POST: Inicializa el renderer.
+    */
+    void init_renderer();
+
+    /*
+    PRE: La ventana y el renderizador ya fueron 
+    inicializados.
+    POST: Inicializa los atributos de para 
+    grabar video.
+    */
+    void init_video_record();
+
+    /*
+    PRE: Recibe el factor de ajuste; y el area de la camara
+    que representa la ventana.
+    POST: Renderiza todas las texturas segun estos datos.
+    */
+    void _render(float adjuster, Area areaCamera);
+
+    /*Actualiza todas las texturas de la ventana.*/
+    void _update();
+    
 public:
     /*
     PRE: Recibe:
@@ -82,7 +117,7 @@ public:
     en el orden en que fueron agregadas; y por la ultimo la ventana 
     en si.
     */
-    void render();
+    void render(std::vector<char> & videoFrameBuffer);
 
     /*
     PRE: Recibe un identificador de una textura movible, 
@@ -100,12 +135,6 @@ public:
     Levanta OSException en caso de error. 
     */
     void switch_texture(uint32_t id);
-
-    /*
-    Devuelve una referencia constante al area (const Area &) 
-    de la textura de Chell principal de la ventana.
-    */
-    const Area getMainTextureArea();
 
     /*
     PRE: Recibe las coordenadas x,y (int) en pixeles 
@@ -145,6 +174,26 @@ public:
     POST: Setea el id recibido como id de textura principal.
     */
     void set_main_id(uint32_t id);
+
+    /*
+    Devuelve true si la ventana esta grabando, 
+    false en caso contrario.
+    */
+    bool is_recording();
+
+    /*
+    Alterna entre grabando video y no haciendolo. 
+    Cuando se pone a grabar, lleva la ventana al 
+    modo de grabacion.
+    */
+    void record();
+
+    /*
+    PRE: Recibe el id de la textura utilizada 
+    para indicar grabacion.
+    POST: Setea el id de dicha textura.
+    */
+    void set_record_id(uint32_t id);
 };
 
 #endif // WINDOW_H

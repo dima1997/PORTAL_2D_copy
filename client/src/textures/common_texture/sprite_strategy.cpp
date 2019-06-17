@@ -5,20 +5,6 @@
 
 #include "../../../includes/mixer/sounds_path.h"
 
-#include <memory>
-
-/*
-PRE: Recibe un puntero unico a un sprite dinamico 
-(std::unique_ptr<DynamicSprite>), por movimiento 
-semantico.
-POST: Inicializa un SpriteStrategy que alterna los 
-sprites del DynamicSprite recibido, uno a uno.
-*/
-/*
-SpriteStrategy::SpriteStrategy(std::unique_ptr<DynamicSprite> ptrDynamicSprite)
-: ptrDynamicSprite(std::move(ptrDynamicSprite)) {}
-*/
-
 /*
 PRE: Recibe un sprite dinamico 
 POST: Inicializa un SpriteStrategy que alterna los 
@@ -57,9 +43,10 @@ Devuelve el area correspondiente al siguiente sprite de la textura que
 representa, en la imagen.png correspondiente.
 */
 Area SpriteStrategy::getNextArea(){
-    /*
-    DynamicSprite & actualSprite = *(this->ptrDynamicSprite);
-    return std::move(actualSprite.getNextArea());
-    */
     return std::move(this->dynamicSprite.getNextArea());
+}
+
+/*Actualiza el sprite al siguiente.*/
+void SpriteStrategy::update(){
+    this->dynamicSprite.update();
 }

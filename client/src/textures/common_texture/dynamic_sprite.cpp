@@ -86,12 +86,14 @@ ser usado.
 Area DynamicSprite::getNextArea(){
     float xCoord = this->spritesCoordTape[this->index].first;
     float yCoord = this->spritesCoordTape[this->index].second;
+    /*
     if (this->reverse){
-        --index;
+        --this->index;
     } else {
-        ++index;
+        ++this->index;
     }
-    index = index % this->spritesCoordTape.size();
+    this->index = this->index % this->spritesCoordTape.size();
+    */
     return std::move(Area(xCoord, yCoord, this->width, this->height));
 }
 
@@ -125,4 +127,14 @@ empezando por el ultimo, y terminando por el primero.
 */
 void DynamicSprite::reverse_sprite(){
     this->reverse = true;
+}
+
+/*Actualiza el sprite al siguiente.*/
+void DynamicSprite::update(){
+    if (this->reverse){
+        --index;
+    } else {
+        ++index;
+    }
+    index = index % this->spritesCoordTape.size();
 }

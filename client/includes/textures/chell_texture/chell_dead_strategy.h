@@ -25,7 +25,10 @@ public:
     de Chell muerta, en la imagen ALL_CHELL_SPRITES de 
     images_path.h .
     */
-    virtual Area getNextArea() override;  
+    virtual Area getNextArea() override;
+
+    /*Actualiza el sprite al siguiente a usar.*/
+    virtual void update();  
 };
 
 #endif // CHELL_DEAD_STRATEGY_H

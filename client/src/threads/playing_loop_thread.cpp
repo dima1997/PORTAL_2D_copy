@@ -20,6 +20,12 @@
 #include <mutex>
 #include <ctime>
 #include <chrono>
+#include <vector>
+
+#include "../../includes/window/record/output_format.h"
+
+#define VIDEO_FILE_NAME "portal_video_"
+#define VIDEO_FILE_END ".mp4"
 
 /*
 PRE: Recibe:
@@ -36,7 +42,8 @@ PlayingLoopThread::PlayingLoopThread(
     Window & window,
     Mixer & mixer,
     PlayResult & playResult,
-    ThreadSafeQueue<ThreadStatus> & stopQueue
+    ThreadSafeQueue<ThreadStatus> & stopQueue,
+    BlockingQueue<std::vector<char>> & videoFramesQueue
 )
 :   isDead(true),
     fromGameQueue(fromGameQueue), 
@@ -45,6 +52,7 @@ PlayingLoopThread::PlayingLoopThread(
     mixer(mixer),
     playResult(playResult),
     stopQueue(stopQueue),
+    videoFramesQueue(videoFramesQueue),
     mutex() {}
 
 /*
@@ -73,6 +81,16 @@ void PlayingLoopThread::run(){
                         this->mixer,
                         this->toGameQueue
                         );
+    /*
+    uint32_t mainPlayerId = this->window.get_main_id();
+    std::stringstream videoFileName; 
+    videoFileName << VIDEO_FILE_NAME << mainPlayerId << VIDEO_FILE_END;
+    OutputFormat outputFormat(
+        videoFileName.str(),
+        640,
+        480
+    );
+    */
     unsigned t0, t1;
     double timeWaitMicroSeconds = FRAME_TIME_WAIT_MICRO_SECONDS;
     while( ! this->is_dead() ){
@@ -92,7 +110,11 @@ void PlayingLoopThread::run(){
                 this->window.set_main_id(playerIdAlive);
             }
         }
-        this->window.render();
+        std::vector<char> videoFrameBuffer;
+        this->window.render(videoFrameBuffer);
+        if (this->window.is_recording()){
+            this->videoFramesQueue.push(videoFrameBuffer);
+        }
         this->window.sound(this->mixer);
         t1 = clock();
         double timeSpendMicroSeconds = 

@@ -26,6 +26,7 @@
 #include "../../includes/textures/emitter_texture/emitter_right_texture.h"
 #include "../../includes/textures/cake_texture/cake_texture.h"
 #include "../../includes/textures/background_texture/background_one_texture.h"
+#include "../../includes/textures/record_texture/record_texture.h"
 
 #include <memory>
 
@@ -407,6 +408,18 @@ create_background(Area areaMap){
                                     BACKGROUND
                                 );
     std::unique_ptr<Texture> ptrTexture(new BackgroundOneTexture(
+        bigTexture, 
+        areaMap
+    ));
+    return std::move(ptrTexture);
+}
+
+std::unique_ptr<Texture> TextureFactory::
+create_record(Area areaMap){
+    BigTexture & bigTexture = this->window.add_big_texture(
+                                    RECORD
+                                );
+    std::unique_ptr<Texture> ptrTexture(new RecordTexture(
         bigTexture, 
         areaMap
     ));

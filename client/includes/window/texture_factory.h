@@ -191,9 +191,11 @@ public:
     se ubicara la textura.
     POST: Devuelve un puntero unico 
     a una textura(std::unique_ptr<Texture>), 
-    de la textura de un bloque de metal.
+    de la textura de un fondo de pantalla.
     */
     std::unique_ptr<Texture> create_background(Area areaMap);
+
+    std::unique_ptr<Texture> create_record(Area areaMap);
 };
 
 #endif // TEXTURE_FACTORY_H

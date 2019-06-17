@@ -60,6 +60,8 @@ public:
 
     void add_background(uint32_t id, Area area);
 
+    void add_record(uint32_t id, Area area);
+
     void add_texture(uint32_t id, Area area, std::string & subSectionName);
 
     void add_custom_textures(std::string & subSectionName);

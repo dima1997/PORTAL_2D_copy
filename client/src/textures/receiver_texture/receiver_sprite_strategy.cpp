@@ -19,14 +19,6 @@ ReceiverSpriteStrategy::ReceiverSpriteStrategy()
         ReceiverOffSprite::get_sprite()
     ), 
     spriteName(RECEIVER_OFF) {}
-/*
-:   SpriteStrategy(
-        std::move(
-            std::unique_ptr<DynamicSprite>(new ReceiverOffSprite())
-        )
-    )    
-    , spriteName(RECEIVER_OFF) {}
-*/
 
 /*Destruye uel sprite strategy del portal.*/
 ReceiverSpriteStrategy::~ReceiverSpriteStrategy() = default;
@@ -34,11 +26,9 @@ ReceiverSpriteStrategy::~ReceiverSpriteStrategy() = default;
 /*Alterna entre recibidor bloqueando y desbloqueado*/
 void ReceiverSpriteStrategy::switch_sprite(){
     if (this->spriteName == RECEIVER_OFF){
-        //this->ptrDynamicSprite.reset(new ReceiverUnlockingSprite());
         this->dynamicSprite = ReceiverUnlockingSprite::get_sprite();
         this->spriteName = RECEIVER_UNLOCKING;
     } else {
-        //this->ptrDynamicSprite.reset(new ReceiverOffSprite());
         this->dynamicSprite = ReceiverOffSprite::get_sprite();
         this->spriteName = RECEIVER_OFF;
     }
@@ -49,17 +39,16 @@ Devuelve el area correspondiente al siguiente sprite de la textura que
 representa, en la imagen.png correspondiente.
 */
 Area ReceiverSpriteStrategy::getNextArea(){
+    return std::move(this->dynamicSprite.getNextArea());
+}
+
+/*Actualiza el sprite al siguiente a ser usado.*/
+void ReceiverSpriteStrategy::update(){
+    this->dynamicSprite.update();
     if (this->spriteName == RECEIVER_UNLOCKING){
-        //if (this->ptrDynamicSprite->is_last_sprite()){
         if (this->dynamicSprite.is_last_sprite()){
-            //this->ptrDynamicSprite.reset(new ReceiverOnSprite());
             this->dynamicSprite = ReceiverOnSprite::get_sprite();
             this->spriteName = RECEIVER_ON;
         }
     }
-    /*
-    DynamicSprite & actualSprite = *(this->ptrDynamicSprite);
-    return std::move(actualSprite.getNextArea());
-    */
-    return std::move(this->dynamicSprite.getNextArea());
 }

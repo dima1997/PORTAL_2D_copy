@@ -19,16 +19,5 @@ CakeTexture::CakeTexture(BigTexture & bigTexture, Area areaMap)
             areaMap, 
             CakeSprite::get_sprite()
     ) {}
-/*
-:    Texture(bigTexture, areaMap, 
-        std::move(
-            std::unique_ptr<SpriteStrategy>(new SpriteStrategy(
-                std::move(std::unique_ptr<DynamicSprite>(
-                    new CakeSprite()
-                ))
-            ))
-        )
-    ) {}
-*/
 /*Destruye la textura del bloque de torta.*/
 CakeTexture::~CakeTexture() = default;

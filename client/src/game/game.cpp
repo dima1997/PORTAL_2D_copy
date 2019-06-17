@@ -8,6 +8,7 @@
 #include "../../includes/threads/key_sender_thread.h"
 #include "../../includes/threads/playing_loop_thread.h"
 #include "../../includes/threads/play_result.h"
+#include "../../includes/threads/video_record_thread.h"
 
 #include "../../includes/sdl_system.h"
 #include "../../includes/window/window.h"
@@ -23,8 +24,10 @@
 
 #include <iostream>
 
-#define WINDOW_WIDTH 640
-#define WINDOW_HEIGHT 480
+#define VIDEO_FILE_NAME "portal_video_"
+#define VIDEO_FILE_END ".mp4"
+#define VIDEO_WIDTH 640
+#define VIDEO_HEIGHT 480
 #define VOLUME_MUSIC 10
 
 
@@ -38,6 +41,8 @@ Game::Game(Connector &connector, uint8_t game_id,
     threads(),
     changesMade(),
     changesAsk(),
+    stopQueue(),
+    videoFramesQueue(),
     mutex()
     {}
 
@@ -50,7 +55,7 @@ PRE: Recibe un doble referencia a otra juego (Game &&).
 POST: Inicializa un nuevo juego por movimiento semantico.
 */
 Game::Game(Game && other)
-:   isDead(true), 
+:   isDead(other.isDead), 
     connector(std::move(other.connector)),
     gameId(other.gameId),
     playerId(other.playerId),
@@ -58,6 +63,8 @@ Game::Game(Game && other)
     threads(std::move(other.threads)),
     changesMade(std::move(other.changesMade)),
     changesAsk(std::move(other.changesAsk)),
+    stopQueue(std::move(other.stopQueue)),
+    videoFramesQueue(std::move(other.videoFramesQueue)),
     mutex() {}
 
 /*Ejecuta el juego.*/
@@ -80,20 +87,17 @@ void Game::run(){
     }
     std::cout << "Game is about to start.\n";
 
-    ThreadSafeQueue<ThreadStatus> stopQueue;
-
     //Inicializo SDL
     SdlSystem sdlSystem;
     sdlSystem.init_video();
     sdlSystem.init_audio();
 
-    
     //Inicializo resultado del juego
     PlayResult playResult(baseNode);
 
     //Inicializo Window
-    int windowWidthPixels = WINDOW_WIDTH;
-    int windowHeightPixels = WINDOW_HEIGHT;
+    int windowWidthPixels = VIDEO_WIDTH;
+    int windowHeightPixels = VIDEO_HEIGHT;
     Window window(windowWidthPixels, windowHeightPixels, this->playerId, baseNode);
     
     //Inicializo Mixer
@@ -103,18 +107,32 @@ void Game::run(){
     mixer.play_music();
 
     this->threads.push_back(std::move(std::unique_ptr<Thread>(
-        new EventGameReceiverThread(this->connector, this->changesMade, stopQueue)
+        new EventGameReceiverThread(this->connector, this->changesMade, this->stopQueue)
     )));
     this->threads.push_back(std::move(std::unique_ptr<Thread>(
-        new KeySenderThread(this->connector, this->changesAsk, stopQueue)
+        new KeySenderThread(this->connector, this->changesAsk, this->stopQueue)
+    )));
+
+    BlockingQueue<std::vector<char>> videoFramesQueue;
+    
+    std::stringstream videoFileName;
+    videoFileName << VIDEO_FILE_NAME << this->playerId << VIDEO_FILE_END;
+    this->threads.push_back(std::move(std::unique_ptr<Thread>(
+        new VideoRecordThread(
+            videoFileName.str(),
+            VIDEO_WIDTH,
+            VIDEO_HEIGHT,
+            this->videoFramesQueue
+        )
     )));
     PlayingLoopThread playingLoop(this->changesMade, 
                                   this->changesAsk, 
                                   window, 
                                   mixer, 
                                   playResult, 
-                                  stopQueue);
-
+                                  this->stopQueue,
+                                  this->videoFramesQueue
+                                  );
     for (auto & thread : this->threads){
         (*thread).start();
     }
@@ -127,6 +145,7 @@ void Game::run(){
 void Game::stop(){
     std::unique_lock<std::mutex> l(this->mutex);
     this->changesAsk.close();
+    this->videoFramesQueue.close();
     for (int i = 0; i < (int)this->threads.size(); ++i){
         (*(this->threads[i])).stop();
         (*(this->threads[i])).join();

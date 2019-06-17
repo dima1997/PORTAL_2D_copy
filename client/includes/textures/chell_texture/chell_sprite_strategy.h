@@ -31,6 +31,15 @@ private:
     */
     void setSpriteStrategy(spriteNameStrategy_t newSpriteName);
 
+    /*
+    PRE: Recibe el nombre del nuevo sprite de chell, 
+    aun sin asignar, y un vector de nombres de sonidos.
+    POST: Setea un el sonido en correspondiente al 
+    nuevo nombre de sprite, si es que no tiene dicho
+    nombre ya.
+    */
+    void setSound(spriteNameStrategy_t newSpriteName, 
+                  std::vector<SOUND_NAME> & sounds);    
 public:
     /*Inicializa el estado de sprite de Chell.*/
     ChellSpriteStrategy();
@@ -57,15 +66,9 @@ public:
     */
     virtual Area getNextArea() override;
 
-    /*
-    PRE: Recibe el nombre del nuevo sprite de chell, 
-    aun sin asignar, y un vector de nombres de sonidos.
-    POST: Setea un el sonido en correspondiente al 
-    nuevo nombre de sprite, si es que no tiene dicho
-    nombre ya.
-    */
-    void setSound(spriteNameStrategy_t newSpriteName, 
-                  std::vector<SOUND_NAME> & sounds);    
+
+    /*Actualiza el sprite al siguiente a ser usado.*/
+    virtual void update();
 };
 
 #endif // CHELL_SPRITE_STATE_H

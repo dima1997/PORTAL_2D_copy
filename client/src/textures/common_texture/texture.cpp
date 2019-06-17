@@ -150,3 +150,8 @@ void Texture::stop_follow() {
     this->ptrFollowArea = NULL;
     this->following = false;
 }
+
+/*Actualiza la textura.*/
+void Texture::update(){
+    this->ptrSpriteStrategy->update();
+}

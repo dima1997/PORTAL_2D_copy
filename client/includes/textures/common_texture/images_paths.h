@@ -13,5 +13,6 @@
 #define ALL_TRIANGLES_SPRITES "all_triangles.png"
 #define CAKE_SPRITES "cake.png"
 #define BACKGROUND "portal_background_3.jpg"
+#define RECORD "record_icons.png"
 
 #endif // IMAGES_PATH_H

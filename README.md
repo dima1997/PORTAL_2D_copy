@@ -37,11 +37,18 @@ TECLADO:
 - ESPACIO/CONTROL DERECHO -> Tomar una roca 
 - SHIFT IZQUIERDO/MENOS -> Soltar una roca 
 - M -> Pausar/Continuar musica de fondo
+- V -> Pausar/Continuar grabacion del video
+	(Por defecto comienza pausado)
+	Durante el modo grabacion, la ventana toma dimensiones fijas, 
+	que no podran redimensionarse hasta tanto no pausar la 
+	grabacion. Ademas durante la grabacion ser vera un icono rojo
+	de play (>) en l esquina superior izquierda. 
   
 MOUSE:
 
 - CLICK IZQUIERDO -> Abrir portal azul 
 - CLICK DERECHO -> Abrir portal naranja
 - CLICK MEDIO -> Pin tool (Proximamente)
+
 
 
