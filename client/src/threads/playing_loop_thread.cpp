@@ -81,7 +81,7 @@ void PlayingLoopThread::run(){
                         this->mixer,
                         this->toGameQueue
                         );
-    
+    /*
     uint32_t mainPlayerId = this->window.get_main_id();
     std::stringstream videoFileName; 
     videoFileName << VIDEO_FILE_NAME << mainPlayerId << VIDEO_FILE_END;
@@ -90,7 +90,7 @@ void PlayingLoopThread::run(){
         640,
         480
     );
-    
+    */
     unsigned t0, t1;
     double timeWaitMicroSeconds = FRAME_TIME_WAIT_MICRO_SECONDS;
     while( ! this->is_dead() ){
@@ -112,8 +112,8 @@ void PlayingLoopThread::run(){
         }
         std::vector<char> videoFrameBuffer;
         this->window.render(videoFrameBuffer);
-        //this->videoFramesQueue.push(videoFrameBuffer);
-        outputFormat.write_frame(videoFrameBuffer.data());
+        this->videoFramesQueue.push(videoFrameBuffer);
+        //outputFormat.write_frame(videoFrameBuffer.data());
         this->window.sound(this->mixer);
         t1 = clock();
         double timeSpendMicroSeconds = 

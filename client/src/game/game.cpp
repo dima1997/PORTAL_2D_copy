@@ -41,6 +41,8 @@ Game::Game(Connector &connector, uint8_t game_id,
     threads(),
     changesMade(),
     changesAsk(),
+    stopQueue(),
+    videoFramesQueue(),
     mutex()
     {}
 
@@ -53,7 +55,7 @@ PRE: Recibe un doble referencia a otra juego (Game &&).
 POST: Inicializa un nuevo juego por movimiento semantico.
 */
 Game::Game(Game && other)
-:   isDead(true), 
+:   isDead(other.isDead), 
     connector(std::move(other.connector)),
     gameId(other.gameId),
     playerId(other.playerId),
@@ -61,8 +63,8 @@ Game::Game(Game && other)
     threads(std::move(other.threads)),
     changesMade(std::move(other.changesMade)),
     changesAsk(std::move(other.changesAsk)),
-    stopQueue(std::move(stopQueue)),
-    videoFramesQueue(std::move(videoFramesQueue)),
+    stopQueue(std::move(other.stopQueue)),
+    videoFramesQueue(std::move(other.videoFramesQueue)),
     mutex() {}
 
 /*Ejecuta el juego.*/
@@ -90,7 +92,6 @@ void Game::run(){
     sdlSystem.init_video();
     sdlSystem.init_audio();
 
-    
     //Inicializo resultado del juego
     PlayResult playResult(baseNode);
 
@@ -111,7 +112,9 @@ void Game::run(){
     this->threads.push_back(std::move(std::unique_ptr<Thread>(
         new KeySenderThread(this->connector, this->changesAsk, this->stopQueue)
     )));
-    /*
+
+    BlockingQueue<std::vector<char>> videoFramesQueue;
+    
     std::stringstream videoFileName;
     videoFileName << VIDEO_FILE_NAME << this->playerId << VIDEO_FILE_END;
     this->threads.push_back(std::move(std::unique_ptr<Thread>(
@@ -122,7 +125,7 @@ void Game::run(){
             this->videoFramesQueue
         )
     )));
-    */
+    //this->
     PlayingLoopThread playingLoop(this->changesMade, 
                                   this->changesAsk, 
                                   window, 
@@ -131,7 +134,7 @@ void Game::run(){
                                   this->stopQueue,
                                   this->videoFramesQueue
                                   );
-
+    // this->
     for (auto & thread : this->threads){
         (*thread).start();
     }

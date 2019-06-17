@@ -8,18 +8,6 @@
 #include <memory>
 
 /*
-PRE: Recibe un puntero unico a un sprite dinamico 
-(std::unique_ptr<DynamicSprite>), por movimiento 
-semantico.
-POST: Inicializa un SpriteStrategy que alterna los 
-sprites del DynamicSprite recibido, uno a uno.
-*/
-/*
-SpriteStrategy::SpriteStrategy(std::unique_ptr<DynamicSprite> ptrDynamicSprite)
-: ptrDynamicSprite(std::move(ptrDynamicSprite)) {}
-*/
-
-/*
 PRE: Recibe un sprite dinamico 
 POST: Inicializa un SpriteStrategy que alterna los 
 sprites del DynamicSprite recibido, uno a uno.
