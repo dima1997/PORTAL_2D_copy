@@ -8,7 +8,7 @@
 #include "button.h"
 
 Button::Button(b2World &world, float32 xPos, float32 yPos, uint32_t id, std::list<Door *> &doors):
-               Body(world, xPos, yPos, id), doors(doors), contactCount(0) {
+               Body(world, xPos, yPos, id), doors(doors), contactCount(0), updated(false) {
     createBody(xPos, yPos);
 }
 
@@ -54,6 +54,7 @@ void Button::updateDoors(bool status) {
 void Button::increaseContact() {
     ++contactCount;
     if (contactCount == 1) {
+        updated = true;
         updateDoors(true);
     }
 }
@@ -61,8 +62,15 @@ void Button::increaseContact() {
 void Button::decreaseContact() {
     --contactCount;
     if (contactCount == 0) {
+        updated = true;
         updateDoors(false);
     }
+}
+
+bool Button::wasUpdated() {
+    bool wasUpdated = updated;
+    updated = false;
+    return wasUpdated;
 }
 
 Button::~Button() = default;
