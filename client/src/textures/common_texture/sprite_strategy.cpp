@@ -5,8 +5,6 @@
 
 #include "../../../includes/mixer/sounds_path.h"
 
-#include <memory>
-
 /*
 PRE: Recibe un sprite dinamico 
 POST: Inicializa un SpriteStrategy que alterna los 

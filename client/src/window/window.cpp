@@ -65,9 +65,17 @@ PRE: Recibe:
 POST: Inicializa una ventana de las medidas recibidas.
 Levanta SDLException en caso de error.
 */
-Window::Window(int width, int height, uint32_t idMainTexture, 
-               YAML::Node & mapConfig)
-: videoWidth(width), videoHeight(height), idMainTexture(idMainTexture) {
+Window::Window(
+    int width, 
+    int height, 
+    uint32_t idMainTexture, 
+    YAML::Node & mapConfig
+)
+:   videoWidth(width), 
+    videoHeight(height), 
+    idMainTexture(idMainTexture),
+    isRecording(false) 
+{
     this->init_window();
     this->init_renderer();
     this->init_video_record();
@@ -185,6 +193,7 @@ void Window::render(std::vector<char> & videoFrameBuffer) {
     int widthPixels;
     int heightPixels;
     SDL_GetWindowSize(this->window,&widthPixels,&heightPixels);
+
     float adjuster;
     if (widthPixels <= heightPixels){
         adjuster = widthPixels/newAreaCamera.getWidth();
@@ -202,24 +211,27 @@ void Window::render(std::vector<char> & videoFrameBuffer) {
 
     SDL_SetRenderTarget(this->renderer, NULL);
     this->_render(adjuster, newAreaCamera);
-
-    SDL_SetRenderTarget(this->renderer, this->videoTexture); 
-    this->_render(adjuster, newAreaCamera);
+    if (this->is_recording()){
+        SDL_SetRenderTarget(this->renderer, this->videoTexture); 
+        this->_render(adjuster, newAreaCamera);
+    }
     
     this->_update();
 
     SDL_RenderPresent(this->renderer);
-    
-    videoFrameBuffer.resize(this->videoWidth*this->videoHeight*3);
-    int res = SDL_RenderReadPixels(
-        this->renderer, 
-        NULL, 
-        SDL_PIXELFORMAT_RGB24, 
-        videoFrameBuffer.data(), 
-        this->videoWidth * 3
-    );
-    if (res) {
-        throw SdlException("RendererReadPixels error", SDL_GetError());
+
+    if (this->is_recording()){
+        videoFrameBuffer.resize(this->videoWidth*this->videoHeight*3);
+        int res = SDL_RenderReadPixels(
+            this->renderer, 
+            NULL, 
+            SDL_PIXELFORMAT_RGB24, 
+            videoFrameBuffer.data(), 
+            this->videoWidth * 3
+        );
+        if (res) {
+            throw SdlException("RendererReadPixels error", SDL_GetError());
+        }
     }
 }
 
@@ -276,14 +288,6 @@ void Window::switch_texture(uint32_t id){
     }
     Texture & textureOfId = *(this->allTextures.at(id));
     textureOfId.switch_sprite();
-}
-
-/*
-Devuelve una referencia constante al area (const Area &) 
-de la textura de Chell principal de la ventana.
-*/
-const Area Window::getMainTextureArea() {
-    return (*(this->allTextures.at(this->idMainTexture))).get_area_map();
 }
 
 /*
@@ -374,4 +378,47 @@ void Window::set_main_id(uint32_t id){
         throw OSException("Error en ventana:",errDescription.str().c_str());
     } 
     this->idMainTexture = id;
+}
+
+/*
+Devuelve true si la ventana esta grabando, 
+false en caso contrario.
+*/
+bool Window::is_recording(){
+    int actualWidth;
+    int actualHeight;
+    SDL_GetWindowSize(this->window,&actualWidth,&actualHeight);
+    bool isWidthVideo = (this->videoWidth == actualWidth);
+    bool isHeightVideo = (this->videoHeight == actualHeight);
+    if (this->isRecording){
+        if (isWidthVideo && isHeightVideo){
+            return true;
+        }
+        this->record();
+    }
+    return false;
+}
+
+/*
+Alterna entre grabando video y no haciendolo. 
+Cuando se pone a grabar, lleva la ventana al 
+modo de grabacion.
+*/
+void Window::record(){
+    this->switch_texture(158); // Hardcodeado
+    if (this->isRecording){
+        this->isRecording = false;
+        SDL_DisplayMode displayMode;
+        SDL_GetCurrentDisplayMode(0, &displayMode);
+        auto maxWidth = displayMode.w;
+        auto maxHeight = displayMode.h;
+        SDL_SetWindowMaximumSize(this->window, maxWidth, maxHeight);
+        SDL_SetWindowMinimumSize(this->window, 0, 0);
+    } else {
+        this->isRecording = true;
+        SDL_SetWindowSize(this->window, this->videoWidth, this->videoHeight);
+        SDL_SetWindowMaximumSize(this->window, this->videoWidth, this->videoHeight);
+        SDL_SetWindowMinimumSize(this->window, this->videoWidth, this->videoHeight);
+        SDL_RestoreWindow(this->window);
+    }
 }

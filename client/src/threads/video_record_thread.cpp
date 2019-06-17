@@ -23,12 +23,11 @@ VideoRecordThread::VideoRecordThread(
     BlockingQueue<std::vector<char>> & videoFramesQueue
 )
 :   isDead(true),
-    videoFileName(videoFileName),
-    videoWidth(videoWidth),
-    videoHeight(videoHeight),
+    outputFormat(videoFileName,videoWidth,videoHeight),
     videoFramesQueue(videoFramesQueue),
     mutex() {}
-// outputFormat(videoFileName, videoWidth, videoHeight),
+
+/*Destruye el hilo grabador de video.*/
 VideoRecordThread::~VideoRecordThread() = default;
 
 /*Graba frames de video recibido en disco.*/
@@ -37,18 +36,17 @@ void VideoRecordThread::run(){
         std::unique_lock<std::mutex> l(this->mutex);
         this->isDead = false;
     }
-    OutputFormat outputFormat(this->videoFileName,this->videoWidth,this->videoHeight);
     std::vector<char> videoFrameBuffer;
     while ((! this->is_dead()) && this->videoFramesQueue.pop(videoFrameBuffer)){
-        outputFormat.write_frame(videoFrameBuffer.data()); //this->
+        this->outputFormat.write_frame(videoFrameBuffer.data());
     }
     this->stop();
 }
 
 /*Detiene la ejecucion del hilo.*/
 void VideoRecordThread::stop(){
-    //std::unique_lock<std::mutex> l(this->mutex);
-    //this->isDead = true;
+    // Con cerrar la cola bloqueante 
+    // desde afuera es suficiente
 }
 
 /*

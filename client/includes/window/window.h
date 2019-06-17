@@ -29,6 +29,7 @@ public:
     Area areaCamera;
     std::mutex mutex;
     SDL_Texture * videoTexture;
+    bool isRecording;
 
     /*
     PRE: Recibe la ruta (const std::string &) de un gran textura 
@@ -135,12 +136,6 @@ public:
     void switch_texture(uint32_t id);
 
     /*
-    Devuelve una referencia constante al area (const Area &) 
-    de la textura de Chell principal de la ventana.
-    */
-    const Area getMainTextureArea();
-
-    /*
     PRE: Recibe las coordenadas x,y (int) en pixeles 
     de algun punto en la ventana.
     POST: Devuelve las coordenadas x,y (float) de dicho 
@@ -178,6 +173,19 @@ public:
     POST: Setea el id recibido como id de textura principal.
     */
     void set_main_id(uint32_t id);
+
+    /*
+    Devuelve true si la ventana esta grabando, 
+    false en caso contrario.
+    */
+    bool is_recording();
+
+    /*
+    Alterna entre grabando video y no haciendolo. 
+    Cuando se pone a grabar, lleva la ventana al 
+    modo de grabacion.
+    */
+    void record();
 };
 
 #endif // WINDOW_H

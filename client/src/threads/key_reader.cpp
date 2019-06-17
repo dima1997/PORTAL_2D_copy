@@ -185,6 +185,10 @@ void KeyReader::process_event_down(SDL_KeyboardEvent & keyEvent){
                 }
             }
             break;
+        case SDLK_v:
+            {
+                this->window.record();
+            }
         default:
             return;
     }

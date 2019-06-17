@@ -28,7 +28,7 @@ protected:
     POST: Devuelve el area de destino de la textura, en la ventana, 
     con respecto a la misma.
     */
-    Area getAreaDest(float adjustes, const Area & areaCamera);
+    virtual Area getAreaDest(float adjustes, const Area & areaCamera);
 
 public:
     /*

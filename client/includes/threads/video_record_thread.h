@@ -12,10 +12,7 @@
 class VideoRecordThread : public Thread {
 private:
     bool isDead;
-    //OutputFormat outputFormat;
-    std::string videoFileName;
-    int videoWidth;
-    int videoHeight;
+    OutputFormat outputFormat;
     BlockingQueue<std::vector<char>> & videoFramesQueue;
     std::mutex mutex;
 
@@ -50,4 +47,4 @@ public:
     bool is_dead();
 };
 
-#endif // VIDEO_RECORDER_THREAD_H
+#endif // VIDEO_RECORD_THREAD_H

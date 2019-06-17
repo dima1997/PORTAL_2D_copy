@@ -112,8 +112,9 @@ void PlayingLoopThread::run(){
         }
         std::vector<char> videoFrameBuffer;
         this->window.render(videoFrameBuffer);
-        this->videoFramesQueue.push(videoFrameBuffer);
-        //outputFormat.write_frame(videoFrameBuffer.data());
+        if (this->window.is_recording()){
+            this->videoFramesQueue.push(videoFrameBuffer);
+        }
         this->window.sound(this->mixer);
         t1 = clock();
         double timeSpendMicroSeconds = 

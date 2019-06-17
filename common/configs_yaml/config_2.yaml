@@ -322,3 +322,10 @@ background:
         [
             {id: 157, xCoord: 0, yCoord: 0}
         ]
+records:
+    widht: 1
+    height: 1
+    id_coordinates:
+        [
+            {id: 158, xCoord: 0, yCoord: 0}
+        ]

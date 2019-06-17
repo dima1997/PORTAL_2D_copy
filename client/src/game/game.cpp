@@ -26,8 +26,8 @@
 
 #define VIDEO_FILE_NAME "portal_video_"
 #define VIDEO_FILE_END ".mp4"
-#define WINDOW_WIDTH 640
-#define WINDOW_HEIGHT 480
+#define VIDEO_WIDTH 640
+#define VIDEO_HEIGHT 480
 #define VOLUME_MUSIC 10
 
 
@@ -96,8 +96,8 @@ void Game::run(){
     PlayResult playResult(baseNode);
 
     //Inicializo Window
-    int windowWidthPixels = WINDOW_WIDTH;
-    int windowHeightPixels = WINDOW_HEIGHT;
+    int windowWidthPixels = VIDEO_WIDTH;
+    int windowHeightPixels = VIDEO_HEIGHT;
     Window window(windowWidthPixels, windowHeightPixels, this->playerId, baseNode);
     
     //Inicializo Mixer
@@ -120,12 +120,11 @@ void Game::run(){
     this->threads.push_back(std::move(std::unique_ptr<Thread>(
         new VideoRecordThread(
             videoFileName.str(),
-            WINDOW_WIDTH,
-            WINDOW_HEIGHT,
+            VIDEO_WIDTH,
+            VIDEO_HEIGHT,
             this->videoFramesQueue
         )
     )));
-    //this->
     PlayingLoopThread playingLoop(this->changesMade, 
                                   this->changesAsk, 
                                   window, 
@@ -134,7 +133,6 @@ void Game::run(){
                                   this->stopQueue,
                                   this->videoFramesQueue
                                   );
-    // this->
     for (auto & thread : this->threads){
         (*thread).start();
     }
