@@ -262,7 +262,8 @@ create_triangle_botom_left(Area areaMap){
         new Texture(
             bigTexture, 
             areaMap,
-            TriangleBotomLeftSprite::get_sprite()
+            TriangleBotomLeftSprite::get_sprite(),
+            0
         )
     );   
     return std::move(ptrTexture);
@@ -285,7 +286,8 @@ create_triangle_botom_right(Area areaMap){
         new Texture(
             bigTexture, 
             areaMap,
-            TriangleBotomRightSprite::get_sprite()
+            TriangleBotomLeftSprite::get_sprite(),
+            270
         )
     );  
     return std::move(ptrTexture);
@@ -307,7 +309,8 @@ create_triangle_top_left(Area areaMap){
         new Texture(
             bigTexture, 
             areaMap,
-            TriangleTopLeftSprite::get_sprite()
+            TriangleBotomLeftSprite::get_sprite(),
+            90
         )
     ); 
     return std::move(ptrTexture);
@@ -329,7 +332,8 @@ create_triangle_top_right(Area areaMap){
         new Texture(
             bigTexture, 
             areaMap,
-            TriangleTopRightSprite::get_sprite()
+            TriangleBotomLeftSprite::get_sprite(),
+            180
         )
     );   
     return std::move(ptrTexture);
@@ -382,7 +386,7 @@ PRE: Recibe el area (Area) donde
 se ubicara la textura.
 POST: Devuelve un puntero unico 
 a una textura(std::unique_ptr<Texture>), 
-de la textura de emisor.
+de la textura de emisor hacia derecha.
 */
 std::unique_ptr<Texture> TextureFactory::
 create_emitter_right(Area areaMap){
@@ -392,7 +396,71 @@ create_emitter_right(Area areaMap){
     std::unique_ptr<Texture> ptrTexture(new Texture(
         bigTexture, 
         areaMap,
-        EmitterRightSprite::get_sprite()
+        EmitterRightSprite::get_sprite(),
+        0
+    ));
+    return std::move(ptrTexture);
+}
+
+/*
+PRE: Recibe el area (Area) donde 
+se ubicara la textura.
+POST: Devuelve un puntero unico 
+a una textura(std::unique_ptr<Texture>), 
+de la textura de emisor hacia abajo.
+*/
+std::unique_ptr<Texture> TextureFactory::
+create_emitter_down(Area areaMap){
+    BigTexture & bigTexture = this->window.add_big_texture(
+                                    ALL_BLOCKS_SPRITES
+                                );
+    std::unique_ptr<Texture> ptrTexture(new Texture(
+        bigTexture, 
+        areaMap,
+        EmitterRightSprite::get_sprite(),
+        90
+    ));
+    return std::move(ptrTexture);
+}
+
+/*
+PRE: Recibe el area (Area) donde 
+se ubicara la textura.
+POST: Devuelve un puntero unico 
+a una textura(std::unique_ptr<Texture>), 
+de la textura de emisor hacia izquierda.
+*/
+std::unique_ptr<Texture> TextureFactory::
+create_emitter_left(Area areaMap){
+    BigTexture & bigTexture = this->window.add_big_texture(
+                                    ALL_BLOCKS_SPRITES
+                                );
+    std::unique_ptr<Texture> ptrTexture(new Texture(
+        bigTexture, 
+        areaMap,
+        EmitterRightSprite::get_sprite(),
+        180
+    ));
+    return std::move(ptrTexture);
+}
+
+/*
+PRE: Recibe el area (Area) donde 
+se ubicara la textura.
+POST: Devuelve un puntero unico 
+a una textura(std::unique_ptr<Texture>), 
+de la textura de emisor hacia arriba.
+*/
+std::unique_ptr<Texture> TextureFactory::
+create_emitter_up(Area areaMap){
+    BigTexture & bigTexture = this->window.add_big_texture(
+                                    ALL_BLOCKS_SPRITES
+                                );
+    std::unique_ptr<Texture> ptrTexture(new Texture(
+        bigTexture, 
+        areaMap,
+        EmitterRightSprite::get_sprite(),
+        270
     ));
     return std::move(ptrTexture);
 }

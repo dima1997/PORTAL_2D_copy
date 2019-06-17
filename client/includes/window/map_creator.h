@@ -46,6 +46,12 @@ public:
 
     void add_emitter_right(uint32_t id, Area area);
 
+    void add_emitter_up(uint32_t id, Area area);
+
+    void add_emitter_left(uint32_t id, Area area);
+
+    void add_emitter_down(uint32_t id, Area area);
+
     void add_triangle_botom_left(uint32_t id, Area area);
 
     void add_triangle_botom_right(uint32_t id, Area area);

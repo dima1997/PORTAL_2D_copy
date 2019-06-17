@@ -20,6 +20,9 @@ sections:
         energy_balls_green, 
         receivers,
         emitters_right,
+        emitters_left,
+        emitters_up,
+        emitters_down,
         triangles_botom_left,
         triangles_botom_right,
         triangles_top_left,
@@ -134,7 +137,7 @@ doors_one:
     id_coordinates:
         [
           {id: 56, number: 1, xCoord: 5.5, yCoord: 2.0, conditions: [{button_id: 58,  condition: true}]},
-          {id: 70, number: 1, xCoord: -5.0, yCoord: 2.0, conditions: [{button_id: 58,  condition: false}]}
+          {id: 74, number: 1, xCoord: -5.0, yCoord: 2.0, conditions: [{button_id: 58,  condition: false}]}
         ]
 energy_balls_green:
     width: 0.5
@@ -148,7 +151,7 @@ buttons:
     height: 0.5
     id_coordinates:
         [
-            {id: 58, xCoord: -0.5, yCoord: 1.25, door_ids: [56, 70]}
+            {id: 58, xCoord: -0.5, yCoord: 1.25, door_ids: [56, 74]}
         ]
 rocks_one:
     width: 1.0
@@ -204,24 +207,45 @@ emitters_right:
         [
             {id: 67, position: 'right', xCoord: -5.5, yCoord: 7.5}
         ]
+emitters_left:
+    width: 1
+    height: 1
+    id_coordinates:
+        [
+            {id: 68, position: 'left', xCoord: -4.5, yCoord: 7.5}
+        ]
+emitters_up:
+    width: 1
+    height: 1
+    id_coordinates:
+        [
+            {id: 69, position: 'up', xCoord: -3.5, yCoord: 7.5}
+        ]
+emitters_down:
+    width: 1
+    height: 1
+    id_coordinates:
+        [
+            {id: 70, position: 'down', xCoord: -2.5, yCoord: 7.5}
+        ]
 cakes:
     width: 1
     height: 1
     id_coordinates:
         [
-            {id: 68, xCoord: 6.5, yCoord: 1.5}
+            {id: 71, xCoord: 6.5, yCoord: 1.5}
         ]
 background:
     width: 30
     height: 30
     id_coordinates:
         [
-            {id: 69, xCoord: 0, yCoord: 0}
+            {id: 72, xCoord: 0, yCoord: 0}
         ]
 records:
     width: 1
     height: 1
     id_coordinates:
         [
-            {id: 71, xCoord: 0, yCoord: 0}
+            {id: 73, xCoord: 0, yCoord: 0}
         ]

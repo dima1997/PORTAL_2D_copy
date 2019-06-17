@@ -18,6 +18,7 @@ protected:
     std::vector<SOUND_NAME> sounds;
     bool following;
     const Area * ptrFollowArea;
+    double angle;
 
     /*
     Pre: Recibe un factor de ajuste (pixeles/<unidad de mapa>), 
@@ -54,6 +55,25 @@ public:
     */
     Texture(BigTexture & bigTexture, Area areaMap, 
         DynamicSprite dynamicSprite);
+
+    /*
+    PRE: Recibe:
+        una referencia a una gran textura que 
+        contiene la imagen donde se encuentra el/los sprite/s 
+        que utiliza la textura; 
+        el area (Area) que ocupa el objeto que representa la 
+        textura en el mapa de juego;
+        el sprite dinamico que sera el unico sprite a usar en la
+        vida de la textura;
+        un angulo (double) para rotar la textura al renderizarla.
+    POST: Inicializa una textura.
+    */
+    Texture(
+        BigTexture & bigTexture, 
+        Area areaMap, 
+        DynamicSprite dynamicSprite,
+        double angle
+    );
 
     /*Destruye la textura.*/
     virtual ~Texture();

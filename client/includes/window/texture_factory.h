@@ -173,9 +173,36 @@ public:
     se ubicara la textura.
     POST: Devuelve un puntero unico 
     a una textura(std::unique_ptr<Texture>), 
-    de la textura de emisor.
+    de la textura de emisor hacia derecha.
     */
     std::unique_ptr<Texture> create_emitter_right(Area areaMap);
+
+    /*
+    PRE: Recibe el area (Area) donde 
+    se ubicara la textura.
+    POST: Devuelve un puntero unico 
+    a una textura(std::unique_ptr<Texture>), 
+    de la textura de emisor hacia abajo.
+    */
+    std::unique_ptr<Texture> create_emitter_down(Area areaMap);
+
+    /*
+    PRE: Recibe el area (Area) donde 
+    se ubicara la textura.
+    POST: Devuelve un puntero unico 
+    a una textura(std::unique_ptr<Texture>), 
+    de la textura de emisor hacia izquierda.
+    */
+    std::unique_ptr<Texture> create_emitter_left(Area areaMap);
+
+    /*
+    PRE: Recibe el area (Area) donde 
+    se ubicara la textura.
+    POST: Devuelve un puntero unico 
+    a una textura(std::unique_ptr<Texture>), 
+    de la textura de emisor hacia arriba.
+    */
+    std::unique_ptr<Texture> create_emitter_up(Area areaMap);
 
     /*
     PRE: Recibe el area (Area) donde 

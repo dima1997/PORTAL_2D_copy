@@ -39,7 +39,8 @@ std::unique_ptr<SpriteStrategy> ptrSpriteStrategy)
     areaMap(areaMap), 
     ptrSpriteStrategy(std::move(ptrSpriteStrategy)),
     following(false),
-    ptrFollowArea(NULL) {}
+    ptrFollowArea(NULL),
+    angle(0) {}
 
 /*
 PRE: Recibe una referencia a una gran textura que 
@@ -56,7 +57,33 @@ DynamicSprite dynamicSprite)
     areaMap(areaMap),
     ptrSpriteStrategy(new SpriteStrategy(dynamicSprite)),
     following(false),
-    ptrFollowArea(NULL) {}
+    ptrFollowArea(NULL),
+    angle(0) {}
+
+/*
+PRE: Recibe:
+    una referencia a una gran textura que 
+    contiene la imagen donde se encuentra el/los sprite/s 
+    que utiliza la textura; 
+    el area (Area) que ocupa el objeto que representa la 
+    textura en el mapa de juego;
+    el sprite dinamico que sera el unico sprite a usar en la
+    vida de la textura;
+    un angulo (double) para rotar la textura al renderizarla.
+POST: Inicializa una textura.
+*/
+Texture::Texture(
+    BigTexture & bigTexture, 
+    Area areaMap, 
+    DynamicSprite dynamicSprite,
+    double angle
+)
+:   bigTexture(bigTexture), 
+    areaMap(areaMap),
+    ptrSpriteStrategy(new SpriteStrategy(dynamicSprite)),
+    following(false),
+    ptrFollowArea(NULL),
+    angle(angle) {}
 
 
 /*Destruye la textura.*/
@@ -107,7 +134,7 @@ void Texture::render(float adjuster, const Area & areaCamera) {
         this->areaMap.setY(this->ptrFollowArea->getY());
     }
     Area dest = this->getAreaDest(adjuster, areaCamera);
-    this->bigTexture.render(src, dest, NO_FLIP);
+    this->bigTexture.render(src, dest, NO_FLIP, this->angle,255,255,255);
 }
 
 /*

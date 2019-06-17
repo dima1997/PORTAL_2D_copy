@@ -78,6 +78,21 @@ void MapCreator::add_emitter_right(uint32_t id, Area area){
     this->window.add_texture(id,std::move(tF.create_emitter_right(area)));
 }
 
+void MapCreator::add_emitter_up(uint32_t id, Area area){
+    TextureFactory tF(this->window);
+    this->window.add_texture(id,std::move(tF.create_emitter_up(area)));
+}
+
+void MapCreator::add_emitter_left(uint32_t id, Area area){
+    TextureFactory tF(this->window);
+    this->window.add_texture(id,std::move(tF.create_emitter_left(area)));
+}
+
+void MapCreator::add_emitter_down(uint32_t id, Area area){
+    TextureFactory tF(this->window);
+    this->window.add_texture(id,std::move(tF.create_emitter_down(area)));
+}
+
 void MapCreator::add_triangle_botom_left(uint32_t id, Area area){
     TextureFactory tF(this->window);
     this->window.add_texture(id,std::move(
@@ -186,6 +201,18 @@ void MapCreator::add_texture(uint32_t id, Area area,
         this->add_emitter_right(id, area);
         return;
     }
+    if (subSectionName == "emitters_up"){
+        this->add_emitter_up(id, area);
+        return;
+    }
+    if (subSectionName == "emitters_left"){
+        this->add_emitter_left(id, area);
+        return;
+    }
+    if (subSectionName == "emitters_down"){
+        this->add_emitter_down(id, area);
+        return;
+    }
     if (subSectionName == "triangles_botom_left") {
         this->add_triangle_botom_left(id, area);
         return;
@@ -212,9 +239,11 @@ void MapCreator::add_texture(uint32_t id, Area area,
     }
     if (subSectionName == "background"){
         this->add_background(id, area);
+        return;
     }
     if (subSectionName == "records"){
         this->add_record(id, area);
+        return;
     }
 }
 
