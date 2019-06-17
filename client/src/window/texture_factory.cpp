@@ -4,28 +4,29 @@
 #include "../../includes/window/os_exception.h"
 #include "../../includes/textures/common_texture/big_texture.h"
 #include "../../includes/textures/common_texture/texture.h"
+#include "../../includes/textures/common_texture/sprite_strategy.h"
 #include "../../includes/textures/common_texture/sdl_exception.h"
 #include "../../includes/textures/common_texture/images_paths.h"
 
 #include "../../includes/textures/chell_texture/chell_texture.h"
-#include "../../includes/textures/block_metal_texture/block_metal_texture.h"
-#include "../../includes/textures/block_rock_texture/block_rock_texture.h"
-#include "../../includes/textures/block_acid_texture/block_acid_texture.h"
+#include "../../includes/textures/block_metal_texture/block_metal_sprite.h"
+#include "../../includes/textures/block_rock_texture/block_rock_sprite.h"
+#include "../../includes/textures/block_acid_texture/block_acid_sprite.h"
 #include "../../includes/textures/portal_texture/portal_blue_texture.h"
 #include "../../includes/textures/portal_texture/portal_orange_texture.h"
-#include "../../includes/textures/door_texture/door_one_texture.h"
-#include "../../includes/textures/energy_ball_texture/energy_ball_texture.h"
-#include "../../includes/textures/button_texture/button_texture.h"
-#include "../../includes/textures/rock_texture/rock_one_texture.h"
-#include "../../includes/textures/barrier_texture/barrier_texture.h"
-#include "../../includes/textures/triangle_texture/triangle_botom_left_texture.h"
-#include "../../includes/textures/triangle_texture/triangle_botom_right_texture.h"
-#include "../../includes/textures/triangle_texture/triangle_top_left_texture.h"
-#include "../../includes/textures/triangle_texture/triangle_top_right_texture.h"
-#include "../../includes/textures/receiver_texture/receiver_texture.h"
-#include "../../includes/textures/emitter_texture/emitter_right_texture.h"
-#include "../../includes/textures/cake_texture/cake_texture.h"
-#include "../../includes/textures/background_texture/background_one_texture.h"
+#include "../../includes/textures/door_texture/door_one_sprite_strategy.h"
+#include "../../includes/textures/energy_ball_texture/energy_ball_sprite.h"
+#include "../../includes/textures/button_texture/button_sprite_strategy.h"
+#include "../../includes/textures/rock_texture/rock_one_sprite.h"
+#include "../../includes/textures/barrier_texture/barrier_sprite.h"
+#include "../../includes/textures/triangle_texture/triangle_botom_left_sprite.h"
+#include "../../includes/textures/triangle_texture/triangle_botom_right_sprite.h"
+#include "../../includes/textures/triangle_texture/triangle_top_left_sprite.h"
+#include "../../includes/textures/triangle_texture/triangle_top_right_sprite.h"
+#include "../../includes/textures/receiver_texture/receiver_sprite_strategy.h"
+#include "../../includes/textures/emitter_texture/emitter_right_sprite.h"
+#include "../../includes/textures/cake_texture/cake_sprite.h"
+#include "../../includes/textures/background_texture/background_one_sprite.h"
 #include "../../includes/textures/record_texture/record_texture.h"
 
 #include <memory>
@@ -53,9 +54,10 @@ create_block_metal(Area areaMap){
     BigTexture & bigTexture = this->window.add_big_texture(
                                     ALL_BLOCKS_SPRITES
                                 );
-    std::unique_ptr<Texture> ptrTexture(new BlockMetalTexture(
+    std::unique_ptr<Texture> ptrTexture(new Texture(
         bigTexture, 
-        areaMap
+        areaMap,
+        BlockMetalSprite::get_sprite()
     ));
     return std::move(ptrTexture);
 }
@@ -72,9 +74,10 @@ create_block_rock(Area areaMap){
     BigTexture & bigTexture = this->window.add_big_texture(
                                     ALL_BLOCKS_SPRITES
                                 );
-    std::unique_ptr<Texture> ptrTexture(new BlockRockTexture(
+    std::unique_ptr<Texture> ptrTexture(new Texture(
         bigTexture, 
-        areaMap
+        areaMap,
+        BlockRockSprite::get_sprite()
     ));
     return std::move(ptrTexture);
 }
@@ -149,9 +152,12 @@ create_door_one(Area areaMap){
     BigTexture & bigTexture = this->window.add_big_texture(
                                     ALL_DOORS_SPRITES
                                 );
-    std::unique_ptr<Texture> ptrTexture(new DoorOneTexture(
+    std::unique_ptr<Texture> ptrTexture(new Texture(
         bigTexture, 
-        areaMap
+        areaMap,
+        std::move(std::unique_ptr<SpriteStrategy>(
+            new DoorOneSpriteStrategy()
+        ))
     ));   
     return std::move(ptrTexture);
 }
@@ -168,9 +174,12 @@ create_button(Area areaMap){
     BigTexture & bigTexture = this->window.add_big_texture(
                                     BUTTON_SPRITE
                                 );
-    std::unique_ptr<Texture> ptrTexture(new ButtonTexture(
+    std::unique_ptr<Texture> ptrTexture(new Texture(
         bigTexture, 
-        areaMap
+        areaMap,
+        std::move(std::unique_ptr<SpriteStrategy>(
+            new ButtonSpriteStrategy()
+        ))
     ));   
     return std::move(ptrTexture);
 }
@@ -188,10 +197,11 @@ create_energy_ball_green(Area areaMap){
     BigTexture & bigTexture = this->window.add_big_texture(
                                     ALL_ROCKS_AND_BALLS_SPRITES
                                 );
-    std::unique_ptr<Texture> ptrTexture(new EnergyBallTexture(
+    std::unique_ptr<Texture> ptrTexture(new Texture(
         bigTexture, 
-        areaMap
-    ));   
+        areaMap,
+        EnergyBallSprite::get_sprite()
+    ));
     return std::move(ptrTexture);
 }
 
@@ -207,10 +217,11 @@ create_rock_one(Area areaMap){
     BigTexture & bigTexture = this->window.add_big_texture(
                                     ALL_ROCKS_AND_BALLS_SPRITES
                                 );
-    std::unique_ptr<Texture> ptrTexture(new RockOneTexture(
+    std::unique_ptr<Texture> ptrTexture(new Texture(
         bigTexture, 
-        areaMap
-    ));   
+        areaMap,
+        RockOneSprite::get_sprite()
+    )); 
     return std::move(ptrTexture);
 }
 
@@ -226,10 +237,11 @@ create_barrier(Area areaMap){
     BigTexture & bigTexture = this->window.add_big_texture(
                                     BARRIER_SPRITE
                                 );
-    std::unique_ptr<Texture> ptrTexture(new BarrierTexture(
+    std::unique_ptr<Texture> ptrTexture(new Texture(
         bigTexture, 
-        areaMap
-    ));   
+        areaMap,
+        BarrierSprite::get_sprite()
+    ));
     return std::move(ptrTexture);
 }
 
@@ -247,9 +259,10 @@ create_triangle_botom_left(Area areaMap){
                                     ALL_TRIANGLES_SPRITES
                                 );
     std::unique_ptr<Texture> ptrTexture(
-        new TriangleBotomLeftTexture(
+        new Texture(
             bigTexture, 
-            areaMap
+            areaMap,
+            TriangleBotomLeftSprite::get_sprite()
         )
     );   
     return std::move(ptrTexture);
@@ -269,11 +282,12 @@ create_triangle_botom_right(Area areaMap){
                                     ALL_TRIANGLES_SPRITES
                                 );
     std::unique_ptr<Texture> ptrTexture(
-        new TriangleBotomRightTexture(
+        new Texture(
             bigTexture, 
-            areaMap
+            areaMap,
+            TriangleBotomRightSprite::get_sprite()
         )
-    );   
+    );  
     return std::move(ptrTexture);
 }
 /*
@@ -288,13 +302,14 @@ std::unique_ptr<Texture> TextureFactory::
 create_triangle_top_left(Area areaMap){
     BigTexture & bigTexture = this->window.add_big_texture(
                                     ALL_TRIANGLES_SPRITES
-                                );
+                                ); 
     std::unique_ptr<Texture> ptrTexture(
-        new TriangleTopLeftTexture(
+        new Texture(
             bigTexture, 
-            areaMap
+            areaMap,
+            TriangleTopLeftSprite::get_sprite()
         )
-    );   
+    ); 
     return std::move(ptrTexture);
 }
 /*
@@ -311,9 +326,10 @@ create_triangle_top_right(Area areaMap){
                                     ALL_TRIANGLES_SPRITES
                                 );
     std::unique_ptr<Texture> ptrTexture(
-        new TriangleTopRightTexture(
+        new Texture(
             bigTexture, 
-            areaMap
+            areaMap,
+            TriangleTopRightSprite::get_sprite()
         )
     );   
     return std::move(ptrTexture);
@@ -331,10 +347,11 @@ create_block_acid(Area areaMap){
     BigTexture & bigTexture = this->window.add_big_texture(
                                     ALL_BLOCKS_SPRITES
                                 );
-    std::unique_ptr<Texture> ptrTexture(new BlockAcidTexture(
+    std::unique_ptr<Texture> ptrTexture(new Texture(
         bigTexture, 
-        areaMap
-    ));   
+        areaMap,
+        BlockAcidSprite::get_sprite()
+    ));  
     return std::move(ptrTexture);
 }
 
@@ -350,10 +367,13 @@ create_receiver(Area areaMap){
     BigTexture & bigTexture = this->window.add_big_texture(
                                     ALL_BLOCKS_SPRITES
                                 );
-    std::unique_ptr<Texture> ptrTexture(new ReceiverTexture(
+    std::unique_ptr<Texture> ptrTexture(new Texture(
         bigTexture, 
-        areaMap
-    ));   
+        areaMap,
+        std::move(std::unique_ptr<SpriteStrategy>(
+            new ReceiverSpriteStrategy()
+        ))
+    ));
     return std::move(ptrTexture);
 }
 
@@ -369,10 +389,11 @@ create_emitter_right(Area areaMap){
     BigTexture & bigTexture = this->window.add_big_texture(
                                     ALL_BLOCKS_SPRITES
                                 );
-    std::unique_ptr<Texture> ptrTexture(new EmitterRightTexture(
+    std::unique_ptr<Texture> ptrTexture(new Texture(
         bigTexture, 
-        areaMap
-    ));   
+        areaMap,
+        EmitterRightSprite::get_sprite()
+    ));
     return std::move(ptrTexture);
 }
 
@@ -388,10 +409,11 @@ create_cake(Area areaMap){
     BigTexture & bigTexture = this->window.add_big_texture(
                                     CAKE_SPRITES
                                 );
-    std::unique_ptr<Texture> ptrTexture(new CakeTexture(
+    std::unique_ptr<Texture> ptrTexture(new Texture(
         bigTexture, 
-        areaMap
-    ));   
+        areaMap,
+        CakeSprite::get_sprite()
+    ));
     return std::move(ptrTexture);
 }
 
@@ -407,9 +429,10 @@ create_background(Area areaMap){
     BigTexture & bigTexture = this->window.add_big_texture(
                                     BACKGROUND
                                 );
-    std::unique_ptr<Texture> ptrTexture(new BackgroundOneTexture(
+    std::unique_ptr<Texture> ptrTexture(new Texture(
         bigTexture, 
-        areaMap
+        areaMap,
+        BackgroundOneSprite::get_sprite()
     ));
     return std::move(ptrTexture);
 }
