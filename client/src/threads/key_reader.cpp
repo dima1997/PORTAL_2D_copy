@@ -33,7 +33,8 @@ KeyReader::KeyReader(
     toGameQueue(toGameQueue), 
     keysSendOnce({
         std::make_pair<KeyUsed,bool>(SPACE, false),
-        std::make_pair<KeyUsed,bool>(LSHIFT, false)
+        std::make_pair<KeyUsed,bool>(LSHIFT, false),
+        std::make_pair<KeyUsed,bool>(V, false),
     }),
     deadKeys(false) {}
 
@@ -124,6 +125,9 @@ void KeyReader::process_event_up(SDL_KeyboardEvent & keyEvent){
         case SDLK_MINUS:
             this->process_key_up(LSHIFT, stop_throw);
             break;
+        case SDLK_v:
+            this->process_key_up(V, null_action);
+            break;
         default:
             return;
     }
@@ -136,11 +140,11 @@ POST: Comunica la accion del juego, solo si la tecla fue liberada antes de ser
 presionada.
 */
 void KeyReader::process_key_up(KeyUsed actualKey, GameActionName actionName){
-    if (this->deadKeys){
-        return;
-    }
     if (this->keysSendOnce.count(actualKey) != 0){
         this->keysSendOnce[actualKey] = false;
+    }
+    if (this->deadKeys){
+        return;
     }
     if (actionName == null_action){
         return;
@@ -187,8 +191,9 @@ void KeyReader::process_event_down(SDL_KeyboardEvent & keyEvent){
             break;
         case SDLK_v:
             {
-                this->window.record();
+                this->process_key_down(V, null_action);
             }
+            break;
         default:
             return;
     }
@@ -201,15 +206,19 @@ POST: Comunica la accion del juego, solo si la tecla fue liberada antes de ser
 presionada.
 */
 void KeyReader::process_key_down(KeyUsed actualKey, GameActionName actionName){
-    if (this->deadKeys){
-        return;
-    }
     if (this->keysSendOnce.count(actualKey) != 0) {
         if (this->keysSendOnce.at(actualKey) != false){
             return;
         } else {
             this->keysSendOnce[actualKey] = true;
         }
+    }
+    if (actualKey == V){
+        this->window.record();
+        return;
+    }
+    if (this->deadKeys){
+        return;
     }
     if (actionName == null_action) {
         return;

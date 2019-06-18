@@ -18,7 +18,8 @@ enum KeyUsed {
     D,
     W,
     SPACE,
-    LSHIFT
+    LSHIFT,
+    V
 };
 
 class KeyReader {
