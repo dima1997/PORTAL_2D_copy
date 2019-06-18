@@ -45,7 +45,7 @@ enum GameActionName : uint8_t {
     stop_throw
 };
 
-enum ThreadStatus{
+enum ThreadStatus {
     THREAD_STOP,
     THREAD_GO
 };

@@ -1,5 +1,6 @@
 #include "../../includes/user_interface/line_interface.h"
 
+#include "../../includes/user_interface/message_exception.h"
 #include "../../includes/game/game.h"
 #include <portal_exception.h>
 #include <protocol/protocol_code.h>
@@ -24,7 +25,7 @@ LineInterface::~LineInterface() = default;
 void LineInterface::keep_input(std::string & wantToQuit){
     if (wantToQuit == "q"){
         this->keepInput = false;
-        throw PortalException("Quiting game.");
+        throw MessageException("Quiting game.");
     }
 }
 
@@ -46,7 +47,7 @@ Connector LineInterface::log_to_server(){
         msg << "Could no make connection:\n";
         msg << "Check ip and/or port.\n";
         msg << "Maybe server is not working." << std::endl;
-        throw PortalException(msg.str());        
+        throw MessageException(msg.str());        
     }
 }
 
@@ -73,11 +74,11 @@ uint8_t LineInterface::choose_map_id(std::vector<uint8_t> & mapIds){
     std::string::const_iterator it = mapIdStr.begin();
     while (it != mapIdStr.end() && std::isdigit(*it)) ++it;
     if (!(!mapIdStr.empty() && it == mapIdStr.end())){
-        throw PortalException("Wrong map id.");
+        throw MessageException("Wrong map id.");
     }
     uint8_t mapId = (uint8_t) std::stoi(mapIdStr); 
     if (std::find(mapIds.begin(),mapIds.end(),mapId) == mapIds.end()){
-        throw PortalException("Wrong map id.");
+        throw MessageException("Wrong map id.");
     }
     return  mapId;
 }
@@ -99,7 +100,7 @@ Game LineInterface::_get_new_game(Connector & connector,
     uint8_t status;
     connector >> status;
     if (status != command_ok){
-        throw PortalException("Server rejected game creation.\n");
+        throw MessageException("Server rejected game creation.");
     }
     uint8_t gameId;
     connector >> gameId;
@@ -143,11 +144,11 @@ uint8_t LineInterface::choose_game_id
     std::string::const_iterator it = gameIdStr.begin();
     while (it != gameIdStr.end() && std::isdigit(*it)) ++it;
     if (!(!gameIdStr.empty() && it == gameIdStr.end())){
-        throw PortalException("Wrong game id.");
+        throw MessageException("Wrong game id.");
     }
     uint8_t gameId = (uint8_t) std::stoi(gameIdStr);
     if (stockGames.count(gameId) == 0){
-        throw PortalException("Wrong game id.");
+        throw MessageException("Wrong game id.");
     }
     return gameId; 
 }
@@ -169,14 +170,14 @@ Game LineInterface::_get_join_game(Connector & connector, uint8_t gameId){
     if (status == game_is_full) {
         std::stringstream msg;
         msg << "Game " << (unsigned) gameId << " is full." << std::endl;
-        throw PortalException(msg.str());
+        throw MessageException(msg.str());
     } 
     if (status == non_existent_game) {
         std::stringstream msg;
         msg << "Game " << (unsigned) gameId << " does not exist." << std::endl;
-        throw PortalException(msg.str());
+        throw MessageException(msg.str());
     }
-    throw PortalException("Unexpected error...");
+    throw MessageException("Unexpected error...");
 
 }
 
@@ -185,7 +186,7 @@ Game LineInterface::get_join_game(Connector & connector){
         uint8_t gameCount;
         connector >> gameCount;
         if (gameCount == 0){
-            throw PortalException("No games in stock.");
+            throw MessageException("No games in stock.");
         }
         std::map<uint8_t,std::string> stockGames;
         for (uint8_t i = 0; i < gameCount; ++i) {
@@ -209,6 +210,6 @@ Game LineInterface::create_game(){
     } else if (command == COMMAND_JOIN){
         return std::move(this->get_join_game(connector));
     } else {
-        throw PortalException("Wrong game mode.");
+        throw MessageException("Wrong game mode.");
     }
 }

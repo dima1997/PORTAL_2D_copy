@@ -2,6 +2,8 @@
 
 #include "../../../includes/window/record/sws_context_wrapper.h"
 
+#include "../../../includes/window/os_exception.h" 
+
 extern "C" {
 #include <libavformat/avformat.h>
 #include <libavcodec/avcodec.h>
@@ -20,6 +22,7 @@ PRE: Recibe:
     que se va a decodificar;
 POST: Inicializa un wrapper del contexto 
 de codec.
+Levanta OSException en caso de error.
 */
 CodecContextWrapper::CodecContextWrapper(
     const std::string& fileName,
@@ -49,15 +52,11 @@ void CodecContextWrapper::close() {
 
 /*Destruye el wrapper del contexto de codec.*/
 CodecContextWrapper::~CodecContextWrapper(){
-
     this->close();
-    
     avcodec_close(this->codecContext);
     avcodec_free_context(&this->codecContext);
-    
     av_packet_free(&pkt);
     av_frame_free(&frame);
-
     fclose(this->outputFile);
 }
 
@@ -66,6 +65,7 @@ PRE: Recibe el nombre (const std::string &)
 del archivo grabacion de salida.
 POST: Devuelve el formato de salida a 
 utilizar (AVOutputFormat *).
+Levanta OSException en caso de error.
 */
 AVOutputFormat * CodecContextWrapper::get_av_output_format(
     const std::string & fileName
@@ -78,8 +78,7 @@ AVOutputFormat * CodecContextWrapper::get_av_output_format(
         avOutputFormat = av_guess_format("mpeg", NULL, NULL);
     }
     if (!avOutputFormat) {
-        throw std::runtime_error("No se encontró formato de salida");
-        // TODO: Usar errores propios
+        throw OSException("RECORD: Not output format found.","");
     }
     // h.264 es bastante popular, pero hay mejores
     avOutputFormat->video_codec = AV_CODEC_ID_H264;
@@ -91,13 +90,14 @@ PRE: Recibe el formato de salida (AVOutputFormat *)
 del archivo de grabacion.
 POST: Devuelve una instancia de codec (AVCodec *), 
 para dicho formato.
+Levanta OSException en caso de error.
 */
 AVCodec * CodecContextWrapper::get_av_codec(
     AVOutputFormat * avOutputFormat
 ){
     AVCodec *codec = avcodec_find_encoder(avOutputFormat->video_codec);
     if (!codec) {
-        throw std::runtime_error("No se pudo instanciar codec");
+        throw OSException("RECORD: Codec initialization failed.","");
     }
     return codec;
 }
@@ -128,11 +128,12 @@ void CodecContextWrapper::init_codec_context(AVCodec* codec){
 PRE: El contexto de codec debe estar 
 inicializado.
 POST: Inicializa el frame.
+Levanta OSException en caso de error.
 */
 void CodecContextWrapper::init_frame() {
     this->frame = av_frame_alloc();
     if (!this->frame) {
-        throw std::runtime_error("No se pudo reservar memoria para frame");
+        throw OSException("RECORD: Frame alloc failed.","");
     }
     this->frame->format = this->codecContext->pix_fmt;
     this->frame->width  = this->codecContext->width;
@@ -141,11 +142,14 @@ void CodecContextWrapper::init_frame() {
     this->currentPts = 0;
 }
 
-/*Inicializa el packet.*/
+/*
+Inicializa el packet.
+Levanta OSException en caso de error.
+*/
 void CodecContextWrapper::init_packet() {
     this->pkt = av_packet_alloc();
     if (!this->pkt) {
-        throw std::runtime_error("No se pudo reservar memoria para packet");
+        throw OSException("RECORD: Packet alloc failed.","");
     }
 }
 
@@ -176,18 +180,19 @@ a codificar, NULL para finalizar el
 stream.
 POST: Codifica y escribe al archivo de 
 salida de grabacion el frame actual.
+Levanta OSException en caso de error.
 */
 void CodecContextWrapper::_encode(AVFrame* frame){
     int ret = avcodec_send_frame(this->codecContext, frame);
     if (ret < 0) {
-        throw std::runtime_error("Error al enviar frame");
+        throw OSException("RECORD: Frame send failed.","");
     }
     while (ret >= 0) {
         ret = avcodec_receive_packet(this->codecContext, this->pkt);
         if (ret == AVERROR(EAGAIN) || ret == AVERROR_EOF)
             return;
         else if (ret < 0) {
-            throw std::runtime_error("Error al codificar");
+            throw OSException("RECORD: Codification failed.","");
         }
         fwrite(this->pkt->data, 1, this->pkt->size, this->outputFile);
         av_packet_unref(this->pkt);

@@ -134,6 +134,7 @@ file(GLOB client_files
 	"${CLIENT_FOLDER}/src/textures/record_texture/recording_sprite.cpp"
 	"${CLIENT_FOLDER}/src/textures/record_texture/record_texture.cpp"
 	"${CLIENT_FOLDER}/src/user_interface/line_interface.cpp"
+	"${CLIENT_FOLDER}/src/user_interface/message_exception.cpp"
 	"${CLIENT_FOLDER}/src/mixer/mixer.cpp"
 	"${CLIENT_FOLDER}/src/mixer/mix_chunck.cpp"
 	"${CLIENT_FOLDER}/src/mixer/mix_music.cpp"

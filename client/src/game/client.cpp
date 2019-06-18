@@ -2,8 +2,8 @@
 
 #include "../../includes/game/game_factory.h"
 #include "../../includes/user_interface/line_interface.h"
+#include "../../includes/user_interface/message_exception.h"
 
-#include <portal_exception.h>
 #include <connector/socket_exception.h>
 #include <iostream>
 
@@ -21,7 +21,7 @@ void Client::run(){
         try {
             Game game = std::move(lineaInterface.create_game());
             game();
-        } catch (PortalException &except) {
+        } catch (MessageException &except) {
             std::cout << except.what() << "\n";
         } catch (SocketException &except) {
             std::cout << "Connection Lost at C.\n";

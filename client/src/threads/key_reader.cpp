@@ -44,28 +44,28 @@ KeyReader::~KeyReader() = default;
 /*
 Procesa eventos de la cola de eventos de entrada, 
 hasta que esta este vacia.
-Devuelve quit_game, cuando el lector recibir una peticion
-para salir de juego; en caso contrario devuelve null_action
-si debe seguir leyendo (GameActionName). 
+Devuelve THREAD_STOP, cuando el lector recibir una peticion
+para salir de juego; en caso contrario devuelve THREAD_GO
+si debe seguir leyendo (ThreadStatus). 
 */
-GameActionName KeyReader::process_some_events(){
+ThreadStatus KeyReader::process_some_events(){
     SDL_Event event;
     while (SDL_PollEvent(& event)){
-        if (this->process_event(event) == quit_game){
-            return quit_game;
+        if (this->process_event(event) == THREAD_STOP){
+            return THREAD_STOP;
         }
     }
-    return null_action;
+    return THREAD_GO;
 }
 
 /*
 PRE: Recibe un evento de sdl (SDL_Event &).
 POST: Procesa el evento recibido.
-Devuelve quit_game, cuando el lector recibir una peticion
-para salir de juego; en caso contrario devuelve null_action
-si debe seguir leyendo (GameActionName). 
+Devuelve THREAD_STOP, cuando el lector recibir una peticion
+para salir de juego; en caso contrario devuelve THREAD_GO
+si debe seguir leyendo (ThreadStatus). 
 */
-GameActionName KeyReader::process_event(SDL_Event & event){
+ThreadStatus KeyReader::process_event(SDL_Event & event){
     switch(event.type) {
         case SDL_QUIT:
             {
@@ -74,7 +74,7 @@ GameActionName KeyReader::process_event(SDL_Event & event){
                     new GameAction(quitName)
                 );
                 this->toGameQueue.push(ptrAction);
-                return quitName; // Podemos cambiarlo a un THREAD_STATUS
+                return THREAD_STOP;
             }
             break;
         case SDL_KEYDOWN: 
@@ -95,7 +95,7 @@ GameActionName KeyReader::process_event(SDL_Event & event){
             }
             break;
     }
-    return null_action;
+    return THREAD_GO;
 } 
 
 /*

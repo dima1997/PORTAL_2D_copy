@@ -92,20 +92,20 @@ public:
     /*
     PRE: Recibe un evento de sdl (SDL_Event &).
     POST: Procesa el evento recibido.
-    Devuelve quit_game, cuando el lector recibir una peticion
-    para salir de juego; en caso contrario devuelve null_action
-    si debe seguir leyendo. 
+    Devuelve THREAD_STOP, cuando el lector recibir una peticion
+    para salir de juego; en caso contrario devuelve THREAD_GO
+    si debe seguir leyendo (ThreadStatus). 
     */
-    GameActionName process_event(SDL_Event & event);
+    ThreadStatus process_event(SDL_Event & event);
 
     /*
     Procesa eventos de la cola de eventos de entrada, 
     hasta que esta este vacia.
-    Devuelve quit_game, cuando el lector recibir una peticion
-    para salir de juego; en caso contrario devuelve null_action
-    si debe seguir leyendo (GameActionName). 
+    Devuelve THREAD_STOP, cuando el lector recibir una peticion
+    para salir de juego; en caso contrario devuelve THREAD_GO
+    si debe seguir leyendo (ThreadStatus). 
     */
-    GameActionName process_some_events();
+    ThreadStatus process_some_events();
 
     /*
     Hace que el lector de eventos de entrada, 
