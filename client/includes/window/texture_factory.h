@@ -5,13 +5,15 @@
 #include "window.h"
 #include "../textures/common_texture/texture.h"
 #include "../textures/common_texture/area.h"
+#include "../textures/common_texture/images_paths.h"
 
 class TextureFactory {
 private:
     Window & window;
 public:
     /*
-    PRE: Recibe una ventana (Window & window) donde se renderizan las texturas.
+    PRE: Recibe una ventana (Window & window) 
+    donde se renderizan las texturas.
     POST: Inicializa una fabrica de texturas.
     */
     TextureFactory(Window & window);
@@ -222,7 +224,81 @@ public:
     */
     std::unique_ptr<Texture> create_background(Area areaMap);
 
+    /*
+    PRE: Recibe el area (Area) donde 
+    se ubicara la textura.
+    POST: Devuelve un puntero unico 
+    a una textura(std::unique_ptr<Texture>), 
+    de la textura de un icono grabador de 
+    video.
+    */
     std::unique_ptr<Texture> create_record(Area areaMap);
+
+    /*
+    PRE: Recibe:
+        la ruta de una gran imagen (IMAGES_PATH);
+        el area (Area) del mapa de juego donde se ubica 
+        inicialmente la textura;
+        una funciona para crear un sprite dynamico 
+        (DynamicSprite (&sprite_creator)());
+    POST: Devuelve un puntero unico a una textura 
+    (std::unique_ptr<Texture>) con las condiciones 
+    anteriores.
+    */
+    std::unique_ptr<Texture> create_texture_one_sprite(
+        IMAGE_PATH imagePath, 
+        Area areaMap, 
+        DynamicSprite (&sprite_creator)()
+    );
+
+    /*
+    PRE: Recibe:
+        la ruta de una gran imagen (IMAGES_PATH);
+        el area (Area) del mapa de juego donde se ubica 
+        inicialmente la textura;
+        una funciona para crear un sprite dynamico 
+        (DynamicSprite (&sprite_creator)());
+        un angulo para rotar la textura (double);
+        tres modificadores de colores RGB, uno para cada 
+        uno respectivamente, para modularizar el color de
+        la textura (uint8_t):  el colo se multiplica por 
+        xMod/255
+    POST: Devuelve un puntero unico a una textura 
+    (std::unique_ptr<Texture>) con las condiciones 
+    anteriores.
+    */
+    std::unique_ptr<Texture> create_texture_one_sprite(
+        IMAGE_PATH imagePath, 
+        Area areaMap, 
+        DynamicSprite (&sprite_creator)(),
+        double angle
+    );
+
+    /*
+    PRE: Recibe:
+        la ruta de una gran imagen (IMAGES_PATH);
+        el area (Area) del mapa de juego donde se ubica 
+        inicialmente la textura;
+        una funciona para crear un sprite dynamico 
+        (DynamicSprite (&sprite_creator)());
+        un angulo para rotar la textura (double);
+        tres modificadores de colores RGB, uno para cada 
+        uno respectivamente, para modularizar el color de
+        la textura (uint8_t):  el colo se multiplica por 
+        xMod/255
+    POST: Devuelve un puntero unico a una textura 
+    (std::unique_ptr<Texture>) con las condiciones 
+    anteriores.
+*/
+    std::unique_ptr<Texture> create_texture_one_sprite(
+        IMAGE_PATH imagePath, 
+        Area areaMap, 
+        DynamicSprite (&sprite_creator)(),
+        double angle,
+        uint8_t redMod,
+        uint8_t greenMod,
+        uint8_t blueMod
+    );
 };
 
 #endif // TEXTURE_FACTORY_H

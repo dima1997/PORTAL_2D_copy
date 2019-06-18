@@ -40,7 +40,44 @@ std::unique_ptr<SpriteStrategy> ptrSpriteStrategy)
     ptrSpriteStrategy(std::move(ptrSpriteStrategy)),
     following(false),
     ptrFollowArea(NULL),
-    angle(0) {}
+    angle(0),
+    redMod(255),
+    greenMod(255),
+    blueMod(255) {}
+
+/*
+PRE: Recibe:
+    una referencia a una gran textura que 
+    contiene la imagen donde se encuentra el/los sprite/s 
+    que utiliza la textura; 
+    el area (Area) que ocupa el objeto que representa la 
+    textura en el mapa de juego;
+    un puntero unico con el sprite strategy que utiliza 
+    la textura para ir variando sus sprites;
+    un angulo con el que rotar el sprite;
+    tres modularizadores del color RGB, los cuales 
+    multiplican al a cada color del patron por si mismos
+    sobre 255.
+POST: Inicializa una textura.
+*/
+Texture::Texture(
+    BigTexture & bigTexture, 
+    Area areaMap, 
+    std::unique_ptr<SpriteStrategy> ptrSpriteStrategy,
+    double angle,
+    uint8_t redMod,
+    uint8_t greenMod,
+    uint8_t blueMod
+)
+:   bigTexture(bigTexture), 
+    areaMap(areaMap), 
+    ptrSpriteStrategy(std::move(ptrSpriteStrategy)),
+    following(false),
+    ptrFollowArea(NULL),
+    angle(angle),
+    redMod(redMod),
+    greenMod(greenMod),
+    blueMod(blueMod) {}
 
 /*
 PRE: Recibe una referencia a una gran textura que 
@@ -58,7 +95,10 @@ DynamicSprite dynamicSprite)
     ptrSpriteStrategy(new SpriteStrategy(dynamicSprite)),
     following(false),
     ptrFollowArea(NULL),
-    angle(0) {}
+    angle(0),
+    redMod(255),
+    greenMod(255),
+    blueMod(255) {}
 
 /*
 PRE: Recibe:
@@ -69,7 +109,7 @@ PRE: Recibe:
     textura en el mapa de juego;
     el sprite dinamico que sera el unico sprite a usar en la
     vida de la textura;
-    un angulo (double) para rotar la textura al renderizarla.
+    un angulo (double) para rotar la textura al renderizarla;
 POST: Inicializa una textura.
 */
 Texture::Texture(
@@ -83,8 +123,46 @@ Texture::Texture(
     ptrSpriteStrategy(new SpriteStrategy(dynamicSprite)),
     following(false),
     ptrFollowArea(NULL),
-    angle(angle) {}
+    angle(angle),
+    redMod(255),
+    greenMod(255),
+    blueMod(255)
+    {}
 
+/*
+PRE: Recibe:
+    una referencia a una gran textura que 
+    contiene la imagen donde se encuentra el/los sprite/s 
+    que utiliza la textura; 
+    el area (Area) que ocupa el objeto que representa la 
+    textura en el mapa de juego;
+    el sprite dinamico que sera el unico sprite a usar en la
+    vida de la textura;
+    un angulo (double) para rotar la textura al renderizarla;
+    tres modularizadores del color RGB, los cuales 
+    multiplican al a cada color del patron por si mismos
+    sobre 255.
+POST: Inicializa una textura.
+*/
+Texture::Texture(
+    BigTexture & bigTexture, 
+    Area areaMap, 
+    DynamicSprite dynamicSprite,
+    double angle,
+    uint8_t redMod,
+    uint8_t greenMod,
+    uint8_t blueMod
+)
+:   bigTexture(bigTexture), 
+    areaMap(areaMap),
+    ptrSpriteStrategy(new SpriteStrategy(dynamicSprite)),
+    following(false),
+    ptrFollowArea(NULL),
+    angle(angle),
+    redMod(redMod),
+    greenMod(greenMod),
+    blueMod(blueMod)
+    {}
 
 /*Destruye la textura.*/
 Texture::~Texture() = default;
@@ -103,7 +181,7 @@ void Texture::move_to(float x, float y){
     float yNow = y;
     this->areaMap.setX(xNow);
     this->areaMap.setY(yNow);
-    (*this->ptrSpriteStrategy).move(xBefore, yBefere, xNow, yNow);
+    (*this->ptrSpriteStrategy).move(xBefore, yBefere, xNow, yNow, this->sounds);
 }
 
 /*
@@ -134,7 +212,15 @@ void Texture::render(float adjuster, const Area & areaCamera) {
         this->areaMap.setY(this->ptrFollowArea->getY());
     }
     Area dest = this->getAreaDest(adjuster, areaCamera);
-    this->bigTexture.render(src, dest, NO_FLIP, this->angle,255,255,255);
+    this->bigTexture.render(
+        src, 
+        dest, 
+        NO_FLIP, 
+        this->angle,
+        this->redMod,
+        this->greenMod,
+        this->blueMod
+    );
 }
 
 /*

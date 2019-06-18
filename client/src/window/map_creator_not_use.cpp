@@ -2,10 +2,85 @@
 
 #include "../../includes/window/window.h"
 #include "../../includes/window/texture_factory.h"
+#include "../../includes/window/os_exception.h"
 #include "../../includes/textures/common_texture/texture.h"
 
 #include <configs_yaml/config_paths.h>
 #include <cstdint>
+
+typedef void (&addTextureMethod_t)(uint32_t,Area);
+
+const std::map<std::string, addTextureMethod_t> ADD_TEXTURE_METHODS({
+    std::pair<std::string, addTextureMethod_t>(
+        "blocks_metal", MapCreator::add_block_metal
+    ),
+    std::pair<std::string, addTextureMethod_t>(
+        "blocks_rock", MapCreator::add_block_rock
+    ),
+    std::pair<std::string, addTextureMethod_t>(
+        "blocks_acid", MapCreator::add_block_acid
+    ),
+    std::pair<std::string, addTextureMethod_t>(
+        "portals_blue", MapCreator::add_portal_blue
+    ),
+    std::pair<std::string, addTextureMethod_t>(
+        "portals_orange", MapCreator::add_portal_orange
+    ),
+    std::pair<std::string, addTextureMethod_t>(
+        "doors_one", MapCreator::add_door_one
+    ),
+    std::pair<std::string, addTextureMethod_t>(
+        "buttons", MapCreator::add_button
+    ),
+    std::pair<std::string, addTextureMethod_t>(
+        "rocks_one", MapCreator::add_rock_one
+    ),
+    std::pair<std::string, addTextureMethod_t>(
+        "barriers", MapCreator::add_barrier
+    ),
+    std::pair<std::string, addTextureMethod_t>(
+        "energy_balls_green", MapCreator::add_energy_ball_green
+    ),
+    std::pair<std::string, addTextureMethod_t>(
+        "receivers", MapCreator::add_receiver
+    ),
+    std::pair<std::string, addTextureMethod_t>(
+        "emitters_right", MapCreator::add_emitter_right
+    ),
+    std::pair<std::string, addTextureMethod_t>(
+        "emitters_up", MapCreator::emitters_up
+    ),
+    std::pair<std::string, addTextureMethod_t>(
+        "emitters_left", MapCreator::emitters_left
+    ),
+    std::pair<std::string, addTextureMethod_t>(
+        "emitters_down", MapCreator::add_emitter_down
+    ),
+    std::pair<std::string, addTextureMethod_t>(
+        "triangles_botom_left", MapCreator::add_triangle_botom_left
+    ),
+    std::pair<std::string, addTextureMethod_t>(
+        "triangles_botom_right", MapCreator::add_triangle_botom_right
+    ),
+    std::pair<std::string, addTextureMethod_t>(
+        "triangles_top_left", MapCreator::add_triangle_top_left
+    ),
+    std::pair<std::string, addTextureMethod_t>(
+        "triangles_top_right", MapCreator::add_triangle_top_right
+    ),
+    std::pair<std::string, addTextureMethod_t>(
+        "cakes", MapCreator::add_cake
+    ),
+    std::pair<std::string, addTextureMethod_t>(
+        "chells", MapCreator::add_chell
+    ),
+    std::pair<std::string, addTextureMethod_t>(
+        "background", MapCreator::add_background
+    ),
+    std::pair<std::string, addTextureMethod_t>(
+        "records", MapCreator::add_record
+    )
+});
 
 /*
 PRE: Recibe el id (unt8_t) del mapa a crear, 
@@ -154,97 +229,12 @@ void MapCreator::add_record(uint32_t id, Area area){
 
 void MapCreator::add_texture(uint32_t id, Area area, 
                             std::string & subSectionName){
-    if (subSectionName == "blocks_metal"){
-        this->add_block_metal(id, area);
-        return;
-    }
-    if(subSectionName == "blocks_rock") {
-        this->add_block_rock(id, area);
-        return;
-    }
-    if (subSectionName == "blocks_acid") {
-        this->add_block_acid(id, area);
-        return;
-    }
-    if (subSectionName == "portals_blue") {
-        this->add_portal_blue(id, area);
-         return;
-    }
-    if (subSectionName == "portals_orange") {
-        this->add_portal_orange(id, area);
-        return;
-    }
-    if (subSectionName ==  "doors_one") {
-        this->add_door_one(id, area);
-        return;   
-    }
-    if (subSectionName == "buttons") {
-        this->add_button(id, area);
-        return;
-    }
-    if (subSectionName == "rocks_one") {
-        this->add_rock_one(id, area);
-        return;
-    }
-    if (subSectionName == "barriers") {
-        this->add_barrier(id, area);
-        return;
-    }
-    if (subSectionName == "energy_balls_green") {
-        this->add_energy_ball_green(id, area);
-        return;
-    }
-    if (subSectionName == "receivers") {
-        this->add_receiver(id, area);
-        return;   
-    }
-    if (subSectionName == "emitters_right") {
-        this->add_emitter_right(id, area);
-        return;
-    }
-    if (subSectionName == "emitters_up"){
-        this->add_emitter_up(id, area);
-        return;
-    }
-    if (subSectionName == "emitters_left"){
-        this->add_emitter_left(id, area);
-        return;
-    }
-    if (subSectionName == "emitters_down"){
-        this->add_emitter_down(id, area);
-        return;
-    }
-    if (subSectionName == "triangles_botom_left") {
-        this->add_triangle_botom_left(id, area);
-        return;
-    }
-    if (subSectionName == "triangles_botom_right") {
-        this->add_triangle_botom_right(id, area);
-        return;
-    }
-    if (subSectionName == "triangles_top_left") {
-        this->add_triangle_top_left(id, area);
-        return;
-    }
-    if (subSectionName == "triangles_top_right") {
-        this->add_triangle_top_right(id, area);
-        return;            
-    }
-    if (subSectionName == "cakes") {
-        this->add_cake(id, area);
-        return;
-    }
-    if (subSectionName == "chells") {
-        this->add_chell(id, area);
-        return;
-    }
-    if (subSectionName == "background"){
-        this->add_background(id, area);
-        return;
-    }
-    if (subSectionName == "records"){
-        this->add_record(id, area);
-        return;
+    try{
+        ADD_TEXTURE_METHODS.at(subSectionName)(id, area);
+    } catch (std::out_of_range & error){
+        std::stringstream err;
+         err << "No sub-section with name : " << subSectionName << "\n";
+        throw OSException(err.str().c_str(), "");
     }
 }
 

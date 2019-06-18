@@ -19,6 +19,9 @@ protected:
     bool following;
     const Area * ptrFollowArea;
     double angle;
+    uint8_t redMod;
+    uint8_t greenMod;
+    uint8_t blueMod;
 
     /*
     Pre: Recibe un factor de ajuste (pixeles/<unidad de mapa>), 
@@ -41,8 +44,36 @@ public:
     la textura para ir variando sus sprites.
     POST: Inicializa una textura.
     */
-    Texture(BigTexture & bigTexture, Area areaMap, 
-        std::unique_ptr<SpriteStrategy> ptrSpriteStrategy);
+    Texture(
+        BigTexture & bigTexture, 
+        Area areaMap, 
+        std::unique_ptr<SpriteStrategy> ptrSpriteStrategy
+    );
+
+    /*
+    PRE: Recibe:
+        una referencia a una gran textura que 
+        contiene la imagen donde se encuentra el/los sprite/s 
+        que utiliza la textura; 
+        el area (Area) que ocupa el objeto que representa la 
+        textura en el mapa de juego;
+        un puntero unico con el sprite strategy que utiliza 
+        la textura para ir variando sus sprites;
+        un angulo con el que rotar el sprite;
+        tres modularizadores del color RGB, los cuales 
+        multiplican al a cada color del patron por si mismos
+        sobre 255
+    POST: 
+    */
+    Texture(
+        BigTexture & bigTexture, 
+        Area areaMap, 
+        std::unique_ptr<SpriteStrategy> ptrSpriteStrategy,
+        double angle,
+        uint8_t redMod,
+        uint8_t greenMod,
+        uint8_t blueMod
+    );
 
     /*
     PRE: Recibe una referencia a una gran textura que 
@@ -53,8 +84,11 @@ public:
     vida de la textura.
     POST: Inicializa una textura.
     */
-    Texture(BigTexture & bigTexture, Area areaMap, 
-        DynamicSprite dynamicSprite);
+    Texture(
+        BigTexture & bigTexture, 
+        Area areaMap, 
+        DynamicSprite dynamicSprite
+    );
 
     /*
     PRE: Recibe:
@@ -73,6 +107,31 @@ public:
         Area areaMap, 
         DynamicSprite dynamicSprite,
         double angle
+    );
+
+    /*
+    PRE: Recibe:
+        una referencia a una gran textura que 
+        contiene la imagen donde se encuentra el/los sprite/s 
+        que utiliza la textura; 
+        el area (Area) que ocupa el objeto que representa la 
+        textura en el mapa de juego;
+        el sprite dinamico que sera el unico sprite a usar en la
+        vida de la textura;
+        un angulo (double) para rotar la textura al renderizarla;
+        tres modularizadores del color RGB, los cuales 
+        multiplican al a cada color del patron por si mismos
+        sobre 255.
+    POST: Inicializa una textura.
+    */
+    Texture(
+        BigTexture & bigTexture, 
+        Area areaMap, 
+        DynamicSprite dynamicSprite,
+        double angle,
+        uint8_t redMod,
+        uint8_t greenMod,
+        uint8_t blueMod
     );
 
     /*Destruye la textura.*/

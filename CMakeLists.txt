@@ -108,8 +108,6 @@ file(GLOB client_files
 	"${CLIENT_FOLDER}/src/textures/chell_texture/chell_jump_rise_right_sprite.cpp"
 	"${CLIENT_FOLDER}/src/textures/chell_texture/chell_jump_fall_right_sprite.cpp"
 	"${CLIENT_FOLDER}/src/textures/chell_texture/chell_dying_sprite.cpp"
-	"${CLIENT_FOLDER}/src/textures/portal_texture/portal_blue_texture.cpp"
-	"${CLIENT_FOLDER}/src/textures/portal_texture/portal_orange_texture.cpp"
 	"${CLIENT_FOLDER}/src/textures/portal_texture/portal_sprite_strategy.cpp"
 	"${CLIENT_FOLDER}/src/textures/portal_texture/portal_blue_sprite.cpp"
 	"${CLIENT_FOLDER}/src/textures/door_texture/door_one_sprite_strategy.cpp"
