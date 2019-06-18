@@ -11,7 +11,10 @@ public:
     /*Destruye el pin tool sprite*/
     virtual ~PinToolSprite();
 
-    /*Devuelve el sprite dinamico del pin tool*/
+    /*
+    Devuelve el sprite dinamico del pin tool.
+    IMAGE_PATH : PIN_TOOL_SPRITES
+    */
     static DynamicSprite get_sprite();
 };
 

@@ -2,32 +2,14 @@
 
 #include "../../../includes/textures/common_texture/dynamic_sprite.h"
 
-/*
-Iniciliza un sprite de triangulo en la esquina 
-inferior izquierda, que se encuentra en la 
-imagen ALL_TRIANGLES_SPRITES de images_paths.h .
-*/
-TriangleBotomLeftSprite::TriangleBotomLeftSprite()
-:   DynamicSprite(
-        {
-            {3,217}
-        },
-        190,180
-    )
-    {}
-/*
-Destruye el sprite del triangulo en la 
-esquina inferior izquierda.
-*/
+TriangleBotomLeftSprite::TriangleBotomLeftSprite() {}
 TriangleBotomLeftSprite::~TriangleBotomLeftSprite() = default;
 
+/*
+Devuelve un sprite dinamico de triangulo rectangulo 
+en la esquina inferior izquierda.
+IMAGE_PATH : ALL_TRIANGLES_SPRITES 
+*/
 DynamicSprite TriangleBotomLeftSprite::get_sprite(){
-    return std::move(
-        DynamicSprite(
-            {
-                {3,217}
-            },
-            190,180
-        )
-    );
+    return std::move(DynamicSprite({{3,217}},190,180));
 } 

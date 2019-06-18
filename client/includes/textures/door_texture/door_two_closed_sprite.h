@@ -3,12 +3,9 @@
 
 #include "../common_texture/dynamic_sprite.h"
 
-class DoorTwoClosedSprite : public DynamicSprite {
+class DoorTwoClosedSprite {
 public:
-    /*Inicializa un sprite de puerta cerrada con el numero 2.*/
     DoorTwoClosedSprite();
-
-    /*Destruye el sprite de puerta cerrada con el numero 2.*/
     virtual ~DoorTwoClosedSprite();
 };
 

@@ -3,17 +3,15 @@
 
 #include "../common_texture/dynamic_sprite.h"
 
-class ButtonPressedSprite : public DynamicSprite {
+class ButtonPressedSprite {
 public:
-    /*
-    Iniciliza un sprite de boton presionado, correspondiente 
-    a la imagen BUTTON_SPRITE de images_paths.h
-    */
     ButtonPressedSprite();
-
-    /*Destruye el sprite de boton presionado.*/
     virtual ~ButtonPressedSprite();
 
+    /*
+    Devuelve un sprite dinamico de boton presionado.
+    IMAGE_PATH : BUTTON_SPRITES
+    */
     static DynamicSprite get_sprite();
 };
 

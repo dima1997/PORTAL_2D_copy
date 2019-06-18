@@ -2,29 +2,13 @@
 
 #include "../../../includes/textures/common_texture/dynamic_sprite.h"
 
-/*
-Iniciliza un sprite de boton sin presionar que 
-se encuentra en la imagen BUTTON_SPRITE en 
-images_paths.h .
-*/
-ButtonUnPressedSprite::ButtonUnPressedSprite()
-:   DynamicSprite(
-        {
-            {0,0},
-        },
-        174,54
-    )
-    {}
-/*Destruye el sprite del boton sin presionar.*/
+ButtonUnPressedSprite::ButtonUnPressedSprite() {}
 ButtonUnPressedSprite::~ButtonUnPressedSprite() = default;
 
+/*
+Devuelve un sprite dinamico de un boton sin presionar
+IMAGE_PATH : BUTTON_SPRITES
+*/
 DynamicSprite ButtonUnPressedSprite::get_sprite(){
-    return std::move(
-        DynamicSprite(
-            {
-                {0,0},
-            },
-            174,54
-        )
-    );
+    return std::move(DynamicSprite({{0,0},},174,54));
 } 

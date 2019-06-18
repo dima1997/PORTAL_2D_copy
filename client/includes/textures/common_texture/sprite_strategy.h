@@ -53,6 +53,15 @@ public:
 
     /*Actualiza el sprite al siguiente a ser usado.*/
     virtual void update();
+
+    /*
+    PRE: Recibe :
+        las coordenadas actuales (int) x,y de la textura.
+        las coordenadas del punto (int) x,y a donde la textura 
+        esta apuntando.
+    POST: actualiza el sprite actual.
+    */
+    virtual void point(float xNow, float yNow, float xPoint, float yPoint);
 };
 
 #endif // SPRITE_STRATEGY_H

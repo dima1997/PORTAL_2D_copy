@@ -3,14 +3,16 @@
 
 #include "../common_texture/dynamic_sprite.h"
 
-class BarrierSprite : public DynamicSprite {
+class BarrierSprite {
 public:
-    /*Inicializa un sprite de barrera.*/
     BarrierSprite();
-
-    /*Destruye el sprite de barrera.*/
     virtual ~BarrierSprite();
 
+    /*
+    Devuelve un sprite dinamico de 
+    barrera de energia.
+    IMAGE_PATH : BARRIER_SPRITES
+    */
     static DynamicSprite get_sprite();
 };
 

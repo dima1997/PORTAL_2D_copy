@@ -23,21 +23,6 @@ de la puerta recibida, en la imagen ALL_CHELL_SPRITES de
 images_path.h .
 */
 Area DoorOneSpriteStrategy::getNextArea(){
-    /*
-    if (this->spriteName == DOOR_OPENING){
-        if (this->dynamicSprite.is_last_sprite()) { 
-            this->dynamicSprite = DoorOneOpenedSprite::get_sprite();
-            this->spriteName = DOOR_OPEN;
-        }
-    }
-
-    if (this->spriteName == DOOR_CLOSING){
-        if (this->dynamicSprite.is_last_sprite()) { 
-            this->dynamicSprite = DoorOneClosedSprite::get_sprite();
-            this->spriteName = DOOR_CLOSE;
-        }
-    }
-    */
     return std::move(this->dynamicSprite.getNextArea());
 }
 

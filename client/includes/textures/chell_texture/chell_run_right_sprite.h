@@ -3,7 +3,7 @@
 
 #include "../common_texture/dynamic_sprite.h"
 
-class ChellRunRightSprite : public DynamicSprite {
+class ChellRunRightSprite {
 public:
     /*
     Inicializa un sprite dinamico de Chell corriendo hacia

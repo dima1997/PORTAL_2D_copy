@@ -5,6 +5,7 @@
 #include "../../../includes/textures/chell_texture/chell_jump_apex_right_sprite.h"
 #include "../../../includes/textures/chell_texture/chell_jump_rise_right_sprite.h"
 #include "../../../includes/textures/chell_texture/chell_jump_fall_right_sprite.h"
+#include "../../../includes/textures/chell_texture/chell_point_right_sprite.h"
 
 #include "../../../includes/textures/common_texture/sprite_strategy.h"
 #include "../../../includes/textures/common_texture/dynamic_sprite.h"
@@ -12,13 +13,18 @@
 
 #include "../../../includes/mixer/sounds_path.h"
 
+#define CHELL_FRAMES_WAIT 23
+#define CHELL_POINT_FRAMES_WAIT 10
+
 /*Inicializa el estado de sprite de Chell.*/
 ChellSpriteStrategy::ChellSpriteStrategy()
 :   SpriteStrategy(
         ChellStandRightSprite::get_sprite()
     ),
     spriteName(STAND_RIGHT), 
-    keepMoving(false) 
+    keepMoving(false),
+    framesWait(0),
+    framesPointWait(0)
     {}
 
 /*Destruye el estado de sprite de Chell*/
@@ -29,7 +35,13 @@ PRE: Recibe un nombre de sprite strategy (spriteNameStrategy_t).
 POST: Setea el sprite actual al recibido, si que no esta ya seteado.
 */
 void ChellSpriteStrategy::setSpriteStrategy(spriteNameStrategy_t newSpriteName){
+    if (newSpriteName != STAND_RIGHT){
+        this->keepMoving = true;
+    }
     if (this->spriteName == newSpriteName){
+        return;
+    }
+    if (this->framesPointWait > 0){
         return;
     }
     this->spriteName = newSpriteName;
@@ -48,6 +60,26 @@ void ChellSpriteStrategy::setSpriteStrategy(spriteNameStrategy_t newSpriteName){
             break;
         case STAND_RIGHT:
             this->dynamicSprite = ChellStandRightSprite::get_sprite();
+            break;
+        case POINT_RIGHT:
+            this->dynamicSprite = ChellPointRightSprite::point_right();
+            this->framesPointWait = CHELL_POINT_FRAMES_WAIT;
+            break;
+        case POINT_RIGHT_UP:
+            this->dynamicSprite = ChellPointRightSprite::point_right_up();
+            this->framesPointWait = CHELL_POINT_FRAMES_WAIT;
+            break;
+        case POINT_RIGHT_DOWN:
+            this->dynamicSprite = ChellPointRightSprite::point_right_down();
+            this->framesPointWait = CHELL_POINT_FRAMES_WAIT;
+            break;
+        case POINT_UP:
+            this->dynamicSprite = ChellPointRightSprite::point_up();
+            this->framesPointWait = CHELL_POINT_FRAMES_WAIT;
+            break;
+        case POINT_DOWN:
+            this->dynamicSprite = ChellPointRightSprite::point_down();
+            this->framesPointWait = CHELL_POINT_FRAMES_WAIT;
             break;
         default: // igual que case STAND_RIGHT
             this->dynamicSprite = ChellStandRightSprite::get_sprite();
@@ -81,9 +113,6 @@ void ChellSpriteStrategy::move(float xBefore, float yBefore, float xNow, float y
     }
     // Seguir haciendo esto luego de setear los sonidos
     this->setSpriteStrategy(newName); 
-    if (newName != STAND_RIGHT){
-        this->keepMoving = true;
-    }  
     return;
 }
 
@@ -129,9 +158,45 @@ void ChellSpriteStrategy::update(){
     if (this->framesWait > 0){
         --this->framesWait;
     }
+    if (this->framesPointWait > 0){
+        --this->framesPointWait;
+        return;
+    }
     if (this->keepMoving) { 
         this->keepMoving = false;
     } else {
         this->setSpriteStrategy(STAND_RIGHT);
     }
+}
+
+/*
+PRE: Recibe :
+    las coordenadas actuales (int) x,y de Chell.
+    las coordenadas del punto (int) x,y a donde Chell esta 
+    apuntando.
+POST: actualiza el sprite actual de Chell.
+*/
+void ChellSpriteStrategy::point(float xNow, float yNow, float xPoint, float yPoint){
+    if (xNow != xPoint){
+        if (yNow < yPoint){
+            this->setSpriteStrategy(POINT_RIGHT_UP);
+            return;
+        }
+        if (yNow > yPoint){
+            this->setSpriteStrategy(POINT_RIGHT_DOWN);
+            return;
+        }
+        this->setSpriteStrategy(POINT_RIGHT);
+        return;
+    }
+    if (yNow < yPoint){
+        this->setSpriteStrategy(POINT_UP);
+        return;
+    }
+
+    if (yNow > yPoint){
+        this->setSpriteStrategy(POINT_DOWN);
+        return;
+    } 
+    // no deberia pasar que apunte hacia su centro de coordenadas
 }

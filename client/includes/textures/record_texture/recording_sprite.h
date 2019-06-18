@@ -8,7 +8,10 @@ public:
     RecordingSprite();
     ~RecordingSprite();
     
-    /*Devuelve el sprite del video siendo grabado.*/
+    /*
+    Devuelve el sprite del video siendo grabado.
+    IMAGE_PATH : RECORD_SPRITES
+    */
     static DynamicSprite get_sprite();    
 };
 

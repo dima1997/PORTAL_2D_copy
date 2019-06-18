@@ -2,20 +2,13 @@
 
 #include "../../../includes/textures/common_texture/dynamic_sprite.h"
 
-/*Inicializa un sprite de puerta abierta con el numero 1.*/
-DoorOneOpenedSprite::DoorOneOpenedSprite()
-:   DynamicSprite(DoorOneOpenedSprite::get_sprite()) {}
-
-/*Destruye el sprite de puerta abierta con el numero 1.*/
+DoorOneOpenedSprite::DoorOneOpenedSprite() {}
 DoorOneOpenedSprite::~DoorOneOpenedSprite() = default;
 
+/*
+Devuelve un sprite dinamico de la puerta 1 abriendose.
+IMAGE_PATH : DOORS_SPRITES
+*/
 DynamicSprite DoorOneOpenedSprite::get_sprite(){
-    return std::move(
-        DynamicSprite(
-            {
-                {1553,2437}
-            },
-            193,385
-        )
-    );
+    return std::move(DynamicSprite({{1553,2437}},193,385));
 } 

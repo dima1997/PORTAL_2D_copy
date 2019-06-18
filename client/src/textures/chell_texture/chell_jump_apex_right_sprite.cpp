@@ -2,26 +2,14 @@
 
 #include "../../../includes/textures/common_texture/dynamic_sprite.h"
 
-/*
-Inicializa un sprite dinamico de Chell saltando 
-verticalemente (mirando hacia la derecha).
-Este sprite dinamico corresponde a una serie de sprites
-de la imagen ALL_CHELL_SPRITES_PART_1, de images_path.h.
-*/
-ChellJumpApexRightSprite::ChellJumpApexRightSprite()
-:   DynamicSprite(
-        {
-            {1,21}
-        },
-        137, 207
-    ) {}
-
-/*
-Destruye el sprite dinamico de Chell saltando 
-verticalemente (mirando hacia la derecha).
-*/
+ChellJumpApexRightSprite::ChellJumpApexRightSprite() {}
 ChellJumpApexRightSprite::~ChellJumpApexRightSprite() {}
 
+/*
+Devuelve un sprite dinamico de chell saltando 
+verticalmente a derecha.
+IMAGE_PATH : ALL_CHELL_SPRITES
+*/
 DynamicSprite ChellJumpApexRightSprite::get_sprite(){
     return std::move(
         DynamicSprite(

@@ -2,30 +2,14 @@
 
 #include "../../../includes/textures/common_texture/dynamic_sprite.h"
 
-/*
-Iniciliza un sprite de barrera que se 
-encuentra en la imagen BARRIER_SPRITE de 
-images_paths.h .
-*/
-BarrierSprite::BarrierSprite()
-:   DynamicSprite(
-        {
-            {0,0}
-        },
-        135,6
-    )
-    {}
-
-/*Destrue el sprite de barrera.*/
+BarrierSprite::BarrierSprite() {}
 BarrierSprite::~BarrierSprite() = default;
 
+/*
+Devuelve un sprite dinamico de 
+barrera de energia.
+IMAGE_PATH : BARRIER_SPRITES
+*/
 DynamicSprite BarrierSprite::get_sprite(){
-    return std::move(
-        DynamicSprite(
-            {
-                {0,0}
-            },
-            135,6
-        )
-    );
+    return std::move(DynamicSprite({{0,0}},135,6));
 } 

@@ -7,6 +7,7 @@
 #include "area.h"
 #include "big_texture.h"
 #include "sprite_strategy.h" 
+#include "dynamic_sprite.h" 
 
 #include <memory>
 
@@ -193,6 +194,13 @@ public:
 
     /*Actualiza la textura.*/
     virtual void update();
+
+    /*
+    PRE: Recibe las coordenadas (float) x,y 
+    a donde apunta la textura
+    POST: Apunta en la direccion indicada.
+    */
+    virtual void point_to(float x, float y);
 };
 
 #endif // TEXTURE_H

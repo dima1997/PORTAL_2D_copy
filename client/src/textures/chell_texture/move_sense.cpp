@@ -11,19 +11,19 @@ MoveSense::MoveSense() {
 }
 
 /*Destruye el sentido de movimiento */
-MoveSense::~MoveSense(){}
+MoveSense::~MoveSense() = default;
 
 /*
 PRE: Recibe 
-    las coordenadas anteriores (in) x,y .
-    las nuevas coordenadas (int) x,y .
-POST: Actualiza el sentido de moviemiento. 
+    la coordenada x (float) anterior.
+    la coordenada x (float) posterior.
+POST: Actualiza el sentido de movimiento. 
 */
-void MoveSense::move(float xBefore, float yBefore,float xNow, float yNow){
-    if (xNow < xBefore){
-        this->flip = FLIP_HORIZONTAL;
-    } else {
+void MoveSense::update(float xBefore, float xNext){
+    if (xBefore < xNext){
         this->flip = NO_FLIP;
+    } else {
+        this->flip = FLIP_HORIZONTAL;
     }
 }
 

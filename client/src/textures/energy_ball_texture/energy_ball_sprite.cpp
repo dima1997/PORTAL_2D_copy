@@ -2,24 +2,13 @@
 
 #include "../../../includes/textures/common_texture/dynamic_sprite.h"
 
-/*
-Iniciliza un sprite de bola de energia que se 
-encuentra en la imagen ALL_ENERGY_BALLS_SPRITE .
-*/
-EnergyBallSprite::EnergyBallSprite()
-:   DynamicSprite(
-        {
-            {1,824},
-            {253,824},
-            {505,824},
-            {757,824},
-        },
-        251,252
-    )
-    {}
-/*Destruye el sprite de la bola de energia.*/
+EnergyBallSprite::EnergyBallSprite() {}
 EnergyBallSprite::~EnergyBallSprite() = default;
 
+/*
+Devuelve un sprite dinamico de bola de energia.
+IMAGE_PATH : ALL_ROCKS_AND_BALLS
+*/
 DynamicSprite EnergyBallSprite::get_sprite(){
     return std::move(
         DynamicSprite(

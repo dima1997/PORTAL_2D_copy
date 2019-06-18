@@ -3,14 +3,15 @@
 
 #include "../common_texture/dynamic_sprite.h"
 
-class DoorOneOpenedSprite : public DynamicSprite {
+class DoorOneOpenedSprite {
 public:
-    /*Inicializa un sprite de puerta abierta con el numero 1.*/
     DoorOneOpenedSprite();
-
-    /*Destruye el sprite de puerta abierta con el numero 1.*/
     virtual ~DoorOneOpenedSprite();
 
+    /*
+    Devuelve un sprite dinamico de puerta 1 abierta.
+    IMAGE_PATH : DOORS_SPRITES
+    */
     static DynamicSprite get_sprite();
 };
 

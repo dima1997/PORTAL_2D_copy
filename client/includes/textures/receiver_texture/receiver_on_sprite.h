@@ -3,14 +3,15 @@
 
 #include "../common_texture/dynamic_sprite.h"
 
-class ReceiverOnSprite :  public DynamicSprite {
+class ReceiverOnSprite {
 public:
-    /*Inicializa un sprite de recibidor desbloqueado.*/
     ReceiverOnSprite();
-
-    /*Destruye el sprite de recibidor desbloqueado.*/
     virtual ~ReceiverOnSprite();
     
+    /*
+    Devuelve un sprite dinamico de receptor desbloqueado.
+    IMAGE_PATH : ALL_BLOCKS_SPRITES
+    */
     static DynamicSprite get_sprite();
 };
 

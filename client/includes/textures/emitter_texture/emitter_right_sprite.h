@@ -3,14 +3,15 @@
 
 #include "../common_texture/dynamic_sprite.h"
 
-class EmitterRightSprite : public DynamicSprite {
+class EmitterRightSprite {
 public:
-    /*Iniciliza un sprite de bloque emisor a derecha.*/
     EmitterRightSprite();
-
-    /*Destruye el sprite de bloque emisor a derecha.*/
     virtual ~EmitterRightSprite();
 
+    /*
+    Devuelve un sprite dinamico de emisor hacia derecha.
+    IMAGE_PATH : ALL_BLOCKS_SPRITES
+    */
     static DynamicSprite get_sprite();
 };
 

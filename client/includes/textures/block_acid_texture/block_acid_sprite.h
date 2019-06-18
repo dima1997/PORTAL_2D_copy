@@ -3,14 +3,15 @@
 
 #include "../common_texture/dynamic_sprite.h"
 
-class BlockAcidSprite : public DynamicSprite {
+class BlockAcidSprite {
 public:
-    /*Inicializa un sprite de bloque de acido estatico.*/
     BlockAcidSprite();
-
-    /*Destruye el sprite de bloque de acido estatico.*/
     virtual ~BlockAcidSprite();
 
+    /*
+    Devuelve un sprite dinamico de bloque de acido.
+    IMAGE_PATH : ALL_BLOCKS_SPRITES
+    */
     static DynamicSprite get_sprite();
 };
 

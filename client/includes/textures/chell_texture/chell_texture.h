@@ -13,7 +13,6 @@ class ChellTexture : public Texture {
 private:
     MoveSense moveSense;
     Area areaVision;
-    //std::vector<SOUND_NAME> sounds;
     bool alive;
 
     /*Actualiza el area de vision de Chell.*/
@@ -59,6 +58,13 @@ public:
     Chell en el mapa de juego.
     */
     virtual Area getVisionArea() override;
+
+    /*
+    PRE: Recibe las coordenadas (float) x,y 
+    a donde apunta la textura
+    POST: Apunta en la direccion indicada.
+    */
+    virtual void point_to(float x, float y) override;
 };
 
 #endif // CHELL_TEXTURE_H

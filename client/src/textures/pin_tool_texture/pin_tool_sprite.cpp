@@ -2,13 +2,13 @@
 
 #include "../../../includes/textures/common_texture/dynamic_sprite.h"
 
-/*Inicializa un pin tool sprite.*/
-PinToolSprite::PinToolSprite(){}
-
-/*Destruye el pin tool sprite*/
+PinToolSprite::PinToolSprite() {}
 PinToolSprite::~PinToolSprite() = default;
 
-/*Devuelve el sprite dinamico del pin tool*/
+/*
+Devuelve el sprite dinamico del pin tool.
+IMAGE_PATH : PIN_TOOL_SPRITES
+*/
 DynamicSprite PinToolSprite::get_sprite(){
     return std::move(DynamicSprite({{0,0}},178,202));
 }

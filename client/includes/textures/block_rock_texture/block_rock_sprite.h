@@ -3,14 +3,15 @@
 
 #include "../common_texture/dynamic_sprite.h"
 
-class BlockRockSprite : public DynamicSprite {
+class BlockRockSprite {
 public:
-    /*Iniciliza un sprite de bloque de piedra estatico.*/
     BlockRockSprite();
-
-    /*Destruye el sprite de bloque de piedra estatico.*/
     virtual ~BlockRockSprite();
 
+    /*
+    Devuelve un sprite dinamico de bloque de roca.
+    IMAGE_PATH : ALL_BLOCKS_SPRITES
+    */
     static DynamicSprite get_sprite();
 };
 

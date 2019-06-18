@@ -3,22 +3,15 @@
 
 #include "../common_texture/dynamic_sprite.h"
 
-class ChellJumpFallRightSprite : public DynamicSprite {
+class ChellJumpFallRightSprite {
 public:
-    /*
-    Inicializa un sprite dinamico de Chell cayendo
-    hacia la derecha (tras haber saltado).
-    Este sprite dinamico corresponde a una serie de sprites
-    de la imagen ALL_CHELL_SPRITES_PART_1, de images_path.h.
-    */
     ChellJumpFallRightSprite();
-
-    /*
-    Destruye el sprite dinamico de Chell cayendo 
-    hacia la derecha (tras haber saltado).
-    */
     virtual ~ChellJumpFallRightSprite();
 
+    /*
+    Devuelve un sprite dinamico de chell 
+    cayendo hacia la derecha.
+    */
     static DynamicSprite get_sprite();
 };
 

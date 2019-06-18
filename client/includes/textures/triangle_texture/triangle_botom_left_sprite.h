@@ -3,20 +3,16 @@
 
 #include "../common_texture/dynamic_sprite.h"
 
-class TriangleBotomLeftSprite : public DynamicSprite {
+class TriangleBotomLeftSprite {
 public:
-    /*
-    Iniciliza un sprite de triangulo de la esquina 
-    inferior izquierda.
-    */
     TriangleBotomLeftSprite();
-
-    /*
-    Destruye el sprite del triangulo de la esquina 
-    inferior izquierda.
-    */
     virtual ~TriangleBotomLeftSprite();
 
+    /*
+    Devuelve un sprite dinamico de triangulo rectangulo 
+    en la esquina inferior izquierda.
+    IMAGE_PATH : ALL_TRIANGLES_SPRITES 
+    */
     static DynamicSprite get_sprite();
 };
 

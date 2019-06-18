@@ -3,14 +3,15 @@
 
 #include "../common_texture/dynamic_sprite.h"
 
-class BlockMetalSprite : public DynamicSprite {
+class BlockMetalSprite {
 public:
-    /*Iniciliza un sprite de bloque de metal estatico.*/
     BlockMetalSprite();
-
-    /*Destruye el sprite de bloque de metal estatico.*/
     virtual ~BlockMetalSprite();
 
+    /*
+    Devuelve un sprite dinamico de bloque de metal.
+    IMAGE_PATH : ALL_BLOCKS_SPRITES
+    */
     static DynamicSprite get_sprite();
 };
 

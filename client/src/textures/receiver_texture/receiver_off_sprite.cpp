@@ -2,33 +2,13 @@
 
 #include "../../../includes/textures/common_texture/dynamic_sprite.h"
 
-/*
-Inicializa un sprite de bloque recibidor de bolas de energia 
-bloqueado que se encuentra en la imagen ALL_BLOCKS_SPRITES de 
-images_paths.h .
-*/
-ReceiverOffSprite::ReceiverOffSprite()
-:   DynamicSprite(
-        {
-            {1,2538}
-        },
-        200,197
-    )
-    {}
-
-/*
-Destruye el sprite de bloque recibidor de bolas de 
-energia bloqueado.
-*/
+ReceiverOffSprite::ReceiverOffSprite() {}
 ReceiverOffSprite::~ReceiverOffSprite() = default;
 
+/*
+Devuelve un sprite dinamico de receptor bloqueado.
+IMAGE_PATH : ALL_BLOCKS_SPRITES
+*/
 DynamicSprite ReceiverOffSprite::get_sprite(){
-    return std::move(
-        DynamicSprite(
-            {
-                {1,2538}
-            },
-            200,197
-        )
-    );
+    return std::move(DynamicSprite({{1,2538}},200,197));
 } 

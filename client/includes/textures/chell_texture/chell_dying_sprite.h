@@ -6,10 +6,8 @@
 class ChellDyingSprite {
 public:
     /*
-    Devuelve un sprite dinamico de Chell mueriendo.
-    Este sprite dinamico corresponde a una serie de 
-    sprites de la imagen ALL_CHELL_SPRITES, de 
-    images_path.h.
+    Devuelve un sprite dinamico de Chell muriendo.
+    IMAGE_PATH : ALL_CHELL_SPRITES
     */
     static DynamicSprite get_sprite();
 };

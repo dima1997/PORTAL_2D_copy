@@ -2,28 +2,13 @@
 
 #include "../../../includes/textures/common_texture/dynamic_sprite.h"
 
-/*
-Iniciliza un sprite de bloque de metal estatico que se 
-encuentra en la imagen all_blocks.png .
-*/
-BlockMetalSprite::BlockMetalSprite()
-:   DynamicSprite(
-        {
-            {1,600}
-        },
-        193,193
-    )
-    {}
-/*Destrue el sprite de bloque de metal estatico.*/
+BlockMetalSprite::BlockMetalSprite() {}
 BlockMetalSprite::~BlockMetalSprite() = default;
 
+/*
+Devuelve un sprite dinamico de bloque de metal.
+IMAGE_PATH : ALL_BLOCKS_SPRITES
+*/
 DynamicSprite BlockMetalSprite::get_sprite(){
-    return std::move(
-        DynamicSprite(
-            {
-                {1,600}
-            },
-            193,193
-        )
-    );
+    return std::move(DynamicSprite({{1,600}},193,193));
 } 

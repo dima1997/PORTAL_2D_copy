@@ -9,21 +9,25 @@
 
 #include "../../render_time.h" 
 
-#define CHELL_FRAMES_WAIT 23
-
 enum spriteNameStrategy_t {
     STAND_RIGHT,
     RUN_RIGHT,
     JUMP_APEX_RIGHT,
     JUMP_RISE_RIGHT,
     JUMP_FALL_RIGHT,
+    POINT_RIGHT,
+    POINT_RIGHT_UP,
+    POINT_RIGHT_DOWN,
+    POINT_UP,
+    POINT_DOWN
 };
 
 class ChellSpriteStrategy : public SpriteStrategy {
 private:
     spriteNameStrategy_t spriteName;
     bool keepMoving;
-    int framesWait = 0; 
+    int framesWait; 
+    int framesPointWait;
     
     /*
     PRE: Recibe un nombre de sprite strategy (spriteNameStrategy_t).
@@ -69,6 +73,15 @@ public:
 
     /*Actualiza el sprite al siguiente a ser usado.*/
     virtual void update();
+
+    /*
+    PRE: Recibe :
+        las coordenadas actuales (int) x,y de Chell.
+        las coordenadas del punto (int) x,y a donde Chell esta 
+        apuntando.
+    POST: actualiza el sprite actual de Chell.
+    */
+    virtual void point(float xNow, float yNow, float xPoint, float yPoint);
 };
 
 #endif // CHELL_SPRITE_STATE_H

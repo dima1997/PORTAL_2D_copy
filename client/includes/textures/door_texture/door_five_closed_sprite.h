@@ -5,10 +5,7 @@
 
 class DoorFiveClosedSprite : public DynamicSprite {
 public:
-    /*Inicializa un sprite de puerta cerrada con el numero 5.*/
     DoorFiveClosedSprite();
-
-    /*Destruye el sprite de puerta cerrada con el numero 5.*/
     virtual ~DoorFiveClosedSprite();
 };
 

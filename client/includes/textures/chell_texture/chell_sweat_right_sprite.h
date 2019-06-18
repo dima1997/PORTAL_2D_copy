@@ -3,7 +3,7 @@
 
 #include "../common_texture/dynamic_sprite.h"
 
-class ChellSweatRightSprite : public DynamicSprite {
+class ChellSweatRightSprite{
 public:
     /*
     Inicializa un sprite dinamico de Chell sudando 

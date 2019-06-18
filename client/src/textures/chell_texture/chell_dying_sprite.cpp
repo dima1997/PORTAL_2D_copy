@@ -6,9 +6,7 @@
 
 /*
 Devuelve un sprite dinamico de Chell mueriendo.
-Este sprite dinamico corresponde a una serie de 
-sprites de la imagen ALL_CHELL_SPRITES, de 
-images_path.h.
+IMAGE_PATH : ALL_CHELL_SPRITES
 */
 DynamicSprite ChellDyingSprite::get_sprite(){
     int width = 175;

@@ -7,9 +7,7 @@
 /*
 Devuelve un sprite dinamico de Chell parada
 (mirando hacia la derecha).
-Este sprite dinamico corresponde a una serie de 
-sprites de la imagen ALL_CHELL_SPRITES, de 
-images_path.h.
+IMAGE_PATH : ALL_CHELL_SPRITES
 */
 DynamicSprite ChellStandRightSprite::get_sprite(){
     int width = 104;

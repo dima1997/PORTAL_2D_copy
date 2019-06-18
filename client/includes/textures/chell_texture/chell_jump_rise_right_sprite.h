@@ -3,7 +3,7 @@
 
 #include "../common_texture/dynamic_sprite.h"
 
-class ChellJumpRiseRightSprite : public DynamicSprite {
+class ChellJumpRiseRightSprite{
 public:
     /*
     Inicializa un sprite dinamico de Chell saltando 

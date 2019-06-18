@@ -3,6 +3,7 @@
 #include "../../../includes/textures/common_texture/area.h"
 #include "../../../includes/textures/common_texture/big_texture.h"
 #include "../../../includes/textures/common_texture/sprite_strategy.h" 
+#include "../../../includes/textures/common_texture/dynamic_sprite.h" 
 
 #include <memory>
 
@@ -267,4 +268,18 @@ void Texture::stop_follow() {
 /*Actualiza la textura.*/
 void Texture::update(){
     this->ptrSpriteStrategy->update();
+}
+
+/*
+PRE: Recibe las coordenadas (float) x,y 
+a donde apunta la textura
+POST: Apunta en la direccion indicada.
+*/
+void Texture::point_to(float x, float y){
+    this->ptrSpriteStrategy->point(
+        this->areaMap.getX(), 
+        this->areaMap.getY(),
+        x,
+        y
+    );
 }

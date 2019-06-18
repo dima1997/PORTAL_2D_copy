@@ -1,6 +1,6 @@
 #include "../../../includes/textures/portal_texture/portal_sprite_strategy.h"
 
-#include "../../../includes/textures/portal_texture/portal_blue_sprite.h"
+#include "../../../includes/textures/portal_texture/portal_white_sprite.h"
 #include "../../../includes/textures/common_texture/sprite_strategy.h"
 #include "../../../includes/textures/common_texture/dynamic_sprite.h"
 #include "../../../includes/textures/common_texture/null_sprite.h"
@@ -16,7 +16,7 @@ images_paths.h .
 */
 PortalSpriteStrategy::PortalSpriteStrategy()
 :   SpriteStrategy(
-        PortalBlueSprite::get_sprite()
+        PortalWhiteSprite::get_sprite()
     ), 
     spriteName(PORTAL_OPEN) {}
 
@@ -29,7 +29,7 @@ void PortalSpriteStrategy::switch_sprite(){
         this->dynamicSprite = NullSprite::get_sprite();
         this->spriteName = PORTAL_CLOSE;
     } else {
-        this->dynamicSprite = PortalBlueSprite::get_sprite();
+        this->dynamicSprite = PortalWhiteSprite::get_sprite();
         this->spriteName = PORTAL_OPEN;
     }
 }

@@ -3,14 +3,15 @@
 
 #include "../common_texture/dynamic_sprite.h"
 
-class CakeSprite : public DynamicSprite {
+class CakeSprite {
 public:
-    /*Iniciliza un sprite de bloque de torta.*/
     CakeSprite();
-
-    /*Destruye el sprite de bloque de torta.*/
     virtual ~CakeSprite();
 
+    /*
+    Devuelve un sprite dinamico de torta.
+    IMAGE_PATH : CAKE_SPRITES
+    */
     static DynamicSprite get_sprite();
 };
 

@@ -56,7 +56,7 @@ void ChellTexture::move_to(float x, float y) {
     this->areaMap.setY(yNow);
     (*this->ptrSpriteStrategy).move(xBefore, yBefore, xNow, yNow, 
                                     this->sounds);
-    this->moveSense.move(xBefore, yBefore, xNow, yNow);
+    this->moveSense.update(xBefore, xNow);
 }   
 
 /*
@@ -93,4 +93,19 @@ Area ChellTexture::getVisionArea() {
     this->updateVisionArea();
     Area areaVisionCopy = this->areaVision;
     return std::move(areaVisionCopy);
+}
+
+/*
+PRE: Recibe las coordenadas (float) x,y 
+a donde apunta la textura
+POST: Apunta en la direccion indicada.
+*/
+void ChellTexture::point_to(float x, float y) {
+    this->ptrSpriteStrategy->point(
+        this->areaMap.getX(),
+        this->areaMap.getY(),
+        x,
+        y
+    );
+    this->moveSense.update(this->areaMap.getX(), x);
 }

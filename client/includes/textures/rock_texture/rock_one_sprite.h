@@ -3,14 +3,15 @@
 
 #include "../common_texture/dynamic_sprite.h"
 
-class RockOneSprite : public DynamicSprite {
+class RockOneSprite {
 public:
-    /*Inicializa un sprite de roca de tipo 1.*/
     RockOneSprite();
-
-    /*Destruye el sprite de roca de tipo 1.*/
     virtual ~RockOneSprite();
 
+    /*
+    Devuelve un sprite dinamico de roca 1.
+    IMAGE_PATH : ALL_ROCKS_AND_BALLS
+    */
     static DynamicSprite get_sprite();
 };
 

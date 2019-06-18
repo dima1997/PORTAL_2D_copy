@@ -3,22 +3,15 @@
 
 #include "../common_texture/dynamic_sprite.h"
 
-class ChellJumpApexRightSprite : public DynamicSprite {
+class ChellJumpApexRightSprite {
 public:
-    /*
-    Inicializa un sprite dinamico de Chell saltando 
-    verticalemente (mirando hacia la derecha).
-    Este sprite dinamico corresponde a una serie de sprites
-    de la imagen ALL_CHELL_SPRITES_PART_1, de images_path.h.
-    */
     ChellJumpApexRightSprite();
-
-    /*
-    Destruye el sprite dinamico de Chell saltando 
-    verticalemente (mirando hacia la derecha).
-    */
     virtual ~ChellJumpApexRightSprite();
 
+    /*
+    Devuelve un sprite dinamico de Chell saltando
+    verticalmente.
+    */
     static DynamicSprite get_sprite();
 };
 
