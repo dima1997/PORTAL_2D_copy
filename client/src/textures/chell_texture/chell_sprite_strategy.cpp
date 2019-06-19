@@ -14,7 +14,8 @@
 #include "../../../includes/mixer/sounds_path.h"
 
 #define CHELL_FRAMES_WAIT 23
-#define CHELL_POINT_FRAMES_WAIT 10
+#define CHELL_POINT_FRAMES_WAIT 5
+#define DELTA_POINT 0.5
 
 /*Inicializa el estado de sprite de Chell.*/
 ChellSpriteStrategy::ChellSpriteStrategy()
@@ -177,12 +178,12 @@ PRE: Recibe :
 POST: actualiza el sprite actual de Chell.
 */
 void ChellSpriteStrategy::point(float xNow, float yNow, float xPoint, float yPoint){
-    if (xNow != xPoint){
-        if (yNow < yPoint){
+    if ((xNow > xPoint + DELTA_POINT) || (xNow < xPoint - DELTA_POINT)){
+        if (yNow < yPoint - DELTA_POINT){
             this->setSpriteStrategy(POINT_RIGHT_UP);
             return;
         }
-        if (yNow > yPoint){
+        if (yNow > yPoint + DELTA_POINT){
             this->setSpriteStrategy(POINT_RIGHT_DOWN);
             return;
         }

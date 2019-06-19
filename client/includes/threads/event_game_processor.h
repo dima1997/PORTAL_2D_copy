@@ -8,6 +8,7 @@
 #include <protocol/protocol_code.h>
 #include <protocol/event/event.h>
 #include <protocol/event/object_moves_event.h>
+#include <protocol/event/portal_moves_event.h>
 #include <protocol/event/object_switch_event.h>
 
 #include <memory>
@@ -30,6 +31,8 @@ private:
     POST: Procesa el evento.
     */
     void process_event(std::unique_ptr<ObjectSwitchEvent> ptrSwitchEvent);
+
+    void process_event(std::unique_ptr<PortalMovesEvent> ptrPortalMovesEvent);
 
 public:
     /*

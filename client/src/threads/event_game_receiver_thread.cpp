@@ -7,6 +7,7 @@
 #include <protocol/event/player_loses_event.h>
 #include <protocol/event/player_dies_event.h>
 #include <protocol/event/object_moves_event.h>
+#include <protocol/event/portal_moves_event.h>
 #include <protocol/event/object_switch_event.h>
 #include <protocol/event/grab_rock_event.h>
 #include <protocol/event/throw_rock_event.h>
@@ -62,6 +63,15 @@ void EventGameReceiverThread::receive_event(){
                 this->changesQueue.push(ptrEvent);    
             }
             break;
+        case portal_moves:
+            {
+                std::unique_ptr<Event> ptrEvent(
+                    new PortalMovesEvent()
+                );
+                this->connector >> (*ptrEvent);
+                this->changesQueue.push(ptrEvent);  
+            }
+            break;
         case object_switch_state:
             {
                 std::unique_ptr<Event> ptrEvent(
@@ -69,8 +79,8 @@ void EventGameReceiverThread::receive_event(){
                 );
                 this->connector >> (*ptrEvent);
                 this->changesQueue.push(ptrEvent);
-                break;
             }
+            break;
         case grab_rock:
             {
                 std::unique_ptr<Event> ptrEvent(

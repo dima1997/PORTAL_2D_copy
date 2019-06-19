@@ -12,6 +12,7 @@
 #include <protocol/event/player_loses_event.h>
 #include <protocol/event/player_dies_event.h>
 #include <protocol/event/object_moves_event.h>
+#include <protocol/event/portal_moves_event.h>
 #include <protocol/event/object_switch_event.h>
 #include <protocol/event/grab_rock_event.h>
 #include <protocol/event/throw_rock_event.h>
@@ -34,6 +35,14 @@ ThreadStatus EventGameProcessor::process_event(std::unique_ptr<Event> ptrEvent){
                     static_cast<ObjectMovesEvent* >(ptrEvent.release());
                 std::unique_ptr<ObjectMovesEvent> ptrMovesEvent(ptrAux);
                 this->process_event(std::move(ptrMovesEvent));
+            }
+            break;
+        case portal_moves:
+            {
+                auto ptrAux = 
+                    static_cast<PortalMovesEvent* >(ptrEvent.release());
+                std::unique_ptr<PortalMovesEvent> ptrPortalMovesEvent(ptrAux);
+                this->process_event(std::move(ptrPortalMovesEvent));
             }
             break;
         case object_switch_state:
@@ -100,6 +109,17 @@ void EventGameProcessor::process_event
     ObjectMovesEvent event = *(ptrMovesEvent);
     TextureMoveChange textureChange(event);
     textureChange.change(this->window);
+}
+
+void EventGameProcessor::process_event
+(std::unique_ptr<PortalMovesEvent> ptrPortalMovesEvent){
+    PortalMovesEvent event = *(ptrPortalMovesEvent);
+    uint32_t portalId = ptrPortalMovesEvent->getId();
+    float xPos = ptrPortalMovesEvent->getX();
+    float yPos = ptrPortalMovesEvent->getY();
+    uint32_t chellId = ptrPortalMovesEvent->get_chell_id();
+    this->window.move_texture(portalId,xPos,yPos);
+    this->window.point_texture(chellId,xPos,yPos);
 }
 
 /*

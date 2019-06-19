@@ -16,6 +16,7 @@
 #include <protocol/event/grab_rock_event.h>
 #include <protocol/event/throw_rock_event.h>
 #include <protocol/event/player_loses_event.h>
+#include <protocol/event/portal_moves_event.h>
 #include "yaml-cpp/yaml.h"
 #include "contact_listener/contact_listener.h"
 
@@ -82,12 +83,15 @@ void World::step(std::list<std::shared_ptr<Event>> &events) {
         Portal *orange = chell->getPortal(ORANGE);
         if (orange->changedPositionOrVelocity()) {
             events.push_back(std::shared_ptr<Event>(
-                    new ObjectMovesEvent(orange->getId(), orange->getXPos(), orange->getYPos())));
+                    //new ObjectMovesEvent(orange->getId(), orange->getXPos(), orange->getYPos())));
+                    new PortalMovesEvent(orange->getId(), orange->getXPos(), orange->getYPos(), chell->getId())));
         }
         Portal *blue = chell->getPortal(BLUE);
         if (blue->changedPositionOrVelocity()) {
             events.push_back(
-                    std::shared_ptr<Event>(new ObjectMovesEvent(blue->getId(), blue->getXPos(), blue->getYPos())));
+                    //std::shared_ptr<Event>(new ObjectMovesEvent(blue->getId(), blue->getXPos(), blue->getYPos())));
+                    std::shared_ptr<Event>(
+                        new PortalMovesEvent(blue->getId(), blue->getXPos(), blue->getYPos(), chell->getId())));
         }
     }
     for (Rock *rock : rocks) {

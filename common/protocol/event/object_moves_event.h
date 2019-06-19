@@ -10,11 +10,18 @@
 #include "connector/connector.h"
 
 class ObjectMovesEvent: public Event {
+protected:
     uint32_t objectId;
     float xPos;
     float yPos;
 public:
     ObjectMovesEvent(int objectId, float xPos, float yPos);
+    ObjectMovesEvent(
+        int objectId, 
+        float xPos, 
+        float yPos, 
+        EventType eventType
+    );
     ObjectMovesEvent();
     ~ObjectMovesEvent() override;
     uint32_t getId() const ;
@@ -24,12 +31,12 @@ public:
     PRE: Recibe un conector (Connector &) conectado.
     POST: Recibe el evento, desde el connector.
     */
-    void receiveFrom(Connector & in) override;
+    virtual void receiveFrom(Connector & in) override;
     /*
     PRE: Recibe un conector (Connector &) conectado.
     POST: Envia el evento, a traves del connector.
     */
-    void sendThrough(Connector & out) const override;
+    virtual void sendThrough(Connector & out) const override;
     friend Connector &operator<<(Connector &out, const ObjectMovesEvent &c);
     friend Connector &operator>>(Connector &in, ObjectMovesEvent &c);
 };

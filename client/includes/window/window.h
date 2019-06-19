@@ -83,6 +83,8 @@ public:
     */
     void _render(float adjuster, Area areaCamera);
 
+    void _render(float adjuster, Area areaCamera, uint32_t idNotRender);
+
     /*Actualiza todas las texturas de la ventana.*/
     void _update();
     
@@ -194,6 +196,8 @@ public:
     POST: Setea el id de dicha textura.
     */
     void set_record_id(uint32_t id);
+
+    void point_texture(uint32_t id, float x, float y);
 };
 
 #endif // WINDOW_H

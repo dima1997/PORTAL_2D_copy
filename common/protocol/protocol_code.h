@@ -26,7 +26,8 @@ enum EventType: uint8_t {
     player_dies,
     grab_rock,
     throw_rock,
-    game_starts
+    game_starts,
+    portal_moves
 };
 
 enum GameActionName : uint8_t {

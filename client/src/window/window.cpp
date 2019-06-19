@@ -213,7 +213,7 @@ void Window::render(std::vector<char> & videoFrameBuffer) {
     this->_render(adjuster, newAreaCamera);
     if (this->is_recording()){
         SDL_SetRenderTarget(this->renderer, this->videoTexture); 
-        this->_render(adjuster, newAreaCamera);
+        this->_render(adjuster, newAreaCamera, this->idRecordTexture);
     }
     
     this->_update();
@@ -244,6 +244,18 @@ void Window::_render(float adjuster, Area areaCamera){
     this->fill();
     for (int i = 0; i < (int)this->ids.size(); ++i){
         uint32_t actualId = this->ids[i];
+        Texture & actualTexture = *(this->allTextures.at(actualId));
+        actualTexture.render(adjuster, areaCamera);
+    }
+}
+
+void Window::_render(float adjuster, Area areaCamera, uint32_t idNotRender){
+    this->fill();
+    for (int i = 0; i < (int)this->ids.size(); ++i){
+        uint32_t actualId = this->ids[i];
+        if (actualId == idNotRender){
+            continue;
+        }
         Texture & actualTexture = *(this->allTextures.at(actualId));
         actualTexture.render(adjuster, areaCamera);
     }
@@ -430,4 +442,14 @@ POST: Setea el id de dicha textura.
 */
 void Window::set_record_id(uint32_t id){
     this->idRecordTexture = id;
+}
+
+void Window::point_texture(uint32_t id, float x, float y){
+    if (this->allTextures.count(id) == 0){
+        std::stringstream errDescription; 
+        errDescription << "No existe textura con id : " << std::dec << id << ".";
+        throw OSException("Error en ventana:",errDescription.str().c_str());
+    }
+    Texture & textureOfId = *(this->allTextures.at(id));
+    textureOfId.point_to(x,y);
 }
