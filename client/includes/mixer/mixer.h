@@ -21,6 +21,12 @@ private:
     */
     bool add_chunck(std::string pathChunck);
 
+    /*
+    Inicializa el audio del mixer.
+    Levanta OSException en caso de error.
+    */
+    void init_audio();
+
 public:
     /*
     PRE: Recibe el path al unico soundtrack de fondo 

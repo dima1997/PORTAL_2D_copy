@@ -20,10 +20,7 @@ de manejar todos los sonidos.
 Mixer::Mixer(std::string pathMusic, 
              const std::vector<std::string> & pathsChunks){
     // Inicializa mix audio
-    if (Mix_OpenAudio( 44100, MIX_DEFAULT_FORMAT, 2, 2048 ) < 0){
-        const std::string msg = "Error: no se pudo inicializar Mixer\n";
-        throw OSException(msg.c_str(),Mix_GetError());
-    }
+    this->init_audio();
     // Agrego musica de fondo
     MixMusic music(pathMusic);
     this->pathMusic = pathMusic; 
@@ -37,15 +34,30 @@ Mixer::Mixer(std::string pathMusic,
     }
 }
 
+/*
+Inicializa el audio del mixer.
+Levanta OSException en caso de error.
+*/
+void Mixer::init_audio(){
+    // Inicializa mix audio
+    if (Mix_OpenAudio( 44100, MIX_DEFAULT_FORMAT, 2, 2048 ) < 0){
+        const std::string msg = "Error: no se pudo inicializar Mixer\n";
+        throw OSException(msg.c_str(),Mix_GetError());
+    }
+}
+
 /*Destruye el mixer.*/
 Mixer::~Mixer(){
-    Mix_Quit();
+    Mix_CloseAudio();
 }
 
 Mixer::Mixer(Mixer && other)
 :   chuncks(std::move(other.chuncks)),
     musics(std::move(other.musics)),
-    pathMusic(std::move(other.pathMusic)) {}
+    pathMusic(std::move(other.pathMusic)) 
+{
+    this->init_audio();
+}
 
 Mixer & Mixer::operator=(Mixer && other) {
     if (this == & other){

@@ -31,12 +31,12 @@ void LineInterface::keep_input(std::string & wantToQuit){
 
 Connector LineInterface::log_to_server(){
     try {
-        std::cout << "Put ip local (example : localhost) or";
+        std::cout << "Put ip local (example : localhost) or ";
         std::cout << "'" << COMANDO_QUIT << "' to quit: \n";
         std::string host;
         std::getline(std::cin, host);
         this->keep_input(host);
-        std::cout << "Put server port (example : 8082) to connect";
+        std::cout << "Put server port (example : 8082) to connect ";
         std::cout << "'" << COMANDO_QUIT << "' to quit: \n";
         std::string port;
         std::getline(std::cin, port);
@@ -52,7 +52,7 @@ Connector LineInterface::log_to_server(){
 }
 
 std::string LineInterface::choose_game_mode(){
-    std::cout << "Put '"<< COMMAND_NEW <<"' to start new game,";
+    std::cout << "Put '"<< COMMAND_NEW <<"' to start new game, ";
     std::cout << "'" << COMMAND_JOIN <<"' to join game in stock";
     std::cout << " or '" << COMANDO_QUIT << "' to quit :\n";
     std::string command;

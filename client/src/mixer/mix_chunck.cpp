@@ -37,7 +37,9 @@ MixChunck & MixChunck::operator=(MixChunck && other){
 
 /*Destruye el trozo de sonido.*/
 MixChunck::~MixChunck(){
-    Mix_FreeChunk(this->mixChunck);
+    if (this->mixChunck != NULL){
+        Mix_FreeChunk(this->mixChunck);
+    }
 }
 
 /*Reproduce el trozo de sonido una sola vez.*/
