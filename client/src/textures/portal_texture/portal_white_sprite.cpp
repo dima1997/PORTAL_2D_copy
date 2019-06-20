@@ -14,11 +14,11 @@ DynamicSprite PortalWhiteSprite::get_sprite(){
         DynamicSprite(
             {
                 {0,0},
-                {220,0},
-                {440,0},
-                {666,0},
+                {472,0},
+                {936,0},
+                {1394,0},
             },
-            220,450
+            434,448
         ) 
     );
 } 

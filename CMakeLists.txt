@@ -169,7 +169,7 @@ target_link_libraries(${CLIENT_NAME} avformat avcodec avutil swscale)
 
 install(FILES client/assets/only_blocks.png DESTINATION ${CMAKE_BINARY_DIR})
 install(FILES client/assets/all_chells_half.png DESTINATION ${CMAKE_BINARY_DIR})
-install(FILES client/assets/portal_white.png DESTINATION ${CMAKE_BINARY_DIR})
+install(FILES client/assets/white_portal.png DESTINATION ${CMAKE_BINARY_DIR})
 install(FILES client/assets/doors.png DESTINATION ${CMAKE_BINARY_DIR})
 install(FILES client/assets/rocks_and_balls.png DESTINATION ${CMAKE_BINARY_DIR})
 install(FILES client/assets/button_sprites.png DESTINATION ${CMAKE_BINARY_DIR})
