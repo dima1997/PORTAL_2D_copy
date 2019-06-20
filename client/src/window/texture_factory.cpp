@@ -11,7 +11,7 @@
 #include "../../includes/textures/block_metal_texture/block_metal_sprite.h"
 #include "../../includes/textures/block_rock_texture/block_rock_sprite.h"
 #include "../../includes/textures/block_acid_texture/block_acid_sprite.h"
-#include "../../includes/textures/portal_texture/portal_sprite_strategy.h"
+#include "../../includes/textures/portal_texture/portal_texture.h"
 #include "../../includes/textures/door_texture/door_one_sprite_strategy.h"
 #include "../../includes/textures/energy_ball_texture/energy_ball_sprite.h"
 #include "../../includes/textures/button_texture/button_sprite_strategy.h"
@@ -116,15 +116,11 @@ create_portal_blue(Area areaMap){
     BigTexture & bigTexture = this->window.add_big_texture(
                                     IMAGES_PATHS.at(PORTAL_SPRITES)
                                 );
-    std::unique_ptr<Texture> ptrTexture(new Texture(
+    std::unique_ptr<Texture> ptrTexture(new PortalTexture(
         bigTexture, 
         areaMap,
-        std::move(std::unique_ptr<SpriteStrategy> (
-            new PortalSpriteStrategy()
-        )),
-        0,
         1, 100, 255
-    ));   
+    )); 
     return std::move(ptrTexture);
 }
 
@@ -140,15 +136,11 @@ create_portal_orange(Area areaMap){
     BigTexture & bigTexture = this->window.add_big_texture(
                                     IMAGES_PATHS.at(PORTAL_SPRITES)
                                 );
-    std::unique_ptr<Texture> ptrTexture(new Texture(
+    std::unique_ptr<Texture> ptrTexture(new PortalTexture(
         bigTexture, 
         areaMap,
-        std::move(std::unique_ptr<SpriteStrategy> (
-            new PortalSpriteStrategy()
-        )),
-        0,
         255, 100, 1
-    ));  
+    )); 
     return std::move(ptrTexture);
 }
 
