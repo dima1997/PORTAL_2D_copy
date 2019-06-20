@@ -15,7 +15,7 @@
 #include "../../includes/textures/door_texture/door_one_sprite_strategy.h"
 #include "../../includes/textures/energy_ball_texture/energy_ball_sprite.h"
 #include "../../includes/textures/button_texture/button_sprite_strategy.h"
-#include "../../includes/textures/rock_texture/rock_one_sprite.h"
+#include "../../includes/textures/rock_texture/rock_sprite.h"
 #include "../../includes/textures/barrier_texture/barrier_sprite.h"
 #include "../../includes/textures/triangle_texture/triangle_botom_left_sprite.h"
 #include "../../includes/textures/receiver_texture/receiver_sprite_strategy.h"
@@ -218,7 +218,7 @@ create_rock_one(Area areaMap){
     return std::move(this->create_texture_one_sprite(
         ALL_ROCKS_AND_BALLS_SPRITES,
         areaMap,
-        RockOneSprite::get_sprite
+        RockSprite::rock_one
     ));
 }
 

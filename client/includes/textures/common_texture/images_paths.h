@@ -23,7 +23,7 @@ const std::map<IMAGE_PATH,std::string> IMAGES_PATHS({
     std::pair<IMAGE_PATH,std::string>(ALL_CHELL_SPRITES, "all_chells_half.png"),
     std::pair<IMAGE_PATH,std::string>(PORTAL_SPRITES, "white_portal.png"),
     std::pair<IMAGE_PATH,std::string>(ALL_DOORS_SPRITES, "doors.png"),
-    std::pair<IMAGE_PATH,std::string>(ALL_ROCKS_AND_BALLS_SPRITES, "rocks_and_balls.png"),
+    std::pair<IMAGE_PATH,std::string>(ALL_ROCKS_AND_BALLS_SPRITES, "balls_and_rocks.png"),
     std::pair<IMAGE_PATH,std::string>(BUTTON_SPRITES, "button_sprites.png"),
     std::pair<IMAGE_PATH,std::string>(BARRIER_SPRITE, "barrier.png"),
     std::pair<IMAGE_PATH,std::string>(ALL_TRIANGLES_SPRITES, "all_triangles.png"),

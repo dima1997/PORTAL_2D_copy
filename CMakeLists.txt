@@ -121,7 +121,7 @@ file(GLOB client_files
 	"${CLIENT_FOLDER}/src/textures/button_texture/button_pressed_sprite.cpp"
 	"${CLIENT_FOLDER}/src/textures/energy_ball_texture/energy_ball_sprite_strategy.cpp"
 	"${CLIENT_FOLDER}/src/textures/energy_ball_texture/energy_ball_sprite.cpp"
-	"${CLIENT_FOLDER}/src/textures/rock_texture/rock_one_sprite.cpp"
+	"${CLIENT_FOLDER}/src/textures/rock_texture/rock_sprite.cpp"
 	"${CLIENT_FOLDER}/src/textures/barrier_texture/barrier_sprite.cpp"
 	"${CLIENT_FOLDER}/src/textures/triangle_texture/triangle_botom_left_sprite.cpp"
 	"${CLIENT_FOLDER}/src/textures/receiver_texture/receiver_on_sprite.cpp"
@@ -172,7 +172,7 @@ install(FILES client/assets/only_blocks.png DESTINATION ${CMAKE_BINARY_DIR})
 install(FILES client/assets/all_chells_half.png DESTINATION ${CMAKE_BINARY_DIR})
 install(FILES client/assets/white_portal.png DESTINATION ${CMAKE_BINARY_DIR})
 install(FILES client/assets/doors.png DESTINATION ${CMAKE_BINARY_DIR})
-install(FILES client/assets/rocks_and_balls.png DESTINATION ${CMAKE_BINARY_DIR})
+install(FILES client/assets/balls_and_rocks.png DESTINATION ${CMAKE_BINARY_DIR})
 install(FILES client/assets/button_sprites.png DESTINATION ${CMAKE_BINARY_DIR})
 install(FILES client/assets/barrier.png DESTINATION ${CMAKE_BINARY_DIR})
 install(FILES client/assets/cake.png DESTINATION ${CMAKE_BINARY_DIR})

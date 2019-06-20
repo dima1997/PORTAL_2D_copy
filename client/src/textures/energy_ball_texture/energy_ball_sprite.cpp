@@ -13,10 +13,10 @@ DynamicSprite EnergyBallSprite::get_sprite(){
     return std::move(
         DynamicSprite(
             {
-                {1,824},
-                {253,824},
-                {505,824},
-                {757,824},
+                {1,15},
+                {253,15},
+                {505,15},
+                {757,15},
             },
             251,252
         )
