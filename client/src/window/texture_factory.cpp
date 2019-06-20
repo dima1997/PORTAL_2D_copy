@@ -227,6 +227,115 @@ PRE: Recibe el area (Area) donde
 se ubicara la textura.
 POST: Devuelve un puntero unico 
 a una textura(std::unique_ptr<Texture>), 
+de la textura de roca.
+*/
+std::unique_ptr<Texture> TextureFactory::
+create_rock_two(Area areaMap){
+    return std::move(this->create_texture_one_sprite(
+        ALL_ROCKS_AND_BALLS_SPRITES,
+        areaMap,
+        RockSprite::rock_two
+    ));
+}
+/*
+PRE: Recibe el area (Area) donde 
+se ubicara la textura.
+POST: Devuelve un puntero unico 
+a una textura(std::unique_ptr<Texture>), 
+de la textura de roca.
+*/
+std::unique_ptr<Texture> TextureFactory::
+create_rock_three(Area areaMap){
+    return std::move(this->create_texture_one_sprite(
+        ALL_ROCKS_AND_BALLS_SPRITES,
+        areaMap,
+        RockSprite::rock_three
+    ));
+}
+/*
+PRE: Recibe el area (Area) donde 
+se ubicara la textura.
+POST: Devuelve un puntero unico 
+a una textura(std::unique_ptr<Texture>), 
+de la textura de roca.
+*/
+std::unique_ptr<Texture> TextureFactory::
+create_rock_four(Area areaMap){
+    return std::move(this->create_texture_one_sprite(
+        ALL_ROCKS_AND_BALLS_SPRITES,
+        areaMap,
+        RockSprite::rock_four
+    ));
+}
+/*
+PRE: Recibe el area (Area) donde 
+se ubicara la textura.
+POST: Devuelve un puntero unico 
+a una textura(std::unique_ptr<Texture>), 
+de la textura de roca.
+*/
+std::unique_ptr<Texture> TextureFactory::
+create_rock_five(Area areaMap){
+    return std::move(this->create_texture_one_sprite(
+        ALL_ROCKS_AND_BALLS_SPRITES,
+        areaMap,
+        RockSprite::rock_five
+    ));
+}
+
+/*
+PRE: Recibe el area (Area) donde 
+se ubicara la textura.
+POST: Devuelve un puntero unico 
+a una textura(std::unique_ptr<Texture>), 
+de la textura de roca.
+*/
+std::unique_ptr<Texture> TextureFactory::
+create_rock_six(Area areaMap){
+    return std::move(this->create_texture_one_sprite(
+        ALL_ROCKS_AND_BALLS_SPRITES,
+        areaMap,
+        RockSprite::rock_six
+    ));
+}
+
+/*
+PRE: Recibe el area (Area) donde 
+se ubicara la textura.
+POST: Devuelve un puntero unico 
+a una textura(std::unique_ptr<Texture>), 
+de la textura de roca.
+*/
+std::unique_ptr<Texture> TextureFactory::
+create_rock_seven(Area areaMap){
+    return std::move(this->create_texture_one_sprite(
+        ALL_ROCKS_AND_BALLS_SPRITES,
+        areaMap,
+        RockSprite::rock_seven
+    ));
+}
+
+/*
+PRE: Recibe el area (Area) donde 
+se ubicara la textura.
+POST: Devuelve un puntero unico 
+a una textura(std::unique_ptr<Texture>), 
+de la textura de roca.
+*/
+std::unique_ptr<Texture> TextureFactory::
+create_rock_eight(Area areaMap){
+    return std::move(this->create_texture_one_sprite(
+        ALL_ROCKS_AND_BALLS_SPRITES,
+        areaMap,
+        RockSprite::rock_eight
+    ));
+}
+
+/*
+PRE: Recibe el area (Area) donde 
+se ubicara la textura.
+POST: Devuelve un puntero unico 
+a una textura(std::unique_ptr<Texture>), 
 de la textura de barrera.
 */
 std::unique_ptr<Texture> TextureFactory::

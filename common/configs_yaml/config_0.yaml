@@ -15,7 +15,14 @@ sections:
         portals_orange, 
         doors_one, 
         buttons, 
-        rocks_one, 
+        rocks_one,
+        rocks_two,
+        rocks_three,
+        rocks_four,
+        rocks_five,
+        rocks_six,
+        rocks_seven,
+        rocks_eight, 
         barriers,
         energy_balls_green, 
         receivers,
@@ -223,4 +230,53 @@ records:
     id_coordinates:
         [
             {id: 71, xCoord: 0, yCoord: 0}
+        ]
+rocks_two:
+    width: 1.0
+    height: 1.0
+    id_coordinates:
+        [
+            {id: 72, xCoord: -3.5, yCoord: 1.5}
+        ]
+rocks_three:
+    width: 1.0
+    height: 1.0
+    id_coordinates:
+        [
+            {id: 73, xCoord: -1.5, yCoord: 1.5}
+        ]
+rocks_four:
+    width: 1.0
+    height: 1.0
+    id_coordinates:
+        [
+            {id: 74, xCoord: -2.5, yCoord: 2.5}
+        ]
+rocks_five:
+    width: 1.0
+    height: 1.0
+    id_coordinates:
+        [
+            {id: 75, xCoord: -3.5, yCoord: 2.5}
+        ]
+rocks_six:
+    width: 1.0
+    height: 1.0
+    id_coordinates:
+        [
+            {id: 76, xCoord: -1.5, yCoord: 2.5}
+        ]
+rocks_seven:
+    width: 1.0
+    height: 1.0
+    id_coordinates:
+        [
+            {id: 77, xCoord: 5.5, yCoord: 2.5}
+        ]
+rocks_eight:
+    width: 1.0
+    height: 1.0
+    id_coordinates:
+        [
+            {id: 78, xCoord: 5.5, yCoord: 2.5}
         ]

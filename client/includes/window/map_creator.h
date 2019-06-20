@@ -38,6 +38,20 @@ public:
 
     void add_rock_one(uint32_t id, Area area);
 
+    void add_rock_two(uint32_t id, Area area);
+
+    void add_rock_three(uint32_t id, Area area);
+
+    void add_rock_four(uint32_t id, Area area);
+
+    void add_rock_five(uint32_t id, Area area);
+
+    void add_rock_six(uint32_t id, Area area);
+
+    void add_rock_seven(uint32_t id, Area area);
+
+    void add_rock_eight(uint32_t id, Area area);
+
     void add_barrier(uint32_t id, Area area);
 
     void add_energy_ball_green(uint32_t id, Area area);
