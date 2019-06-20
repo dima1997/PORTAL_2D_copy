@@ -121,6 +121,9 @@ World::~World() {
     for(auto *barrier: barriers) {
         delete barrier;
     }
+    for(auto *emitter: emitters) {
+        delete emitter;
+    }
     delete cake;
     delete world;
 }
@@ -133,6 +136,7 @@ void World::loadMap(Map &map) {
     map.loadButtons(*world, buttons, doors);
     map.loadRocks(*world, rocks);
     map.loadBarriers(*world, barriers);
+    map.loadEmitters(*world, emitters);
     numberOfPlayers = map.getPlayersNumber();
 }
 

@@ -159,3 +159,17 @@ void Map::loadBarriers(b2World &world, std::list<Barrier *> &barriers) {
         barriers.push_back(new Barrier(world, x, y, id, height/2, width/2));
     }
 }
+
+void Map::loadEmitters(b2World &world, std::list<EnergyEmitter *> emmiters) {
+    YAML::Node emittersInfo = file["emitters_right"]["id_coordinates"];
+    for (auto && emitterInfo : emittersInfo) {
+        emmiters.push_back(loadEmitter(emitterInfo, world, RIGHT_D));
+    }
+}
+
+EnergyEmitter *Map::loadEmitter(const YAML::Node &emitterInfo, b2World &world, direction_t direction) {
+    auto id = emitterInfo["id"].as<uint32_t>();
+    auto x = emitterInfo["xCoord"].as<float32>();
+    auto y = emitterInfo["yCoord"].as<float32>();
+    return new EnergyEmitter(world, x, y, id, direction);
+}

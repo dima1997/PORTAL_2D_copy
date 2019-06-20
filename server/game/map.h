@@ -15,6 +15,7 @@
 #include "body/button.h"
 #include "body/rock.h"
 #include "body/barrier.h"
+#include "body/energy_emitter.h"
 
 class Map {
     YAML::Node file;
@@ -23,6 +24,7 @@ class Map {
     Portal *loadPortal(const YAML::Node &portal, b2World &world);
     Chell *loadChell(const YAML::Node &chell, b2World &world, Portal *bluePortal, Portal *orangePortal);
     Block *loadBlock(const YAML::Node &block, b2World &world, body_type_t type, orientation_t orientation);
+    EnergyEmitter *loadEmitter(const YAML::Node &emitterInfo, b2World &world, direction_t direction);
 public:
     explicit Map(uint8_t map_id);
     uint8_t getPlayersNumber();
@@ -34,6 +36,7 @@ public:
     void loadDoors(b2World &world, std::list<Door *> &doors);
     void loadButtons(b2World &world, std::list<Button *> &buttons, std::list<Door *> &doors);
     void loadBarriers(b2World &world, std::list<Barrier *> &barriers);
+    void loadEmitters(b2World &world, std::list<EnergyEmitter *> emmiters);
     std::string toString();
 };
 
