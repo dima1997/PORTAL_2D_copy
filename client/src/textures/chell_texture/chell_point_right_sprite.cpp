@@ -8,7 +8,7 @@ Devuelve sprite de Chell apuntando a derecha.
 IMAGE_PATH : ALL_CHELL_SPRITES
 */
 DynamicSprite ChellPointRightSprite::point_right(){
-    return std::move(DynamicSprite({{1,2977}},188,225));
+    return std::move(DynamicSprite({{28,2977}},148,216));
 }
 
 /*
@@ -16,7 +16,7 @@ Devuelve sprite de Chell apuntando ariba.
 IMAGE_PATH : ALL_CHELL_SPRITES
 */
 DynamicSprite ChellPointRightSprite::point_up(){
-    return std::move(DynamicSprite({{190,2977}},188,225));
+    return std::move(DynamicSprite({{214,2985}},113,210));
 }
 
 /*
@@ -24,7 +24,7 @@ Devuelve sprite de Chell apuntando arriba y a derecha.
 IMAGE_PATH : ALL_CHELL_SPRITES
 */
 DynamicSprite ChellPointRightSprite::point_right_up(){
-    return std::move(DynamicSprite({{568,2977}},188,225));
+    return std::move(DynamicSprite({{593,2982}},119,201));
 }
 
 /*
@@ -32,7 +32,7 @@ Devuelve sprite de Chell apuntando abajo.
 IMAGE_PATH : ALL_CHELL_SPRITES
 */
 DynamicSprite ChellPointRightSprite::point_down(){
-    return std::move(DynamicSprite({{213,2747}},170,200));
+    return std::move(DynamicSprite({{634,2762}},139,188));
 }
 
 /*
@@ -40,5 +40,5 @@ Devuelve sprite de Chell apuntando abajo y a derecha.
 IMAGE_PATH : ALL_CHELL_SPRITES
 */
 DynamicSprite ChellPointRightSprite::point_right_down(){
-    return std::move(DynamicSprite({{1,249}},164,199));
+    return std::move(DynamicSprite({{295,1342}},134,220));
 }

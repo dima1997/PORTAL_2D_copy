@@ -10,5 +10,5 @@ Devuelve un sprite dinamico de bloque de metal.
 IMAGE_PATH : ALL_BLOCKS_SPRITES
 */
 DynamicSprite BlockMetalSprite::get_sprite(){
-    return std::move(DynamicSprite({{1,600}},193,193));
+    return std::move(DynamicSprite({{401,18}},193,193));
 } 

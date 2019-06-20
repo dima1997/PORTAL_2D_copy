@@ -13,12 +13,12 @@ DynamicSprite ReceiverUnlockingSprite::get_sprite(){
     return std::move(
         DynamicSprite(
             {
-                {202,2538},
-                {403,2538},
-                {604,2538},
-                {805,2538}
+                {202,231},
+                {403,231},
+                {604,231},
+                {805,231}
             },
-            200,197
+            195,193
         )
     );
 }

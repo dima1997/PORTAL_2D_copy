@@ -10,5 +10,5 @@ Devuelve un sprite dinamico de bloque de acido.
 IMAGE_PATH : ALL_BLOCKS_SPRITES
 */
 DynamicSprite BlockAcidSprite::get_sprite(){
-    return std::move(DynamicSprite({{1,172}},193,193));
+    return std::move(DynamicSprite({{1,18}},193,193));
 } 

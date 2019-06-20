@@ -257,7 +257,7 @@ inferior izquierda.
 std::unique_ptr<Texture> TextureFactory::
 create_triangle_botom_left(Area areaMap){
     return std::move(this->create_texture_one_sprite(
-        ALL_TRIANGLES_SPRITES,
+        ALL_BLOCKS_SPRITES,
         areaMap,
         TriangleBotomLeftSprite::get_sprite,
         0
@@ -275,7 +275,7 @@ inferior derecha.
 std::unique_ptr<Texture> TextureFactory::
 create_triangle_botom_right(Area areaMap){
     return std::move(this->create_texture_one_sprite(
-        ALL_TRIANGLES_SPRITES,
+        ALL_BLOCKS_SPRITES,
         areaMap,
         TriangleBotomLeftSprite::get_sprite,
         270
@@ -292,7 +292,7 @@ superior izquierda.
 std::unique_ptr<Texture> TextureFactory::
 create_triangle_top_left(Area areaMap){
     return std::move(this->create_texture_one_sprite(
-        ALL_TRIANGLES_SPRITES,
+        ALL_BLOCKS_SPRITES,
         areaMap,
         TriangleBotomLeftSprite::get_sprite,
         90
@@ -309,7 +309,7 @@ superior derecha.
 std::unique_ptr<Texture> TextureFactory::
 create_triangle_top_right(Area areaMap){
     return std::move(this->create_texture_one_sprite(
-        ALL_TRIANGLES_SPRITES,
+        ALL_BLOCKS_SPRITES,
         areaMap,
         TriangleBotomLeftSprite::get_sprite,
         180
@@ -449,7 +449,7 @@ video.
 std::unique_ptr<Texture> TextureFactory::
 create_record(Area areaMap){
     BigTexture & bigTexture = this->window.add_big_texture(
-                                    IMAGES_PATHS.at(RECORD_SPRITES)
+                                    IMAGES_PATHS.at(ALL_BLOCKS_SPRITES)
                                 );
     std::unique_ptr<Texture> ptrTexture(new RecordTexture(
         bigTexture, 
