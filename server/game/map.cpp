@@ -136,7 +136,9 @@ void Map::loadRocks(b2World &world, std::list<Rock *> &rocks) {
         auto id = rockInfo["id"].as<uint32_t>();
         auto x = rockInfo["xCoord"].as<float32>();
         auto y = rockInfo["yCoord"].as<float32>();
-        rocks.push_back(new Rock(world, x, y, id, 0.2f, 0.28f));
+        auto hx = rockInfo["hx"].as<float32>();
+        auto hy = rockInfo["hy"].as<float32>();
+        rocks.push_back(new Rock(world, x, y, id, hx, hy));
     }
 }
 

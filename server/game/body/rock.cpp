@@ -30,7 +30,7 @@ void Rock::createBody(float32 xPos, float32 yPos) {
 
     b2FixtureDef fixtureDef;
     fixtureDef.shape = &dynamicBox;
-    fixtureDef.density = 10.0f;
+    fixtureDef.density = 0.5f / (hx * hy);
     fixtureDef.friction = 3.0f;
 
     body->CreateFixture(&fixtureDef);
