@@ -16,6 +16,7 @@
 #include "body/rock.h"
 #include "body/barrier.h"
 #include "body/energy_emitter.h"
+#include "body/energy_ball.h"
 
 class Map {
     YAML::Node file;
@@ -36,7 +37,8 @@ public:
     void loadDoors(b2World &world, std::list<Door *> &doors);
     void loadButtons(b2World &world, std::list<Button *> &buttons, std::list<Door *> &doors);
     void loadBarriers(b2World &world, std::list<Barrier *> &barriers);
-    void loadEmitters(b2World &world, std::list<EnergyEmitter *> emmiters);
+    void loadEmitters(b2World &world, std::list<EnergyEmitter *> &emmiters);
+    void loadBalls(b2World &world, std::list<EnergyBall *> &balls, std::list<EnergyEmitter *> &emmiters);
     std::string toString();
 };
 

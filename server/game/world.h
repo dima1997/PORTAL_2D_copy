@@ -15,6 +15,7 @@
 #include "body/door.h"
 #include "body/button.h"
 #include "body/rock.h"
+#include "body/energy_ball.h"
 #include <protocol/event/object_moves_event.h>
 
 #include <set>
@@ -30,6 +31,7 @@ private:
     std::list<Rock *> rocks;
     std::list<Barrier *> barriers;
     std::list<EnergyEmitter *> emitters;
+    std::list<EnergyBall *> balls;
     Cake *cake;
     std::vector<std::shared_ptr<b2ContactListener>> listeners;
     int numberOfPlayers;

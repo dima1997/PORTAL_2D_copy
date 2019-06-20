@@ -10,7 +10,7 @@
 
 typedef enum direction {UP_D, DOWN_D, RIGHT_D, LEFT_D} direction_t;
 
-class EnergyEmitter: Body {
+class EnergyEmitter: public Body {
 private:
     direction_t direction;
     void createBody(float32 xPos, float32 yPos) override;

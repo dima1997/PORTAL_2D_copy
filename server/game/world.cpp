@@ -103,6 +103,7 @@ void World::step(std::list<std::shared_ptr<Event>> &events) {
 }
 
 World::~World() {
+    // TODO: all to the stack
     for (auto *chell : chells) {
         delete chell;
     }
@@ -137,6 +138,7 @@ void World::loadMap(Map &map) {
     map.loadRocks(*world, rocks);
     map.loadBarriers(*world, barriers);
     map.loadEmitters(*world, emitters);
+    map.loadBalls(*world, balls, emitters);
     numberOfPlayers = map.getPlayersNumber();
 }
 
