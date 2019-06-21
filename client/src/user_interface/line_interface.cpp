@@ -106,7 +106,7 @@ Game LineInterface::_get_new_game(Connector & connector,
     connector >> gameId;
     uint32_t playerId;
     connector >> playerId;
-    std::cout << "Stating game :\n";
+    std::cout << "Starting game :\n";
     std::cout << "Game name : " << gameName << "\n";
     std::cout << "Game id : " << (unsigned) gameId << "\n";
     std::cout << "Player id : " << playerId << "\n";

@@ -58,15 +58,15 @@ target_link_libraries(${SERVER_NAME} yaml-cpp)
 set(CLIENT_NAME "PORTAL")
 set(CLIENT_FOLDER "client")
 
-#find_package(Qt5Widgets)
-#qt5_wrap_ui(UIS_HEADERS
-#	"${CLIENT_FOLDER}/src/user_interface/ui/LoginNew.ui"
-#	"${CLIENT_FOLDER}/src/user_interface/ui/LoginJoin.ui"
-#	"${CLIENT_FOLDER}/src/user_interface/ui/LoginServer.ui"
-#	"${CLIENT_FOLDER}/src/user_interface/ui/LoginMode.ui"
-#)
+find_package(Qt5Widgets)
+qt5_wrap_ui(UIS_HEADERS
+	"${CLIENT_FOLDER}/src/user_interface/ui/LoginNew.ui"
+	"${CLIENT_FOLDER}/src/user_interface/ui/LoginJoin.ui"
+	"${CLIENT_FOLDER}/src/user_interface/ui/LoginServer.ui"
+	"${CLIENT_FOLDER}/src/user_interface/ui/LoginMode.ui"
+)
 
-#include_directories(${PROJECT_BINARY_DIR})
+include_directories(${PROJECT_BINARY_DIR})
 
 file(GLOB client_files
         "${CLIENT_FOLDER}/main.cpp"
@@ -147,13 +147,14 @@ file(GLOB client_files
 	"${CLIENT_FOLDER}/src/window/record/sws_context_wrapper.cpp"
 	"${CLIENT_FOLDER}/src/window/record/output_format.cpp"
 	"${CLIENT_FOLDER}/src/threads/video_record_thread.cpp"
-#	"${CLIENT_FOLDER}/src/user_interface/login_server.cpp"
-#	"${CLIENT_FOLDER}/src/user_interface/login_mode.cpp"
-#	"${CLIENT_FOLDER}/src/user_interface/login_new.cpp"
-#	"${CLIENT_FOLDER}/src/user_interface/login_join.cpp"
+	"${CLIENT_FOLDER}/src/user_interface/login.cpp"
+	"${CLIENT_FOLDER}/src/user_interface/login_server.cpp"
+	"${CLIENT_FOLDER}/src/user_interface/login_mode.cpp"
+	"${CLIENT_FOLDER}/src/user_interface/login_new.cpp"
+	"${CLIENT_FOLDER}/src/user_interface/login_join.cpp"
         )
 
-add_executable(${CLIENT_NAME} ${common_files} ${client_files})
+add_executable(${CLIENT_NAME} ${common_files} ${client_files} ${UIS_HEADERS})
 
 target_compile_features(${CLIENT_NAME} PUBLIC cxx_std_11)
 target_link_libraries(${CLIENT_NAME} PORTAL::Common)
@@ -165,7 +166,7 @@ target_link_libraries(${CLIENT_NAME} SDL2 SDL2_image SDL2_mixer)
 
 target_link_libraries(${CLIENT_NAME} yaml-cpp)
 
-#target_link_libraries(${CLIENT_NAME} Qt5::Widgets)
+target_link_libraries(${CLIENT_NAME} Qt5::Widgets)
 
 target_link_libraries(${CLIENT_NAME} avformat avcodec avutil swscale)
 

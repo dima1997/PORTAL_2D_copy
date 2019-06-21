@@ -1,5 +1,6 @@
 #include "../../includes/user_interface/login_new.h"
 
+#include "../../includes/user_interface/login.h"
 #include "../../includes/game/game_config.h"
 
 #include "ui_LoginNew.h"
@@ -14,7 +15,8 @@
 LoginNew::LoginNew(GameConfig & gameConfig, QWidget *parent)
 :   QWidget(parent),
     gameConfig(gameConfig),
-    connector()
+    connector(),
+    isOpen(true)
 {
     Ui::LoginNew loginNew;
     loginNew.setupUi(this);
@@ -43,8 +45,9 @@ void LoginNew::config_new_game() {
         err << "Server rejected new game.\n";
         qMsg.setText(QString(err.str().c_str()));
         qMsg.exec();
+        ((Login*)this->parentWidget())->stop();
         this->close();
-        emit login_new_failed();
+        //emit login_new_failed();
         return;
     }
     uint8_t gameId;
@@ -55,6 +58,7 @@ void LoginNew::config_new_game() {
     this->gameConfig.set_game_id(gameId);
     this->gameConfig.set_player_id(playerId);
     this->gameConfig.set_map_id(mapId);
+    this->gameConfig.set_well_config();
     QMessageBox qMsg;
     qMsg.setWindowTitle("Portal");
     std::stringstream ok;
@@ -62,14 +66,23 @@ void LoginNew::config_new_game() {
     qMsg.setText(QString(ok.str().c_str()));
     qMsg.exec();
     this->close();
-    emit login_new_success();
+    //emit login_new_success();
     return;
+}
+
+void LoginNew::quit(){
+    ((Login*)this->parentWidget())->quit();
+    this->close();
 }
 
 void LoginNew::connect_events() {
     QPushButton* buttonNew = findChild<QPushButton*>("buttonNew");
     QObject::connect(buttonNew, &QPushButton::clicked,
                      this, &LoginNew::config_new_game);
+    
+    QPushButton* buttonQuit = findChild<QPushButton*>("buttonQuit");
+    QObject::connect(buttonQuit, &QPushButton::clicked,
+                     this, &LoginNew::quit);
 }
 
 void LoginNew::set_map_ids(std::vector<uint8_t> & mapIds){
@@ -82,4 +95,15 @@ void LoginNew::set_map_ids(std::vector<uint8_t> & mapIds){
 
 void LoginNew::set_connector(Connector & connector){
     this->connector = std::move(connector);
+}
+
+void LoginNew::closeEvent(QCloseEvent *event){
+    if (! this->isOpen){
+        return;
+    }
+    try {
+        this->connector.shutDownRD();
+        this->connector.shutDownWR();
+    } catch (SocketException &error){}
+        event->accept();    
 }

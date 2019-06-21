@@ -7,7 +7,20 @@
 #include <string>
 #include <iostream>
 
+#include <QApplication>
+#include <QLabel>
+
 int main(int argc, char **argv) {
+    /*
+    {
+        QApplication app(argc, argv);
+        QLabel label("Por favor, funciona.");
+        label.show();
+        app.exec();
+    }
+
+    std::setlocale(LC_NUMERIC,"C");
+    */
     try {
         bool wrongUse = false;
         if (argc == 5) {
@@ -22,7 +35,10 @@ int main(int argc, char **argv) {
             std::string mode = argv[1];
             if (mode == "line"){
                 Client client;
-                client.run();
+                client.run_line();
+            } else if (mode == "window"){
+                Client client;
+                client.run_qt(argc, argv);
             } else {
                 wrongUse = true;
             }
@@ -31,6 +47,8 @@ int main(int argc, char **argv) {
             std::cerr << "Usage:\n\t" << argv[0] << " host port command id" << std::endl;
             std::cerr << "or" << std::endl;
             std::cerr << "Usage:\n\t" << argv[0] << " line" << std::endl;
+            std::cerr << "or" << std::endl;
+            std::cerr << "Usage:\n\t" << argv[0] << " window" << std::endl;
             return 1;
         }
     } catch (SdlException &error){

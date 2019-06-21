@@ -8,6 +8,7 @@
 
 class PortalMoveChange : public TextureChange {
 private:
+    uint32_t idPortal;
     float newX;
     float newY;
     uint32_t idShooter;
@@ -23,7 +24,7 @@ public:
     textura del portal, bajo las condiciones indicadas.
     */
     PortalMoveChange(
-        uint32_t idTexture, 
+        uint32_t idPortal, 
         float newX, 
         float newY, 
         uint32_t idShooter
