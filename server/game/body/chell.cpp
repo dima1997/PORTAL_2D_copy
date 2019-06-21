@@ -151,6 +151,9 @@ void Chell::shootPortal(float x, float y, portal_color_t color) {
 }
 
 void Chell::grabRock() {
+    if (carriesRock) {
+        return;
+    }
     for (b2ContactEdge *contactEdge = body->GetContactList(); contactEdge != nullptr; contactEdge = contactEdge->next) {
         b2Contact *contact = contactEdge->contact; 
         if (!contact->IsTouching()) continue;
