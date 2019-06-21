@@ -33,7 +33,7 @@ public:
     /*
     Destruye el cambio de ubicacion de la textura.
     */
-    ~PortalMoveChange();
+    virtual ~PortalMoveChange();
 
     /*
     PRE: Recibe un ventana (Window &) donde 
@@ -41,7 +41,7 @@ public:
     POST: Realiza el cambio que representa 
     en la ventana recibida.
     */
-    void change(Window &window);
+    virtual void change(Window &window);
     
 };
 

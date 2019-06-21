@@ -10,7 +10,7 @@ realizar el cambio.
 POST: Inicializa un cambio en textura nulo.
 */
 TextureChange::TextureChange(uint32_t idTexture)
-: idTexture(idTexture) {}
+: id(idTexture) {}
 
 /*Destruye el cambio en textura.*/
 TextureChange::~TextureChange() = default;
@@ -21,3 +21,9 @@ textura con el id correspondiente a este cambio.
 POST: Realiza un cambio nulo en la ventana.
 */
 void TextureChange::change(Window & window) {}
+
+/*
+PRE: Recibe un resultado de juego.
+POST: Realiza un cambio nulo en dicho resultado.
+*/
+void TextureChange::change(PlayResult & playResult) {}

@@ -16,8 +16,9 @@ public:
     en textura.
     */
     TextureSwitchChange(const ObjectSwitchEvent & ObjectSwitchEvent);
+    
     /*Destruye el cambio de tipo switch en textura.*/
-    ~TextureSwitchChange();
+    virtual ~TextureSwitchChange();
 
     /*
     PRE: Recibe una referncia a una ventana que 

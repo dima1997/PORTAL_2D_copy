@@ -15,8 +15,6 @@ sections:
         blocks_metal, 
         blocks_rock, 
         blocks_acid, 
-        portals_blue, 
-        portals_orange, 
         doors_one, 
         buttons, 
         rocks_one,
@@ -36,6 +34,8 @@ sections:
         triangles_top_left,
         triangles_top_right,
         cakes, 
+        portals_blue, 
+        portals_orange, 
         chells,
         records
     ]

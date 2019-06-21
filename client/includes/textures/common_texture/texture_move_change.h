@@ -24,13 +24,13 @@ public:
     /*
     Destruye el cambio de ubicacion de la textura.
     */
-    ~TextureMoveChange();
+    virtual ~TextureMoveChange();
 
     /*
     PRE: Recibe un ventana (Window &) donde realizar el cambio.
     POST: Realiza el cambio que representa en la ventan recibida.
     */
-    void change(Window &window);
+    virtual void change(Window &window);
 };
 
 #endif // TEXTURE_MOVE_CHANGE_H

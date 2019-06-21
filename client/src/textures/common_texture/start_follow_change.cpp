@@ -1,3 +1,10 @@
+#include "../../../includes/textures/common_texture/start_follow_change.h"
+
+#include "../../../includes/textures/common_texture/texture_change.h"
+#include "../../../includes/window/window.h"
+
+#include <cstdint>
+
 /*
 PRE: Recibe:
     el id de una textura seguidora;
@@ -9,7 +16,8 @@ StartFollowChange::StartFollowChange(
     uint32_t idFollowing, 
     uint32_t idFollowed
 )
-:   idFollowing(idFollowing),
+:   TextureChange(idFollowing),
+    idFollowing(idFollowing),
     idFollowed(idFollowed) {}
 
 /*

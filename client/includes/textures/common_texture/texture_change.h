@@ -7,7 +7,7 @@
 
 class TextureChange {
 protected:
-    uint32_t idTexture;
+    uint32_t id;
 public:
     /*
     PRE: Recibe el id de la textura donde se 
@@ -24,7 +24,13 @@ public:
     textura con el id correspondiente a este cambio.
     POST: Realiza un cambio nulo en la ventana.
     */
-    virtual void change(Window & window);  
+    virtual void change(Window & window);
+
+    /*
+    PRE: Recibe un resultado de juego.
+    POST: Realiza un cambio nulo en dicho resultado.
+    */
+    virtual void change(PlayResult & playResult);   
 };
 
 #endif // TEXTURE_CHANGE_H

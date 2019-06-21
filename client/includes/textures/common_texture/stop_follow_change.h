@@ -1,32 +1,28 @@
-#ifndef PORTAL_MOVE_CHANGE_H
-#define PORTAL_MOVE_CHANGE_H
+#ifndef STOP_FOLLOW_CHANGE_H
+#define STOP_FOLLOW_CHANGE_H
 
 #include "texture_change.h"
 #include "../../window/window.h"
 
 #include <cstdint>
 
-class StartFollowChange : public TextureChange { 
-private:
-    uint32_t idFollowing;
-    uint32_t idFollwed;
+class StopFollowChange : public TextureChange { 
 public:
     /*
     PRE: Recibe:
         el id de una textura seguidora;
         el id de una textura a seguir;
-    POST: Inicializa un cambio de empezar a seguir
+    POST: Inicializa un cambio de dejar de seguir
     una textura.
     */
-    StartFollowChange(
-        uint32_t idFollowing, 
-        uint32_t idFollwed
+    StopFollowChange(
+        uint32_t idFollowing
     );
 
     /*
     Destruye el cambio de seguimiento de la textura.
     */
-    ~StartFollowChange();
+    virtual ~StopFollowChange();
 
     /*
     PRE: Recibe un ventana (Window &) donde 
@@ -34,7 +30,7 @@ public:
     POST: Realiza el cambio que representa 
     en la ventana recibida.
     */
-    void change(Window &window);    
+    virtual void change(Window & window);    
 };
 
-#endif // TEXTURE_FOLLOW_CHANGE_H
+#endif // STOP_FOLLOW_CHANGE_H

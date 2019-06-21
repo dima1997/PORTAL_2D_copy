@@ -99,6 +99,11 @@ file(GLOB client_files
         "${CLIENT_FOLDER}/src/textures/common_texture/texture_move_change.cpp"
         "${CLIENT_FOLDER}/src/textures/common_texture/portal_move_change.cpp"
         "${CLIENT_FOLDER}/src/textures/common_texture/texture_switch_change.cpp"
+        "${CLIENT_FOLDER}/src/textures/common_texture/start_follow_change.cpp"
+        "${CLIENT_FOLDER}/src/textures/common_texture/stop_follow_change.cpp"
+        "${CLIENT_FOLDER}/src/textures/common_texture/player_dies_change.cpp"
+        "${CLIENT_FOLDER}/src/textures/common_texture/player_wins_change.cpp"
+        "${CLIENT_FOLDER}/src/textures/common_texture/player_loses_change.cpp"
         "${CLIENT_FOLDER}/src/textures/common_texture/null_sprite.cpp"
         "${CLIENT_FOLDER}/src/textures/block_metal_texture/block_metal_sprite.cpp"
         "${CLIENT_FOLDER}/src/textures/block_rock_texture/block_rock_sprite.cpp"
@@ -186,6 +191,4 @@ install(FILES client/assets/portal_radio.wav DESTINATION ${CMAKE_BINARY_DIR})
 install(FILES client/assets/portal_shoot.wav DESTINATION ${CMAKE_BINARY_DIR})
 install(FILES client/assets/dying.wav DESTINATION ${CMAKE_BINARY_DIR})
 install(FILES client/assets/jump.wav DESTINATION ${CMAKE_BINARY_DIR})
-install(FILES client/assets/portal_background_1.jpg DESTINATION ${CMAKE_BINARY_DIR})
-install(FILES client/assets/portal_background_2.jpg DESTINATION ${CMAKE_BINARY_DIR})
 install(FILES client/assets/portal_background_3.jpg DESTINATION ${CMAKE_BINARY_DIR})

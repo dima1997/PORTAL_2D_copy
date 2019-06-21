@@ -1,5 +1,5 @@
-#ifndef PORTAL_MOVE_CHANGE_H
-#define PORTAL_MOVE_CHANGE_H
+#ifndef START_FOLLOW_CHANGE_H
+#define START_FOLLOW_CHANGE_H
 
 #include "texture_change.h"
 #include "../../window/window.h"
@@ -9,7 +9,7 @@
 class StartFollowChange : public TextureChange { 
 private:
     uint32_t idFollowing;
-    uint32_t idFollwed;
+    uint32_t idFollowed;
 public:
     /*
     PRE: Recibe:
@@ -20,13 +20,13 @@ public:
     */
     StartFollowChange(
         uint32_t idFollowing, 
-        uint32_t idFollwed
+        uint32_t idFollowed
     );
 
     /*
     Destruye el cambio de seguimiento de la textura.
     */
-    ~StartFollowChange();
+    virtual ~StartFollowChange();
 
     /*
     PRE: Recibe un ventana (Window &) donde 
@@ -34,7 +34,7 @@ public:
     POST: Realiza el cambio que representa 
     en la ventana recibida.
     */
-    void change(Window &window);    
+    virtual void change(Window & window);    
 };
 
-#endif // TEXTURE_FOLLOW_CHANGE_H
+#endif // START_FOLLOW_CHANGE_H
