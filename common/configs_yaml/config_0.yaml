@@ -161,7 +161,7 @@ rocks_one:
     height: 1.0
     id_coordinates:
         [
-            {id: 59, xCoord: -2.5, yCoord: 1.5, hx: 0.5, hy: 0.5}
+#            {id: 59, xCoord: -2.5, yCoord: 1.5, hx: 0.5, hy: 0.5}
         ]
 barriers:
     [
@@ -257,26 +257,26 @@ rocks_five:
     height: 1.0
     id_coordinates:
         [
-            {id: 75, xCoord: -3.5, yCoord: 2.5}
+#            {id: 75, xCoord: -3.5, yCoord: 2.5}
         ]
 rocks_six:
     width: 1.0
     height: 1.0
     id_coordinates:
         [
-            {id: 76, xCoord: -1.5, yCoord: 2.5}
+#            {id: 76, xCoord: -1.5, yCoord: 2.5}
         ]
 rocks_seven:
     width: 1.0
     height: 1.0
     id_coordinates:
         [
-            {id: 77, xCoord: 5.5, yCoord: 2.5}
+#            {id: 77, xCoord: 5.5, yCoord: 2.5}
         ]
 rocks_eight:
     width: 1.0
     height: 1.0
     id_coordinates:
         [
-            {id: 78, xCoord: 5.5, yCoord: 2.5}
+#            {id: 78, xCoord: 5.5, yCoord: 2.5}
         ]
