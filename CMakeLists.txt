@@ -38,8 +38,9 @@ file(GLOB server_files
         "${SERVER_FOLDER}/game/body/energy_emitter.cpp"
         "${SERVER_FOLDER}/game/body/energy_ball.cpp"
         "${SERVER_FOLDER}/game/ray_cast_callback/portal_ray_cast_callback.cpp"
-        "${SERVER_FOLDER}/utils/id_generator.cpp"
+        "${SERVER_FOLDER}/utils/geometry_utils.cpp"
         "${SERVER_FOLDER}/game/contact_listener/contact_listener.cpp"
+        "${SERVER_FOLDER}/game/contact_filter/contact_filter.cpp"
         )
 
 add_executable(${SERVER_NAME} ${server_files})

@@ -13,11 +13,15 @@ class EnergyBall: public Body {
 private:
     b2Vec2 direction;
     EnergyEmitter &emitter;
+    void resetDirection();
     void createBody(float32 xPos, float32 yPos) override;
 public:
     EnergyBall(b2World &world, float32 xPos, float32 yPos, uint32_t id, EnergyEmitter &emitter);
     ~EnergyBall() override;
+    void move();
     body_type_t getBodyType() override;
+    void setDirection(b2Vec2 dir);
+    b2Vec2 getDirection();
 };
 
 

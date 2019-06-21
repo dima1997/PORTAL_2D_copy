@@ -25,11 +25,10 @@
 #define POSITION_ITERATIONS 2
 
 World::World(Map &map): gravity(0.0f, -9.8f), world(new b2World(gravity)),
-                              chells(), blocks(), cake(), numberOfPlayers(), finished(false) {
+                              cake(), contactListener(), contactFilter(), numberOfPlayers(), finished(false) {
     loadMap(map);
-    std::unique_ptr<ContactListener> contactListener(new ContactListener());
-    world->SetContactListener(contactListener.get());
-    listeners.push_back(std::move(contactListener));
+    world->SetContactListener(&contactListener);
+    world->SetContactFilter(&contactFilter);
 }
 
 void World::step(std::list<std::shared_ptr<Event>> &events) {
@@ -59,6 +58,12 @@ void World::step(std::list<std::shared_ptr<Event>> &events) {
         if (door->update()) {
             events.push_back(std::shared_ptr<Event>(new ObjectSwitchEvent(door->getId())));
         }
+    }
+    for (EnergyBall *ball : balls) {
+        ball->changedPositionOrVelocity();
+        ball->move();
+        printf("x: %f, y: %f\n", ball->getXPos(), ball->getYPos());
+        events.push_back(std::shared_ptr<Event>(new ObjectMovesEvent(ball->getId(), ball->getXPos(), ball->getYPos())));
     }
     for (Chell *chell : chells) {
         if ( chell->justDied() ) {

@@ -8,6 +8,8 @@
 #include "../body/cake.h"
 #include "../body/chell.h"
 #include "../body/button.h"
+#include "../body/energy_ball.h"
+#include "../../utils/geometry_utils.h"
 #include <Box2D/Dynamics/Contacts/b2Contact.h>
 
 void ContactListener::BeginContact(b2Contact *contact) {
@@ -40,6 +42,13 @@ void ContactListener::BeginContact(b2Contact *contact) {
             if (dataB->getBodyType() == ROCK) {
                 dynamic_cast<Rock *>(dataB)->moveToInitial();
             }
+        } else if (dataA->getBodyType() == ENERGY_BALL) {
+            b2WorldManifold worldManifold;
+            contact->GetWorldManifold(&worldManifold);
+            auto *ball = dynamic_cast<EnergyBall *>(dataA);
+            const b2Vec2 vec2 = ball->getDirection();
+            const b2Vec2 vec3 = -vec2;
+            ball->setDirection(normal_reflection(vec3, worldManifold.normal));
         }
 
         if (dataB->getBodyType() == PORTAL) {
@@ -68,6 +77,13 @@ void ContactListener::BeginContact(b2Contact *contact) {
             if (dataA->getBodyType() == ROCK) {
                 dynamic_cast<Rock *>(dataA)->moveToInitial();
             }
+        } else if (dataB->getBodyType() == ENERGY_BALL) {
+            b2WorldManifold worldManifold;
+            contact->GetWorldManifold(&worldManifold);
+            auto *ball = dynamic_cast<EnergyBall *>(dataB);
+            const b2Vec2 vec2 = ball->getDirection();
+            const b2Vec2 vec3 = -vec2;
+            ball->setDirection(normal_reflection(vec3, worldManifold.normal));
         }
     }
 }
