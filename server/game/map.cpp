@@ -97,8 +97,9 @@ Block Map::loadBlock(const YAML::Node &block, b2World &world, body_type_t type, 
     return Block(world, x, y, type, id, orientation);
 }
 
-void Map::loadDoors(b2World &world, std::list<Door *> &doors) {
+std::list<Door> Map::loadDoors(b2World &world) {
     YAML::Node doorsInfo = file["doors_one"]["id_coordinates"];
+    std::list<Door> doors;
     for (auto && doorInfo : doorsInfo) {
         std::unordered_map<uint32_t, bool> conditions;
         for (auto condition : doorInfo["conditions"]) {
@@ -109,19 +110,22 @@ void Map::loadDoors(b2World &world, std::list<Door *> &doors) {
         auto id = doorInfo["id"].as<uint32_t>();
         auto x = doorInfo["xCoord"].as<float32>();
         auto y = doorInfo["yCoord"].as<float32>();
-        doors.push_back(new Door(world, x, y, id, conditions));
+//        doors.push_back(std::move(Door(world, x, y, id, conditions)));
+        doors.emplace_back(world, x, y, id, conditions);
     }
+    return doors;
 }
 
-void Map::loadButtons(b2World &world, std::list<Button *> &buttons, std::list<Door *> &doors) {
+std::list<Button> Map::loadButtons(b2World &world, std::list<Door> &doors) {
     YAML::Node buttonsInfo = file["buttons"]["id_coordinates"];
+    std::list<Button> buttons;
     for (auto && buttonInfo : buttonsInfo) {
-        std::list<Door *> buttonDoors;
+        std::list<std::reference_wrapper<Door>> buttonDoors;
         for (auto && doorIdNode : buttonInfo["door_ids"]) {
             auto doorId = doorIdNode.as<uint32_t>();
-            for (auto door : doors) {
-                if (door->getId() == doorId) {
-                    buttonDoors.push_back(door);
+            for (auto &door : doors) {
+                if (door.getId() == doorId) {
+                    buttonDoors.emplace_back(door);
                     break;
                 }
             }
@@ -129,8 +133,9 @@ void Map::loadButtons(b2World &world, std::list<Button *> &buttons, std::list<Do
         auto id = buttonInfo["id"].as<uint32_t>();
         auto x = buttonInfo["xCoord"].as<float32>();
         auto y = buttonInfo["yCoord"].as<float32>();
-        buttons.push_back(new Button(world, x, y, id, buttonDoors));
+        buttons.emplace_back(world, x, y, id, buttonDoors);
     }
+    return buttons;
 
 }
 

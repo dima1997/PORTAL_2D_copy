@@ -26,7 +26,9 @@
 
 World::World(Map &map): gravity(0.0f, -9.8f), world(new b2World(gravity)), contactListener(), contactFilter(),
                         numberOfPlayers(), finished(false), chells(std::move(map.loadChells(*world))),
-                        blocks(std::move(map.loadBlocks(*world))), cake(std::move(map.loadCake(*world))) {
+                        blocks(std::move(map.loadBlocks(*world))), doors(std::move(map.loadDoors(*world))),
+                        buttons(std::move(map.loadButtons(*world, doors))),
+                        cake(std::move(map.loadCake(*world))) {
     loadMap(map);
     world->SetContactListener(&contactListener);
     world->SetContactFilter(&contactFilter);
@@ -50,14 +52,14 @@ void World::step(std::list<std::shared_ptr<Event>> &events) {
         finished = true;
         return;
     }
-    for (Button *button : buttons) {
-        if (button->wasUpdated()) {
-            events.push_back(std::shared_ptr<Event>(new ObjectSwitchEvent(button->getId())));
+    for (Button &button : buttons) {
+        if (button.wasUpdated()) {
+            events.push_back(std::shared_ptr<Event>(new ObjectSwitchEvent(button.getId())));
         }
     }
-    for (Door *door : doors) {
-        if (door->update()) {
-            events.push_back(std::shared_ptr<Event>(new ObjectSwitchEvent(door->getId())));
+    for (Door &door : doors) {
+        if (door.update()) {
+            events.push_back(std::shared_ptr<Event>(new ObjectSwitchEvent(door.getId())));
         }
     }
     for (EnergyBall *ball : balls) {
@@ -115,12 +117,12 @@ World::~World() {
 //    for(auto *block : blocks) {
 //        delete block;
 //    }
-    for(auto *button : buttons) {
-        delete button;
-    }
-    for(auto *door : doors) {
-        delete door;
-    }
+//    for(auto *button : buttons) {
+//        delete button;
+//    }
+//    for(auto *door : doors) {
+//        delete door;
+//    }
     for(auto *rock : rocks) {
         delete rock;
     }
@@ -138,8 +140,8 @@ void World::loadMap(Map &map) {
 //    map.loadBlocks(*world, blocks);
 //    cake = map.loadCake(world);
 //    map.loadChells(world, chells);
-    map.loadDoors(*world, doors);
-    map.loadButtons(*world, buttons, doors);
+//    map.loadDoors(*world, doors);
+//    map.loadButtons(*world, buttons, doors);
     map.loadRocks(*world, rocks);
     map.loadBarriers(*world, barriers);
     map.loadEmitters(*world, emitters);

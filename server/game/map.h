@@ -34,8 +34,8 @@ public:
     std::list<Block> loadBlocks(b2World &world);
     void loadRocks(b2World &world, std::list<Rock *> &rocks);
     std::list<Chell> loadChells(b2World &world);
-    void loadDoors(b2World &world, std::list<Door *> &doors);
-    void loadButtons(b2World &world, std::list<Button *> &buttons, std::list<Door *> &doors);
+    std::list<Door> loadDoors(b2World &world);
+    std::list<Button> loadButtons(b2World &world, std::list<Door> &doors);
     void loadBarriers(b2World &world, std::list<Barrier *> &barriers);
     void loadEmitters(b2World &world, std::list<EnergyEmitter *> &emmiters);
     void loadBalls(b2World &world, std::list<EnergyBall *> &balls, std::list<EnergyEmitter *> &emmiters);
