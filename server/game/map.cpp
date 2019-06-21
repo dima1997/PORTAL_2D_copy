@@ -139,7 +139,7 @@ std::list<Button> Map::loadButtons(b2World &world, std::list<Door> &doors) {
 
 }
 
-void Map::loadRocks(b2World &world, std::list<Rock *> &rocks) {
+std::list<Rock> Map::loadRocks(b2World &world) {
     std::vector<std::string> rocksSections;
     rocksSections.emplace_back("rocks_one");
     rocksSections.emplace_back("rocks_two");
@@ -149,6 +149,7 @@ void Map::loadRocks(b2World &world, std::list<Rock *> &rocks) {
     rocksSections.emplace_back("rocks_six");
     rocksSections.emplace_back("rocks_seven");
     rocksSections.emplace_back("rocks_eight");
+    std::list<Rock> rocks;
     // Esto puede romper si las secciones no existen
     for (int i = 0; i < (int)rocksSections.size(); ++i){
         std::string section = rocksSections[i];
@@ -157,9 +158,10 @@ void Map::loadRocks(b2World &world, std::list<Rock *> &rocks) {
             auto id = rockInfo["id"].as<uint32_t>();
             auto x = rockInfo["xCoord"].as<float32>();
             auto y = rockInfo["yCoord"].as<float32>();
-            rocks.push_back(new Rock(world, x, y, id, 0.4f, 0.4f));
+            rocks.emplace_back(world, x, y, id, 0.4f, 0.4f);
         }
     }
+    return rocks;
 }
 
 std::string Map::toString() {

@@ -191,8 +191,8 @@ bool Chell::grabbedRock() {
     return updated;
 }
 
-Rock *Chell::getRock() {
-    return rock;
+Rock &Chell::getRock() {
+    return *rock;
 }
 
 bool Chell::threwRock() {

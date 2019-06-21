@@ -30,7 +30,7 @@ private:
     std::list<Block> blocks;
     std::list<Door> doors;
     std::list<Button> buttons;
-    std::list<Rock *> rocks;
+    std::list<Rock> rocks;
     std::list<Barrier *> barriers;
     std::list<EnergyEmitter *> emitters;
     std::list<EnergyBall *> balls;

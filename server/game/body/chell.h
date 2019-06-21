@@ -49,7 +49,7 @@ public:
     void throwRock(bool force);
     bool grabbedRock();
     bool threwRock();
-    Rock *getRock();
+    Rock &getRock();
 };
 
 

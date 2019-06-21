@@ -27,7 +27,7 @@
 World::World(Map &map): gravity(0.0f, -9.8f), world(new b2World(gravity)), contactListener(), contactFilter(),
                         numberOfPlayers(), finished(false), chells(std::move(map.loadChells(*world))),
                         blocks(std::move(map.loadBlocks(*world))), doors(std::move(map.loadDoors(*world))),
-                        buttons(std::move(map.loadButtons(*world, doors))),
+                        buttons(std::move(map.loadButtons(*world, doors))), rocks(std::move(map.loadRocks(*world))),
                         cake(std::move(map.loadCake(*world))) {
     loadMap(map);
     world->SetContactListener(&contactListener);
@@ -82,10 +82,10 @@ void World::step(std::list<std::shared_ptr<Event>> &events) {
                     std::shared_ptr<Event>(new ObjectMovesEvent(chell.getId(), chell.getXPos(), chell.getYPos())));
         }
         if (chell.grabbedRock()) {
-            events.push_back(std::shared_ptr<Event>(new GrabRockEvent(chell.getId(), chell.getRock()->getId())));
+            events.push_back(std::shared_ptr<Event>(new GrabRockEvent(chell.getId(), chell.getRock().getId())));
         }
         if (chell.threwRock()) {
-            events.push_back(std::shared_ptr<Event>(new ThrowRockEvent(chell.getRock()->getId())));
+            events.push_back(std::shared_ptr<Event>(new ThrowRockEvent(chell.getRock().getId())));
         }
         Portal *orange = chell.getPortal(ORANGE);
         if (orange->changedPosition()) {
@@ -101,9 +101,9 @@ void World::step(std::list<std::shared_ptr<Event>> &events) {
                         new PortalMovesEvent(blue->getId(), blue->getXPos(), blue->getYPos(), chell.getId())));
         }
     }
-    for (Rock *rock : rocks) {
-        if (rock->changedPosition()) {
-            events.push_back(std::shared_ptr<Event>(new ObjectMovesEvent(rock->getId(), rock->getXPos(), rock->getYPos())));
+    for (Rock &rock : rocks) {
+        if (rock.changedPosition()) {
+            events.push_back(std::shared_ptr<Event>(new ObjectMovesEvent(rock.getId(), rock.getXPos(), rock.getYPos())));
         }
     }
 
@@ -123,9 +123,9 @@ World::~World() {
 //    for(auto *door : doors) {
 //        delete door;
 //    }
-    for(auto *rock : rocks) {
-        delete rock;
-    }
+//    for(auto *rock : rocks) {
+//        delete rock;
+//    }
     for(auto *barrier: barriers) {
         delete barrier;
     }
@@ -142,7 +142,7 @@ void World::loadMap(Map &map) {
 //    map.loadChells(world, chells);
 //    map.loadDoors(*world, doors);
 //    map.loadButtons(*world, buttons, doors);
-    map.loadRocks(*world, rocks);
+//    map.loadRocks(*world, rocks);
     map.loadBarriers(*world, barriers);
     map.loadEmitters(*world, emitters);
     map.loadBalls(*world, balls, emitters);

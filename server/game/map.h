@@ -32,7 +32,7 @@ public:
     uint32_t getPlayerId(uint8_t i);
     Cake loadCake(b2World &world);
     std::list<Block> loadBlocks(b2World &world);
-    void loadRocks(b2World &world, std::list<Rock *> &rocks);
+    std::list<Rock> loadRocks(b2World &world);
     std::list<Chell> loadChells(b2World &world);
     std::list<Door> loadDoors(b2World &world);
     std::list<Button> loadButtons(b2World &world, std::list<Door> &doors);
