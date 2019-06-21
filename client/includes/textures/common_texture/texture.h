@@ -23,6 +23,7 @@ protected:
     uint8_t redMod;
     uint8_t greenMod;
     uint8_t blueMod;
+    textureFlip_t flip;
 
     /*
     Pre: Recibe un factor de ajuste (pixeles/<unidad de mapa>), 

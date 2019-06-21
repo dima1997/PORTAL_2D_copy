@@ -16,8 +16,7 @@ public:
     donde se renderizan las texturas.
     POST: Inicializa una fabrica de texturas.
     */
-    TextureFactory(Window & window);
-
+    TextureFactory();
     /*Destruye la fabrica de texturas.*/
     ~TextureFactory();
 
@@ -28,8 +27,13 @@ public:
     a una textura(std::unique_ptr<Texture>), 
     de la textura de un bloque de metal.
     */
-    std::unique_ptr<Texture> create_block_metal(Area areaMap);
-
+    static std::unique_ptr<Texture> create_block_metal(
+        Window & window, 
+        Area & areaMap,
+        uint8_t redMod,
+        uint8_t greenMod,
+        uint8_t blueMod
+    );
 
     /*
     PRE: Recibe el area (Area) donde 
@@ -38,7 +42,28 @@ public:
     a una textura(std::unique_ptr<Texture>), 
     de la textura de un bloque de roca.
     */
-    std::unique_ptr<Texture> create_block_rock(Area areaMap);
+    static std::unique_ptr<Texture> create_block_rock(
+        Window & window, 
+        Area & areaMap,
+        uint8_t redMod,
+        uint8_t greenMod,
+        uint8_t blueMod
+    );
+
+    /*
+    PRE: Recibe el area (Area) donde 
+    se ubicara la textura.
+    POST: Devuelve un puntero unico 
+    a una textura(std::unique_ptr<Texture>), 
+    de la textura de bloque acido.
+    */
+    static std::unique_ptr<Texture> create_block_acid(
+        Window & window, 
+        Area & areaMap,
+        uint8_t redMod,
+        uint8_t greenMod,
+        uint8_t blueMod
+    );
 
     /*
     PRE: Recibe el area (Area) donde 
@@ -47,7 +72,13 @@ public:
     a una textura(std::unique_ptr<Texture>), 
     de la textura de Chell.
     */
-    std::unique_ptr<Texture> create_chell(Area areaMap);
+    static std::unique_ptr<Texture> create_chell(
+        Window & window, 
+        Area & areaMap, 
+        uint8_t redMod, 
+        uint8_t greenMod, 
+        uint8_t blueMod
+    );
 
     /*
     PRE: Recibe el area (Area) donde 
@@ -56,7 +87,13 @@ public:
     a una textura(std::unique_ptr<Texture>), 
     de la textura de portal azul.
     */
-    std::unique_ptr<Texture> create_portal_blue(Area areaMap);
+    static std::unique_ptr<Texture> create_portal_blue(
+        Window & window, 
+        Area & areaMap,
+        uint8_t redMod,
+        uint8_t greenMod,
+        uint8_t blueMod
+    );
 
     /*
     PRE: Recibe el area (Area) donde 
@@ -65,8 +102,13 @@ public:
     a una textura(std::unique_ptr<Texture>), 
     de la textura de portal naranja.
     */
-    std::unique_ptr<Texture> create_portal_orange(Area areaMap);
-
+    static std::unique_ptr<Texture> create_portal_orange(
+        Window & window, 
+        Area & areaMap,
+        uint8_t redMod,
+        uint8_t greenMod,
+        uint8_t blueMod
+    );
 
     /*
     PRE: Recibe el area (Area) donde 
@@ -75,7 +117,13 @@ public:
     a una textura(std::unique_ptr<Texture>), 
     de la textura de puerta con numero 1.
     */
-    std::unique_ptr<Texture> create_door_one(Area areaMap);
+    static std::unique_ptr<Texture> create_door_one(
+        Window & window, 
+        Area & areaMap,
+        uint8_t redMod,
+        uint8_t greenMod,
+        uint8_t blueMod
+    );
 
     /*
     PRE: Recibe el area (Area) donde 
@@ -84,7 +132,13 @@ public:
     a una textura(std::unique_ptr<Texture>), 
     de la textura de boton.
     */
-    std::unique_ptr<Texture> create_button(Area areaMap);
+    static std::unique_ptr<Texture> create_button(
+        Window & window, 
+        Area & areaMap,
+        uint8_t redMod,
+        uint8_t greenMod,
+        uint8_t blueMod
+    );
 
 
     /*
@@ -94,7 +148,13 @@ public:
     a una textura(std::unique_ptr<Texture>), 
     de la textura de bola de energia verde.
     */
-    std::unique_ptr<Texture> create_energy_ball_green(Area areaMap);
+    static std::unique_ptr<Texture> create_energy_ball_green(
+        Window & window, 
+        Area & areaMap,
+        uint8_t redMod,
+        uint8_t greenMod,
+        uint8_t blueMod
+    );
 
     /*
     PRE: Recibe el area (Area) donde 
@@ -103,7 +163,13 @@ public:
     a una textura(std::unique_ptr<Texture>), 
     de la textura de roca.
     */
-    std::unique_ptr<Texture> create_rock_one(Area areaMap);
+    static std::unique_ptr<Texture> create_rock_one(
+        Window & window, 
+        Area & areaMap,
+        uint8_t redMod,
+        uint8_t greenMod,
+        uint8_t blueMod
+    );
 
     /*
     PRE: Recibe el area (Area) donde 
@@ -112,7 +178,13 @@ public:
     a una textura(std::unique_ptr<Texture>), 
     de la textura de roca.
     */
-    std::unique_ptr<Texture> create_rock_two(Area areaMap);
+    static std::unique_ptr<Texture> create_rock_two(
+        Window & window, 
+        Area & areaMap,
+        uint8_t redMod,
+        uint8_t greenMod,
+        uint8_t blueMod
+    );
 
     /*
     PRE: Recibe el area (Area) donde 
@@ -121,7 +193,13 @@ public:
     a una textura(std::unique_ptr<Texture>), 
     de la textura de roca.
     */
-    std::unique_ptr<Texture> create_rock_three(Area areaMap);
+    static std::unique_ptr<Texture> create_rock_three(
+        Window & window, 
+        Area & areaMap,
+        uint8_t redMod,
+        uint8_t greenMod,
+        uint8_t blueMod
+    );
 
     /*
     PRE: Recibe el area (Area) donde 
@@ -130,7 +208,13 @@ public:
     a una textura(std::unique_ptr<Texture>), 
     de la textura de roca.
     */
-    std::unique_ptr<Texture> create_rock_four(Area areaMap);
+    static std::unique_ptr<Texture> create_rock_four(
+        Window & window, 
+        Area & areaMap,
+        uint8_t redMod,
+        uint8_t greenMod,
+        uint8_t blueMod
+    );
 
     /*
     PRE: Recibe el area (Area) donde 
@@ -139,7 +223,13 @@ public:
     a una textura(std::unique_ptr<Texture>), 
     de la textura de roca.
     */
-    std::unique_ptr<Texture> create_rock_five(Area areaMap);
+    static std::unique_ptr<Texture> create_rock_five(
+        Window & window, 
+        Area & areaMap,
+        uint8_t redMod,
+        uint8_t greenMod,
+        uint8_t blueMod
+    );
 
     /*
     PRE: Recibe el area (Area) donde 
@@ -148,7 +238,13 @@ public:
     a una textura(std::unique_ptr<Texture>), 
     de la textura de roca.
     */
-    std::unique_ptr<Texture> create_rock_six(Area areaMap);
+    static std::unique_ptr<Texture> create_rock_six(
+        Window & window, 
+        Area & areaMap,
+        uint8_t redMod,
+        uint8_t greenMod,
+        uint8_t blueMod
+    );
 
     /*
     PRE: Recibe el area (Area) donde 
@@ -157,7 +253,13 @@ public:
     a una textura(std::unique_ptr<Texture>), 
     de la textura de roca.
     */
-    std::unique_ptr<Texture> create_rock_seven(Area areaMap);
+    static std::unique_ptr<Texture> create_rock_seven(
+        Window & window, 
+        Area & areaMap,
+        uint8_t redMod,
+        uint8_t greenMod,
+        uint8_t blueMod
+    );
 
     /*
     PRE: Recibe el area (Area) donde 
@@ -166,7 +268,13 @@ public:
     a una textura(std::unique_ptr<Texture>), 
     de la textura de roca.
     */
-    std::unique_ptr<Texture> create_rock_eight(Area areaMap);
+    static std::unique_ptr<Texture> create_rock_eight(
+        Window & window, 
+        Area & areaMap,
+        uint8_t redMod,
+        uint8_t greenMod,
+        uint8_t blueMod
+    );
 
     /*
     PRE: Recibe el area (Area) donde 
@@ -175,8 +283,14 @@ public:
     a una textura(std::unique_ptr<Texture>), 
     de la textura de barrera.
     */
-    std::unique_ptr<Texture> create_barrier(Area areaMap);
-
+    static std::unique_ptr<Texture> create_barrier(
+        Window & window, 
+        Area & areaMap,
+        uint8_t redMod,
+        uint8_t greenMod,
+        uint8_t blueMod
+    );
+    
     /*
     PRE: Recibe el area (Area) donde 
     se ubicara la textura.
@@ -185,7 +299,13 @@ public:
     de la textura de trinagulo de esquina 
     inferior izquierda.
     */
-    std::unique_ptr<Texture> create_triangle_botom_left(Area areaMap);
+    static std::unique_ptr<Texture> create_triangle_botom_left(
+        Window & window, 
+        Area & areaMap,
+        uint8_t redMod,
+        uint8_t greenMod,
+        uint8_t blueMod
+    );
 
     /*
     PRE: Recibe el area (Area) donde 
@@ -195,7 +315,14 @@ public:
     de la textura de trinagulo de esquina 
     inferior derecha.
     */
-    std::unique_ptr<Texture> create_triangle_botom_right(Area areaMap);
+    static std::unique_ptr<Texture> create_triangle_botom_right(
+        Window & window, 
+        Area & areaMap,
+        uint8_t redMod,
+        uint8_t greenMod,
+        uint8_t blueMod
+    );
+
     /*
     PRE: Recibe el area (Area) donde 
     se ubicara la textura.
@@ -204,7 +331,14 @@ public:
     de la textura de trinagulo de esquina 
     superior izquierda.
     */
-    std::unique_ptr<Texture> create_triangle_top_left(Area areaMap);
+    static std::unique_ptr<Texture> create_triangle_top_left(
+        Window & window, 
+        Area & areaMap,
+        uint8_t redMod,
+        uint8_t greenMod,
+        uint8_t blueMod
+    );
+
     /*
     PRE: Recibe el area (Area) donde se 
     ubicara la textura.
@@ -213,16 +347,13 @@ public:
     de la textura de trinagulo de esquina 
     superior derecha.
     */
-    std::unique_ptr<Texture> create_triangle_top_right(Area areaMap);
-
-    /*
-    PRE: Recibe el area (Area) donde 
-    se ubicara la textura.
-    POST: Devuelve un puntero unico 
-    a una textura(std::unique_ptr<Texture>), 
-    de la textura de bloque acido.
-    */
-    std::unique_ptr<Texture> create_block_acid(Area areaMap);
+    static std::unique_ptr<Texture> create_triangle_top_right(
+        Window & window, 
+        Area & areaMap,
+        uint8_t redMod,
+        uint8_t greenMod,
+        uint8_t blueMod
+    );
 
     /*
     PRE: Recibe el area (Area) donde se ubicara 
@@ -231,7 +362,13 @@ public:
     textura(std::unique_ptr<Texture>), 
     de la textura recibidor.
     */
-    std::unique_ptr<Texture> create_receiver(Area areaMap);
+    static std::unique_ptr<Texture> create_receiver(
+        Window & window, 
+        Area & areaMap,
+        uint8_t redMod,
+        uint8_t greenMod,
+        uint8_t blueMod
+    );
 
     /*
     PRE: Recibe el area (Area) donde 
@@ -240,7 +377,13 @@ public:
     a una textura(std::unique_ptr<Texture>), 
     de la textura de emisor hacia derecha.
     */
-    std::unique_ptr<Texture> create_emitter_right(Area areaMap);
+    static std::unique_ptr<Texture> create_emitter_right(
+        Window & window, 
+        Area & areaMap,
+        uint8_t redMod,
+        uint8_t greenMod,
+        uint8_t blueMod
+    );
 
     /*
     PRE: Recibe el area (Area) donde 
@@ -249,7 +392,13 @@ public:
     a una textura(std::unique_ptr<Texture>), 
     de la textura de emisor hacia abajo.
     */
-    std::unique_ptr<Texture> create_emitter_down(Area areaMap);
+    static std::unique_ptr<Texture> create_emitter_down(
+        Window & window, 
+        Area & areaMap,
+        uint8_t redMod,
+        uint8_t greenMod,
+        uint8_t blueMod
+    );
 
     /*
     PRE: Recibe el area (Area) donde 
@@ -258,7 +407,13 @@ public:
     a una textura(std::unique_ptr<Texture>), 
     de la textura de emisor hacia izquierda.
     */
-    std::unique_ptr<Texture> create_emitter_left(Area areaMap);
+    static std::unique_ptr<Texture> create_emitter_left(
+        Window & window, 
+        Area & areaMap,
+        uint8_t redMod,
+        uint8_t greenMod,
+        uint8_t blueMod
+    );
 
     /*
     PRE: Recibe el area (Area) donde 
@@ -267,8 +422,14 @@ public:
     a una textura(std::unique_ptr<Texture>), 
     de la textura de emisor hacia arriba.
     */
-    std::unique_ptr<Texture> create_emitter_up(Area areaMap);
-
+    static std::unique_ptr<Texture> create_emitter_up(
+        Window & window, 
+        Area & areaMap,
+        uint8_t redMod,
+        uint8_t greenMod,
+        uint8_t blueMod
+    );
+    
     /*
     PRE: Recibe el area (Area) donde 
     se ubicara la textura.
@@ -276,16 +437,28 @@ public:
     a una textura(std::unique_ptr<Texture>), 
     de la textura de torta.
     */
-    std::unique_ptr<Texture> create_cake(Area areaMap);
-    
+    static std::unique_ptr<Texture> create_cake(
+        Window & window, 
+        Area & areaMap,
+        uint8_t redMod,
+        uint8_t greenMod,
+        uint8_t blueMod
+    );
+
     /*
     PRE: Recibe el area (Area) donde 
     se ubicara la textura.
     POST: Devuelve un puntero unico 
     a una textura(std::unique_ptr<Texture>), 
-    de la textura de un fondo de pantalla.
+    de la textura de un bloque de metal.
     */
-    std::unique_ptr<Texture> create_background(Area areaMap);
+    static std::unique_ptr<Texture> create_background(
+        Window & window, 
+        Area & areaMap,
+        uint8_t redMod,
+        uint8_t greenMod,
+        uint8_t blueMod
+    );
 
     /*
     PRE: Recibe el area (Area) donde 
@@ -295,7 +468,13 @@ public:
     de la textura de un icono grabador de 
     video.
     */
-    std::unique_ptr<Texture> create_record(Area areaMap);
+    static std::unique_ptr<Texture> create_record(
+        Window & window, 
+        Area & areaMap,
+        uint8_t redMod,
+        uint8_t greenMod,
+        uint8_t blueMod
+    );
 
     /*
     PRE: Recibe:
@@ -308,9 +487,10 @@ public:
     (std::unique_ptr<Texture>) con las condiciones 
     anteriores.
     */
-    std::unique_ptr<Texture> create_texture_one_sprite(
+    static std::unique_ptr<Texture> create_texture_one_sprite(
+        Window & window,
         IMAGE_PATH imagePath, 
-        Area areaMap, 
+        Area & areaMap, 
         DynamicSprite (&sprite_creator)()
     );
 
@@ -322,17 +502,14 @@ public:
         una funciona para crear un sprite dynamico 
         (DynamicSprite (&sprite_creator)());
         un angulo para rotar la textura (double);
-        tres modificadores de colores RGB, uno para cada 
-        uno respectivamente, para modularizar el color de
-        la textura (uint8_t):  el colo se multiplica por 
-        xMod/255
     POST: Devuelve un puntero unico a una textura 
     (std::unique_ptr<Texture>) con las condiciones 
     anteriores.
     */
-    std::unique_ptr<Texture> create_texture_one_sprite(
+    static std::unique_ptr<Texture> create_texture_one_sprite(
+        Window & window,
         IMAGE_PATH imagePath, 
-        Area areaMap, 
+        Area & areaMap, 
         DynamicSprite (&sprite_creator)(),
         double angle
     );
@@ -352,10 +529,11 @@ public:
     POST: Devuelve un puntero unico a una textura 
     (std::unique_ptr<Texture>) con las condiciones 
     anteriores.
-*/
-    std::unique_ptr<Texture> create_texture_one_sprite(
+    */
+    static std::unique_ptr<Texture> create_texture_one_sprite(
+        Window & window,
         IMAGE_PATH imagePath, 
-        Area areaMap, 
+        Area & areaMap, 
         DynamicSprite (&sprite_creator)(),
         double angle,
         uint8_t redMod,

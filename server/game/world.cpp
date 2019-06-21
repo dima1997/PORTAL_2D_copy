@@ -87,13 +87,11 @@ void World::step(std::list<std::shared_ptr<Event>> &events) {
         Portal *orange = chell->getPortal(ORANGE);
         if (orange->changedPosition()) {
             events.push_back(std::shared_ptr<Event>(
-                    //new ObjectMovesEvent(orange->getId(), orange->getXPos(), orange->getYPos())));
                     new PortalMovesEvent(orange->getId(), orange->getXPos(), orange->getYPos(), chell->getId())));
         }
         Portal *blue = chell->getPortal(BLUE);
         if (blue->changedPosition()) {
             events.push_back(
-                    //std::shared_ptr<Event>(new ObjectMovesEvent(blue->getId(), blue->getXPos(), blue->getYPos())));
                     std::shared_ptr<Event>(
                         new PortalMovesEvent(blue->getId(), blue->getXPos(), blue->getYPos(), chell->getId())));
         }
