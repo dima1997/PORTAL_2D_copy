@@ -14,6 +14,7 @@ private:
     bool reached;
 public:
     Cake(b2World &world, float32 xPos, float32 yPos, uint32_t id);
+    Cake(Cake &&other) noexcept;
     ~Cake() override;
     body_type_t getBodyType() override;
     void reach();

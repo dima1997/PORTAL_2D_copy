@@ -59,19 +59,19 @@ void Game::manageActions(std::unique_ptr<GameAction> ptrAction) {
     switch (ptrAction->getGameActionName()){
         case quit_game:
             --numberOfPlayers;
-            world.getChell(player_id)->die();
+            world.getChell(player_id).die();
             break;
         case move_left:
-            world.getChell(player_id)->updateState(LEFT);
+            world.getChell(player_id).updateState(LEFT);
             break;
         case move_right:
-            world.getChell(player_id)->updateState(RIGHT);
+            world.getChell(player_id).updateState(RIGHT);
             break;
         case stop_move:
-            world.getChell(player_id)->updateState(STOP);
+            world.getChell(player_id).updateState(STOP);
             break;
         case jump:
-            world.getChell(player_id)->updateState(JUMP);
+            world.getChell(player_id).updateState(JUMP);
             break;
         case open_blue_portal:
         {
@@ -80,7 +80,7 @@ void Game::manageActions(std::unique_ptr<GameAction> ptrAction) {
             float xMap = ptrCoordsAction->getX();
             float yMap = ptrCoordsAction->getY();
             std::cout << "SERVER: Abriendo portal AZUL en x : "<< xMap << " y : " << yMap << "\n";
-            world.getChell(player_id)->shootPortal(xMap, yMap, BLUE);
+            world.getChell(player_id).shootPortal(xMap, yMap, BLUE);
         }
             break;
         case open_orange_portal:
@@ -90,20 +90,20 @@ void Game::manageActions(std::unique_ptr<GameAction> ptrAction) {
             float xMap = ptrCoordsAction->getX();
             float yMap = ptrCoordsAction->getY();
             std::cout << "SERVER: Abriendo portal NARANJA en x : "<< xMap << " y : " << yMap << "\n";
-            world.getChell(player_id)->shootPortal(xMap, yMap, ORANGE);
+            world.getChell(player_id).shootPortal(xMap, yMap, ORANGE);
         }
             break;
         case pin_tool_on:
             std::cout << "SERVER: pin tool on.\n";
             break;
         case grab_it:
-            world.getChell(player_id)->grabRock();
+            world.getChell(player_id).grabRock();
             break;
         case stop_grab:
             std::cout << "SERVER: stop grab.\n";
             break;
         case throw_it:
-            world.getChell(player_id)->throwRock(false);
+            world.getChell(player_id).throwRock(false);
             break;
         case stop_throw:
             std::cout << "SERVER: stop throw.\n";

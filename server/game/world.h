@@ -26,7 +26,7 @@ class World {
 private:
     b2Vec2 gravity;
     b2World *world;
-    std::list<Chell *> chells;
+    std::list<Chell> chells;
     std::list<Block *> blocks;
     std::list<Door *> doors;
     std::list<Button *> buttons;
@@ -36,7 +36,7 @@ private:
     std::list<EnergyBall *> balls;
     ContactListener contactListener;
     ContactFilter contactFilter;
-    Cake *cake;
+    Cake cake;
     int numberOfPlayers;
     bool finished;
     void loadMap(Map &map);
@@ -45,7 +45,7 @@ public:
     bool hasFinished();
     ~World();
     void step(std::list<std::shared_ptr<Event>> &events);
-    Chell *getChell(uint32_t i);
+    Chell &getChell(uint32_t i);
 };
 
 

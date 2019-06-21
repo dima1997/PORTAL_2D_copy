@@ -24,8 +24,8 @@
 #define VELOCITY_ITERATIONS 8
 #define POSITION_ITERATIONS 2
 
-World::World(Map &map): gravity(0.0f, -9.8f), world(new b2World(gravity)),
-                              cake(), contactListener(), contactFilter(), numberOfPlayers(), finished(false) {
+World::World(Map &map): gravity(0.0f, -9.8f), world(new b2World(gravity)), contactListener(), contactFilter(),
+                        numberOfPlayers(), finished(false), chells(std::move(map.loadChells(*world))), cake(std::move(map.loadCake(*world))) {
     loadMap(map);
     world->SetContactListener(&contactListener);
     world->SetContactFilter(&contactFilter);
@@ -38,13 +38,13 @@ void World::step(std::list<std::shared_ptr<Event>> &events) {
     int32 velocityIterations = VELOCITY_ITERATIONS;
     int32 positionIterations = POSITION_ITERATIONS;
 
-    for (Chell *chell : chells) {
-        chell->update();
+    for (Chell &chell : chells) {
+        chell.update();
     }
 
     world->Step(timeStep, velocityIterations, positionIterations);
 
-    if (cake->wasReached()) {
+    if (cake.wasReached()) {
         events.push_back(std::shared_ptr<Event>(new PlayerWinsEvent()));
         finished = true;
         return;
@@ -64,9 +64,9 @@ void World::step(std::list<std::shared_ptr<Event>> &events) {
         ball->move();
         events.push_back(std::shared_ptr<Event>(new ObjectMovesEvent(ball->getId(), ball->getXPos(), ball->getYPos())));
     }
-    for (Chell *chell : chells) {
-        if ( chell->justDied() ) {
-            events.push_back(std::shared_ptr<Event>(new PlayerDiesEvent(chell->getId())));
+    for (Chell &chell : chells) {
+        if ( chell.justDied() ) {
+            events.push_back(std::shared_ptr<Event>(new PlayerDiesEvent(chell.getId())));
             if (--numberOfPlayers == 0) {
                 events.push_back(std::shared_ptr<Event>(new PlayerLosesEvent()));
                 finished = true;
@@ -74,28 +74,28 @@ void World::step(std::list<std::shared_ptr<Event>> &events) {
             }
             break;
         }
-        if (chell->changedPosition()) {
+        if (chell.changedPosition()) {
             events.push_back(
-                    std::shared_ptr<Event>(new ObjectMovesEvent(chell->getId(), chell->getXPos(), chell->getYPos())));
+                    std::shared_ptr<Event>(new ObjectMovesEvent(chell.getId(), chell.getXPos(), chell.getYPos())));
         }
-        if (chell->grabbedRock()) {
-            events.push_back(std::shared_ptr<Event>(new GrabRockEvent(chell->getId(), chell->getRock()->getId())));
+        if (chell.grabbedRock()) {
+            events.push_back(std::shared_ptr<Event>(new GrabRockEvent(chell.getId(), chell.getRock()->getId())));
         }
-        if (chell->threwRock()) {
-            events.push_back(std::shared_ptr<Event>(new ThrowRockEvent(chell->getRock()->getId())));
+        if (chell.threwRock()) {
+            events.push_back(std::shared_ptr<Event>(new ThrowRockEvent(chell.getRock()->getId())));
         }
-        Portal *orange = chell->getPortal(ORANGE);
+        Portal *orange = chell.getPortal(ORANGE);
         if (orange->changedPosition()) {
             events.push_back(std::shared_ptr<Event>(
                     //new ObjectMovesEvent(orange->getId(), orange->getXPos(), orange->getYPos())));
-                    new PortalMovesEvent(orange->getId(), orange->getXPos(), orange->getYPos(), chell->getId())));
+                    new PortalMovesEvent(orange->getId(), orange->getXPos(), orange->getYPos(), chell.getId())));
         }
-        Portal *blue = chell->getPortal(BLUE);
+        Portal *blue = chell.getPortal(BLUE);
         if (blue->changedPosition()) {
             events.push_back(
                     //std::shared_ptr<Event>(new ObjectMovesEvent(blue->getId(), blue->getXPos(), blue->getYPos())));
                     std::shared_ptr<Event>(
-                        new PortalMovesEvent(blue->getId(), blue->getXPos(), blue->getYPos(), chell->getId())));
+                        new PortalMovesEvent(blue->getId(), blue->getXPos(), blue->getYPos(), chell.getId())));
         }
     }
     for (Rock *rock : rocks) {
@@ -108,9 +108,9 @@ void World::step(std::list<std::shared_ptr<Event>> &events) {
 
 World::~World() {
     // TODO: all to the stack
-    for (auto *chell : chells) {
-        delete chell;
-    }
+//    for (auto *chell : chells) {
+//        delete chell;
+//    }
     for(auto *block : blocks) {
         delete block;
     }
@@ -129,14 +129,14 @@ World::~World() {
     for(auto *emitter: emitters) {
         delete emitter;
     }
-    delete cake;
+//    delete cake;
     delete world;
 }
 
 void World::loadMap(Map &map) {
     map.loadBlocks(*world, blocks);
-    cake = map.loadCake(*world);
-    map.loadChells(*world, chells);
+//    cake = map.loadCake(world);
+//    map.loadChells(world, chells);
     map.loadDoors(*world, doors);
     map.loadButtons(*world, buttons, doors);
     map.loadRocks(*world, rocks);
@@ -146,9 +146,9 @@ void World::loadMap(Map &map) {
     numberOfPlayers = map.getPlayersNumber();
 }
 
-Chell *World::getChell(uint32_t i) {
-    for (auto *chell : chells) {
-        if (chell->getId() == i) {
+Chell &World::getChell(uint32_t i) {
+    for (auto &chell : chells) {
+        if (chell.getId() == i) {
             return chell;
         }
     }
