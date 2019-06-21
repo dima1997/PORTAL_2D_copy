@@ -107,8 +107,8 @@ chells:
     id_coordinates: 
     # Usar ids distanciados de a 3 
         [
-            {id: 50, xCoord: 0.5, yCoord: 1.75},
-            {id: 53, xCoord: 2.5, yCoord: 3.75}
+            {id: 50, xCoord: 0.5, yCoord: 1.75, redMod: 255, greenMod: 255, greenMod: 255},
+            {id: 53, xCoord: 2.5, yCoord: 3.75, redMod: 255, greenMod: 255, greenMod: 255}
         ]
 portals_blue:
     width: 1.5

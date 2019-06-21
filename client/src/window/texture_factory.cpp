@@ -46,7 +46,7 @@ de la textura de un bloque de metal.
 std::unique_ptr<Texture> TextureFactory::
 create_block_metal(
     Window & window, 
-    Area & areaMap
+    Area & areaMap,
     uint8_t redMod,
     uint8_t greenMod,
     uint8_t blueMod
@@ -56,7 +56,7 @@ create_block_metal(
         window,
         ALL_BLOCKS_SPRITES,
         areaMap,
-        BlockMetalSprite::get_sprite
+        BlockMetalSprite::get_sprite,
         0,
         redMod,
         greenMod,
@@ -74,7 +74,7 @@ de la textura de un bloque de roca.
 std::unique_ptr<Texture> TextureFactory::
 create_block_rock(
     Window & window, 
-    Area & areaMap
+    Area & areaMap,
     uint8_t redMod,
     uint8_t greenMod,
     uint8_t blueMod
@@ -100,7 +100,7 @@ de la textura de bloque acido.
 std::unique_ptr<Texture> TextureFactory::
 create_block_acid(
     Window & window, 
-    Area & areaMap
+    Area & areaMap,
     uint8_t redMod,
     uint8_t greenMod,
     uint8_t blueMod
@@ -126,7 +126,7 @@ de la textura de Chell.
 std::unique_ptr<Texture> TextureFactory::
 create_chell(
     Window & window, 
-    Area & areaMap, 
+    Area & areaMap,
     uint8_t redMod, 
     uint8_t greenMod, 
     uint8_t blueMod
@@ -138,7 +138,6 @@ create_chell(
     std::unique_ptr<Texture> ptrTexture(new ChellTexture(
         bigTexture, 
         areaMap,
-        0,
         redMod,
         greenMod,
         blueMod
@@ -156,7 +155,7 @@ de la textura de portal azul.
 std::unique_ptr<Texture> TextureFactory::
 create_portal_blue(
     Window & window, 
-    Area & areaMap
+    Area & areaMap,
     uint8_t redMod,
     uint8_t greenMod,
     uint8_t blueMod
@@ -183,7 +182,7 @@ de la textura de portal naranja.
 std::unique_ptr<Texture> TextureFactory::
 create_portal_orange(
     Window & window, 
-    Area & areaMap
+    Area & areaMap,
     uint8_t redMod,
     uint8_t greenMod,
     uint8_t blueMod
@@ -211,7 +210,7 @@ de la textura de puerta con numero 1.
 std::unique_ptr<Texture> TextureFactory::
 create_door_one(
     Window & window, 
-    Area & areaMap
+    Area & areaMap,
     uint8_t redMod,
     uint8_t greenMod,
     uint8_t blueMod
@@ -242,7 +241,7 @@ de la textura de boton.
 std::unique_ptr<Texture> TextureFactory::
 create_button(
     Window & window, 
-    Area & areaMap
+    Area & areaMap,
     uint8_t redMod,
     uint8_t greenMod,
     uint8_t blueMod
@@ -274,7 +273,7 @@ de la textura de bola de energia verde.
 std::unique_ptr<Texture> TextureFactory::
 create_energy_ball_green(
     Window & window, 
-    Area & areaMap
+    Area & areaMap,
     uint8_t redMod,
     uint8_t greenMod,
     uint8_t blueMod
@@ -300,7 +299,7 @@ de la textura de roca.
 std::unique_ptr<Texture> TextureFactory::
 create_rock_one(
     Window & window, 
-    Area & areaMap
+    Area & areaMap,
     uint8_t redMod,
     uint8_t greenMod,
     uint8_t blueMod
@@ -326,7 +325,7 @@ de la textura de roca.
 std::unique_ptr<Texture> TextureFactory::
 create_rock_two(
     Window & window, 
-    Area & areaMap
+    Area & areaMap,
     uint8_t redMod,
     uint8_t greenMod,
     uint8_t blueMod
@@ -351,7 +350,7 @@ de la textura de roca.
 std::unique_ptr<Texture> TextureFactory::
 create_rock_three(
     Window & window, 
-    Area & areaMap
+    Area & areaMap,
     uint8_t redMod,
     uint8_t greenMod,
     uint8_t blueMod
@@ -376,7 +375,7 @@ de la textura de roca.
 std::unique_ptr<Texture> TextureFactory::
 create_rock_four(
     Window & window, 
-    Area & areaMap
+    Area & areaMap,
     uint8_t redMod,
     uint8_t greenMod,
     uint8_t blueMod
@@ -401,7 +400,7 @@ de la textura de roca.
 std::unique_ptr<Texture> TextureFactory::
 create_rock_five(
     Window & window, 
-    Area & areaMap
+    Area & areaMap,
     uint8_t redMod,
     uint8_t greenMod,
     uint8_t blueMod
@@ -427,7 +426,7 @@ de la textura de roca.
 std::unique_ptr<Texture> TextureFactory::
 create_rock_six(
     Window & window, 
-    Area & areaMap
+    Area & areaMap,
     uint8_t redMod,
     uint8_t greenMod,
     uint8_t blueMod
@@ -453,7 +452,7 @@ de la textura de roca.
 std::unique_ptr<Texture> TextureFactory::
 create_rock_seven(
     Window & window, 
-    Area & areaMap
+    Area & areaMap,
     uint8_t redMod,
     uint8_t greenMod,
     uint8_t blueMod
@@ -479,7 +478,7 @@ de la textura de roca.
 std::unique_ptr<Texture> TextureFactory::
 create_rock_eight(
     Window & window, 
-    Area & areaMap
+    Area & areaMap,
     uint8_t redMod,
     uint8_t greenMod,
     uint8_t blueMod
@@ -505,7 +504,7 @@ de la textura de barrera.
 std::unique_ptr<Texture> TextureFactory::
 create_barrier(
     Window & window, 
-    Area & areaMap
+    Area & areaMap,
     uint8_t redMod,
     uint8_t greenMod,
     uint8_t blueMod
@@ -532,7 +531,7 @@ inferior izquierda.
 std::unique_ptr<Texture> TextureFactory::
 create_triangle_botom_left(
     Window & window, 
-    Area & areaMap
+    Area & areaMap,
     uint8_t redMod,
     uint8_t greenMod,
     uint8_t blueMod
@@ -559,7 +558,7 @@ inferior derecha.
 std::unique_ptr<Texture> TextureFactory::
 create_triangle_botom_right(
     Window & window, 
-    Area & areaMap
+    Area & areaMap,
     uint8_t redMod,
     uint8_t greenMod,
     uint8_t blueMod
@@ -585,7 +584,7 @@ superior izquierda.
 std::unique_ptr<Texture> TextureFactory::
 create_triangle_top_left(
     Window & window, 
-    Area & areaMap
+    Area & areaMap,
     uint8_t redMod,
     uint8_t greenMod,
     uint8_t blueMod
@@ -611,7 +610,7 @@ superior derecha.
 std::unique_ptr<Texture> TextureFactory::
 create_triangle_top_right(
     Window & window, 
-    Area & areaMap
+    Area & areaMap,
     uint8_t redMod,
     uint8_t greenMod,
     uint8_t blueMod
@@ -637,7 +636,7 @@ de la textura recibidor.
 std::unique_ptr<Texture> TextureFactory::
 create_receiver(
     Window & window, 
-    Area & areaMap
+    Area & areaMap,
     uint8_t redMod,
     uint8_t greenMod,
     uint8_t blueMod
@@ -668,7 +667,7 @@ de la textura de emisor hacia derecha.
 std::unique_ptr<Texture> TextureFactory::
 create_emitter_right(
     Window & window, 
-    Area & areaMap
+    Area & areaMap,
     uint8_t redMod,
     uint8_t greenMod,
     uint8_t blueMod
@@ -694,7 +693,7 @@ de la textura de emisor hacia abajo.
 std::unique_ptr<Texture> TextureFactory::
 create_emitter_down(
     Window & window, 
-    Area & areaMap
+    Area & areaMap,
     uint8_t redMod,
     uint8_t greenMod,
     uint8_t blueMod
@@ -720,7 +719,7 @@ de la textura de emisor hacia izquierda.
 std::unique_ptr<Texture> TextureFactory::
 create_emitter_left(
     Window & window, 
-    Area & areaMap
+    Area & areaMap,
     uint8_t redMod,
     uint8_t greenMod,
     uint8_t blueMod
@@ -746,7 +745,7 @@ de la textura de emisor hacia arriba.
 std::unique_ptr<Texture> TextureFactory::
 create_emitter_up(
     Window & window, 
-    Area & areaMap
+    Area & areaMap,
     uint8_t redMod,
     uint8_t greenMod,
     uint8_t blueMod
@@ -772,7 +771,7 @@ de la textura de torta.
 std::unique_ptr<Texture> TextureFactory::
 create_cake(
     Window & window, 
-    Area & areaMap
+    Area & areaMap,
     uint8_t redMod,
     uint8_t greenMod,
     uint8_t blueMod
@@ -798,7 +797,7 @@ de la textura de un bloque de metal.
 std::unique_ptr<Texture> TextureFactory::
 create_background(
     Window & window, 
-    Area & areaMap
+    Area & areaMap,
     uint8_t redMod,
     uint8_t greenMod,
     uint8_t blueMod
@@ -825,7 +824,7 @@ video.
 std::unique_ptr<Texture> TextureFactory::
 create_record(
     Window & window, 
-    Area & areaMap
+    Area & areaMap,
     uint8_t redMod,
     uint8_t greenMod,
     uint8_t blueMod
@@ -835,11 +834,8 @@ create_record(
                                     IMAGES_PATHS.at(ALL_BLOCKS_SPRITES)
                                 );
     std::unique_ptr<Texture> ptrTexture(new RecordTexture(
-        window,
         bigTexture, 
-        areaMap,
-        0,
-        redMod, greenMod, blueMod
+        areaMap
     ));
     return std::move(ptrTexture);
 }
@@ -859,7 +855,7 @@ std::unique_ptr<Texture> TextureFactory::
 create_texture_one_sprite(
     Window & window,
     IMAGE_PATH imagePath, 
-    Area & areaMap, 
+    Area & areaMap,
     DynamicSprite (&sprite_creator)()
 ) {
     return std::move(TextureFactory::create_texture_one_sprite(
@@ -888,7 +884,7 @@ std::unique_ptr<Texture> TextureFactory::
 create_texture_one_sprite(
     Window & window,
     IMAGE_PATH imagePath, 
-    Area & areaMap, 
+    Area & areaMap,
     DynamicSprite (&sprite_creator)(),
     double angle
 ) {
@@ -922,7 +918,7 @@ std::unique_ptr<Texture> TextureFactory::
 create_texture_one_sprite(
     Window & window,
     IMAGE_PATH imagePath, 
-    Area & areaMap, 
+    Area & areaMap,
     DynamicSprite (&sprite_creator)(),
     double angle,
     uint8_t redMod,

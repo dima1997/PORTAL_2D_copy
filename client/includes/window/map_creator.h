@@ -21,7 +21,7 @@ public:
 
     /*Destruye el creador de mapa*/
     ~MapCreator();
-
+    /*
     void add_block_metal(uint32_t id, Area area);
 
     void add_block_rock(uint32_t id, Area area);
@@ -81,7 +81,7 @@ public:
     void add_background(uint32_t id, Area area);
 
     void add_record(uint32_t id, Area area);
-
+    */
     void add_texture(uint32_t id, Area area, std::string & subSectionName);
 
     void add_texture(

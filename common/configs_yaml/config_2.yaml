@@ -227,8 +227,8 @@ chells:
     height: 1.5
     id_coordinates: 
         [
-             {id: 145, xCoord: -6.5, yCoord: 11.75},
-             {id: 148, xCoord: 6.5, yCoord: 11.75},
+             {id: 145, xCoord: -6.5, yCoord: 11.75, redMod: 255, greenMod: 255, greenMod: 255},
+             {id: 148, xCoord: 6.5, yCoord: 11.75, redMod: 255, greenMod: 255, greenMod: 255},
         ]
 portals_blue:
     width: 1.5

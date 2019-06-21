@@ -8,8 +8,6 @@
 #include "../textures/common_texture/images_paths.h"
 
 class TextureFactory {
-private:
-    Window & window;
 public:
     /*
     PRE: Recibe una ventana (Window & window) 
@@ -17,6 +15,7 @@ public:
     POST: Inicializa una fabrica de texturas.
     */
     TextureFactory();
+    
     /*Destruye la fabrica de texturas.*/
     ~TextureFactory();
 
