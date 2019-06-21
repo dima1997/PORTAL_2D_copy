@@ -27,6 +27,14 @@ public:
     */
     ChellTexture(BigTexture &bigTextureChell, Area areaMap);
 
+    ChellTexture(
+        BigTexture &bigTextureChell, 
+        Area areaMap, 
+        uint8_t redMod, 
+        uint8_t greenMod, 
+        uint8_t blueMod
+    );
+
     /*Destruye la textura dinamica de Chell.*/
     ~ChellTexture();
 
@@ -42,12 +50,12 @@ public:
     virtual void move_to(float x, float y) override;
 
     /*
-    PRE: Recibe un factor de ajuster para redimensionar el area 
-    de mapa que ocupa de Chell, a pixeles.
-    POST: Renderiza la textura de Chell.
+    PRE: Recibe las coordenadas (float) x,y 
+    a donde apunta la textura
+    POST: Apunta en la direccion indicada.
     */
-    virtual void render(float adjuster, const Area & areaCamera) override;
-
+    virtual void point_to(float x, float y) override;
+    
     /*
     Alterna entre Chell viva y muerta.
     */
@@ -59,12 +67,6 @@ public:
     */
     virtual Area getVisionArea() override;
 
-    /*
-    PRE: Recibe las coordenadas (float) x,y 
-    a donde apunta la textura
-    POST: Apunta en la direccion indicada.
-    */
-    virtual void point_to(float x, float y) override;
 };
 
 #endif // CHELL_TEXTURE_H

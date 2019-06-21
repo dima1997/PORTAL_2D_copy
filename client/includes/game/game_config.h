@@ -12,6 +12,7 @@ private:
     uint8_t gameId;
     uint32_t playerId;
     uint8_t mapId;
+    bool isWellConfig;
 
 public:
     GameConfig();
@@ -25,6 +26,10 @@ public:
     void set_player_id(uint32_t id);
 
     void set_map_id(uint8_t id);
+
+    void set_well_config();
+
+    bool is_well_config();
 
     Game create_game();
 };

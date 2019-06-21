@@ -29,11 +29,34 @@ PRE: Recibe :
     Chell en el mapa de juego.
 POST: Inicializa una textura dinamica de Chell.
 */
-ChellTexture::ChellTexture(BigTexture &bigTextureChell, Area areaMap) 
+ChellTexture::ChellTexture(
+    BigTexture &bigTextureChell, 
+    Area areaMap, 
+    uint8_t redMod, 
+    uint8_t greenMod, 
+    uint8_t blueMod
+) 
 :   Texture(
         bigTextureChell, 
         areaMap,
-        std::move(std::unique_ptr<SpriteStrategy>(new ChellSpriteStrategy())) 
+        std::move(std::unique_ptr<SpriteStrategy>(new ChellSpriteStrategy())),
+        0,
+        redMod,
+        greenMod,
+        blueMod 
+    ),
+    alive(true) {
+    this->updateVisionArea();
+}
+
+ChellTexture::ChellTexture(
+    BigTexture &bigTextureChell, 
+    Area areaMap
+) 
+:   Texture(
+        bigTextureChell, 
+        areaMap,
+        std::move(std::unique_ptr<SpriteStrategy>(new ChellSpriteStrategy()))
     ),
     alive(true) {
     this->updateVisionArea();
@@ -56,7 +79,7 @@ void ChellTexture::move_to(float x, float y) {
     this->areaMap.setY(yNow);
     (*this->ptrSpriteStrategy).move(xBefore, yBefore, xNow, yNow, 
                                     this->sounds);
-    this->moveSense.update(xBefore, xNow);
+    this->flip = this->moveSense.update(xBefore, xNow);
 }   
 
 /*
@@ -67,22 +90,6 @@ void ChellTexture::switch_sprite(){
         this->ptrSpriteStrategy.reset(new ChellDeadStrategy());
         this->sounds.push_back(SOUND_DYING);
     }
-}
-
-/*
-PRE: Recibe un factor de ajuster para redimensionar el area 
-de mapa que ocupa de Chell, a pixeles.
-POST: Renderiza la textura de Chell.
-*/
-void ChellTexture::render(float adjuster, const Area & areaCamera) {
-    // Necesitamos alternar el sprite de cualquier forma
-    Area src = (*this->ptrSpriteStrategy).getNextArea();
-    // Solo renderizamos si la textura esta en el area de la camara
-    if (! this->areaMap.isIntersectedBy(areaCamera)){
-        return;
-    }
-    Area dest = this->getAreaDest(adjuster, areaCamera);
-    this->moveSense.render(this->bigTexture, src, dest);
 }
 
 /*
@@ -107,5 +114,5 @@ void ChellTexture::point_to(float x, float y) {
         x,
         y
     );
-    this->moveSense.update(this->areaMap.getX(), x);
+    this->flip = this->moveSense.update(this->areaMap.getX(), x);
 }

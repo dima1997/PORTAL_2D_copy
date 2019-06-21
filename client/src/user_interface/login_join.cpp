@@ -2,6 +2,7 @@
 
 #include "ui_LoginJoin.h"
 
+#include "../../includes/user_interface/login.h"
 #include "../../includes/game/game_config.h"
 
 #include <connector/connector.h>
@@ -17,7 +18,8 @@ LoginJoin::LoginJoin(GameConfig & gameConfig, QWidget *parent)
 :   QWidget(parent),
     gameConfig(gameConfig),
     connector(),
-    gameIds()
+    gameIds(),
+    isOpen(true)
 {
     this->hide();
     Ui::LoginJoin loginJoin;
@@ -29,7 +31,9 @@ LoginJoin::~LoginJoin() = default;
 
 void LoginJoin::config_join_game() {
     QComboBox* comboBoxGameId = findChild<QComboBox*>("comboBoxGameId");
-    QString currentMapIdStr = comboBoxGameId->currentText();
+    QString currentMapIdNameStr = comboBoxGameId->currentText();
+    QStringList pieces = currentMapIdNameStr.split(" - ");
+    QString currentMapIdStr = pieces[0]; 
     bool ok;
     uint8_t gameId = (uint8_t) currentMapIdStr.toInt(&ok, 10);
     this->connector << (uint8_t) gameId;
@@ -38,20 +42,21 @@ void LoginJoin::config_join_game() {
     if (status == command_ok){
         uint32_t playerId;
         this->connector >> playerId;
-        //Pedir mapa
-        uint8_t mapId = 0;
+        uint8_t mapId = 0; // Esto es irrelevante
         this->gameConfig.set_connector(this->connector);
         this->gameConfig.set_game_id(gameId);
         this->gameConfig.set_player_id(playerId);
         this->gameConfig.set_map_id(mapId);
+        this->gameConfig.set_well_config();
         QMessageBox qMsg;
         qMsg.setWindowTitle("Portal");
         std::stringstream ok;
         ok << "Join game success.\n";
         qMsg.setText(QString(ok.str().c_str()));
         qMsg.exec();
+        ((Login*)this->parentWidget())->close();
         this->close();
-        emit login_join_success();
+        //emit login_join_success();
         return;
     }
     if (status == game_is_full) {
@@ -61,8 +66,9 @@ void LoginJoin::config_join_game() {
         err << "Game " << (unsigned) gameId << " is full." << std::endl;
         qMsg.setText(QString(err.str().c_str()));
         qMsg.exec();
+        ((Login*)this->parentWidget())->close();
         this->close();
-        emit login_join_failed();
+        //emit login_join_failed();
         return;
     } 
     if (status == non_existent_game) {
@@ -72,8 +78,9 @@ void LoginJoin::config_join_game() {
         err << "Game " << (unsigned) gameId << " does not exist." << std::endl;
         qMsg.setText(QString(err.str().c_str()));
         qMsg.exec();
+        ((Login*)this->parentWidget())->close();
         this->close();
-        emit login_join_failed();
+        //emit login_join_failed();
         return;
     }
 }
@@ -82,6 +89,10 @@ void LoginJoin::connect_events() {
     QPushButton* buttonJoin = findChild<QPushButton*>("buttonJoin");
     QObject::connect(buttonJoin, &QPushButton::clicked,
                      this, &LoginJoin::config_join_game);
+    
+    QPushButton* buttonQuit = findChild<QPushButton*>("buttonQuit");
+    QObject::connect(buttonQuit, &QPushButton::clicked,
+                     this, &LoginJoin::quit);
 }
 
 void LoginJoin::set_game_ids(std::map<uint8_t,std::string> & stockGames){
@@ -102,4 +113,20 @@ void LoginJoin::set_game_ids(std::map<uint8_t,std::string> & stockGames){
 
 void LoginJoin::set_connector(Connector & connector){
     this->connector = std::move(connector);
+}
+
+void LoginJoin::closeEvent(QCloseEvent *event){
+    if (! this->isOpen){
+        return;
+    }
+    try {
+        this->connector.shutDownRD();
+        this->connector.shutDownWR();
+    } catch (SocketException &error){}
+        event->accept();    
+}
+
+void LoginJoin::quit(){
+    ((Login*)this->parentWidget())->quit();
+    this->close();
 }

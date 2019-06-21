@@ -20,7 +20,7 @@ enum IMAGE_PATH{
 
 const std::map<IMAGE_PATH,std::string> IMAGES_PATHS({
     std::pair<IMAGE_PATH,std::string>(ALL_BLOCKS_SPRITES, "only_blocks.png"),
-    std::pair<IMAGE_PATH,std::string>(ALL_CHELL_SPRITES, "all_chells_half.png"),
+    std::pair<IMAGE_PATH,std::string>(ALL_CHELL_SPRITES, "all_chells_half.png"), 
     std::pair<IMAGE_PATH,std::string>(PORTAL_SPRITES, "white_portal.png"),
     std::pair<IMAGE_PATH,std::string>(ALL_DOORS_SPRITES, "doors.png"),
     std::pair<IMAGE_PATH,std::string>(ALL_ROCKS_AND_BALLS_SPRITES, "balls_and_rocks.png"),

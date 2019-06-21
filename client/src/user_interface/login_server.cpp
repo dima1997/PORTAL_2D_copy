@@ -3,6 +3,7 @@
 #include "ui_LoginServer.h"
 
 #include "../../includes/user_interface/login_mode.h"
+#include "../../includes/user_interface/login.h"
 
 #include <QWidget>
 #include <QMessageBox>
@@ -13,12 +14,12 @@
 
 LoginServer::LoginServer(LoginMode & loginMode, QWidget *parent)
 :   QWidget(parent), 
-    loginMode(loginMode) 
+    loginMode(loginMode)
 {
     this->hide();
-
     Ui::LoginServer loginServer;
     loginServer.setupUi(this);
+    this->connect_events();
 }
 
 LoginServer::~LoginServer() = default;
@@ -40,8 +41,10 @@ void LoginServer::login(){
         ok << "Connection Success.\n";
         qMsg.setText(QString(ok.str().c_str()));
         qMsg.exec();
+        this->loginMode.show();
         this->close();
-        emit login_server_success();
+        //emit login_server_success();
+
         return;
     } catch (SocketException & error){
         QMessageBox qMsg;
@@ -53,14 +56,24 @@ void LoginServer::login(){
         qMsg.setText(QString(err.str().c_str()));
         qMsg.setIcon(QMessageBox::Warning);
         qMsg.exec();
+        ((Login*)this->parentWidget())->close();
         this->close();
-        emit login_server_failed();
+        //emit login_server_failed();
         return;
     }
+}
+
+void LoginServer::quit(){
+    ((Login*)this->parentWidget())->quit();
+    this->close();
 }
 
 void LoginServer::connect_events(){
     QPushButton* buttonLogin = findChild<QPushButton*>("buttonLogin");
     QObject::connect(buttonLogin, &QPushButton::clicked,
                      this, &LoginServer::login);
+    
+    QPushButton* buttonQuit = findChild<QPushButton*>("buttonQuit");
+    QObject::connect(buttonQuit, &QPushButton::clicked,
+                     this, &LoginServer::quit);
 }

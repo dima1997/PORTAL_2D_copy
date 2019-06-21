@@ -15,12 +15,13 @@ POST: Inicializa un cambio en la ubicacion de la
 textura del portal, bajo las condiciones indicadas.
 */
 PortalMoveChange::PortalMoveChange(
-    uint32_t idTexture, 
+    uint32_t idPortal, 
     float newX, 
     float newY, 
     uint32_t idShooter
 )
-:   TextureChange(idTexture),
+:   TextureChange(idPortal),
+    idPortal(idPortal),
     newX(newX),
     newY(newY),
     idShooter(idShooter) {}
@@ -38,6 +39,6 @@ POST: Realiza el cambio que representa
 en la ventana recibida.
 */
 void PortalMoveChange::change(Window & window){
-    window.move_texture(this->idTexture, this->newX, this->newY);
+    window.move_texture(this->idPortal, this->newX, this->newY);
     window.point_texture(this->idShooter, this->newX, this->newY);
 }

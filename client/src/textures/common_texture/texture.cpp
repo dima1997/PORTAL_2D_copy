@@ -44,7 +44,8 @@ std::unique_ptr<SpriteStrategy> ptrSpriteStrategy)
     angle(0),
     redMod(255),
     greenMod(255),
-    blueMod(255) {}
+    blueMod(255),
+    flip(NO_FLIP) {}
 
 /*
 PRE: Recibe:
@@ -78,7 +79,8 @@ Texture::Texture(
     angle(angle),
     redMod(redMod),
     greenMod(greenMod),
-    blueMod(blueMod) {}
+    blueMod(blueMod),
+    flip(NO_FLIP) {}
 
 /*
 PRE: Recibe una referencia a una gran textura que 
@@ -99,7 +101,8 @@ DynamicSprite dynamicSprite)
     angle(0),
     redMod(255),
     greenMod(255),
-    blueMod(255) {}
+    blueMod(255),
+    flip(NO_FLIP) {}
 
 /*
 PRE: Recibe:
@@ -127,7 +130,8 @@ Texture::Texture(
     angle(angle),
     redMod(255),
     greenMod(255),
-    blueMod(255)
+    blueMod(255),
+    flip(NO_FLIP)
     {}
 
 /*
@@ -162,7 +166,8 @@ Texture::Texture(
     angle(angle),
     redMod(redMod),
     greenMod(greenMod),
-    blueMod(blueMod)
+    blueMod(blueMod),
+    flip(NO_FLIP)
     {}
 
 /*Destruye la textura.*/
@@ -216,7 +221,7 @@ void Texture::render(float adjuster, const Area & areaCamera) {
     this->bigTexture.render(
         src, 
         dest, 
-        NO_FLIP, 
+        this->flip, 
         this->angle,
         this->redMod,
         this->greenMod,

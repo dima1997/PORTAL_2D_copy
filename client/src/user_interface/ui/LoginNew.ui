@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>445</width>
-    <height>400</height>
+    <width>428</width>
+    <height>348</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -69,11 +69,22 @@
     </layout>
    </item>
    <item>
-    <widget class="QPushButton" name="buttonNew">
-     <property name="text">
-      <string>new</string>
-     </property>
-    </widget>
+    <layout class="QVBoxLayout" name="verticalLayout_2">
+     <item>
+      <widget class="QPushButton" name="buttonNew">
+       <property name="text">
+        <string>new</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="buttonQuit">
+       <property name="text">
+        <string>Quit Game</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
    </item>
   </layout>
  </widget>
