@@ -64,6 +64,7 @@ qt5_wrap_ui(UIS_HEADERS
 	"${CLIENT_FOLDER}/src/user_interface/ui/LoginJoin.ui"
 	"${CLIENT_FOLDER}/src/user_interface/ui/LoginServer.ui"
 	"${CLIENT_FOLDER}/src/user_interface/ui/LoginMode.ui"
+	"${CLIENT_FOLDER}/src/user_interface/ui/Login.ui"
 )
 
 include_directories(${PROJECT_BINARY_DIR})

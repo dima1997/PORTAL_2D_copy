@@ -34,6 +34,10 @@ void GameConfig::set_well_config(){
     this->isWellConfig = true;
 }
 
+bool GameConfig::is_well_config(){
+    return this->isWellConfig;
+} 
+
 Game GameConfig::create_game(){
     return std::move(Game(
         this->connector, 

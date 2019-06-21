@@ -18,6 +18,7 @@ LoginNew::LoginNew(GameConfig & gameConfig, QWidget *parent)
     connector(),
     isOpen(true)
 {
+    this->hide();
     Ui::LoginNew loginNew;
     loginNew.setupUi(this);
     this->connect_events();

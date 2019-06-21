@@ -19,6 +19,7 @@ LoginServer::LoginServer(LoginMode & loginMode, QWidget *parent)
     this->hide();
     Ui::LoginServer loginServer;
     loginServer.setupUi(this);
+    this->connect_events();
 }
 
 LoginServer::~LoginServer() = default;

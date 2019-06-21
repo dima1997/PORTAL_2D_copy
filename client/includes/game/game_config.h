@@ -29,6 +29,8 @@ public:
 
     void set_well_config();
 
+    bool is_well_config();
+
     Game create_game();
 };
 

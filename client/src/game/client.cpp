@@ -1,11 +1,15 @@
 #include "../../includes/game/client.h"
 
 #include "../../includes/game/game_factory.h"
+#include "../../includes/game/game_config.h"
 #include "../../includes/user_interface/line_interface.h"
 #include "../../includes/user_interface/message_exception.h"
+#include "../../includes/user_interface/login.h"
 
 #include <connector/socket_exception.h>
 #include <iostream>
+
+#include <QApplication>
 
 Client::Client() = default;
 
@@ -28,7 +32,6 @@ void Client::run_line(){
         }
     }
 }
-
 
 void Client::run_qt(int argc, char **argv){
     bool keepInput = true;
