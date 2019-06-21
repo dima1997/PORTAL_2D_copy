@@ -3,6 +3,7 @@
 //
 
 #include "geometry_utils.h"
+#include <stdlib.h>
 
 float32 angle_between_vectors(b2Vec2 v1, b2Vec2 v2) {
     return acosf(b2Dot(v1, v2)/(v1.Length() * v2.Length()));

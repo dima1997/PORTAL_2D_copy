@@ -11,16 +11,6 @@
 #include <QLabel>
 
 int main(int argc, char **argv) {
-    /*
-    {
-        QApplication app(argc, argv);
-        QLabel label("Por favor, funciona.");
-        label.show();
-        app.exec();
-    }
-
-    std::setlocale(LC_NUMERIC,"C");
-    */
     try {
         bool wrongUse = false;
         if (argc == 5) {
