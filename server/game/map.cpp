@@ -27,36 +27,38 @@ Cake Map::loadCake(b2World &world) {
     return Cake(world, x, y, id);
 }
 
-void Map::loadBlocks(b2World &world, std::list<Block *> &blocks_list) {
+std::list<Block> Map::loadBlocks(b2World &world) {
     YAML::Node metalBlocks = file["blocks_metal"]["id_coordinates"];
+    std::list<Block> blocks_list;
     for(auto &&block : metalBlocks) {
-        blocks_list.push_back(loadBlock(block, world, METAL_BLOCK, SQUARE));
+        blocks_list.push_back(std::move(loadBlock(block, world, METAL_BLOCK, SQUARE)));
     }
     YAML::Node rockBlocks = file["blocks_rock"]["id_coordinates"];
     for(auto &&block : rockBlocks) {
-        blocks_list.push_back(loadBlock(block, world, ROCK_BLOCK, SQUARE));
+        blocks_list.push_back(std::move(loadBlock(block, world, ROCK_BLOCK, SQUARE)));
     }
     YAML::Node acidBlocks = file["blocks_acid"]["id_coordinates"];
     for(auto &&block : acidBlocks) {
-        blocks_list.push_back(loadBlock(block, world, ACID_BLOCK, SQUARE));
+        blocks_list.push_back(std::move(loadBlock(block, world, ACID_BLOCK, SQUARE)));
     }
 
     YAML::Node bottom_left = file["triangles_botom_left"]["id_coordinates"];
     for(auto &&block : bottom_left) {
-        blocks_list.push_back(loadBlock(block, world, METAL_BLOCK, BOTTOM_LEFT));
+        blocks_list.push_back(std::move(loadBlock(block, world, METAL_BLOCK, BOTTOM_LEFT)));
     }
     YAML::Node bottom_right = file["triangles_botom_right"]["id_coordinates"];
     for(auto &&block : bottom_right) {
-        blocks_list.push_back(loadBlock(block, world, METAL_BLOCK, BOTTOM_RIGHT));
+        blocks_list.push_back(std::move(loadBlock(block, world, METAL_BLOCK, BOTTOM_RIGHT)));
     }
     YAML::Node top_left = file["triangles_top_left"]["id_coordinates"];
     for(auto &&block : top_left) {
-        blocks_list.push_back(loadBlock(block, world, METAL_BLOCK, TOP_LEFT));
+        blocks_list.push_back(std::move(loadBlock(block, world, METAL_BLOCK, TOP_LEFT)));
     }
     YAML::Node top_right = file["triangles_top_right"]["id_coordinates"];
     for(auto &&block : top_right) {
-        blocks_list.push_back(loadBlock(block, world, METAL_BLOCK, TOP_RIGHT));
+        blocks_list.push_back(std::move(loadBlock(block, world, METAL_BLOCK, TOP_RIGHT)));
     }
+    return blocks_list;
 }
 
 std::list<Chell> Map::loadChells(b2World &world) {
@@ -88,11 +90,11 @@ Chell Map::loadChell(const YAML::Node &chell, b2World &world, Portal *bluePortal
     return Chell(world, x, y, id, bluePortal, orangePortal, fmax(maxHeight, maxWidth));
 }
 
-Block *Map::loadBlock(const YAML::Node &block, b2World &world, body_type_t type, orientation_t orientation) {
+Block Map::loadBlock(const YAML::Node &block, b2World &world, body_type_t type, orientation_t orientation) {
     auto id = block["id"].as<uint32_t>();
     auto x = block["xCoord"].as<float32>();
     auto y = block["yCoord"].as<float32>();
-    return new Block(world, x, y, type, id, orientation);
+    return Block(world, x, y, type, id, orientation);
 }
 
 void Map::loadDoors(b2World &world, std::list<Door *> &doors) {

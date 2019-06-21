@@ -85,3 +85,5 @@ void Block::createTopRight() {
     triangle.Set(vertices, 3);
     body->CreateFixture(&triangle, 0.0f);
 }
+
+Block::Block(Block &&other) noexcept: Body(std::move(other)), type(other.type), orientation(other.orientation) {}

@@ -24,14 +24,14 @@ class Map {
     uint8_t players_number;
     Portal *loadPortal(const YAML::Node &portal, b2World &world);
     Chell loadChell(const YAML::Node &chell, b2World &world, Portal *bluePortal, Portal *orangePortal);
-    Block *loadBlock(const YAML::Node &block, b2World &world, body_type_t type, orientation_t orientation);
+    Block loadBlock(const YAML::Node &block, b2World &world, body_type_t type, orientation_t orientation);
     EnergyEmitter *loadEmitter(const YAML::Node &emitterInfo, b2World &world, direction_t direction);
 public:
     explicit Map(uint8_t map_id);
     uint8_t getPlayersNumber();
     uint32_t getPlayerId(uint8_t i);
     Cake loadCake(b2World &world);
-    void loadBlocks(b2World &world, std::list<Block *> &blocks);
+    std::list<Block> loadBlocks(b2World &world);
     void loadRocks(b2World &world, std::list<Rock *> &rocks);
     std::list<Chell> loadChells(b2World &world);
     void loadDoors(b2World &world, std::list<Door *> &doors);

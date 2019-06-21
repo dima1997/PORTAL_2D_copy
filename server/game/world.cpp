@@ -25,7 +25,8 @@
 #define POSITION_ITERATIONS 2
 
 World::World(Map &map): gravity(0.0f, -9.8f), world(new b2World(gravity)), contactListener(), contactFilter(),
-                        numberOfPlayers(), finished(false), chells(std::move(map.loadChells(*world))), cake(std::move(map.loadCake(*world))) {
+                        numberOfPlayers(), finished(false), chells(std::move(map.loadChells(*world))),
+                        blocks(std::move(map.loadBlocks(*world))), cake(std::move(map.loadCake(*world))) {
     loadMap(map);
     world->SetContactListener(&contactListener);
     world->SetContactFilter(&contactFilter);
@@ -111,9 +112,9 @@ World::~World() {
 //    for (auto *chell : chells) {
 //        delete chell;
 //    }
-    for(auto *block : blocks) {
-        delete block;
-    }
+//    for(auto *block : blocks) {
+//        delete block;
+//    }
     for(auto *button : buttons) {
         delete button;
     }
@@ -134,7 +135,7 @@ World::~World() {
 }
 
 void World::loadMap(Map &map) {
-    map.loadBlocks(*world, blocks);
+//    map.loadBlocks(*world, blocks);
 //    cake = map.loadCake(world);
 //    map.loadChells(world, chells);
     map.loadDoors(*world, doors);
