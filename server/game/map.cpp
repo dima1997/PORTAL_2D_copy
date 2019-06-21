@@ -67,21 +67,21 @@ std::list<Chell> Map::loadChells(b2World &world) {
     const YAML::Node &orangePortalCoords = file["portals_orange"]["id_coordinates"];
     std::list<Chell> chells;
     for (int i = 0; i < (int)chellsCoord.size(); ++i) {
-        Portal *bluePortal = loadPortal(bluePortalCoords[i], world);
-        Portal *orangePortal = loadPortal(orangePortalCoords[i], world);
+        Portal bluePortal = loadPortal(bluePortalCoords[i], world);
+        Portal orangePortal = loadPortal(orangePortalCoords[i], world);
         chells.push_back(std::move(loadChell(chellsCoord[i], world, bluePortal, orangePortal)));
     }
     return chells;
 }
 
-Portal *Map::loadPortal(const YAML::Node &portal, b2World &world) {
+Portal Map::loadPortal(const YAML::Node &portal, b2World &world) {
     auto id = portal["id"].as<uint32_t>();
     auto x = portal["xCoord"].as<float32>();
     auto y = portal["yCoord"].as<float32>();
-    return new Portal(world, x, y, id);
+    return Portal(world, x, y, id);
 }
 
-Chell Map::loadChell(const YAML::Node &chell, b2World &world, Portal *bluePortal, Portal *orangePortal) {
+Chell Map::loadChell(const YAML::Node &chell, b2World &world, Portal &bluePortal, Portal &orangePortal) {
     auto maxHeight = file["background"]["height"].as<float32>();
     auto maxWidth = file["background"]["width"].as<float32 >();
     auto id = chell["id"].as<uint32_t>();

@@ -22,8 +22,8 @@ class Map {
     YAML::Node file;
     uint8_t id;
     uint8_t players_number;
-    Portal *loadPortal(const YAML::Node &portal, b2World &world);
-    Chell loadChell(const YAML::Node &chell, b2World &world, Portal *bluePortal, Portal *orangePortal);
+    Portal loadPortal(const YAML::Node &portal, b2World &world);
+    Chell loadChell(const YAML::Node &chell, b2World &world, Portal &bluePortal, Portal &orangePortal);
     Block loadBlock(const YAML::Node &block, b2World &world, body_type_t type, orientation_t orientation);
     EnergyEmitter *loadEmitter(const YAML::Node &emitterInfo, b2World &world, direction_t direction);
 public:

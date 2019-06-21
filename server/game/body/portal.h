@@ -16,10 +16,11 @@ private:
     b2Vec2 normal;
 public:
     Portal(b2World &world, float32 xPos, float32 yPos, uint32_t id);
+    Portal(Portal &&other) noexcept;
     ~Portal() override;
     void startGoingThrough(Body *body);
     void endGoingThrough();
-    friend void connect(Portal *portal1, Portal *portal2);
+    friend void connect(Portal &portal1, Portal &portal2);
     body_type_t getBodyType() override;
     void setNormal(b2Vec2 normal);
 };
