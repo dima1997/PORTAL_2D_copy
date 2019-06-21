@@ -31,7 +31,9 @@ LoginJoin::~LoginJoin() = default;
 
 void LoginJoin::config_join_game() {
     QComboBox* comboBoxGameId = findChild<QComboBox*>("comboBoxGameId");
-    QString currentMapIdStr = comboBoxGameId->currentText();
+    QString currentMapIdNameStr = comboBoxGameId->currentText();
+    QStringList pieces = currentMapIdNameStr.split(" - ");
+    QString currentMapIdStr = pieces[0]; 
     bool ok;
     uint8_t gameId = (uint8_t) currentMapIdStr.toInt(&ok, 10);
     this->connector << (uint8_t) gameId;
@@ -40,8 +42,7 @@ void LoginJoin::config_join_game() {
     if (status == command_ok){
         uint32_t playerId;
         this->connector >> playerId;
-        //Pedir mapa
-        uint8_t mapId = 0;
+        uint8_t mapId = 0; // Esto es irrelevante
         this->gameConfig.set_connector(this->connector);
         this->gameConfig.set_game_id(gameId);
         this->gameConfig.set_player_id(playerId);
@@ -53,6 +54,7 @@ void LoginJoin::config_join_game() {
         ok << "Join game success.\n";
         qMsg.setText(QString(ok.str().c_str()));
         qMsg.exec();
+        ((Login*)this->parentWidget())->close();
         this->close();
         //emit login_join_success();
         return;
@@ -64,7 +66,7 @@ void LoginJoin::config_join_game() {
         err << "Game " << (unsigned) gameId << " is full." << std::endl;
         qMsg.setText(QString(err.str().c_str()));
         qMsg.exec();
-        ((Login*)this->parentWidget())->stop();
+        ((Login*)this->parentWidget())->close();
         this->close();
         //emit login_join_failed();
         return;
@@ -76,7 +78,7 @@ void LoginJoin::config_join_game() {
         err << "Game " << (unsigned) gameId << " does not exist." << std::endl;
         qMsg.setText(QString(err.str().c_str()));
         qMsg.exec();
-        ((Login*)this->parentWidget())->stop();
+        ((Login*)this->parentWidget())->close();
         this->close();
         //emit login_join_failed();
         return;

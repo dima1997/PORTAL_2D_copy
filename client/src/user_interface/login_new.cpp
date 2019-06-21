@@ -46,7 +46,7 @@ void LoginNew::config_new_game() {
         err << "Server rejected new game.\n";
         qMsg.setText(QString(err.str().c_str()));
         qMsg.exec();
-        ((Login*)this->parentWidget())->stop();
+        ((Login*)this->parentWidget())->close();
         this->close();
         //emit login_new_failed();
         return;
@@ -66,6 +66,7 @@ void LoginNew::config_new_game() {
     ok << "New game success.\n";
     qMsg.setText(QString(ok.str().c_str()));
     qMsg.exec();
+    ((Login*)this->parentWidget())->close();
     this->close();
     //emit login_new_success();
     return;
