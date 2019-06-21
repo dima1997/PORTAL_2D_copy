@@ -25,11 +25,11 @@
 #define POSITION_ITERATIONS 2
 
 World::World(Map &map): gravity(0.0f, -9.8f), world(new b2World(gravity)), contactListener(), contactFilter(),
-                        numberOfPlayers(), finished(false), chells(map.loadChells(*world)), blocks(map.loadBlocks(*world)),
-                        doors(map.loadDoors(*world)), buttons(map.loadButtons(*world, doors)), rocks(map.loadRocks(*world)),
+                        numberOfPlayers(map.getPlayersNumber()), finished(false), chells(map.loadChells(*world)),
+                        blocks(map.loadBlocks(*world)), doors(map.loadDoors(*world)),
+                        buttons(map.loadButtons(*world, doors)), rocks(map.loadRocks(*world)),
                         barriers(map.loadBarriers(*world)), emitters(map.loadEmitters(*world)),
                         balls(map.loadBalls(*world, emitters)), cake(map.loadCake(*world)) {
-    loadMap(map);
     world->SetContactListener(&contactListener);
     world->SetContactFilter(&contactFilter);
 }
@@ -90,13 +90,11 @@ void World::step(std::list<std::shared_ptr<Event>> &events) {
         Portal &orange = chell.getPortal(ORANGE);
         if (orange.changedPosition()) {
             events.push_back(std::shared_ptr<Event>(
-                    //new ObjectMovesEvent(orange->getId(), orange->getXPos(), orange->getYPos())));
                     new PortalMovesEvent(orange.getId(), orange.getXPos(), orange.getYPos(), chell.getId())));
         }
         Portal &blue = chell.getPortal(BLUE);
         if (blue.changedPosition()) {
             events.push_back(
-                    //std::shared_ptr<Event>(new ObjectMovesEvent(blue->getId(), blue->getXPos(), blue->getYPos())));
                     std::shared_ptr<Event>(
                         new PortalMovesEvent(blue.getId(), blue.getXPos(), blue.getYPos(), chell.getId())));
         }
@@ -110,43 +108,7 @@ void World::step(std::list<std::shared_ptr<Event>> &events) {
 }
 
 World::~World() {
-    // TODO: all to the stack
-//    for (auto *chell : chells) {
-//        delete chell;
-//    }
-//    for(auto *block : blocks) {
-//        delete block;
-//    }
-//    for(auto *button : buttons) {
-//        delete button;
-//    }
-//    for(auto *door : doors) {
-//        delete door;
-//    }
-//    for(auto *rock : rocks) {
-//        delete rock;
-//    }
-//    for(auto *barrier: barriers) {
-//        delete barrier;
-//    }
-//    for(auto *emitter: emitters) {
-//        delete emitter;
-//    }
-//    delete cake;
     delete world;
-}
-
-void World::loadMap(Map &map) {
-//    map.loadBlocks(*world, blocks);
-//    cake = map.loadCake(world);
-//    map.loadChells(world, chells);
-//    map.loadDoors(*world, doors);
-//    map.loadButtons(*world, buttons, doors);
-//    map.loadRocks(*world, rocks);
-//    map.loadBarriers(*world, barriers);
-//    map.loadEmitters(*world, emitters);
-//    map.loadBalls(*world, balls, emitters);
-    numberOfPlayers = map.getPlayersNumber();
 }
 
 Chell &World::getChell(uint32_t i) {

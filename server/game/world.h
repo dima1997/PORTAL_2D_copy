@@ -39,7 +39,6 @@ private:
     Cake cake;
     int numberOfPlayers;
     bool finished;
-    void loadMap(Map &map);
 public:
     explicit World(Map &map);
     bool hasFinished();

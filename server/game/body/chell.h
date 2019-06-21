@@ -36,7 +36,6 @@ public:
     Chell(b2World &world, float32 xPos, float32 yPos, uint32_t playerId, Portal &bluePortal, Portal &orangePortal,
           float32 maxReach);
     Chell(const Chell &other);
-    bool isAlive();
     ~Chell() override;
     void updateState(chell_state_t state);
     void update();

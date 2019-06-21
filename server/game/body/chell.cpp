@@ -60,19 +60,14 @@ void Chell::createBody(float32 xPos, float32 yPos) {
 
 Chell::Chell(b2World &world, float32 xPos, float32 yPos, uint32_t playerId, Portal &bluePortal, Portal &orangePortal,
              float32 maxReach) :
-             Body(world, xPos, yPos, playerId), portals{std::move(bluePortal), std::move(orangePortal)}, state(STOP), alive(true), footContacts(0),
+             Body(world, xPos, yPos, playerId), portals{bluePortal, orangePortal}, state(STOP), alive(true), footContacts(0),
              jumpTimer(), maxReach(maxReach), carriesRock(false), rock(nullptr), grabbedRockUpdated(false),
              threwRockUpdated(false), forceThrew(false), _justDied(false) {
     connect(bluePortal, orangePortal);
-//    portals[BLUE] = bluePortal;
-//    portals[ORANGE] = orangePortal;
     createBody(xPos, yPos);
 }
 
-Chell::~Chell() {
-//    delete portals[BLUE];
-//    delete portals[ORANGE];
-}
+Chell::~Chell() = default;
 
 void Chell::updateState(chell_state_t state) {
     if (this->state != AIR && this->state != JUMP) {
@@ -120,10 +115,6 @@ Portal &Chell::getPortal(portal_color_t color) {
 
 body_type_t Chell::getBodyType() {
     return CHELL;
-}
-
-bool Chell::isAlive() {
-    return alive;
 }
 
 void Chell::die() {
