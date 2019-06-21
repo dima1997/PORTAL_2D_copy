@@ -28,7 +28,7 @@ World::World(Map &map): gravity(0.0f, -9.8f), world(new b2World(gravity)), conta
                         numberOfPlayers(), finished(false), chells(std::move(map.loadChells(*world))),
                         blocks(std::move(map.loadBlocks(*world))), doors(std::move(map.loadDoors(*world))),
                         buttons(std::move(map.loadButtons(*world, doors))), rocks(std::move(map.loadRocks(*world))),
-                        barriers(map.loadBarriers(*world)),
+                        barriers(map.loadBarriers(*world)), emitters(map.loadEmitters(*world)), balls(map.loadBalls(*world, emitters)),
                         cake(std::move(map.loadCake(*world))) {
     loadMap(map);
     world->SetContactListener(&contactListener);
@@ -63,10 +63,10 @@ void World::step(std::list<std::shared_ptr<Event>> &events) {
             events.push_back(std::shared_ptr<Event>(new ObjectSwitchEvent(door.getId())));
         }
     }
-    for (EnergyBall *ball : balls) {
-        ball->changedPosition();
-        ball->move();
-        events.push_back(std::shared_ptr<Event>(new ObjectMovesEvent(ball->getId(), ball->getXPos(), ball->getYPos())));
+    for (EnergyBall &ball : balls) {
+        ball.changedPosition();
+        ball.move();
+        events.push_back(std::shared_ptr<Event>(new ObjectMovesEvent(ball.getId(), ball.getXPos(), ball.getYPos())));
     }
     for (Chell &chell : chells) {
         if ( chell.justDied() ) {
@@ -130,9 +130,9 @@ World::~World() {
 //    for(auto *barrier: barriers) {
 //        delete barrier;
 //    }
-    for(auto *emitter: emitters) {
-        delete emitter;
-    }
+//    for(auto *emitter: emitters) {
+//        delete emitter;
+//    }
 //    delete cake;
     delete world;
 }
@@ -145,8 +145,8 @@ void World::loadMap(Map &map) {
 //    map.loadButtons(*world, buttons, doors);
 //    map.loadRocks(*world, rocks);
 //    map.loadBarriers(*world, barriers);
-    map.loadEmitters(*world, emitters);
-    map.loadBalls(*world, balls, emitters);
+//    map.loadEmitters(*world, emitters);
+//    map.loadBalls(*world, balls, emitters);
     numberOfPlayers = map.getPlayersNumber();
 }
 

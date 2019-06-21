@@ -55,7 +55,7 @@ Body::Body(Body &&other) noexcept: updated_position(other.updated_position), las
     body->SetUserData(this);
 }
 
-Body::Body(Body &other): updated_position(other.updated_position), lastPosition(other.lastPosition),
+Body::Body(const Body &other): updated_position(other.updated_position), lastPosition(other.lastPosition),
                          id(other.id), world(other.world), body(other.body), throughPortal(other.throughPortal),
                          hx(other.hx), hy(other.hy) {
     body->SetUserData(this);

@@ -23,12 +23,12 @@ void EnergyBall::createBody(float32 xPos, float32 yPos) {
 EnergyBall::EnergyBall(b2World &world, float32 xPos, float32 yPos, uint32_t id, EnergyEmitter &emitter):
                        Body(world, xPos, yPos, id), emitter(emitter) {
     createBody(xPos, yPos);
-//    b2Vec2 pos = emitter.getDeparturePos();
-//    moveTo(pos.x, pos.y);
     resetDirection();
     b2Vec2 final = VEL * direction;
     applyImpulse(final.x, final.y);
 }
+
+EnergyBall::EnergyBall(const EnergyBall &other): Body(other), emitter(other.emitter), direction(other.direction) {}
 
 body_type_t EnergyBall::getBodyType() {
     return ENERGY_BALL;
@@ -53,9 +53,6 @@ void EnergyBall::resetDirection() {
 }
 
 void EnergyBall::move() {
-//    b2Vec2 vel = body->GetLinearVelocity();
-//    vel.Normalize();
-//    b2Vec2 final = VEL * vel;
     b2Vec2 final = VEL * direction;
     applyImpulse(final.x, final.y);
 }

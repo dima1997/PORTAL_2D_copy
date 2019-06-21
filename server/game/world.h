@@ -32,8 +32,8 @@ private:
     std::list<Button> buttons;
     std::list<Rock> rocks;
     std::list<Barrier> barriers;
-    std::list<EnergyEmitter *> emitters;
-    std::list<EnergyBall *> balls;
+    std::list<EnergyEmitter> emitters;
+    std::list<EnergyBall> balls;
     ContactListener contactListener;
     ContactFilter contactFilter;
     Cake cake;

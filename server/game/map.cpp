@@ -184,32 +184,37 @@ std::list<Barrier> Map::loadBarriers(b2World &world) {
     return barriers;
 }
 
-void Map::loadEmitters(b2World &world, std::list<EnergyEmitter *> &emmiters) {
+std::list<EnergyEmitter> Map::loadEmitters(b2World &world) {
     YAML::Node emittersInfo = file["emitters_right"]["id_coordinates"];
+    std::list<EnergyEmitter> emitters;
     for (auto && emitterInfo : emittersInfo) {
-        emmiters.push_back(loadEmitter(emitterInfo, world, RIGHT_D));
+        EnergyEmitter emitter = loadEmitter(emitterInfo, world, RIGHT_D);
+        emitters.push_back(emitter);
     }
+    return emitters;
 }
 
-EnergyEmitter *Map::loadEmitter(const YAML::Node &emitterInfo, b2World &world, direction_t direction) {
+EnergyEmitter Map::loadEmitter(const YAML::Node &emitterInfo, b2World &world, direction_t direction) {
     auto id = emitterInfo["id"].as<uint32_t>();
     auto x = emitterInfo["xCoord"].as<float32>();
     auto y = emitterInfo["yCoord"].as<float32>();
-    return new EnergyEmitter(world, x, y, id, direction);
+    return EnergyEmitter(world, x, y, id, direction);
 }
 
-void Map::loadBalls(b2World &world, std::list<EnergyBall *> &balls, std::list<EnergyEmitter *> &emmiters) {
+std::list<EnergyBall> Map::loadBalls(b2World &world, std::list<EnergyEmitter> &emmiters) {
     YAML::Node ballsInfo = file["energy_balls_green"]["id_coordinates"];
+    std::list<EnergyBall> balls;
     for (auto && ballInfo : ballsInfo) {
         auto id = ballInfo["id"].as<uint32_t>();
         auto x = ballInfo["xCoord"].as<float32>();
         auto y = ballInfo["yCoord"].as<float32>();
         auto emitterId = ballInfo["emitter"].as<uint32_t >();
-        for (auto emitter : emmiters) {
-            if (emitter->getId() == emitterId) {
-                balls.push_back(new EnergyBall(world, x, y, id, *emitter));
+        for (auto &emitter : emmiters) {
+            if (emitter.getId() == emitterId) {
+                balls.emplace_back(world, x, y, id, emitter);
                 break;
             }
         }
     }
+    return balls;
 }
