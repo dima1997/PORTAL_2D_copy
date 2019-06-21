@@ -56,7 +56,7 @@ void LoginServer::login(){
         qMsg.setText(QString(err.str().c_str()));
         qMsg.setIcon(QMessageBox::Warning);
         qMsg.exec();
-        ((Login*)this->parentWidget())->stop();
+        ((Login*)this->parentWidget())->close();
         this->close();
         //emit login_server_failed();
         return;
