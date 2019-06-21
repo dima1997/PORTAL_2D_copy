@@ -31,7 +31,7 @@ public:
     float32 hx;
     float32 hy;
     void applyImpulse(float32 xSpeed, float32 ySpeed);
-    bool changedPositionOrVelocity();
+    bool changedPosition();
     uint32_t getId();
     float32 getXPos();
     float32 getYPos();

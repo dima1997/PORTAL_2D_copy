@@ -60,9 +60,8 @@ void World::step(std::list<std::shared_ptr<Event>> &events) {
         }
     }
     for (EnergyBall *ball : balls) {
-        ball->changedPositionOrVelocity();
+        ball->changedPosition();
         ball->move();
-        printf("x: %f, y: %f\n", ball->getXPos(), ball->getYPos());
         events.push_back(std::shared_ptr<Event>(new ObjectMovesEvent(ball->getId(), ball->getXPos(), ball->getYPos())));
     }
     for (Chell *chell : chells) {
@@ -75,7 +74,7 @@ void World::step(std::list<std::shared_ptr<Event>> &events) {
             }
             break;
         }
-        if (chell->changedPositionOrVelocity()) {
+        if (chell->changedPosition()) {
             events.push_back(
                     std::shared_ptr<Event>(new ObjectMovesEvent(chell->getId(), chell->getXPos(), chell->getYPos())));
         }
@@ -86,13 +85,13 @@ void World::step(std::list<std::shared_ptr<Event>> &events) {
             events.push_back(std::shared_ptr<Event>(new ThrowRockEvent(chell->getRock()->getId())));
         }
         Portal *orange = chell->getPortal(ORANGE);
-        if (orange->changedPositionOrVelocity()) {
+        if (orange->changedPosition()) {
             events.push_back(std::shared_ptr<Event>(
                     //new ObjectMovesEvent(orange->getId(), orange->getXPos(), orange->getYPos())));
                     new PortalMovesEvent(orange->getId(), orange->getXPos(), orange->getYPos(), chell->getId())));
         }
         Portal *blue = chell->getPortal(BLUE);
-        if (blue->changedPositionOrVelocity()) {
+        if (blue->changedPosition()) {
             events.push_back(
                     //std::shared_ptr<Event>(new ObjectMovesEvent(blue->getId(), blue->getXPos(), blue->getYPos())));
                     std::shared_ptr<Event>(
@@ -100,7 +99,7 @@ void World::step(std::list<std::shared_ptr<Event>> &events) {
         }
     }
     for (Rock *rock : rocks) {
-        if (rock->changedPositionOrVelocity()) {
+        if (rock->changedPosition()) {
             events.push_back(std::shared_ptr<Event>(new ObjectMovesEvent(rock->getId(), rock->getXPos(), rock->getYPos())));
         }
     }

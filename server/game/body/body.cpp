@@ -7,7 +7,7 @@
 Body::Body(b2World &world, float32 xPos, float32 yPos, uint32_t id):
            updated_position(false), lastPosition(xPos, yPos), id(id), world(world), body(), throughPortal(false), hx(), hy() {}
 
-bool Body::changedPositionOrVelocity() {
+bool Body::changedPosition() {
     if (updated_position) {
         body->SetTransform(lastPosition, body->GetAngle());
         updated_position = false;
