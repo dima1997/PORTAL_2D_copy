@@ -4,6 +4,10 @@
 # de cada objeto, por su id de menor a mayor.
 # Tambien se recomienda respetar las convenciones de ids,
 # descritas en cada seccion.
+
+# Atencion los valores modulizadores de color RGB van de 1 a 255
+# (No poner 0, en cuyo caso, el programara levantara error.)
+
 player_number: 2
 sections: 
     [
@@ -110,8 +114,8 @@ chells:
     id_coordinates: 
     # Usar ids distanciados de a 3 
         [
-            {id: 50, xCoord: 0.5, yCoord: 1.75, redMod: 255, greenMod: 255, greenMod: 255},
-            {id: 53, xCoord: 2.5, yCoord: 3.75, redMod: 255, greenMod: 255, greenMod: 255}
+            {id: 50, xCoord: 0.5, yCoord: 1.75, redMod: 255, greenMod: 255, blueMod: 1},
+            {id: 53, xCoord: 2.5, yCoord: 3.75, redMod: 1, greenMod: 170, blueMod: 228}
         ]
 portals_blue:
     width: 1.5
