@@ -144,7 +144,7 @@ energy_balls_green:
     height: 0.5
     id_coordinates:
         [
-            {id: 57, color: 'green', xCoord: -5.5, yCoord: 7.5}
+            {id: 57, color: 'green', xCoord: -5.5, yCoord: 7.5, emitter: 67}
         ]
 buttons:
     width: 2
@@ -158,7 +158,7 @@ rocks_one:
     height: 1.0
     id_coordinates:
         [
-            {id: 59, xCoord: -2.5, yCoord: 1.5}
+            {id: 59, xCoord: -2.5, yCoord: 1.5, hx: 0.5, hy: 0.5}
         ]
 rocks_two:
     width: 1.0

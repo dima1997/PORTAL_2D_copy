@@ -132,14 +132,14 @@ void Map::loadButtons(b2World &world, std::list<Button *> &buttons, std::list<Do
 
 void Map::loadRocks(b2World &world, std::list<Rock *> &rocks) {
     std::vector<std::string> rocksSections;
-    rocksSections.push_back("rocks_one");
-    rocksSections.push_back("rocks_two");
-    rocksSections.push_back("rocks_three");
-    rocksSections.push_back("rocks_four");
-    rocksSections.push_back("rocks_five");
-    rocksSections.push_back("rocks_six");
-    rocksSections.push_back("rocks_seven");
-    rocksSections.push_back("rocks_eight");
+    rocksSections.emplace_back("rocks_one");
+    rocksSections.emplace_back("rocks_two");
+    rocksSections.emplace_back("rocks_three");
+    rocksSections.emplace_back("rocks_four");
+    rocksSections.emplace_back("rocks_five");
+    rocksSections.emplace_back("rocks_six");
+    rocksSections.emplace_back("rocks_seven");
+    rocksSections.emplace_back("rocks_eight");
     // Esto puede romper si las secciones no existen
     for (int i = 0; i < (int)rocksSections.size(); ++i){
         std::string section = rocksSections[i];
@@ -148,7 +148,7 @@ void Map::loadRocks(b2World &world, std::list<Rock *> &rocks) {
             auto id = rockInfo["id"].as<uint32_t>();
             auto x = rockInfo["xCoord"].as<float32>();
             auto y = rockInfo["yCoord"].as<float32>();
-            rocks.push_back(new Rock(world, x, y, id, 0.2f, 0.28f));
+            rocks.push_back(new Rock(world, x, y, id, 0.4f, 0.4f));
         }
     }
 }
@@ -168,5 +168,35 @@ void Map::loadBarriers(b2World &world, std::list<Barrier *> &barriers) {
         auto height = barrierInfo["height"].as<float32>();
         auto width = barrierInfo["width"].as<float32>();
         barriers.push_back(new Barrier(world, x, y, id, height/2, width/2));
+    }
+}
+
+void Map::loadEmitters(b2World &world, std::list<EnergyEmitter *> &emmiters) {
+    YAML::Node emittersInfo = file["emitters_right"]["id_coordinates"];
+    for (auto && emitterInfo : emittersInfo) {
+        emmiters.push_back(loadEmitter(emitterInfo, world, RIGHT_D));
+    }
+}
+
+EnergyEmitter *Map::loadEmitter(const YAML::Node &emitterInfo, b2World &world, direction_t direction) {
+    auto id = emitterInfo["id"].as<uint32_t>();
+    auto x = emitterInfo["xCoord"].as<float32>();
+    auto y = emitterInfo["yCoord"].as<float32>();
+    return new EnergyEmitter(world, x, y, id, direction);
+}
+
+void Map::loadBalls(b2World &world, std::list<EnergyBall *> &balls, std::list<EnergyEmitter *> &emmiters) {
+    YAML::Node ballsInfo = file["energy_balls_green"]["id_coordinates"];
+    for (auto && ballInfo : ballsInfo) {
+        auto id = ballInfo["id"].as<uint32_t>();
+        auto x = ballInfo["xCoord"].as<float32>();
+        auto y = ballInfo["yCoord"].as<float32>();
+        auto emitterId = ballInfo["emitter"].as<uint32_t >();
+        for (auto emitter : emmiters) {
+            if (emitter->getId() == emitterId) {
+                balls.push_back(new EnergyBall(world, x, y, id, *emitter));
+                break;
+            }
+        }
     }
 }

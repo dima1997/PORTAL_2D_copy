@@ -3,6 +3,7 @@
 //
 
 #include <Box2D/Collision/Shapes/b2PolygonShape.h>
+#include <Box2D/Dynamics/b2Fixture.h>
 #include "cake.h"
 
 Cake::Cake(b2World &world, float32 xPos, float32 yPos, uint32_t id) : Body(world, xPos, yPos, id), reached(false) {
@@ -22,7 +23,7 @@ void Cake::createBody(float32 xPos, float32 yPos) {
     b2PolygonShape box;
     box.SetAsBox(0.2f, 0.2f);
 
-    body->CreateFixture(&box, 0.0f);
+    body->CreateFixture(&box, 0.0f)->SetSensor(true);
 }
 
 void Cake::reach() {

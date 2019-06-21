@@ -15,6 +15,9 @@
 #include "body/door.h"
 #include "body/button.h"
 #include "body/rock.h"
+#include "body/energy_ball.h"
+#include "contact_listener/contact_listener.h"
+#include "contact_filter/contact_filter.h"
 #include <protocol/event/object_moves_event.h>
 
 #include <set>
@@ -29,8 +32,11 @@ private:
     std::list<Button *> buttons;
     std::list<Rock *> rocks;
     std::list<Barrier *> barriers;
+    std::list<EnergyEmitter *> emitters;
+    std::list<EnergyBall *> balls;
+    ContactListener contactListener;
+    ContactFilter contactFilter;
     Cake *cake;
-    std::vector<std::shared_ptr<b2ContactListener>> listeners;
     int numberOfPlayers;
     bool finished;
     void loadMap(Map &map);

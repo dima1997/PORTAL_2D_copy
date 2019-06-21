@@ -13,7 +13,7 @@
 
 #define CONTACT_CHECK 1
 
-typedef enum body_type {ROCK_BLOCK, METAL_BLOCK, ACID_BLOCK, CHELL, PORTAL, CAKE, DOOR, BUTTON, ROCK, BARRIER} body_type_t;
+typedef enum body_type {ROCK_BLOCK, METAL_BLOCK, ACID_BLOCK, CHELL, PORTAL, CAKE, DOOR, BUTTON, ROCK, BARRIER, ENERGY_EMITTER, ENERGY_RECEPTOR, ENERGY_BALL} body_type_t;
 
 class Body {
 private:
@@ -31,7 +31,7 @@ public:
     float32 hx;
     float32 hy;
     void applyImpulse(float32 xSpeed, float32 ySpeed);
-    bool changedPositionOrVelocity();
+    bool changedPosition();
     uint32_t getId();
     float32 getXPos();
     float32 getYPos();
