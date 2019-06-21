@@ -170,16 +170,18 @@ std::string Map::toString() {
                     std::istreambuf_iterator<char>());
 }
 
-void Map::loadBarriers(b2World &world, std::list<Barrier *> &barriers) {
+std::list<Barrier> Map::loadBarriers(b2World &world) {
     YAML::Node barriersInfo = file["barriers"];
+    std::list<Barrier> barriers;
     for (auto && barrierInfo : barriersInfo) {
         auto id = barrierInfo["id"].as<uint32_t>();
         auto x = barrierInfo["xCoord"].as<float32>();
         auto y = barrierInfo["yCoord"].as<float32>();
         auto height = barrierInfo["height"].as<float32>();
         auto width = barrierInfo["width"].as<float32>();
-        barriers.push_back(new Barrier(world, x, y, id, height/2, width/2));
+        barriers.emplace_back(world, x, y, id, height/2, width/2);
     }
+    return barriers;
 }
 
 void Map::loadEmitters(b2World &world, std::list<EnergyEmitter *> &emmiters) {

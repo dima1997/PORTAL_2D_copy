@@ -36,7 +36,7 @@ public:
     std::list<Chell> loadChells(b2World &world);
     std::list<Door> loadDoors(b2World &world);
     std::list<Button> loadButtons(b2World &world, std::list<Door> &doors);
-    void loadBarriers(b2World &world, std::list<Barrier *> &barriers);
+    std::list<Barrier> loadBarriers(b2World &world);
     void loadEmitters(b2World &world, std::list<EnergyEmitter *> &emmiters);
     void loadBalls(b2World &world, std::list<EnergyBall *> &balls, std::list<EnergyEmitter *> &emmiters);
     std::string toString();

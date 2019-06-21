@@ -28,6 +28,7 @@ World::World(Map &map): gravity(0.0f, -9.8f), world(new b2World(gravity)), conta
                         numberOfPlayers(), finished(false), chells(std::move(map.loadChells(*world))),
                         blocks(std::move(map.loadBlocks(*world))), doors(std::move(map.loadDoors(*world))),
                         buttons(std::move(map.loadButtons(*world, doors))), rocks(std::move(map.loadRocks(*world))),
+                        barriers(map.loadBarriers(*world)),
                         cake(std::move(map.loadCake(*world))) {
     loadMap(map);
     world->SetContactListener(&contactListener);
@@ -126,9 +127,9 @@ World::~World() {
 //    for(auto *rock : rocks) {
 //        delete rock;
 //    }
-    for(auto *barrier: barriers) {
-        delete barrier;
-    }
+//    for(auto *barrier: barriers) {
+//        delete barrier;
+//    }
     for(auto *emitter: emitters) {
         delete emitter;
     }
@@ -143,7 +144,7 @@ void World::loadMap(Map &map) {
 //    map.loadDoors(*world, doors);
 //    map.loadButtons(*world, buttons, doors);
 //    map.loadRocks(*world, rocks);
-    map.loadBarriers(*world, barriers);
+//    map.loadBarriers(*world, barriers);
     map.loadEmitters(*world, emitters);
     map.loadBalls(*world, balls, emitters);
     numberOfPlayers = map.getPlayersNumber();

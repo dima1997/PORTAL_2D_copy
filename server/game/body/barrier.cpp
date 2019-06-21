@@ -30,4 +30,9 @@ void Barrier::createBody(float32 xPos, float32 yPos) {
     body->CreateFixture(&sensorFixtureDef);
 }
 
+Barrier::Barrier(Barrier &other): Body(other) {
+    this->hx = hx;
+    this->hy = hy;
+}
+
 Barrier::~Barrier() = default;
