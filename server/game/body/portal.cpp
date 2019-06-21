@@ -12,8 +12,7 @@ Portal::Portal(b2World &world, float32 xPos, float32 yPos, uint32_t id):
     createBody(xPos, yPos);
 }
 
-Portal::Portal(Portal &&other) noexcept: Body(std::move(other)), other(other.other),
-                                         usable(other.usable), normal(other.normal) {
+Portal::Portal(const Portal &other): Body(other), other(other.other), usable(other.usable), normal(other.normal) {
     if (this->other) {
         this->other->other = this;
     }

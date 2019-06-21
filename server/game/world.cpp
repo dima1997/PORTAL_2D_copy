@@ -25,11 +25,10 @@
 #define POSITION_ITERATIONS 2
 
 World::World(Map &map): gravity(0.0f, -9.8f), world(new b2World(gravity)), contactListener(), contactFilter(),
-                        numberOfPlayers(), finished(false), chells(std::move(map.loadChells(*world))),
-                        blocks(std::move(map.loadBlocks(*world))), doors(std::move(map.loadDoors(*world))),
-                        buttons(std::move(map.loadButtons(*world, doors))), rocks(std::move(map.loadRocks(*world))),
-                        barriers(map.loadBarriers(*world)), emitters(map.loadEmitters(*world)), balls(map.loadBalls(*world, emitters)),
-                        cake(std::move(map.loadCake(*world))) {
+                        numberOfPlayers(), finished(false), chells(map.loadChells(*world)), blocks(map.loadBlocks(*world)),
+                        doors(map.loadDoors(*world)), buttons(map.loadButtons(*world, doors)), rocks(map.loadRocks(*world)),
+                        barriers(map.loadBarriers(*world)), emitters(map.loadEmitters(*world)),
+                        balls(map.loadBalls(*world, emitters)), cake(map.loadCake(*world)) {
     loadMap(map);
     world->SetContactListener(&contactListener);
     world->SetContactFilter(&contactFilter);

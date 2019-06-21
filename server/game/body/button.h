@@ -19,7 +19,7 @@ private:
     bool updated;
 public:
     Button(b2World &world, float32 xPos, float32 yPos, uint32_t id, std::list<std::reference_wrapper<Door>> &doors);
-    Button(Button &&other) noexcept;
+    Button(const Button &other);
     ~Button() override;
     body_type_t getBodyType() override;
     void increaseContact();

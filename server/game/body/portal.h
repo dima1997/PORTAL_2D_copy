@@ -16,7 +16,7 @@ private:
     b2Vec2 normal;
 public:
     Portal(b2World &world, float32 xPos, float32 yPos, uint32_t id);
-    Portal(Portal &&other) noexcept;
+    Portal(const Portal &other);
     ~Portal() override;
     void startGoingThrough(Body *body);
     void endGoingThrough();

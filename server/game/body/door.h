@@ -18,7 +18,7 @@ private:
     bool isOpen();
 public:
     Door(b2World &world, float32 xPos, float32 yPos, uint32_t id, std::unordered_map<uint32_t, bool> &conditions);
-    Door(Door &&other) noexcept;
+    Door(const Door &other);
     ~Door() override;
     body_type_t getBodyType() override;
     bool update();

@@ -224,14 +224,10 @@ bool Chell::justDied() {
     return false;
 }
 
-Chell::Chell(Chell &&other) noexcept: Body(std::move(other)), portals{std::move(other.portals[BLUE]), std::move(other.portals[ORANGE])},
+Chell::Chell(const Chell &other): Body(other), portals{other.portals[BLUE], other.portals[ORANGE]},
                                       state(other.state), alive(other.alive), footContacts(other.footContacts),
                                       jumpTimer(other.jumpTimer), maxReach(other.maxReach), carriesRock(other.carriesRock),
                                       rock(other.rock), grabbedRockUpdated(other.grabbedRockUpdated),
                                       threwRockUpdated(other.threwRockUpdated), forceThrew(other.forceThrew), _justDied(other._justDied) {
     connect(portals[BLUE], portals[ORANGE]);
-//    portals[0] = other.portals[0];
-//    portals[1] = other.portals[1];
-//    other.portals[0] = nullptr;
-//    other.portals[1] = nullptr;
 }

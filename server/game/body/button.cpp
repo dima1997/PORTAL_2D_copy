@@ -12,8 +12,7 @@ Button::Button(b2World &world, float32 xPos, float32 yPos, uint32_t id, std::lis
     createBody(xPos, yPos);
 }
 
-Button::Button(Button &&other) noexcept: Body(std::move(other)), doors(other.doors),
-                                         contactCount(other.contactCount), updated(other.updated) {}
+Button::Button(const Button &other): Body(other), doors(other.doors), contactCount(other.contactCount), updated(other.updated) {}
 
 body_type_t Button::getBodyType() {
     return BUTTON;

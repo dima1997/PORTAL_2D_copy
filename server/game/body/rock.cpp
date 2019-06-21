@@ -13,7 +13,7 @@ Rock::Rock(b2World &world, float32 xPos, float32 yPos, uint32_t id, float32 hx, 
     createBody(xPos, yPos);
 }
 
-Rock::Rock(Rock &&other) noexcept: Body(std::move(other)), initialX(other.initialX), initialY(other.initialY) {}
+Rock::Rock(const Rock &other): Body(other), initialX(other.initialX), initialY(other.initialY) {}
 
 body_type_t Rock::getBodyType() {
     return ROCK;

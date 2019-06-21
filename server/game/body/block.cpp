@@ -86,4 +86,4 @@ void Block::createTopRight() {
     body->CreateFixture(&triangle, 0.0f);
 }
 
-Block::Block(Block &&other) noexcept: Body(std::move(other)), type(other.type), orientation(other.orientation) {}
+Block::Block(const Block &other): Body(other), type(other.type), orientation(other.orientation) {}
