@@ -131,14 +131,34 @@ void Map::loadButtons(b2World &world, std::list<Button *> &buttons, std::list<Do
 }
 
 void Map::loadRocks(b2World &world, std::list<Rock *> &rocks) {
-    YAML::Node rocksInfo = file["rocks_one"]["id_coordinates"];
-    for (auto && rockInfo : rocksInfo) {
-        auto id = rockInfo["id"].as<uint32_t>();
-        auto x = rockInfo["xCoord"].as<float32>();
-        auto y = rockInfo["yCoord"].as<float32>();
-        auto hx = rockInfo["hx"].as<float32>();
-        auto hy = rockInfo["hy"].as<float32>();
-        rocks.push_back(new Rock(world, x, y, id, hx, hy));
+//    YAML::Node rocksInfo = file["rocks_one"]["id_coordinates"];
+//    for (auto && rockInfo : rocksInfo) {
+//        auto id = rockInfo["id"].as<uint32_t>();
+//        auto x = rockInfo["xCoord"].as<float32>();
+//        auto y = rockInfo["yCoord"].as<float32>();
+//        auto hx = rockInfo["hx"].as<float32>();
+//        auto hy = rockInfo["hy"].as<float32>();
+//        rocks.push_back(new Rock(world, x, y, id, hx, hy));
+
+    std::vector<std::string> rocksSections;
+    rocksSections.push_back("rocks_one");
+    rocksSections.push_back("rocks_two");
+    rocksSections.push_back("rocks_three");
+    rocksSections.push_back("rocks_four");
+    rocksSections.push_back("rocks_five");
+    rocksSections.push_back("rocks_six");
+    rocksSections.push_back("rocks_seven");
+    rocksSections.push_back("rocks_eight");
+    // Esto puede romper si las secciones no existen
+    for (int i = 0; i < (int)rocksSections.size(); ++i){
+        std::string section = rocksSections[i];
+        YAML::Node rocksInfo = file[section.c_str()]["id_coordinates"];
+        for (auto && rockInfo : rocksInfo) {
+            auto id = rockInfo["id"].as<uint32_t>();
+            auto x = rockInfo["xCoord"].as<float32>();
+            auto y = rockInfo["yCoord"].as<float32>();
+            rocks.push_back(new Rock(world, x, y, id, 0.2f, 0.28f));
+        }
     }
 }
 

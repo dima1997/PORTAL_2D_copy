@@ -160,6 +160,41 @@ rocks_one:
         [
             {id: 59, xCoord: -2.5, yCoord: 1.5, hx: 0.5, hy: 0.5}
         ]
+rocks_two:
+    width: 1.0
+    height: 1.0
+    id_coordinates:
+        []
+rocks_three:
+    width: 1.0
+    height: 1.0
+    id_coordinates:
+        []
+rocks_four:
+    width: 1.0
+    height: 1.0
+    id_coordinates:
+        []
+rocks_five:
+    width: 1.0
+    height: 1.0
+    id_coordinates:
+        []
+rocks_six:
+    width: 1.0
+    height: 1.0
+    id_coordinates:
+        []
+rocks_seven:
+    width: 1.0
+    height: 1.0
+    id_coordinates:
+        []
+rocks_eight:
+    width: 1.0
+    height: 1.0
+    id_coordinates:
+        []
 barriers:
     [
         {id: 60, width: 0.25, height: 4.0, xCoord: -5.5, yCoord: 3.0},

@@ -110,6 +110,69 @@ public:
     se ubicara la textura.
     POST: Devuelve un puntero unico 
     a una textura(std::unique_ptr<Texture>), 
+    de la textura de roca.
+    */
+    std::unique_ptr<Texture> create_rock_two(Area areaMap);
+
+    /*
+    PRE: Recibe el area (Area) donde 
+    se ubicara la textura.
+    POST: Devuelve un puntero unico 
+    a una textura(std::unique_ptr<Texture>), 
+    de la textura de roca.
+    */
+    std::unique_ptr<Texture> create_rock_three(Area areaMap);
+
+    /*
+    PRE: Recibe el area (Area) donde 
+    se ubicara la textura.
+    POST: Devuelve un puntero unico 
+    a una textura(std::unique_ptr<Texture>), 
+    de la textura de roca.
+    */
+    std::unique_ptr<Texture> create_rock_four(Area areaMap);
+
+    /*
+    PRE: Recibe el area (Area) donde 
+    se ubicara la textura.
+    POST: Devuelve un puntero unico 
+    a una textura(std::unique_ptr<Texture>), 
+    de la textura de roca.
+    */
+    std::unique_ptr<Texture> create_rock_five(Area areaMap);
+
+    /*
+    PRE: Recibe el area (Area) donde 
+    se ubicara la textura.
+    POST: Devuelve un puntero unico 
+    a una textura(std::unique_ptr<Texture>), 
+    de la textura de roca.
+    */
+    std::unique_ptr<Texture> create_rock_six(Area areaMap);
+
+    /*
+    PRE: Recibe el area (Area) donde 
+    se ubicara la textura.
+    POST: Devuelve un puntero unico 
+    a una textura(std::unique_ptr<Texture>), 
+    de la textura de roca.
+    */
+    std::unique_ptr<Texture> create_rock_seven(Area areaMap);
+
+    /*
+    PRE: Recibe el area (Area) donde 
+    se ubicara la textura.
+    POST: Devuelve un puntero unico 
+    a una textura(std::unique_ptr<Texture>), 
+    de la textura de roca.
+    */
+    std::unique_ptr<Texture> create_rock_eight(Area areaMap);
+
+    /*
+    PRE: Recibe el area (Area) donde 
+    se ubicara la textura.
+    POST: Devuelve un puntero unico 
+    a una textura(std::unique_ptr<Texture>), 
     de la textura de barrera.
     */
     std::unique_ptr<Texture> create_barrier(Area areaMap);

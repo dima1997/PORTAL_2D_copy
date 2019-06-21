@@ -59,6 +59,41 @@ void MapCreator::add_rock_one(uint32_t id, Area area){
     this->window.add_texture(id,std::move(tF.create_rock_one(area)));
 }
 
+void MapCreator::add_rock_two(uint32_t id, Area area){
+    TextureFactory tF(this->window);
+    this->window.add_texture(id,std::move(tF.create_rock_two(area)));
+}
+
+void MapCreator::add_rock_three(uint32_t id, Area area){
+    TextureFactory tF(this->window);
+    this->window.add_texture(id,std::move(tF.create_rock_three(area)));
+}
+
+void MapCreator::add_rock_four(uint32_t id, Area area){
+    TextureFactory tF(this->window);
+    this->window.add_texture(id,std::move(tF.create_rock_four(area)));
+}
+
+void MapCreator::add_rock_five(uint32_t id, Area area){
+    TextureFactory tF(this->window);
+    this->window.add_texture(id,std::move(tF.create_rock_five(area)));
+}
+
+void MapCreator::add_rock_six(uint32_t id, Area area){
+    TextureFactory tF(this->window);
+    this->window.add_texture(id,std::move(tF.create_rock_six(area)));
+}
+
+void MapCreator::add_rock_seven(uint32_t id, Area area){
+    TextureFactory tF(this->window);
+    this->window.add_texture(id,std::move(tF.create_rock_seven(area)));
+}
+
+void MapCreator::add_rock_eight(uint32_t id, Area area){
+    TextureFactory tF(this->window);
+    this->window.add_texture(id,std::move(tF.create_rock_eight(area)));
+}
+
 void MapCreator::add_barrier(uint32_t id, Area area){
     TextureFactory tF(this->window);
     this->window.add_texture(id,std::move(tF.create_barrier(area)));
@@ -184,6 +219,34 @@ void MapCreator::add_texture(uint32_t id, Area area,
     }
     if (subSectionName == "rocks_one") {
         this->add_rock_one(id, area);
+        return;
+    }
+    if (subSectionName == "rocks_two") {
+        this->add_rock_two(id, area);
+        return;
+    }
+    if (subSectionName == "rocks_three") {
+        this->add_rock_three(id, area);
+        return;
+    }
+    if (subSectionName == "rocks_four") {
+        this->add_rock_four(id, area);
+        return;
+    }
+    if (subSectionName == "rocks_five") {
+        this->add_rock_five(id, area);
+        return;
+    }
+    if (subSectionName == "rocks_six") {
+        this->add_rock_six(id, area);
+        return;
+    }
+    if (subSectionName == "rocks_seven") {
+        this->add_rock_seven(id, area);
+        return;
+    }
+    if (subSectionName == "rocks_eight") {
+        this->add_rock_eight(id, area);
         return;
     }
     if (subSectionName == "barriers") {

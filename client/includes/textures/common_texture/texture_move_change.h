@@ -1,8 +1,8 @@
 #ifndef TEXTURE_MOVE_CHANGE_H
 #define TEXTURE_MOVE_CHANGE_H
 
-#include "../../../includes/textures/common_texture/texture_change.h"
-#include "../../../includes/window/window.h"
+#include "texture_change.h"
+#include "../../window/window.h"
 
 #include <protocol/event/object_moves_event.h>
 
