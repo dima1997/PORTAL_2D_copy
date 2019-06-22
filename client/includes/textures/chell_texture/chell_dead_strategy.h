@@ -5,8 +5,8 @@
 #include "../common_texture/area.h"
 
 enum ChellDeadSpriteName {
-    DYING,
-    DEAD
+    CHELL_SPRITE_DYING,
+    CHELL_SPRITE_DEAD
 };
 
 class ChellDeadStrategy : public SpriteStrategy {
@@ -19,13 +19,6 @@ public:
 
     /*Destruye el estado de sprite de Chell muerta*/
     virtual ~ChellDeadStrategy();
-
-    /*
-    Devuelve el area correspondiente al siguiente sprite 
-    de Chell muerta, en la imagen ALL_CHELL_SPRITES de 
-    images_path.h .
-    */
-    virtual Area getNextArea() override;
 
     /*Actualiza el sprite al siguiente a usar.*/
     virtual void update();  

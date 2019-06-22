@@ -6,37 +6,21 @@
 #include "../../../includes/textures/common_texture/sprite_strategy.h"
 #include "../../../includes/textures/common_texture/area.h"
 
-#include "../../../includes/mixer/sounds_path.h"
-
 /*Inicializa el estado de sprite de Chell muerta.*/
 ChellDeadStrategy::ChellDeadStrategy()
 :   SpriteStrategy(ChellDyingSprite::get_sprite()),
-    spriteName(DYING) {}
+    spriteName(CHELL_SPRITE_DYING) {}
 
 /*Destruye el estado de sprite de Chell muerta*/
 ChellDeadStrategy::~ChellDeadStrategy() = default;
 
-/*
-Devuelve el area correspondiente al siguiente sprite 
-de Chell muerta, en la imagen ALL_CHELL_SPRITES de 
-images_path.h .
-*/
-Area ChellDeadStrategy::getNextArea(){
-    if (this->spriteName != DEAD){
-        if (this->dynamicSprite.is_last_sprite()) { 
-            this->dynamicSprite = NullSprite::get_sprite();
-            this->spriteName = DEAD;
-        }
-    }
-    return std::move(this->dynamicSprite.getNextArea());
-}
-
+/*Actualiza el sprite.*/
 void ChellDeadStrategy::update(){
     this->dynamicSprite.update();
-    if (this->spriteName != DEAD){
+    if (this->spriteName != CHELL_SPRITE_DEAD){
         if (this->dynamicSprite.is_last_sprite()) { 
             this->dynamicSprite = NullSprite::get_sprite();
-            this->spriteName = DEAD;
+            this->spriteName = CHELL_SPRITE_DEAD;
         }
     }
 }
