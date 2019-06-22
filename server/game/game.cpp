@@ -99,8 +99,10 @@ void Game::manageActions(std::unique_ptr<GameAction> ptrAction) {
             world.getChell(player_id).grabRock();
             break;
         case throw_right:
+            world.getChell(player_id).throwRock(THROW_RIGHT);
+            break;
         case throw_left:
-            world.getChell(player_id).throwRock(false);
+            world.getChell(player_id).throwRock(THROW_LEFT);
             break;
         case reset_portals:
             std::cout << "SERVER: reset portals.\n";
