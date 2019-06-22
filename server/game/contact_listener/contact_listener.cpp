@@ -32,7 +32,7 @@ void ContactListener::BeginContact(b2Contact *contact) {
             } else if (dataB->getBodyType() == ACID_BLOCK) {
                 chell->die();
             } else if (dataB->getBodyType() == BARRIER) {
-                chell->throwRock(FORCE_THROW);
+                chell->throwRock(THROW_INITIAL);
             }
         } else if (dataA->getBodyType() == BUTTON) {
             auto *button = dynamic_cast<Button *>(dataA);
@@ -72,7 +72,7 @@ void ContactListener::BeginContact(b2Contact *contact) {
             } else if (dataA->getBodyType() == ACID_BLOCK) {
                 chell->die();
             } else if (dataA->getBodyType() == BARRIER) {
-                chell->throwRock(FORCE_THROW);
+                chell->throwRock(THROW_INITIAL);
             }
         } else if (dataB->getBodyType() == BUTTON) {
             auto *button = dynamic_cast<Button *>(dataB);

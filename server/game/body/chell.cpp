@@ -119,6 +119,7 @@ body_type_t Chell::getBodyType() {
 
 void Chell::die() {
     _justDied = true;
+    throwRock(THROW_IN);
 }
 
 void Chell::shootPortal(float x, float y, portal_color_t color) {
@@ -194,10 +195,12 @@ bool Chell::threwRock() {
     threwRockUpdated = false;
     if (updated) {
         rock->setActive(true);
-        if (rockState == FORCE_THROW) {
+        if (rockState == THROW_IN) {
+            rock->moveTo(getXPos(), getYPos());
+        } else if (rockState == THROW_INITIAL) {
             rock->moveToInitial();
         } else if (rockState == THROW_LEFT) {
-            rock->moveTo(getXPos() - hx - rock->hx, getYPos());
+                rock->moveTo(getXPos() - hx - rock->hx, getYPos());
         } else if (rockState == THROW_RIGHT) {
             rock->moveTo(getXPos() + hx + rock->hx, getYPos());
         }
