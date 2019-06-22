@@ -28,7 +28,7 @@ World::World(Map &map): gravity(0.0f, -9.8f), world(new b2World(gravity)), conta
                         numberOfPlayers(map.getPlayersNumber()), finished(false), chells(map.loadChells(*world)),
                         blocks(map.loadBlocks(*world)), doors(map.loadDoors(*world)),
                         buttons(map.loadButtons(*world, doors)), rocks(map.loadRocks(*world)),
-                        barriers(map.loadBarriers(*world)), emitters(map.loadEmitters(*world)),
+                        barriers(map.loadBarriers(*world)), emitters(map.loadEmitters(*world)), receivers(map.loadReceivers(*world)),
                         balls(map.loadBalls(*world, emitters)), cake(map.loadCake(*world)) {
     world->SetContactListener(&contactListener);
     world->SetContactFilter(&contactFilter);

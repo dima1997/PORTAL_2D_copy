@@ -218,3 +218,15 @@ std::list<EnergyBall> Map::loadBalls(b2World &world, std::list<EnergyEmitter> &e
     }
     return balls;
 }
+
+std::list<EnergyReceiver> Map::loadReceivers(b2World &world) {
+    YAML::Node receiversInfo = file["receivers"]["id_coordinates"];
+    std::list<EnergyReceiver> receivers;
+    for (auto &&receiverInfo: receiversInfo) {
+        auto id = receiverInfo["id"].as<uint32_t>();
+        auto x = receiverInfo["xCoord"].as<float32>();
+        auto y = receiverInfo["yCoord"].as<float32>();
+        receivers.emplace_back(world, x, y, id);
+    }
+    return receivers;
+}

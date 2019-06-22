@@ -43,12 +43,16 @@ void ContactListener::BeginContact(b2Contact *contact) {
                 dynamic_cast<Rock *>(dataB)->moveToInitial();
             }
         } else if (dataA->getBodyType() == ENERGY_BALL) {
-            b2WorldManifold worldManifold;
-            contact->GetWorldManifold(&worldManifold);
             auto *ball = dynamic_cast<EnergyBall *>(dataA);
-            const b2Vec2 vec2 = ball->getDirection();
-            const b2Vec2 vec3 = -vec2;
-            ball->setDirection(normal_reflection(vec3, worldManifold.normal));
+            if (dataB->getBodyType() == ENERGY_RECEIVER) {
+                ball->resetPosition();
+            } else {
+                b2WorldManifold worldManifold;
+                contact->GetWorldManifold(&worldManifold);
+                const b2Vec2 vec2 = ball->getDirection();
+                const b2Vec2 vec3 = -vec2;
+                ball->setDirection(normal_reflection(vec3, worldManifold.normal));
+            }
         }
 
         if (dataB->getBodyType() == PORTAL) {
@@ -78,12 +82,16 @@ void ContactListener::BeginContact(b2Contact *contact) {
                 dynamic_cast<Rock *>(dataA)->moveToInitial();
             }
         } else if (dataB->getBodyType() == ENERGY_BALL) {
-            b2WorldManifold worldManifold;
-            contact->GetWorldManifold(&worldManifold);
             auto *ball = dynamic_cast<EnergyBall *>(dataB);
-            const b2Vec2 vec2 = ball->getDirection();
-            const b2Vec2 vec3 = -vec2;
-            ball->setDirection(normal_reflection(vec3, worldManifold.normal));
+            if (dataA->getBodyType() == ENERGY_RECEIVER) {
+                ball->resetPosition();
+            } else {
+                b2WorldManifold worldManifold;
+                contact->GetWorldManifold(&worldManifold);
+                const b2Vec2 vec2 = ball->getDirection();
+                const b2Vec2 vec3 = -vec2;
+                ball->setDirection(normal_reflection(vec3, worldManifold.normal));
+            }
         }
     }
 }

@@ -66,5 +66,10 @@ b2Vec2 EnergyBall::getDirection() {
     return direction;
 }
 
+void EnergyBall::resetPosition() {
+    resetDirection();
+    moveTo(emitter.getXPos(), emitter.getYPos());
+}
+
 
 EnergyBall::~EnergyBall() = default;
