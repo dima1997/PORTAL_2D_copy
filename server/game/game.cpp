@@ -108,7 +108,7 @@ void Game::manageActions(std::unique_ptr<GameAction> ptrAction) {
             world.getChell(player_id).resetPortals();
             break;
         case kill:
-            std::cout << "SERVER: kill player.\n";
+            world.getChell(player_id).die();
             break;
         case null_action:
             break;
