@@ -20,12 +20,12 @@ public:
     PRE: Recibe un conector (Connector &) conectado.
     POST: Recibe el evento, desde el connector.
     */
-    void receiveFrom(Connector & in) override;
+    virtual void receiveFrom(Connector & in) override;
     /*
     PRE: Recibe un conector (Connector &) conectado.
     POST: Envia el evento, a traves del connector.
     */
-    void sendThrough(Connector & out) const override;
+    virtual void sendThrough(Connector & out) const override;
 
 
     uint32_t get_chell_id();

@@ -36,11 +36,6 @@ void EventGameReceiverThread::receive_event(){
     switch (gameEvent){
         case player_wins:
             {   
-                /*
-                std::unique_ptr<Event> ptrEvent(
-                    new PlayerWinsEvent()
-                );
-                */
                 std::unique_ptr<TextureChange> ptrChange(
                     new PlayerWinsChange()
                 );
@@ -51,11 +46,6 @@ void EventGameReceiverThread::receive_event(){
             break;
         case player_loses:
             {
-                /*
-                std::unique_ptr<Event> ptrEvent(
-                    new PlayerLosesEvent()
-                );
-                */
                 std::unique_ptr<TextureChange> ptrChange(
                     new PlayerLosesChange()
                 );
@@ -75,13 +65,7 @@ void EventGameReceiverThread::receive_event(){
             break;
         case object_moves:
             {
-                /*
-                std::unique_ptr<Event> ptrEvent(
-                    new ObjectMovesEvent(0,0,0)
-                );
-                */
                 ObjectMovesEvent movesEvent;
-                //this->connector >> (*ptrEvent);
                 this->connector >> movesEvent;
                 std::unique_ptr<TextureChange> ptrChange(
                     new TextureMoveChange(
@@ -95,13 +79,7 @@ void EventGameReceiverThread::receive_event(){
             break;
         case portal_moves:
             {
-                /*
-                std::unique_ptr<Event> ptrEvent(
-                    new PortalMovesEvent()
-                );
-                */
                 PortalMovesEvent portalMovesEvent;
-                //this->connector >> (*ptrEvent);
                 this->connector >> portalMovesEvent;
                 std::unique_ptr<TextureChange> ptrChange(
                     new PortalMoveChange(
@@ -116,14 +94,7 @@ void EventGameReceiverThread::receive_event(){
             break;
         case object_switch_state:
             {
-                /*
-                std::unique_ptr<Event> ptrEvent(
-                    new ObjectSwitchEvent()
-                );
-                */
                 ObjectSwitchEvent switchEvent;
-
-                //this->connector >> (*ptrEvent);
                 this->connector >> switchEvent;
                 std::unique_ptr<TextureChange> ptrChange(
                     new TextureSwitchChange(switchEvent.getObjectId())
@@ -133,13 +104,7 @@ void EventGameReceiverThread::receive_event(){
             break;
         case grab_rock:
             {   
-                /*
-                std::unique_ptr<Event> ptrEvent(
-                    new GrabRockEvent(0,0)
-                );
-                */
                 GrabRockEvent grabRockEvent(0,0);
-                //this->connector >> (*ptrEvent);
                 this->connector >> grabRockEvent;
                 std::unique_ptr<TextureChange> ptrChange(
                     new StartFollowChange(
@@ -152,13 +117,7 @@ void EventGameReceiverThread::receive_event(){
             break;
         case throw_rock:
             {   
-                /*
-                std::unique_ptr<Event> ptrEvent(
-                    new ThrowRockEvent(0)
-                );
-                */
                 ThrowRockEvent throwRockEvent(0);
-                //this->connector >> (*ptrEvent);
                 this->connector >> throwRockEvent;
                 std::unique_ptr<TextureChange> ptrChange(
                     new StopFollowChange(throwRockEvent.getRockId())

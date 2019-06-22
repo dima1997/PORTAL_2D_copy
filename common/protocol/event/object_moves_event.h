@@ -37,8 +37,6 @@ public:
     POST: Envia el evento, a traves del connector.
     */
     virtual void sendThrough(Connector & out) const override;
-    friend Connector &operator<<(Connector &out, const ObjectMovesEvent &c);
-    friend Connector &operator>>(Connector &in, ObjectMovesEvent &c);
 };
 
 

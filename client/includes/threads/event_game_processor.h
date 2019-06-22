@@ -19,21 +19,6 @@ private:
     Window & window;
     ThreadSafeQueue<std::unique_ptr<TextureChange>> & fromGameQueue;
     PlayResult & playResult;
-    /*
-    PRE: Recibe un puntero unico a un evento de mover 
-    objeto (std::unique_ptr<ObjectMovesEvent>).
-    POST: Procesa el evento.
-    */
-    //void process_event(std::unique_ptr<ObjectMovesEvent> ptrMovesEvent);
-
-    /*
-    PRE: Recibe un puntero unico a un evento de switchear
-    un objecto (std::unique_ptr<ObjectSwitchEvent>).
-    POST: Procesa el evento.
-    */
-    //void process_event(std::unique_ptr<ObjectSwitchEvent> ptrSwitchEvent);
-
-    //void process_event(std::unique_ptr<PortalMovesEvent> ptrPortalMovesEvent);
 
 public:
     /*

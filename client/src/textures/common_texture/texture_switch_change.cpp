@@ -15,6 +15,9 @@ TextureSwitchChange::TextureSwitchChange
 (const ObjectSwitchEvent & objectSwitchEvent)
 :   TextureChange(objectSwitchEvent.getObjectId()) {}
 
+TextureSwitchChange::TextureSwitchChange(uint32_t idObject)
+:   TextureChange(idObject) {}
+
 /*Destruye el cambio de tipo switch en textura.*/
 TextureSwitchChange::~TextureSwitchChange() = default;
 
