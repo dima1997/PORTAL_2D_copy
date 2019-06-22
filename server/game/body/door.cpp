@@ -41,8 +41,8 @@ bool Door::isOpen() {
     return true;
 }
 
-void Door::updateConditionStatus(uint32_t id, bool status) {
-    current[id] = status;
+void Door::updateConditionStatus(uint32_t id) {
+    current[id] = !current[id];
 }
 
 bool Door::update() {

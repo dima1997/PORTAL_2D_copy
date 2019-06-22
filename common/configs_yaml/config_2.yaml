@@ -258,9 +258,9 @@ doors_one:
     height: 2.0
     id_coordinates:
         [   
-            {id: 151, xCoord: -5.5, yCoord: 9, conditions: [{button_id: 154,  condition: true}]},
-            {id: 152, xCoord: -0.5, yCoord: 9, conditions: [{button_id: 154,  condition: true}]},
-            {id: 153, xCoord: 0.5, yCoord: 9, conditions: [{button_id: 154,  condition: true}]}
+            {id: 151, xCoord: -5.5, yCoord: 9, conditions: [{cond_id: 154,  condition: true}]},
+            {id: 152, xCoord: -0.5, yCoord: 9, conditions: [{cond_id: 154,  condition: true}]},
+            {id: 153, xCoord: 0.5, yCoord: 9, conditions: [{cond_id: 154,  condition: true}]}
         ]
 energy_balls_green:
     width: 0.5

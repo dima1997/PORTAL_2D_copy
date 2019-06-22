@@ -47,25 +47,24 @@ void Button::createBody(float32 xPos, float32 yPos) {
     body->CreateFixture(&sensorFixtureDef);
 }
 
-void Button::updateDoors(bool status) {
+void Button::updateDoors() {
+    updated = true;
     for (auto &door : doors) {
-        door.get().updateConditionStatus(this->id, status);
+        door.get().updateConditionStatus(this->id);
     }
 }
 
 void Button::increaseContact() {
     ++contactCount;
     if (contactCount == 1) {
-        updated = true;
-        updateDoors(true);
+        updateDoors();
     }
 }
 
 void Button::decreaseContact() {
     --contactCount;
     if (contactCount == 0) {
-        updated = true;
-        updateDoors(false);
+        updateDoors();
     }
 }
 

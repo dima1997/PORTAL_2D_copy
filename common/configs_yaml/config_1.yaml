@@ -140,8 +140,8 @@ doors_one:
     height: 2.0
     id_coordinates:
         [
-          {id: 56, number: 1, xCoord: 5.5, yCoord: 2.0, conditions: [{button_id: 58,  condition: true}]},
-          {id: 74, number: 1, xCoord: -5.0, yCoord: 2.0, conditions: [{button_id: 58,  condition: false}]}
+            {id: 56, number: 1, xCoord: 5.5, yCoord: 2.0, conditions: [{cond_id: 58,  condition: true}, {cond_id: 66, condition: false}]},
+            {id: 80, number: 1, xCoord: -5.0, yCoord: 2.0, conditions: [{cond_id: 58,  condition: false}, {cond_id: 66, condition: true}]}
         ]
 energy_balls_green:
     width: 0.5
@@ -155,7 +155,7 @@ buttons:
     height: 0.5
     id_coordinates:
         [
-            {id: 58, xCoord: -0.5, yCoord: 1.25, door_ids: [56, 74]}
+            {id: 58, xCoord: -0.5, yCoord: 1.25, door_ids: [56, 80]}
         ]
 rocks_one:
     width: 1.0
@@ -237,7 +237,7 @@ receivers:
     height: 1
     id_coordinates:
         [
-            {id: 66, xCoord: 7.5, yCoord: 7.5}
+            {id: 66, xCoord: 7.5, yCoord: 7.5, door_ids: [56, 80]}
         ]
 emitters_right:
     width: 1

@@ -22,7 +22,7 @@ public:
     ~Door() override;
     body_type_t getBodyType() override;
     bool update();
-    void updateConditionStatus(uint32_t id, bool status);
+    void updateConditionStatus(uint32_t id);
 };
 
 

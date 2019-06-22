@@ -103,14 +103,13 @@ std::list<Door> Map::loadDoors(b2World &world) {
     for (auto && doorInfo : doorsInfo) {
         std::unordered_map<uint32_t, bool> conditions;
         for (auto condition : doorInfo["conditions"]) {
-            auto button_id = condition["button_id"].as<uint32_t>();
+            auto cond_id = condition["cond_id"].as<uint32_t>();
             auto cond = condition["condition"].as<bool>();
-            conditions.insert(std::make_pair(button_id, cond));
+            conditions.insert(std::make_pair(cond_id, cond));
         }
         auto id = doorInfo["id"].as<uint32_t>();
         auto x = doorInfo["xCoord"].as<float32>();
         auto y = doorInfo["yCoord"].as<float32>();
-//        doors.push_back(std::move(Door(world, x, y, id, conditions)));
         doors.emplace_back(world, x, y, id, conditions);
     }
     return doors;
@@ -219,14 +218,24 @@ std::list<EnergyBall> Map::loadBalls(b2World &world, std::list<EnergyEmitter> &e
     return balls;
 }
 
-std::list<EnergyReceiver> Map::loadReceivers(b2World &world) {
+std::list<EnergyReceiver> Map::loadReceivers(b2World &world, std::list<Door> &doors) {
     YAML::Node receiversInfo = file["receivers"]["id_coordinates"];
     std::list<EnergyReceiver> receivers;
     for (auto &&receiverInfo: receiversInfo) {
         auto id = receiverInfo["id"].as<uint32_t>();
         auto x = receiverInfo["xCoord"].as<float32>();
         auto y = receiverInfo["yCoord"].as<float32>();
-        receivers.emplace_back(world, x, y, id);
+        std::list<std::reference_wrapper<Door>> receiverDoors;
+        for (auto && doorIdNode : receiverInfo["door_ids"]) {
+            auto doorId = doorIdNode.as<uint32_t>();
+            for (auto &door : doors) {
+                if (door.getId() == doorId) {
+                    receiverDoors.emplace_back(door);
+                    break;
+                }
+            }
+        }
+        receivers.emplace_back(world, x, y, id, receiverDoors);
     }
     return receivers;
 }

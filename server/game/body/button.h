@@ -15,7 +15,7 @@ private:
     void createBody(float32 xPos, float32 yPos) override;
     std::list<std::reference_wrapper<Door>> doors;
     int contactCount;
-    void updateDoors(bool status);
+    void updateDoors();
     bool updated;
 public:
     Button(b2World &world, float32 xPos, float32 yPos, uint32_t id, std::list<std::reference_wrapper<Door>> &doors);

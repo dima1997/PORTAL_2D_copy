@@ -4,6 +4,7 @@
 
 #include <Box2D/Collision/Shapes/b2PolygonShape.h>
 #include "energy_receiver.h"
+#include "door.h"
 
 void EnergyReceiver::createBody(float32 xPos, float32 yPos) {
     b2BodyDef bodyDef;
@@ -17,12 +18,12 @@ void EnergyReceiver::createBody(float32 xPos, float32 yPos) {
     body->CreateFixture(&box, 0.0f);
 }
 
-EnergyReceiver::EnergyReceiver(b2World &world, float32 xPos, float32 yPos, uint32_t id):
-                               Body(world, xPos, yPos, id), updatedActive(false) {
+EnergyReceiver::EnergyReceiver(b2World &world, float32 xPos, float32 yPos, uint32_t id, std::list<std::reference_wrapper<Door>> &doors):
+                               Body(world, xPos, yPos, id), updatedActive(false), doors(doors) {
     createBody(xPos, yPos);
 }
 
-EnergyReceiver::EnergyReceiver(const EnergyReceiver &other): Body(other), updatedActive(other.updatedActive) {}
+EnergyReceiver::EnergyReceiver(const EnergyReceiver &other): Body(other), updatedActive(other.updatedActive), doors(other.doors) {}
 
 body_type_t EnergyReceiver::getBodyType() {
     return ENERGY_RECEIVER;
@@ -34,8 +35,16 @@ bool EnergyReceiver::wasUpdated() {
     return updated;
 }
 
-void EnergyReceiver::updateActive() {
+void EnergyReceiver::updateDoors() {
     updatedActive = true;
+    for (auto &door : doors) {
+        door.get().updateConditionStatus(this->id);
+    }
+}
+
+void EnergyReceiver::updateActive() {
+    active = !active;
+    updateDoors();
 }
 
 EnergyReceiver::~EnergyReceiver() = default;

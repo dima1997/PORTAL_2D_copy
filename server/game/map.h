@@ -39,7 +39,7 @@ public:
     std::list<Button> loadButtons(b2World &world, std::list<Door> &doors);
     std::list<Barrier> loadBarriers(b2World &world);
     std::list<EnergyEmitter> loadEmitters(b2World &world);
-    std::list<EnergyReceiver> loadReceivers(b2World &world);
+    std::list<EnergyReceiver> loadReceivers(b2World &world, std::list<Door> &doors);
     std::list<EnergyBall> loadBalls(b2World &world, std::list<EnergyEmitter> &emmiters);
     std::string toString();
 };
