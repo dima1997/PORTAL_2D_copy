@@ -24,6 +24,7 @@ enum EventType: uint8_t {
     player_wins, 
     player_loses, 
     player_dies,
+    player_reach_cake,
     grab_rock,
     throw_rock,
     game_starts,
