@@ -10,6 +10,7 @@
 #include "../body/button.h"
 #include "../body/energy_ball.h"
 #include "../../utils/geometry_utils.h"
+#include "../body/energy_receiver.h"
 #include <Box2D/Dynamics/Contacts/b2Contact.h>
 
 void ContactListener::BeginContact(b2Contact *contact) {
@@ -46,6 +47,7 @@ void ContactListener::BeginContact(b2Contact *contact) {
             auto *ball = dynamic_cast<EnergyBall *>(dataA);
             if (dataB->getBodyType() == ENERGY_RECEIVER) {
                 ball->resetPosition();
+                dynamic_cast<EnergyReceiver *>(dataB)->updateActive();
             } else {
                 b2WorldManifold worldManifold;
                 contact->GetWorldManifold(&worldManifold);
@@ -85,6 +87,7 @@ void ContactListener::BeginContact(b2Contact *contact) {
             auto *ball = dynamic_cast<EnergyBall *>(dataB);
             if (dataA->getBodyType() == ENERGY_RECEIVER) {
                 ball->resetPosition();
+                dynamic_cast<EnergyReceiver *>(dataA)->updateActive();
             } else {
                 b2WorldManifold worldManifold;
                 contact->GetWorldManifold(&worldManifold);

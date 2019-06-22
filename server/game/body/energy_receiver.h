@@ -11,11 +11,14 @@
 class EnergyReceiver: public Body {
 private:
     void createBody(float32 xPos, float32 yPos) override;
+    bool updatedActive;
 public:
     EnergyReceiver(b2World &world, float32 xPos, float32 yPos, uint32_t id);
     EnergyReceiver(const EnergyReceiver &other);
     ~EnergyReceiver() override;
     body_type_t getBodyType() override;
+    void updateActive();
+    bool wasUpdated();
 
 };
 

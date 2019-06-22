@@ -18,14 +18,24 @@ void EnergyReceiver::createBody(float32 xPos, float32 yPos) {
 }
 
 EnergyReceiver::EnergyReceiver(b2World &world, float32 xPos, float32 yPos, uint32_t id):
-                               Body(world, xPos, yPos, id) {
+                               Body(world, xPos, yPos, id), updatedActive(false) {
     createBody(xPos, yPos);
 }
 
-EnergyReceiver::EnergyReceiver(const EnergyReceiver &other): Body(other) {}
+EnergyReceiver::EnergyReceiver(const EnergyReceiver &other): Body(other), updatedActive(other.updatedActive) {}
 
 body_type_t EnergyReceiver::getBodyType() {
     return ENERGY_RECEIVER;
+}
+
+bool EnergyReceiver::wasUpdated() {
+    bool updated = updatedActive;
+    updatedActive = false;
+    return updated;
+}
+
+void EnergyReceiver::updateActive() {
+    updatedActive = true;
 }
 
 EnergyReceiver::~EnergyReceiver() = default;
