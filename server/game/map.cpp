@@ -100,17 +100,21 @@ Block Map::loadBlock(const YAML::Node &block, b2World &world, body_type_t type, 
 std::list<Door> Map::loadDoors(b2World &world) {
     YAML::Node doorsInfo = file["doors_one"]["id_coordinates"];
     std::list<Door> doors;
+    std::vector<std::unordered_map<uint32_t, bool>> conditions_or;
     for (auto && doorInfo : doorsInfo) {
-        std::unordered_map<uint32_t, bool> conditions;
-        for (auto condition : doorInfo["conditions"]) {
-            auto cond_id = condition["cond_id"].as<uint32_t>();
-            auto cond = condition["condition"].as<bool>();
-            conditions.insert(std::make_pair(cond_id, cond));
+        for (const auto& condition_or : doorInfo["conditions"]) {
+            std::unordered_map<uint32_t, bool> conditions;
+            for (auto condition_and : condition_or) {
+                auto cond_id = condition_and["cond_id"].as<uint32_t>();
+                auto cond = condition_and["condition"].as<bool>();
+                conditions.insert(std::make_pair(cond_id, cond));
+            }
+            conditions_or.push_back(conditions);
         }
         auto id = doorInfo["id"].as<uint32_t>();
         auto x = doorInfo["xCoord"].as<float32>();
         auto y = doorInfo["yCoord"].as<float32>();
-        doors.emplace_back(world, x, y, id, conditions);
+        doors.emplace_back(world, x, y, id, conditions_or);
     }
     return doors;
 }

@@ -139,10 +139,18 @@ doors_one:
     width: 1.0
     height: 2.0
     id_coordinates:
-        [
-            {id: 56, number: 1, xCoord: 5.5, yCoord: 2.0, conditions: [{cond_id: 58,  condition: true}, {cond_id: 66, condition: false}]},
-            {id: 80, number: 1, xCoord: -5.0, yCoord: 2.0, conditions: [{cond_id: 58,  condition: false}, {cond_id: 66, condition: true}]}
-        ]
+        - id: 56
+          number: 1
+          xCoord: 5.5
+          yCoord: 2.0
+          conditions:
+              - [{cond_id: 58,  condition: true}, {cond_id: 66, condition: false}]
+        - id: 80
+          number: 1
+          xCoord: -5.0
+          yCoord: 2.0
+          conditions:
+              - [{cond_id: 58,  condition: false}, {cond_id: 66, condition: true}]
 energy_balls_green:
     width: 0.5
     height: 0.5

@@ -6,10 +6,14 @@
 #include "door.h"
 
 Door::Door(b2World &world, float32 xPos, float32 yPos, uint32_t id,
-           std::unordered_map<uint32_t, bool> &conditions):
+           std::vector<std::unordered_map<uint32_t, bool>> &conditions):
            Body(world, xPos, yPos, id), conditions(std::move(conditions)), current(), lastStatus(false) {
-    for (auto &cond : this->conditions) {
-        current.insert(std::make_pair(cond.first, false));
+    for (auto &cond_or : this->conditions) {
+        std::unordered_map<uint32_t, bool> cond;
+        for (auto &cond_and : cond_or) {
+            cond.insert(std::make_pair(cond_and.first, false));
+        }
+        current.push_back(cond);
     }
     createBody(xPos, yPos);
 }
@@ -33,16 +37,24 @@ void Door::createBody(float32 xPos, float32 yPos) {
 }
 
 bool Door::isOpen() {
-    for (auto &cond : conditions) {
-        if (cond.second != current.at(cond.first)) {
-            return false;
+    for (int i = 0; i < current.size(); ++i) {
+        bool open = true;
+        for (auto &cond : conditions.at(i)) {
+            if (cond.second != current.at(i).at(cond.first)) {
+                open = false;
+            }
         }
+        if (open) return true;
     }
-    return true;
+    return false;
 }
 
 void Door::updateConditionStatus(uint32_t id) {
-    current[id] = !current[id];
+    for (auto &cond_or : current) {
+        if (cond_or.count(id) > 0) {
+            cond_or[id] = !cond_or[id];
+        }
+    }
 }
 
 bool Door::update() {
