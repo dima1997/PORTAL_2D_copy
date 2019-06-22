@@ -11,8 +11,7 @@ sudando hacia la derecha.
 IMAGE_PATH : ALL_CHELL_SPRITES
 */
 DynamicSprite ChellSweatRightSprite::get_sprite(){
-    return std::move(
-        DynamicSprite(
+    return DynamicSprite(
             {
                 {1,4993},
                 {217,4993},
@@ -29,6 +28,5 @@ DynamicSprite ChellSweatRightSprite::get_sprite(){
                 {1081,5219},
             },
             215, 225
-        )
-    );
+        );
 } 

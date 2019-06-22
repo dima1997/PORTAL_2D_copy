@@ -10,5 +10,5 @@ Devuelve el sprite del grabado del video pausado.
 IMAGE_PATH : RECORD_SPRITES
 */
 DynamicSprite RecordPausesSprite::get_sprite(){
-    return std::move(DynamicSprite({{0,0}},113,139));
+    return DynamicSprite({{0,0}},113,139);
 }

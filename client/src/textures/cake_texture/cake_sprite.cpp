@@ -10,8 +10,7 @@ Devuelve un sprite dinamico de torta.
 IMAGE_PATH : CAKE_SPRITES
 */
 DynamicSprite CakeSprite::get_sprite(){
-    return std::move(
-        DynamicSprite(
+    return  DynamicSprite(
             {
                 {6,6},
                 {92,6},
@@ -23,6 +22,5 @@ DynamicSprite CakeSprite::get_sprite(){
                 {620,6}
             },
             84,78
-        )
-    );
+        );
 }

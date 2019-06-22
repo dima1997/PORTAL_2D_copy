@@ -10,5 +10,5 @@ Devuelve un sprite dinamico de puerta cerrada.
 IMAGE_PATH : DOORS_SPRITES
 */
 DynamicSprite DoorOneClosedSprite::get_sprite(){
-    return std::move(DynamicSprite({{1,21}},193,385));
+    return DynamicSprite({{1,21}},193,385);
 } 

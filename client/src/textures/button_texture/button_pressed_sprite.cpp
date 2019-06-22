@@ -10,5 +10,5 @@ Devuelve un sprite dinamico de boton presionado.
 IMAGE_PATH : BUTTON_SPRITES
 */
 DynamicSprite ButtonPressedSprite::get_sprite(){
-    return std::move(DynamicSprite({{0,64}},174,54));
+    return DynamicSprite({{0,64}},174,54);
 } 

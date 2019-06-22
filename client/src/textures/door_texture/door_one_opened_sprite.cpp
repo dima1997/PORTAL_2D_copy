@@ -10,5 +10,5 @@ Devuelve un sprite dinamico de la puerta 1 abriendose.
 IMAGE_PATH : DOORS_SPRITES
 */
 DynamicSprite DoorOneOpenedSprite::get_sprite(){
-    return std::move(DynamicSprite({{1553,2437}},193,385));
+    return DynamicSprite({{1553,2437}},193,385);
 } 

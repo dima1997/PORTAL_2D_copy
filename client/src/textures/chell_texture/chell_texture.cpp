@@ -2,12 +2,15 @@
 
 #include "../../../includes/textures/chell_texture/chell_sprite_strategy.h"
 #include "../../../includes/textures/chell_texture/chell_dead_strategy.h"
+#include "../../../includes/textures/chell_texture/chell_cake_sprite.h"
+#include "../../../includes/textures/chell_texture/chell_dying_sprite.h"
 #include "../../../includes/textures/chell_texture/move_sense.h"
 #include "../../../includes/textures/common_texture/area.h"
 #include "../../../includes/textures/common_texture/big_texture.h"
 #include "../../../includes/textures/common_texture/sprite_strategy.h"
 #include "../../../includes/textures/common_texture/null_sprite.h"
 #include "../../../includes/textures/common_texture/null_end_strategy.h"
+
 
 #include <map>
 
@@ -77,15 +80,19 @@ Alterna entre Chell viva y muerta.
 */
 void ChellTexture::switch_sprite(){
     if (this->status == CHELL_STATUS_ALIVE){
-        this->ptrSpriteStrategy.reset(new ChellDeadStrategy());
+        this->ptrSpriteStrategy.reset(new NullEndStrategy(
+            ChellDyingSprite::get_sprite()
+        ));
         this->sounds.push_back(SOUND_DYING);
         this->status = CHELL_STATUS_DEAD;
+        return;
     }
     if (this->status == CHELL_STATUS_DEAD){
         this->ptrSpriteStrategy.reset(new NullEndStrategy(
-            NullSprite::get_sprite()
+            ChellCakeSprite::get_sprite()
         ));
         this->status = CHELL_STATUS_CAKE;
+        return;
     }
 }
 

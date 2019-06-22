@@ -2,27 +2,10 @@
 
 #include "../../../includes/textures/common_texture/dynamic_sprite.h"
 
-/*
-Iniciliza un sprite de nulo (sin imagen).
-*/
-NullSprite::NullSprite()
-:   DynamicSprite(
-        {
-            {0,0}
-        },
-        0,0
-    )
-    {}
-/*Destrue el sprite nulo.*/
+NullSprite::NullSprite() {}
 NullSprite::~NullSprite() = default;
 
+/*Devuelve un sprite dinamico nulo (sin imagen).*/
 DynamicSprite NullSprite::get_sprite(){
-    return std::move(
-        DynamicSprite(
-            {
-                {0,0}
-            },
-            0,0
-        )
-    );
+    return DynamicSprite({{0,0}},0,0);
 } 

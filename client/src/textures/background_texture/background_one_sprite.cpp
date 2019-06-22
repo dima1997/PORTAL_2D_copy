@@ -12,5 +12,5 @@ fondo de pantalla 1.
 IMAGE_PATH : BACKGROUND_SPRITES
 */
 DynamicSprite BackgroundOneSprite::get_sprite(){
-    return std::move(DynamicSprite({{0,0}},900, 550));
+    return DynamicSprite({{0,0}},900, 550);
 } 

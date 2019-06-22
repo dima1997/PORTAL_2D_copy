@@ -11,5 +11,5 @@ en la esquina inferior izquierda.
 IMAGE_PATH : ALL_BLOCKS_SPRITES 
 */
 DynamicSprite TriangleBotomLeftSprite::get_sprite(){
-    return std::move(DynamicSprite({{804,18}},188,178));
+    return DynamicSprite({{804,18}},188,178);
 } 

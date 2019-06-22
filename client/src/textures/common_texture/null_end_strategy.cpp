@@ -23,7 +23,7 @@ NullEndStrategy::~NullEndStrategy() = default;
 /*Actualiza el sprite al siguiente a usar.*/
 void NullEndStrategy::update(){
     this->dynamicSprite.update();
-    if (this->spriteName != NOT_NULL_SPRITE){
+    if (this->spriteName != NULL_SPRITE){
         if (this->dynamicSprite.is_last_sprite()) { 
             this->switch_sprite();
             this->spriteName = NULL_SPRITE;

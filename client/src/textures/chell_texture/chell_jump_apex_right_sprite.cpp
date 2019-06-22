@@ -11,12 +11,5 @@ verticalmente a derecha.
 IMAGE_PATH : ALL_CHELL_SPRITES
 */
 DynamicSprite ChellJumpApexRightSprite::get_sprite(){
-    return std::move(
-        DynamicSprite(
-            {
-                {1,21}
-            },
-            137, 207
-        ) 
-    );
+    return DynamicSprite({{1,21}},137, 207);
 }

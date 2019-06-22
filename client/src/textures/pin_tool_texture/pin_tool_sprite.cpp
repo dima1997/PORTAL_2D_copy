@@ -10,5 +10,5 @@ Devuelve el sprite dinamico del pin tool.
 IMAGE_PATH : PIN_TOOL_SPRITES
 */
 DynamicSprite PinToolSprite::get_sprite(){
-    return std::move(DynamicSprite({{0,0}},178,202));
+    return DynamicSprite({{0,0}},178,202);
 }

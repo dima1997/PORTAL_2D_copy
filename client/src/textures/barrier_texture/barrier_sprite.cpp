@@ -11,5 +11,5 @@ barrera de energia.
 IMAGE_PATH : BARRIER_SPRITES
 */
 DynamicSprite BarrierSprite::get_sprite(){
-    return std::move(DynamicSprite({{0,0}},135,6));
+    return DynamicSprite({{0,0}},135,6);
 } 
