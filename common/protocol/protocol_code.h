@@ -41,9 +41,10 @@ enum GameActionName : uint8_t {
     open_orange_portal,
     pin_tool_on,
     grab_it,
-    throw_it,
-    stop_grab,
-    stop_throw
+    throw_right,
+    throw_left,
+    reset_portals,
+    kill
 };
 
 enum ThreadStatus {

@@ -7,7 +7,7 @@
 
 #include "object_moves_event.h"
 #include "event.h"
-#include "connector/connector.h"
+#include <connector/connector.h>
 
 class PortalMovesEvent: public ObjectMovesEvent {
 protected:

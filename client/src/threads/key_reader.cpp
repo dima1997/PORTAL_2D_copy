@@ -33,7 +33,10 @@ KeyReader::KeyReader(
     toGameQueue(toGameQueue), 
     keysSendOnce({
         std::make_pair<KeyUsed,bool>(SPACE, false),
-        std::make_pair<KeyUsed,bool>(LSHIFT, false),
+        std::make_pair<KeyUsed,bool>(E, false),
+        std::make_pair<KeyUsed,bool>(Q, false),
+        std::make_pair<KeyUsed,bool>(R, false),
+        std::make_pair<KeyUsed,bool>(K, false),
         std::make_pair<KeyUsed,bool>(V, false),
     }),
     deadKeys(false) {}
@@ -119,11 +122,22 @@ void KeyReader::process_event_up(SDL_KeyboardEvent & keyEvent){
             break;
         case SDLK_SPACE:
         case SDLK_RCTRL:
-            this->process_key_up(SPACE, stop_grab);
+            this->process_key_up(SPACE, null_action);
             break;
-        case SDLK_LSHIFT:
+        case SDLK_e:
+        case SDLK_RSHIFT:
+            this->process_key_up(E, null_action);
+            break;
+        case SDLK_q:
         case SDLK_MINUS:
-            this->process_key_up(LSHIFT, stop_throw);
+            this->process_key_up(Q, null_action);
+            break;
+        case SDLK_r:
+        case SDLK_RETURN:
+            this->process_key_up(R, null_action);
+            break; 
+        case SDLK_k: 
+            this->process_key_up(K, null_action);
             break;
         case SDLK_v:
             this->process_key_up(V, null_action);
@@ -176,9 +190,20 @@ void KeyReader::process_event_down(SDL_KeyboardEvent & keyEvent){
         case SDLK_RCTRL:
             this->process_key_down(SPACE, grab_it);
             break;
-        case SDLK_LSHIFT:
+        case SDLK_e:
+        case SDLK_RSHIFT:
+            this->process_key_down(E, throw_right);
+            break;
+        case SDLK_q:
         case SDLK_MINUS:
-            this->process_key_down(LSHIFT, throw_it);
+            this->process_key_down(Q, throw_left);
+            break;
+        case SDLK_r:
+        case SDLK_RETURN:
+            this->process_key_down(R, reset_portals);
+            break;
+        case SDLK_k:
+            this->process_key_down(K, kill);
             break;
         case SDLK_m:
             {
@@ -190,9 +215,7 @@ void KeyReader::process_event_down(SDL_KeyboardEvent & keyEvent){
             }
             break;
         case SDLK_v:
-            {
-                this->process_key_down(V, null_action);
-            }
+            this->process_key_down(V, null_action);
             break;
         default:
             return;

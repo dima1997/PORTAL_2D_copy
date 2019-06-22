@@ -98,14 +98,15 @@ void Game::manageActions(std::unique_ptr<GameAction> ptrAction) {
         case grab_it:
             world.getChell(player_id).grabRock();
             break;
-        case stop_grab:
-            std::cout << "SERVER: stop grab.\n";
-            break;
-        case throw_it:
+        case throw_right:
+        case throw_left:
             world.getChell(player_id).throwRock(false);
             break;
-        case stop_throw:
-            std::cout << "SERVER: stop throw.\n";
+        case reset_portals:
+            std::cout << "SERVER: reset portals.\n";
+            break;
+        case kill:
+            std::cout << "SERVER: kill player.\n";
             break;
         case null_action:
             break;

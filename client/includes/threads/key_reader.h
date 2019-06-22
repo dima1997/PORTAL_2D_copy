@@ -18,7 +18,10 @@ enum KeyUsed {
     D,
     W,
     SPACE,
-    LSHIFT,
+    E,
+    Q,
+    R,
+    K,
     V
 };
 
