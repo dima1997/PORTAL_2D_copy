@@ -12,6 +12,8 @@
 #include <protocol/game_action/game_action.h>
 #include <protocol/event/event.h>
 
+#include "../textures/common_texture/texture_change.h"
+
 #include <mutex>
 #include <condition_variable>
 #include <vector>
@@ -24,7 +26,7 @@ private:
     uint32_t  playerId;
     uint8_t mapId;
     std::vector<std::unique_ptr<Thread>> threads;
-    ThreadSafeQueue<std::unique_ptr<Event>> changesMade;
+    ThreadSafeQueue<std::unique_ptr<TextureChange>> changesMade;
     BlockingQueue<std::unique_ptr<GameAction>> changesAsk;
     ThreadSafeQueue<ThreadStatus> stopQueue;
     BlockingQueue<std::vector<char>> videoFramesQueue;

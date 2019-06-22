@@ -55,6 +55,9 @@ public:
     Si no hay jugadores vivos devuelve (uint32_t)(-1)
     */
     uint32_t get_player_alive();
+
+    /*Devuelve el estado del juego.*/
+    GameStatus get_game_status();
 };
 
 #endif // PLAY_RESULT_H

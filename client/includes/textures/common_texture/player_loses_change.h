@@ -9,14 +9,10 @@
 class PlayerLosesChange : public TextureChange { 
 public:
     /*
-    PRE: Recibe:
-        el id del juegador que pierde.
-    POST: Inicializa un cambio donde pierde 
+    Inicializa un cambio donde pierde 
     un jugador.
     */
-    PlayerLosesChange(
-        uint32_t idPlayer
-    );
+    PlayerLosesChange();
 
     /*
     Destruye el cambio.

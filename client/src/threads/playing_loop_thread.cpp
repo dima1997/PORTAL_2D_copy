@@ -23,6 +23,7 @@
 #include <vector>
 
 #include "../../includes/window/record/output_format.h"
+#include "../../includes/textures/common_texture/texture_move_change.h"
 
 #define VIDEO_FILE_NAME "portal_video_"
 #define VIDEO_FILE_END ".mp4"
@@ -37,7 +38,7 @@ PRE: Recibe:
 POST: Inicializa un loop de juego (animaciones + input del usuario).
 */
 PlayingLoopThread::PlayingLoopThread(
-    ThreadSafeQueue<std::unique_ptr<Event>> & fromGameQueue,
+    ThreadSafeQueue<std::unique_ptr<TextureChange>> & fromGameQueue,
     BlockingQueue<std::unique_ptr<GameAction>> & toGameQueue,
     Window & window,
     Mixer & mixer,

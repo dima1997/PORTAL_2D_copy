@@ -3,6 +3,7 @@
 
 #include "../window/window.h"
 #include "../mixer/mixer.h"
+#include "../textures/common_texture/texture_change.h"
 #include "play_result.h"
 
 #include <thread.h>
@@ -16,7 +17,7 @@
 class PlayingLoopThread : public Thread {
 private:
     bool isDead;
-    ThreadSafeQueue<std::unique_ptr<Event>> & fromGameQueue;
+    ThreadSafeQueue<std::unique_ptr<TextureChange>> & fromGameQueue;
     BlockingQueue<std::unique_ptr<GameAction>> & toGameQueue;
     Window & window;
     Mixer & mixer;
@@ -35,7 +36,7 @@ public:
     POST: Inicializa un loop de juego.
     */
     PlayingLoopThread( 
-        ThreadSafeQueue<std::unique_ptr<Event>> & fromGameQueue,
+        ThreadSafeQueue<std::unique_ptr<TextureChange>> & fromGameQueue,
         BlockingQueue<std::unique_ptr<GameAction>> & toGameQueue,
         Window & window,
         Mixer & mixer,

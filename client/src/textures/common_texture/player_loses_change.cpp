@@ -1,4 +1,4 @@
-#include "../../../includes/textures/common_texture/player_wins_change.h"
+#include "../../../includes/textures/common_texture/player_loses_change.h"
 
 #include "../../../includes/textures/common_texture/texture_change.h"
 #include "../../../includes/window/window.h"
@@ -6,22 +6,18 @@
 #include <cstdint>
 
 /*
-PRE: Recibe:
-    el id del jugador que pierde.
-POST: Inicializa un cambio donde pierde 
+Inicializa un cambio donde pierde 
 un jugador.
 */
-PlayerWinsChange::PlayerWinsChange(
-    uint32_t idPlayer 
-)
-:   TextureChange(idPlayer) {}
+PlayerLosesChange::PlayerLosesChange()
+:   TextureChange(0) {}
 
 /*
 Destruye el cambio.
 */
-PlayerWinsChange::~PlayerWinsChange() = default;
+PlayerLosesChange::~PlayerLosesChange() = default;
 
 /*Actualiza el resultado del juego.*/
-void PlayerWinsChange::change(PlayResult & playResult){
+void PlayerLosesChange::change(PlayResult & playResult){
     playResult.setGameStatus(LOST);
 }

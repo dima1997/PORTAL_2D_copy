@@ -1,7 +1,8 @@
 #ifndef TEXTURE_CHANGE_H
 #define TEXTURE_CHANGE_H
 
-#include "../../../includes/window/window.h"
+#include "../../window/window.h"
+#include "../../threads/play_result.h"
 
 #include <cstdint>
 

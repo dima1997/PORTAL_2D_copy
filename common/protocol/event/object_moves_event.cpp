@@ -20,10 +20,6 @@ ObjectMovesEvent::ObjectMovesEvent(
   xPos(xPos), 
   yPos(yPos) {}
 
-Connector &operator<<(Connector &out, const ObjectMovesEvent &event) {
-    return out << (uint8_t) event.eventType << event.objectId << event.xPos << event.yPos;
-}
-
 uint32_t ObjectMovesEvent::getId() const {
     return objectId;
 }
@@ -34,10 +30,6 @@ float ObjectMovesEvent::getX() const {
 
 float ObjectMovesEvent::getY() const {
     return yPos;
-}
-
-Connector &operator>>(Connector &in, ObjectMovesEvent& e) {
-    return in >> e.objectId >> e.xPos >> e.yPos;
 }
 
 ObjectMovesEvent::ObjectMovesEvent(): Event(object_moves), objectId(),

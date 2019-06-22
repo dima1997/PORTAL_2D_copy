@@ -16,6 +16,8 @@ public:
     en textura.
     */
     TextureSwitchChange(const ObjectSwitchEvent & ObjectSwitchEvent);
+
+    TextureSwitchChange(uint32_t idObject);
     
     /*Destruye el cambio de tipo switch en textura.*/
     virtual ~TextureSwitchChange();
