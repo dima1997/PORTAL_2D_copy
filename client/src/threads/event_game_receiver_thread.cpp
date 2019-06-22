@@ -1,6 +1,14 @@
 #include "../../includes/threads/event_game_receiver_thread.h"
 
+#include "../../includes/textures/common_texture/texture_change.h"
 #include "../../includes/textures/common_texture/texture_move_change.h"
+#include "../../includes/textures/common_texture/texture_switch_change.h"
+#include "../../includes/textures/common_texture/portal_move_change.h"
+#include "../../includes/textures/common_texture/start_follow_change.h"
+#include "../../includes/textures/common_texture/stop_follow_change.h"
+#include "../../includes/textures/common_texture/player_dies_change.h"
+#include "../../includes/textures/common_texture/player_wins_change.h"
+#include "../../includes/textures/common_texture/player_loses_change.h"
 
 #include <protocol/event/event.h>
 #include <protocol/event/player_wins_event.h>
@@ -27,20 +35,31 @@ void EventGameReceiverThread::receive_event(){
     auto gameEvent = (EventType) gameEventFromConnector;
     switch (gameEvent){
         case player_wins:
-            {    
+            {   
+                /*
                 std::unique_ptr<Event> ptrEvent(
                     new PlayerWinsEvent()
                 );
-                this->changesQueue.push(ptrEvent);
+                */
+                std::unique_ptr<TextureChange> ptrChange(
+                    new PlayerWinsChange()
+                );
+
+                this->changesQueue.push(ptrChange);
                 this->stop();
             }
             break;
         case player_loses:
             {
+                /*
                 std::unique_ptr<Event> ptrEvent(
                     new PlayerLosesEvent()
                 );
-                this->changesQueue.push(ptrEvent);
+                */
+                std::unique_ptr<TextureChange> ptrChange(
+                    new PlayerLosesChange()
+                );
+                this->changesQueue.push(ptrChange);
                 this->stop();
             }
             break;
@@ -48,55 +67,103 @@ void EventGameReceiverThread::receive_event(){
             {   
                 uint32_t player_id_dead;
                 this->connector >> player_id_dead;
-                std::unique_ptr<Event> ptrEvent(
-                    new PlayerDiesEvent(player_id_dead)
+                std::unique_ptr<TextureChange> ptrChange(
+                    new PlayerDiesChange(player_id_dead)
                 );
-                this->changesQueue.push(ptrEvent);
+                this->changesQueue.push(ptrChange);
             }
             break;
         case object_moves:
             {
+                /*
                 std::unique_ptr<Event> ptrEvent(
                     new ObjectMovesEvent(0,0,0)
                 );
-                this->connector >> (*ptrEvent);
-                this->changesQueue.push(ptrEvent);    
+                */
+                ObjectMovesEvent movesEvent;
+                //this->connector >> (*ptrEvent);
+                this->connector >> movesEvent;
+                std::unique_ptr<TextureChange> ptrChange(
+                    new TextureMoveChange(
+                        movesEvent.getId(), 
+                        movesEvent.getX(), 
+                        movesEvent.getY()
+                    )
+                );
+                this->changesQueue.push(ptrChange);    
             }
             break;
         case portal_moves:
             {
+                /*
                 std::unique_ptr<Event> ptrEvent(
                     new PortalMovesEvent()
                 );
-                this->connector >> (*ptrEvent);
-                this->changesQueue.push(ptrEvent);  
+                */
+                PortalMovesEvent portalMovesEvent;
+                //this->connector >> (*ptrEvent);
+                this->connector >> portalMovesEvent;
+                std::unique_ptr<TextureChange> ptrChange(
+                    new PortalMoveChange(
+                        portalMovesEvent.getId(),
+                        portalMovesEvent.getX(),
+                        portalMovesEvent.getY(),
+                        portalMovesEvent.get_chell_id()
+                    )
+                );
+                this->changesQueue.push(ptrChange);  
             }
             break;
         case object_switch_state:
             {
+                /*
                 std::unique_ptr<Event> ptrEvent(
                     new ObjectSwitchEvent()
                 );
-                this->connector >> (*ptrEvent);
-                this->changesQueue.push(ptrEvent);
+                */
+                ObjectSwitchEvent switchEvent;
+
+                //this->connector >> (*ptrEvent);
+                this->connector >> switchEvent;
+                std::unique_ptr<TextureChange> ptrChange(
+                    new TextureSwitchChange(switchEvent.getObjectId())
+                );
+                this->changesQueue.push(ptrChange);
             }
             break;
         case grab_rock:
-            {
+            {   
+                /*
                 std::unique_ptr<Event> ptrEvent(
                     new GrabRockEvent(0,0)
                 );
-                this->connector >> (*ptrEvent);
-                this->changesQueue.push(ptrEvent);
+                */
+                GrabRockEvent grabRockEvent(0,0);
+                //this->connector >> (*ptrEvent);
+                this->connector >> grabRockEvent;
+                std::unique_ptr<TextureChange> ptrChange(
+                    new StartFollowChange(
+                        grabRockEvent.getRockId(),
+                        grabRockEvent.getChellId()
+                    )
+                );
+                this->changesQueue.push(ptrChange);
             }
             break;
         case throw_rock:
-            {
+            {   
+                /*
                 std::unique_ptr<Event> ptrEvent(
                     new ThrowRockEvent(0)
                 );
-                this->connector >> (*ptrEvent);
-                this->changesQueue.push(ptrEvent);
+                */
+                ThrowRockEvent throwRockEvent(0);
+                //this->connector >> (*ptrEvent);
+                this->connector >> throwRockEvent;
+                std::unique_ptr<TextureChange> ptrChange(
+                    new StopFollowChange(throwRockEvent.getRockId())
+                );
+                this->changesQueue.push(ptrChange);
             }
             break;
     }
@@ -109,7 +176,7 @@ POST: Inicializa un hilo recibidor de eventos del juego.
 */
 EventGameReceiverThread::EventGameReceiverThread(
     Connector & connector, 
-    ThreadSafeQueue<std::unique_ptr<Event>> & changesQueue,
+    ThreadSafeQueue<std::unique_ptr<TextureChange>> & changesQueue,
     ThreadSafeQueue<ThreadStatus> & stopQueue
 )
 :   isDead(true),

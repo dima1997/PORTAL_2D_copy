@@ -3,6 +3,7 @@
 
 #include "texture_change.h"
 #include "../../window/window.h"
+#include "../../threads/play_result.h"
 
 #include <cstdint>
 

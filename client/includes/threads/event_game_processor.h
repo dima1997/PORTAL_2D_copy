@@ -3,36 +3,37 @@
 
 #include "play_result.h"
 #include "../window/window.h"
+#include "../textures/common_texture/texture_change.h"
 
 #include <thread_safe_queue.h>
 #include <protocol/protocol_code.h>
-#include <protocol/event/event.h>
-#include <protocol/event/object_moves_event.h>
-#include <protocol/event/portal_moves_event.h>
-#include <protocol/event/object_switch_event.h>
+// #include <protocol/event/event.h>
+// #include <protocol/event/object_moves_event.h>
+// #include <protocol/event/portal_moves_event.h>
+//#include <protocol/event/object_switch_event.h>
 
 #include <memory>
 
 class EventGameProcessor {
 private:
     Window & window;
-    ThreadSafeQueue<std::unique_ptr<Event>> & fromGameQueue;
+    ThreadSafeQueue<std::unique_ptr<TextureChange>> & fromGameQueue;
     PlayResult & playResult;
     /*
     PRE: Recibe un puntero unico a un evento de mover 
     objeto (std::unique_ptr<ObjectMovesEvent>).
     POST: Procesa el evento.
     */
-    void process_event(std::unique_ptr<ObjectMovesEvent> ptrMovesEvent);
+    //void process_event(std::unique_ptr<ObjectMovesEvent> ptrMovesEvent);
 
     /*
     PRE: Recibe un puntero unico a un evento de switchear
     un objecto (std::unique_ptr<ObjectSwitchEvent>).
     POST: Procesa el evento.
     */
-    void process_event(std::unique_ptr<ObjectSwitchEvent> ptrSwitchEvent);
+    //void process_event(std::unique_ptr<ObjectSwitchEvent> ptrSwitchEvent);
 
-    void process_event(std::unique_ptr<PortalMovesEvent> ptrPortalMovesEvent);
+    //void process_event(std::unique_ptr<PortalMovesEvent> ptrPortalMovesEvent);
 
 public:
     /*
@@ -47,7 +48,7 @@ public:
     */
     EventGameProcessor(
         Window & window, 
-        ThreadSafeQueue<std::unique_ptr<Event>> & fromGameQueue,
+        ThreadSafeQueue<std::unique_ptr<TextureChange>> & fromGameQueue,
         PlayResult & playResult
     );
 
@@ -58,7 +59,7 @@ public:
     PRE: Recibe un puntero unico a un evento (std::unique_ptr<Event>).
     POST: Procesa el evento.
     */
-    ThreadStatus process_event(std::unique_ptr<Event> ptrEvent);
+    ThreadStatus process_event(std::unique_ptr<TextureChange> ptrChange);
 
     /*
     PRE: Recibe un tiempo maximo de procesamiento de eventos 

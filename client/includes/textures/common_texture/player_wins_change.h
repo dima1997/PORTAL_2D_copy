@@ -9,14 +9,10 @@
 class PlayerWinsChange : public TextureChange { 
 public:
     /*
-    PRE: Recibe:
-        el id del jugador que gana.
-    POST: Inicializa un cambio donde gana 
+    Inicializa un cambio donde gana 
     un jugador.
     */
-    PlayerWinsChange(
-        uint32_t idPlayer
-    );
+    PlayerWinsChange();
 
     /*
     Destruye el cambio.

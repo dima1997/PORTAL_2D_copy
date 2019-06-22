@@ -1,6 +1,7 @@
 #include "../../../includes/textures/common_texture/texture_change.h"
 
 #include "../../../includes/window/window.h"
+#include "../../../includes/threads/play_result.h"
 
 #include <cstdint>
 

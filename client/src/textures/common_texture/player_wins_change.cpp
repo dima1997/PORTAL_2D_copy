@@ -6,15 +6,11 @@
 #include <cstdint>
 
 /*
-PRE: Recibe:
-    el id del jugador que gana
-POST: Inicializa un cambio donde gana 
+Inicializa un cambio donde gana 
 un jugador.
 */
-PlayerWinsChange::PlayerWinsChange(
-    uint32_t idPlayer 
-)
-:   TextureChange(idPlayer) {}
+PlayerWinsChange::PlayerWinsChange()
+:   TextureChange(0) {}
 
 /*
 Destruye el cambio.

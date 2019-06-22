@@ -2,13 +2,13 @@
 
 #include "../../../includes/textures/common_texture/texture_change.h"
 #include "../../../includes/window/window.h"
+#include "../../../includes/threads/play_result.h"
 
 #include <cstdint>
 
 /*
 PRE: Recibe:
-    el id de una textura seguidora;
-    el id de una textura a seguir;
+    el id del jugador muerto.
 POST: Inicializa un cambio donde muere 
 un jugador.
 */

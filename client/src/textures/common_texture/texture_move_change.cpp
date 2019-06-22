@@ -27,5 +27,5 @@ PRE: Recibe un ventana (Window &) donde realizar el cambio.
 POST: Realiza el cambio que representa en la ventan recibida.
 */
 void TextureMoveChange::change(Window &window){
-    window.move_texture(this->idTexture, this->newX, this->newY);
+    window.move_texture(this->id, this->newX, this->newY);
 }

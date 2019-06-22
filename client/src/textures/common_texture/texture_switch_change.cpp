@@ -26,5 +26,5 @@ la textura correspondiente, a traves de la
 ventana.
 */
 void TextureSwitchChange::change(Window & window){
-    window.switch_texture(this->idTexture);
+    window.switch_texture(this->id);
 }

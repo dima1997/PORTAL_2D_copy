@@ -110,3 +110,8 @@ uint32_t PlayResult::get_player_alive(){
     }
     return (uint32_t)(-1);
 }
+
+/*Devuelve el estado del juego.*/
+GameStatus PlayResult::get_game_status(){
+    return this->gameStatus;
+} 
