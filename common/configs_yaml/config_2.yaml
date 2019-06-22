@@ -377,6 +377,21 @@ emitters_right:
     height: 1
     id_coordinates:
         []
+emitters_left:
+    width: 1
+    height: 1
+    id_coordinates:
+        []
+emitters_up:
+    width: 1
+    height: 1
+    id_coordinates:
+        []
+emitters_down:
+    width: 1
+    height: 1
+    id_coordinates:
+        []
 cakes:
     width: 1
     height: 1

@@ -25,10 +25,8 @@ private:
     bool _justDied;
     b2Timer jumpTimer;
     float32 maxReach;
-//    bool carriesRock;
     bool rockStateUpdated;
     bool threwRockUpdated;
-//    bool forceThrew;
     rock_state_t rockState;
     Rock *rock;
     bool grabIfRock(Body *body);

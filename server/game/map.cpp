@@ -194,6 +194,21 @@ std::list<EnergyEmitter> Map::loadEmitters(b2World &world) {
         EnergyEmitter emitter = loadEmitter(emitterInfo, world, RIGHT_D);
         emitters.push_back(emitter);
     }
+    emittersInfo = file["emitters_left"]["id_coordinates"];
+    for (auto && emitterInfo : emittersInfo) {
+        EnergyEmitter emitter = loadEmitter(emitterInfo, world, LEFT_D);
+        emitters.push_back(emitter);
+    }
+    emittersInfo = file["emitters_up"]["id_coordinates"];
+    for (auto && emitterInfo : emittersInfo) {
+        EnergyEmitter emitter = loadEmitter(emitterInfo, world, UP_D);
+        emitters.push_back(emitter);
+    }
+    emittersInfo = file["emitters_down"]["id_coordinates"];
+    for (auto && emitterInfo : emittersInfo) {
+        EnergyEmitter emitter = loadEmitter(emitterInfo, world, DOWN_D);
+        emitters.push_back(emitter);
+    }
     return emitters;
 }
 

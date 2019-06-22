@@ -282,6 +282,21 @@ emitters_right:
         [
             {id: 77, position: 'right', xCoord: -5.5, yCoord: 7.5}
         ]
+emitters_left:
+    width: 1
+    height: 1
+    id_coordinates:
+        []
+emitters_up:
+    width: 1
+    height: 1
+    id_coordinates:
+        []
+emitters_down:
+    width: 1
+    height: 1
+    id_coordinates:
+        []
 cakes:
     width: 1
     height: 1
