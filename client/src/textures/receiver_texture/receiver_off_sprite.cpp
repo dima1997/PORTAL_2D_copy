@@ -10,5 +10,5 @@ Devuelve un sprite dinamico de receptor bloqueado.
 IMAGE_PATH : ALL_BLOCKS_SPRITES
 */
 DynamicSprite ReceiverOffSprite::get_sprite(){
-    return std::move(DynamicSprite({{1,231}},195,193));
+    return DynamicSprite({{1,231}},195,193);
 } 

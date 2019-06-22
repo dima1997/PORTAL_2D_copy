@@ -21,5 +21,5 @@ DynamicSprite ChellStandRightSprite::get_sprite(){
         xBefore = xNow;
         coords.push_back(std::pair<int,int>(xNow,y));
     } 
-    return std::move(DynamicSprite(coords,width,height));
+    return DynamicSprite(coords,width,height);
 }

@@ -106,6 +106,7 @@ file(GLOB client_files
         "${CLIENT_FOLDER}/src/textures/common_texture/player_wins_change.cpp"
         "${CLIENT_FOLDER}/src/textures/common_texture/player_loses_change.cpp"
         "${CLIENT_FOLDER}/src/textures/common_texture/null_sprite.cpp"
+        "${CLIENT_FOLDER}/src/textures/common_texture/null_end_strategy.cpp"
         "${CLIENT_FOLDER}/src/textures/block_metal_texture/block_metal_sprite.cpp"
         "${CLIENT_FOLDER}/src/textures/block_rock_texture/block_rock_sprite.cpp"
         "${CLIENT_FOLDER}/src/textures/block_acid_texture/block_acid_sprite.cpp"
@@ -120,6 +121,7 @@ file(GLOB client_files
 	"${CLIENT_FOLDER}/src/textures/chell_texture/chell_jump_fall_right_sprite.cpp"
 	"${CLIENT_FOLDER}/src/textures/chell_texture/chell_dying_sprite.cpp"
 	"${CLIENT_FOLDER}/src/textures/chell_texture/chell_point_right_sprite.cpp"
+	"${CLIENT_FOLDER}/src/textures/chell_texture/chell_cake_sprite.cpp"
 	"${CLIENT_FOLDER}/src/textures/portal_texture/portal_texture.cpp"
 	"${CLIENT_FOLDER}/src/textures/portal_texture/portal_sprite_strategy.cpp"
 	"${CLIENT_FOLDER}/src/textures/portal_texture/portal_white_sprite.cpp"
@@ -193,3 +195,4 @@ install(FILES client/assets/portal_shoot.wav DESTINATION ${CMAKE_BINARY_DIR})
 install(FILES client/assets/dying.wav DESTINATION ${CMAKE_BINARY_DIR})
 install(FILES client/assets/jump.wav DESTINATION ${CMAKE_BINARY_DIR})
 install(FILES client/assets/portal_background_3.jpg DESTINATION ${CMAKE_BINARY_DIR})
+install(FILES client/assets/pin_tool.png DESTINATION ${CMAKE_BINARY_DIR})

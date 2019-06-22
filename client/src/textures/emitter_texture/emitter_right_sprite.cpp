@@ -10,5 +10,5 @@ Devuelve un sprite dinamico de emisor hacia derecha.
 IMAGE_PATH : ALL_BLOCKS_SPRITES
 */
 DynamicSprite EmitterRightSprite::get_sprite(){
-    return std::move(DynamicSprite({{601,18}},192,192));
+    return DynamicSprite({{601,18}},192,192);
 } 

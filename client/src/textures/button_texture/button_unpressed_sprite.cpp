@@ -10,5 +10,5 @@ Devuelve un sprite dinamico de un boton sin presionar
 IMAGE_PATH : BUTTON_SPRITES
 */
 DynamicSprite ButtonUnPressedSprite::get_sprite(){
-    return std::move(DynamicSprite({{0,0},},174,54));
+    return DynamicSprite({{0,0},},174,54);
 } 

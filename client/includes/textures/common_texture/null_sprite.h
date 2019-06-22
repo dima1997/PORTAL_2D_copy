@@ -3,14 +3,12 @@
 
 #include "../common_texture/dynamic_sprite.h"
 
-class NullSprite :  public DynamicSprite {
+class NullSprite {
 public:
-    /*Iniciliza un sprite nulo (sin imagen).*/
     NullSprite();
-
-    /*Destruye el sprite nulo.*/
     virtual ~NullSprite();
     
+    /*Develve un sprite dinamico nulo (sin imagen).*/
     static DynamicSprite get_sprite();    
 };
 

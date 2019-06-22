@@ -23,6 +23,7 @@
 #include "../../includes/textures/cake_texture/cake_sprite.h"
 #include "../../includes/textures/background_texture/background_one_sprite.h"
 #include "../../includes/textures/record_texture/record_texture.h"
+#include "../../includes/textures/pin_tool_texture/pin_tool_sprite.h"
 
 #include <memory>
 
@@ -838,6 +839,32 @@ create_record(
         areaMap
     ));
     return std::move(ptrTexture);
+}
+
+/*
+PRE: Recibe el area (Area) donde 
+se ubicara la textura.
+POST: Devuelve un puntero unico 
+a una textura(std::unique_ptr<Texture>), 
+de la textura de una pin tool.
+*/
+std::unique_ptr<Texture> TextureFactory::
+create_pin_tool(
+    Window & window, 
+    Area & areaMap,
+    uint8_t redMod,
+    uint8_t greenMod,
+    uint8_t blueMod
+)
+{
+    return std::move(TextureFactory::create_texture_one_sprite(
+        window,
+        PIN_TOOL_SPRITES,
+        areaMap,
+        PinToolSprite::get_sprite,
+        0,
+        redMod, greenMod, blueMod
+    ));
 }
 
 /*

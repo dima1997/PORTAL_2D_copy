@@ -27,5 +27,5 @@ DynamicSprite ChellDyingSprite::get_sprite(){
         } 
         xBefore = xBegin;
     }
-    return std::move(DynamicSprite(coords,width,height));
+    return DynamicSprite(coords,width,height);
 }

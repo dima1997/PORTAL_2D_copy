@@ -11,16 +11,14 @@ cayendo hacia la derecha.
 IMAGE_PATH : ALL_CHELL_SPRITES
 */
 DynamicSprite ChellJumpFallRightSprite::get_sprite(){
-    return std::move(
-        DynamicSprite(
-            {
-                {1,1835},
-                {158,1835},
-                {315,1835},
-                {472,1835}
-                
-            },
-            156, 217
-        )
+    return DynamicSprite(
+        {
+            {1,1835},
+            {158,1835},
+            {315,1835},
+            {472,1835}
+            
+        },
+        156, 217
     );
 }

@@ -1,6 +1,7 @@
 #include "../../includes/window/map_creator.h"
 
 #include "../../includes/window/window.h"
+#include "../../includes/window/os_exception.h"
 #include "../../includes/window/texture_factory.h"
 #include "../../includes/textures/common_texture/texture.h"
 
@@ -45,7 +46,8 @@ const std::map<std::string, texture_creator> ADD_TEXTURE_METHODS({
     std::pair<std::string, texture_creator>("cakes",TextureFactory::create_cake),
     std::pair<std::string, texture_creator>("chells",TextureFactory::create_chell),
     std::pair<std::string, texture_creator>("background",TextureFactory::create_background),
-    std::pair<std::string, texture_creator>("records",TextureFactory::create_record)
+    std::pair<std::string, texture_creator>("records",TextureFactory::create_record),
+    std::pair<std::string, texture_creator>("pin_tools",TextureFactory::create_pin_tool),
 });
 
 
@@ -80,8 +82,10 @@ void MapCreator::add_texture(
 )
 {
     if (ADD_TEXTURE_METHODS.count(subSectionName) == 0){
-        //Levanto error ...
-        return;
+        std::stringstream err;
+        err << "MapCreator: There is not section map with name : ";
+        err << subSectionName << "\n";
+        throw OSException(err.str().c_str(),"");
     }
     texture_creator & textureCreator = ADD_TEXTURE_METHODS.at(subSectionName);
     this->window.add_texture(id, std::move(textureCreator(
@@ -135,7 +139,7 @@ void MapCreator::add_map(){
             this->add_multiple_sizes(subSectionName);
             continue;
         }
-        if (subSectionName == "chells"){
+        if (subSectionName == "chells" || subSectionName == "pin_tools"){
             this->add_multiple_colors(subSectionName);
             continue;
         }

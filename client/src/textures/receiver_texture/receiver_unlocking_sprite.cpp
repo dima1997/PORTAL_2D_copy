@@ -10,15 +10,13 @@ Devuelve un sprite dinamico de receptor desbloqueandose.
 IMAGE_PATH : ALL_BLOCKS_SPRITES 
 */
 DynamicSprite ReceiverUnlockingSprite::get_sprite(){
-    return std::move(
-        DynamicSprite(
-            {
-                {202,231},
-                {403,231},
-                {604,231},
-                {805,231}
-            },
-            195,193
-        )
+    return DynamicSprite(
+        {
+            {202,231},
+            {403,231},
+            {604,231},
+            {805,231}
+        },
+        195,193
     );
 }

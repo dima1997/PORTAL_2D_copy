@@ -11,15 +11,13 @@ saltando hacia la derecha.
 IMAGE_PATH : ALL_CHELL_SPRITES
 */
 DynamicSprite ChellJumpRiseRightSprite::get_sprite(){
-    return std::move(
-        DynamicSprite(
-            {
-                {1,855},
-                {145,855},
-                {289,855},
-                {433,855}
-            },
-            143, 228
-        )
+    return DynamicSprite(
+        {
+            {1,855},
+            {145,855},
+            {289,855},
+            {433,855}
+        },
+        143, 228
     );
 }

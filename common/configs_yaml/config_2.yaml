@@ -15,6 +15,14 @@ sections:
         blocks_metal, 
         blocks_rock, 
         blocks_acid, 
+        rocks_one, 
+        rocks_two, 
+        rocks_three, 
+        rocks_four, 
+        rocks_five, 
+        rocks_six, 
+        rocks_seven, 
+        rocks_eight,
         doors_one, 
         buttons, 
         triangles_botom_left,
@@ -26,10 +34,10 @@ sections:
         receivers,
         emitters_right,
         cakes, 
-        rocks_one, 
         portals_blue, 
         portals_orange, 
         chells,
+        pin_tools,
         records
     ]
 blocks_metal:
@@ -253,15 +261,38 @@ portals_orange:
             {id: 147, xCoord: 25.75, yCoord: 3.75},
             {id: 150, xCoord: 30.75, yCoord: 3.75}
         ]
+pin_tools:
+    width: 1
+    height: 1
+    id_coordinates:
+        # Recomendacion: Usar los mismo colores de las Chells que son propietarios de cada pin tool
+        [
+            {id: 151, xCoord: 23.5, yCoord: 3.5, redMod: 255, greenMod: 1, blueMod: 1, chell_id: 145},
+            {id: 152, xCoord: 28.5, yCoord: 3.5, redMod: 1, greenMod: 1, blueMod: 255, chell_id: 148}
+        ]
 doors_one:
     width: 1.0
     height: 2.0
     id_coordinates:
-        [   
-            {id: 151, xCoord: -5.5, yCoord: 9, conditions: [{cond_id: 154,  condition: true}]},
-            {id: 152, xCoord: -0.5, yCoord: 9, conditions: [{cond_id: 154,  condition: true}]},
-            {id: 153, xCoord: 0.5, yCoord: 9, conditions: [{cond_id: 154,  condition: true}]}
-        ]
+        - id: 153
+          number: 1
+          xCoord: -5.5
+          yCoord: 9.0
+          conditions:
+              - [{cond_id: 156,  condition: true}]
+        - id: 154
+          number: 1
+          xCoord: -0.5
+          yCoord: 9.0
+          conditions:
+              - [{cond_id: 156,  condition: true}]
+        - id: 155
+          number: 1
+          xCoord: 0.5
+          yCoord: 9.0
+          conditions:
+              - [{cond_id: 156,  condition: true}]
+
 energy_balls_green:
     width: 0.5
     height: 0.5
@@ -272,7 +303,7 @@ buttons:
     height: 0.5
     id_coordinates:
         [
-            {id: 154, xCoord: -2.0, yCoord: 1.25, door_ids: [151, 152, 153]}
+            {id: 156, xCoord: -2.0, yCoord: 1.25, door_ids: [153, 154, 155]}
         ]
 rocks_one:
     width: 1.0
@@ -351,21 +382,21 @@ cakes:
     height: 1
     id_coordinates:
         [
-            {id: 155, xCoord: -6.5, yCoord: 7.5},
+            {id: 157, xCoord: -6.5, yCoord: 7.5},
             # EGG
-            {id: 156, xCoord: 28.5, yCoord: 1.5}
+            {id: 158, xCoord: 28.5, yCoord: 1.5}
         ]
 background:
     width: 100
     height: 50
     id_coordinates:
         [
-            {id: 157, xCoord: 0, yCoord: 0}
+            {id: 159, xCoord: 0, yCoord: 0}
         ]
 records:
     width: 1
     height: 1
     id_coordinates:
         [
-            {id: 158, xCoord: 0, yCoord: 0}
+            {id: 160, xCoord: 0, yCoord: 0}
         ]

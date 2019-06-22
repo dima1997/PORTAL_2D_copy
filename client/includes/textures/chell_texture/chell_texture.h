@@ -9,27 +9,33 @@
 
 #include "../../mixer/sounds_path.h"
 
+enum ChellStatus{
+    CHELL_STATUS_ALIVE,
+    CHELL_STATUS_DEAD,
+    CHELL_STATUS_CAKE
+};
+
 class ChellTexture : public Texture {
 private:
     MoveSense moveSense;
     Area areaVision;
-    bool alive;
+    ChellStatus status;
 
     /*Actualiza el area de vision de Chell.*/
     void updateVisionArea();
 public:
     /*
     PRE: Recibe :
-        Una referencia a la gran textura con todos los sprites de Chell.
+        Una referencia a la gran textura con todos los sprites de Chell;
         El area con las coordenadas y dimensiones de la localizacion de 
-        Chell en el mapa de juego.
+        Chell en el mapa de juego;
+        Tres modificadores de color RGB (uint8_t) (mayores a cero, y 
+        menores a 256). 
     POST: Inicializa una textura dinamica de Chell.
     */
-    ChellTexture(BigTexture &bigTextureChell, Area areaMap);
-
     ChellTexture(
-        BigTexture &bigTextureChell, 
-        Area areaMap, 
+        BigTexture & bigTextureChell, 
+        Area & areaMap, 
         uint8_t redMod, 
         uint8_t greenMod, 
         uint8_t blueMod

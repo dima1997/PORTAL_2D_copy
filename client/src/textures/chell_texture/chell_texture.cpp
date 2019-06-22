@@ -2,11 +2,15 @@
 
 #include "../../../includes/textures/chell_texture/chell_sprite_strategy.h"
 #include "../../../includes/textures/chell_texture/chell_dead_strategy.h"
+#include "../../../includes/textures/chell_texture/chell_cake_sprite.h"
+#include "../../../includes/textures/chell_texture/chell_dying_sprite.h"
 #include "../../../includes/textures/chell_texture/move_sense.h"
 #include "../../../includes/textures/common_texture/area.h"
 #include "../../../includes/textures/common_texture/big_texture.h"
 #include "../../../includes/textures/common_texture/sprite_strategy.h"
 #include "../../../includes/textures/common_texture/null_sprite.h"
+#include "../../../includes/textures/common_texture/null_end_strategy.h"
+
 
 #include <map>
 
@@ -24,14 +28,16 @@ void ChellTexture::updateVisionArea(){
 
 /*
 PRE: Recibe :
-    Una referencia a la gran textura con todos los sprites de Chell.
+    Una referencia a la gran textura con todos los sprites de Chell;
     El area con las coordenadas y dimensiones de la localizacion de 
-    Chell en el mapa de juego.
+    Chell en el mapa de juego;
+    Tres modificadores de color RGB (uint8_t) (mayores a cero, y 
+    menores a 256). 
 POST: Inicializa una textura dinamica de Chell.
 */
 ChellTexture::ChellTexture(
-    BigTexture &bigTextureChell, 
-    Area areaMap, 
+    BigTexture & bigTextureChell, 
+    Area & areaMap, 
     uint8_t redMod, 
     uint8_t greenMod, 
     uint8_t blueMod
@@ -45,20 +51,7 @@ ChellTexture::ChellTexture(
         greenMod,
         blueMod 
     ),
-    alive(true) {
-    this->updateVisionArea();
-}
-
-ChellTexture::ChellTexture(
-    BigTexture &bigTextureChell, 
-    Area areaMap
-) 
-:   Texture(
-        bigTextureChell, 
-        areaMap,
-        std::move(std::unique_ptr<SpriteStrategy>(new ChellSpriteStrategy()))
-    ),
-    alive(true) {
+    status(CHELL_STATUS_ALIVE) {
     this->updateVisionArea();
 }
 
@@ -86,9 +79,20 @@ void ChellTexture::move_to(float x, float y) {
 Alterna entre Chell viva y muerta.
 */
 void ChellTexture::switch_sprite(){
-    if (this->alive){
-        this->ptrSpriteStrategy.reset(new ChellDeadStrategy());
+    if (this->status == CHELL_STATUS_ALIVE){
+        this->ptrSpriteStrategy.reset(new NullEndStrategy(
+            ChellDyingSprite::get_sprite()
+        ));
         this->sounds.push_back(SOUND_DYING);
+        this->status = CHELL_STATUS_DEAD;
+        return;
+    }
+    if (this->status == CHELL_STATUS_DEAD){
+        this->ptrSpriteStrategy.reset(new NullEndStrategy(
+            ChellCakeSprite::get_sprite()
+        ));
+        this->status = CHELL_STATUS_CAKE;
+        return;
     }
 }
 
