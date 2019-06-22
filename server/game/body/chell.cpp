@@ -120,6 +120,7 @@ body_type_t Chell::getBodyType() {
 void Chell::die() {
     _justDied = true;
     throwRock(THROW_IN);
+    resetPortals();
 }
 
 void Chell::shootPortal(float x, float y, portal_color_t color) {
@@ -135,6 +136,7 @@ void Chell::shootPortal(float x, float y, portal_color_t color) {
                 b2Vec2 position = portalRaycastCallback->getPoint();
                 portals[color].moveTo(position.x, position.y);
                 portals[color].setNormal(portalRaycastCallback->getNormal());
+                portals[color].showAndActivateIfRequires();
             }
             delete portalRaycastCallback;
             return;
@@ -225,4 +227,9 @@ Chell::Chell(const Chell &other): Body(other), portals{other.portals[BLUE], othe
                                       threwRockUpdated(other.threwRockUpdated),
                                       rockState(other.rockState), _justDied(other._justDied) {
     connect(portals[BLUE], portals[ORANGE]);
+}
+
+void Chell::resetPortals() {
+    portals[BLUE].hideAndDeactivate();
+    portals[ORANGE].hideAndDeactivate();
 }

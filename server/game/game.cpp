@@ -105,7 +105,7 @@ void Game::manageActions(std::unique_ptr<GameAction> ptrAction) {
             world.getChell(player_id).throwRock(THROW_LEFT);
             break;
         case reset_portals:
-            std::cout << "SERVER: reset portals.\n";
+            world.getChell(player_id).resetPortals();
             break;
         case kill:
             std::cout << "SERVER: kill player.\n";

@@ -48,6 +48,7 @@ public:
     bool grabbedRock();
     bool threwRock();
     Rock &getRock();
+    void resetPortals();
 };
 
 

@@ -96,12 +96,15 @@ void World::step(std::list<std::shared_ptr<Event>> &events) {
         if (orange.changedPosition()) {
             events.push_back(std::shared_ptr<Event>(
                     new PortalMovesEvent(orange.getId(), orange.getXPos(), orange.getYPos(), chell.getId())));
+        } else if (orange.changedVisivility()) {
+            events.push_back(std::shared_ptr<Event>(new ObjectSwitchEvent(orange.getId())));
         }
         Portal &blue = chell.getPortal(BLUE);
         if (blue.changedPosition()) {
-            events.push_back(
-                    std::shared_ptr<Event>(
-                        new PortalMovesEvent(blue.getId(), blue.getXPos(), blue.getYPos(), chell.getId())));
+            events.push_back(std::shared_ptr<Event>(
+                    new PortalMovesEvent(blue.getId(), blue.getXPos(), blue.getYPos(), chell.getId())));
+        } else if (blue.changedVisivility()) {
+            events.push_back(std::shared_ptr<Event>(new ObjectSwitchEvent(blue.getId())));
         }
     }
     for (Rock &rock : rocks) {
