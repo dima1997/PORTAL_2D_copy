@@ -25,7 +25,7 @@ void Game::start() {
     std::this_thread::sleep_for(std::chrono::seconds(SECONDS_WAIT_BEFORE_START));
     double timeWaitMicroSeconds = TIME_WAIT_MICRO_SECONDS;
     unsigned t0,t1,t2;
-    while (numberOfPlayers > 0){
+    while (true){
         t0 = clock();
         t2 = clock();
         double timeProcessMicroSeconds = (double(t2-t0)/CLOCKS_PER_SEC) * ONE_SECOND_EQ_MICRO_SECONDS;
@@ -58,20 +58,19 @@ void Game::manageActions(std::unique_ptr<GameAction> ptrAction) {
     uint32_t player_id = ptrAction->getPlayerId();
     switch (ptrAction->getGameActionName()){
         case quit_game:
-            --numberOfPlayers;
-            world.getChell(player_id)->die();
+            world.getChell(player_id).die();
             break;
         case move_left:
-            world.getChell(player_id)->updateState(LEFT);
+            world.getChell(player_id).updateState(LEFT);
             break;
         case move_right:
-            world.getChell(player_id)->updateState(RIGHT);
+            world.getChell(player_id).updateState(RIGHT);
             break;
         case stop_move:
-            world.getChell(player_id)->updateState(STOP);
+            world.getChell(player_id).updateState(STOP);
             break;
         case jump:
-            world.getChell(player_id)->updateState(JUMP);
+            world.getChell(player_id).updateState(JUMP);
             break;
         case open_blue_portal:
         {
@@ -80,7 +79,7 @@ void Game::manageActions(std::unique_ptr<GameAction> ptrAction) {
             float xMap = ptrCoordsAction->getX();
             float yMap = ptrCoordsAction->getY();
             std::cout << "SERVER: Abriendo portal AZUL en x : "<< xMap << " y : " << yMap << "\n";
-            world.getChell(player_id)->shootPortal(xMap, yMap, BLUE);
+            world.getChell(player_id).shootPortal(xMap, yMap, BLUE);
         }
             break;
         case open_orange_portal:
@@ -90,20 +89,20 @@ void Game::manageActions(std::unique_ptr<GameAction> ptrAction) {
             float xMap = ptrCoordsAction->getX();
             float yMap = ptrCoordsAction->getY();
             std::cout << "SERVER: Abriendo portal NARANJA en x : "<< xMap << " y : " << yMap << "\n";
-            world.getChell(player_id)->shootPortal(xMap, yMap, ORANGE);
+            world.getChell(player_id).shootPortal(xMap, yMap, ORANGE);
         }
             break;
         case pin_tool_on:
             std::cout << "SERVER: pin tool on.\n";
             break;
         case grab_it:
-            world.getChell(player_id)->grabRock();
+            world.getChell(player_id).grabRock();
             break;
         case stop_grab:
             std::cout << "SERVER: stop grab.\n";
             break;
         case throw_it:
-            world.getChell(player_id)->throwRock(false);
+            world.getChell(player_id).throwRock(false);
             break;
         case stop_throw:
             std::cout << "SERVER: stop throw.\n";
@@ -115,8 +114,7 @@ void Game::manageActions(std::unique_ptr<GameAction> ptrAction) {
     }
 }
 
-Game::Game(std::vector<Connector> &connectors, Map &map): players(), thread(),numberOfPlayers(map.getPlayersNumber()),
-           world(map), inQueue(), finished(false) {
+Game::Game(std::vector<Connector> &connectors, Map &map): players(), thread(), world(map), inQueue(), finished(false) {
     for (int i = 0; i < (int)connectors.size(); ++i) {
         auto playerId = map.getPlayerId(i);
         Connector &connector = connectors[i];

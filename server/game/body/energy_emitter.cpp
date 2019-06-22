@@ -10,6 +10,8 @@ EnergyEmitter::EnergyEmitter(b2World &world, float32 xPos, float32 yPos, uint32_
     createBody(xPos, yPos);
 }
 
+EnergyEmitter::EnergyEmitter(const EnergyEmitter &other): Body(other), direction(other.direction) {}
+
 void EnergyEmitter::createBody(float32 xPos, float32 yPos) {
     b2BodyDef bodyDef;
     bodyDef.position.Set(xPos, yPos);

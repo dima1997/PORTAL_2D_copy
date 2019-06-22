@@ -17,6 +17,7 @@ private:
     void createBody(float32 xPos, float32 yPos) override;
 public:
     EnergyBall(b2World &world, float32 xPos, float32 yPos, uint32_t id, EnergyEmitter &emitter);
+    EnergyBall(const EnergyBall &other);
     ~EnergyBall() override;
     void move();
     body_type_t getBodyType() override;

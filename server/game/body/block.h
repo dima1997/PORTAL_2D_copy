@@ -24,6 +24,7 @@ private:
     void createTopRight();
 public:
     Block(b2World &world, float32 xPos, float32 yPos, body_type_t type, uint32_t id, orientation_t orientation);
+    Block(const Block &other);
     ~Block() override;
     body_type_t getBodyType() override;
 };

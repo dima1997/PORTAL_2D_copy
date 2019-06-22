@@ -15,6 +15,7 @@ private:
     float32 initialY;
 public:
     Rock(b2World &world, float32 xPos, float32 yPos, uint32_t id, float32 hy, float32 hx);
+    Rock(const Rock &other);
     ~Rock() override;
     body_type_t getBodyType() override;
     void setActive(bool active);

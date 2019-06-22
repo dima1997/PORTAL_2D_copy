@@ -7,10 +7,12 @@
 #include <Box2D/Dynamics/b2Fixture.h>
 #include "button.h"
 
-Button::Button(b2World &world, float32 xPos, float32 yPos, uint32_t id, std::list<Door *> &doors):
+Button::Button(b2World &world, float32 xPos, float32 yPos, uint32_t id, std::list<std::reference_wrapper<Door>> &doors):
                Body(world, xPos, yPos, id), doors(doors), contactCount(0), updated(false) {
     createBody(xPos, yPos);
 }
+
+Button::Button(const Button &other): Body(other), doors(other.doors), contactCount(other.contactCount), updated(other.updated) {}
 
 body_type_t Button::getBodyType() {
     return BUTTON;
@@ -47,7 +49,7 @@ void Button::createBody(float32 xPos, float32 yPos) {
 
 void Button::updateDoors(bool status) {
     for (auto &door : doors) {
-        door->updateConditionStatus(this->id, status);
+        door.get().updateConditionStatus(this->id, status);
     }
 }
 

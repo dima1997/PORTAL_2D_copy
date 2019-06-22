@@ -26,6 +26,7 @@ protected:
     b2Body *body;
 public:
     Body(b2World &world, float32 xPos, float32 yPos, uint32_t id);
+    Body(const Body &other);
     virtual ~Body();
     bool throughPortal;
     float32 hx;

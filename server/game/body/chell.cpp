@@ -8,8 +8,10 @@
 #include <Box2D/Collision/Shapes/b2CircleShape.h>
 #include <Box2D/Dynamics/Joints/b2WheelJoint.h>
 #include <Box2D/Dynamics/Contacts/b2Contact.h>
+#include <sys/socket.h>
 #include "chell.h"
 #include "../ray_cast_callback/portal_ray_cast_callback.h"
+#include "portal.h"
 
 #define JUMP_TIMEOUT 100
 
@@ -56,21 +58,16 @@ void Chell::createBody(float32 xPos, float32 yPos) {
     hy = 0.65f;
 }
 
-Chell::Chell(b2World &world, float32 xPos, float32 yPos, uint32_t playerId, Portal *bluePortal, Portal *orangePortal,
+Chell::Chell(b2World &world, float32 xPos, float32 yPos, uint32_t playerId, Portal &bluePortal, Portal &orangePortal,
              float32 maxReach) :
-             Body(world, xPos, yPos, playerId), portals(), state(STOP), alive(true), footContacts(0),
+             Body(world, xPos, yPos, playerId), portals{bluePortal, orangePortal}, state(STOP), alive(true), footContacts(0),
              jumpTimer(), maxReach(maxReach), carriesRock(false), rock(nullptr), grabbedRockUpdated(false),
              threwRockUpdated(false), forceThrew(false), _justDied(false) {
     connect(bluePortal, orangePortal);
-    portals[BLUE] = bluePortal;
-    portals[ORANGE] = orangePortal;
     createBody(xPos, yPos);
 }
 
-Chell::~Chell() {
-    delete portals[BLUE];
-    delete portals[ORANGE];
-}
+Chell::~Chell() = default;
 
 void Chell::updateState(chell_state_t state) {
     if (this->state != AIR && this->state != JUMP) {
@@ -112,16 +109,12 @@ bool Chell::isJumping() {
     return footContacts == 0 || jumpTimer.GetMilliseconds() < JUMP_TIMEOUT;
 }
 
-Portal *Chell::getPortal(portal_color_t color) {
+Portal &Chell::getPortal(portal_color_t color) {
     return portals[color];
 }
 
 body_type_t Chell::getBodyType() {
     return CHELL;
-}
-
-bool Chell::isAlive() {
-    return alive;
 }
 
 void Chell::die() {
@@ -140,8 +133,8 @@ void Chell::shootPortal(float x, float y, portal_color_t color) {
             Body *body = (Body *)fixture->GetBody()->GetUserData();
             if (body->getBodyType() == METAL_BLOCK) {
                 b2Vec2 position = portalRaycastCallback->getPoint();
-                portals[color]->moveTo(position.x, position.y);
-                portals[color]->setNormal(portalRaycastCallback->getNormal());
+                portals[color].moveTo(position.x, position.y);
+                portals[color].setNormal(portalRaycastCallback->getNormal());
             }
             delete portalRaycastCallback;
             return;
@@ -191,8 +184,8 @@ bool Chell::grabbedRock() {
     return updated;
 }
 
-Rock *Chell::getRock() {
-    return rock;
+Rock &Chell::getRock() {
+    return *rock;
 }
 
 bool Chell::threwRock() {
@@ -220,4 +213,12 @@ bool Chell::justDied() {
         return true;
     }
     return false;
+}
+
+Chell::Chell(const Chell &other): Body(other), portals{other.portals[BLUE], other.portals[ORANGE]},
+                                      state(other.state), alive(other.alive), footContacts(other.footContacts),
+                                      jumpTimer(other.jumpTimer), maxReach(other.maxReach), carriesRock(other.carriesRock),
+                                      rock(other.rock), grabbedRockUpdated(other.grabbedRockUpdated),
+                                      threwRockUpdated(other.threwRockUpdated), forceThrew(other.forceThrew), _justDied(other._justDied) {
+    connect(portals[BLUE], portals[ORANGE]);
 }

@@ -49,4 +49,10 @@ b2Vec2 Body::getCurrentVelocity() {
     return body->GetLinearVelocity();
 }
 
+Body::Body(const Body &other): updated_position(other.updated_position), lastPosition(other.lastPosition),
+                         id(other.id), world(other.world), body(other.body), throughPortal(other.throughPortal),
+                         hx(other.hx), hy(other.hy) {
+    body->SetUserData(this);
+}
+
 Body::~Body() = default;

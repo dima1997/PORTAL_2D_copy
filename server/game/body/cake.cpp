@@ -34,6 +34,8 @@ bool Cake::wasReached() {
     return reached;
 }
 
+Cake::Cake(const Cake &other): Body(other), reached(other.reached) {}
+
 Cake::~Cake() = default;
 
 

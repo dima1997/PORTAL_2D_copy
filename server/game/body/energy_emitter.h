@@ -16,6 +16,7 @@ private:
     void createBody(float32 xPos, float32 yPos) override;
 public:
     EnergyEmitter(b2World &world, float32 xPos, float32 yPos, uint32_t id, direction_t direction);
+    EnergyEmitter(const EnergyEmitter &other);
     ~EnergyEmitter() override;
     body_type_t getBodyType() override;
     b2Vec2 getDeparturePos();

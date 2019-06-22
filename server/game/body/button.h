@@ -13,12 +13,13 @@
 class Button: public Body {
 private:
     void createBody(float32 xPos, float32 yPos) override;
-    std::list<Door *> doors;
+    std::list<std::reference_wrapper<Door>> doors;
     int contactCount;
     void updateDoors(bool status);
     bool updated;
 public:
-    Button(b2World &world, float32 xPos, float32 yPos, uint32_t id, std::list<Door *> &doors);
+    Button(b2World &world, float32 xPos, float32 yPos, uint32_t id, std::list<std::reference_wrapper<Door>> &doors);
+    Button(const Button &other);
     ~Button() override;
     body_type_t getBodyType() override;
     void increaseContact();
