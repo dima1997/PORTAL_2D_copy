@@ -43,7 +43,6 @@ void EnergyReceiver::updateDoors() {
 }
 
 void EnergyReceiver::updateActive() {
-    active = !active;
     updateDoors();
 }
 

@@ -3,14 +3,14 @@
 //
 
 #include "contact_listener.h"
-#include "../body/body.h"
-#include "../body/portal.h"
-#include "../body/cake.h"
-#include "../body/chell.h"
-#include "../body/button.h"
-#include "../body/energy_ball.h"
+#include "../model/body.h"
+#include "../model/portal.h"
+#include "../model/cake.h"
+#include "../model/chell.h"
+#include "../model/button.h"
+#include "../model/energy_ball.h"
 #include "../../utils/geometry_utils.h"
-#include "../body/energy_receiver.h"
+#include "../model/energy_receiver.h"
 #include <Box2D/Dynamics/Contacts/b2Contact.h>
 
 void ContactListener::BeginContact(b2Contact *contact) {
@@ -18,8 +18,11 @@ void ContactListener::BeginContact(b2Contact *contact) {
     Body *dataB = (Body *)contact->GetFixtureB()->GetBody()->GetUserData();
     if (contact->IsTouching() && dataA && dataB) {
         if (dataA->getBodyType() == PORTAL) {
-            dataB->throughPortal = true;
             dynamic_cast<Portal *>(dataA)->startGoingThrough(dataB);
+            if (dataB ->getBodyType() == CHELL) {
+                dynamic_cast<Chell *>(dataB)->throughPortal = true;
+                return;
+            }
         } else if (dataA->getBodyType() == CHELL) {
             auto *chell = dynamic_cast<Chell *>(dataA);
             if (contact->GetFixtureA()->GetUserData() == (void *)CONTACT_CHECK) {
@@ -58,8 +61,11 @@ void ContactListener::BeginContact(b2Contact *contact) {
         }
 
         if (dataB->getBodyType() == PORTAL) {
-            dataA->throughPortal = true;
             dynamic_cast<Portal *>(dataB)->startGoingThrough(dataA);
+            if (dataA ->getBodyType() == CHELL) {
+                dynamic_cast<Chell *>(dataA)->throughPortal = true;
+                return;
+            }
         }else if (dataB->getBodyType() == CHELL) {
             auto *chell = dynamic_cast<Chell *>(dataB);
             if (contact->GetFixtureB()->GetUserData() == (void *)CONTACT_CHECK) {
@@ -104,8 +110,11 @@ void ContactListener::EndContact(b2Contact *contact) {
     Body *dataB = (Body *)contact->GetFixtureB()->GetBody()->GetUserData();
     if (dataA && dataB) {
         if (dataA->getBodyType() == PORTAL) {
-            dataB->throughPortal = false;
             dynamic_cast<Portal *>(dataA)->endGoingThrough();
+            if (dataB ->getBodyType() == CHELL) {
+                dynamic_cast<Chell *>(dataB)->throughPortal = false;
+                return;
+            }
         } else if (dataA->getBodyType() == CHELL) {
             auto *chell = dynamic_cast<Chell *>(dataA);
             if (contact->GetFixtureA()->GetUserData() == (void *)CONTACT_CHECK) {
@@ -120,9 +129,11 @@ void ContactListener::EndContact(b2Contact *contact) {
         }
 
         if (dataB->getBodyType() == PORTAL) {
-            dataA->throughPortal = false;
             dynamic_cast<Portal *>(dataB)->endGoingThrough();
-        } else if (dataB->getBodyType() == CHELL) {
+            if (dataA ->getBodyType() == CHELL) {
+                dynamic_cast<Chell *>(dataA)->throughPortal = false;
+                return;
+            }        } else if (dataB->getBodyType() == CHELL) {
             auto *chell = dynamic_cast<Chell *>(dataB);
             if (contact->GetFixtureB()->GetUserData() == (void *)CONTACT_CHECK) {
                 --chell->footContacts;

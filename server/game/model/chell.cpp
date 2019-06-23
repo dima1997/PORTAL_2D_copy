@@ -62,7 +62,7 @@ Chell::Chell(b2World &world, float32 xPos, float32 yPos, uint32_t playerId, Port
              PinTool &pinTool, float32 maxReach) :
              Body(world, xPos, yPos, playerId), portals{bluePortal, orangePortal}, pinTool(pinTool), state(STOP),
              footContacts(0), jumpTimer(), maxReach(maxReach), rock(nullptr), rockStateUpdated(false),
-             threwRockUpdated(false), rockState(NO_ROCK), _justDied(false) {
+             threwRockUpdated(false), rockState(NO_ROCK), _justDied(false), throughPortal(false) {
     connect(bluePortal, orangePortal);
     createBody(xPos, yPos);
 }
@@ -224,7 +224,7 @@ Chell::Chell(const Chell &other): Body(other), portals{other.portals[BLUE], othe
                                   pinTool(other.pinTool), state(other.state), footContacts(other.footContacts),
                                   jumpTimer(other.jumpTimer), maxReach(other.maxReach),
                                   rock(other.rock), rockStateUpdated(other.rockStateUpdated),
-                                  threwRockUpdated(other.threwRockUpdated),
+                                  threwRockUpdated(other.threwRockUpdated), throughPortal(other.throughPortal),
                                   rockState(other.rockState), _justDied(other._justDied) {
     connect(portals[BLUE], portals[ORANGE]);
 }

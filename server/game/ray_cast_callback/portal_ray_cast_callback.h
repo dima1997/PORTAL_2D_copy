@@ -8,7 +8,7 @@
 
 #include <Box2D/Dynamics/b2WorldCallbacks.h>
 #include <Box2D/Common/b2Math.h>
-#include "../body/chell.h"
+#include "../model/chell.h"
 
 class PortalRaycastCallback: public b2RayCastCallback {
 private:

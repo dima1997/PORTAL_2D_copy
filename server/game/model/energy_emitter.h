@@ -19,7 +19,6 @@ public:
     EnergyEmitter(const EnergyEmitter &other);
     ~EnergyEmitter() override;
     body_type_t getBodyType() override;
-    b2Vec2 getDeparturePos();
     direction_t getDirection();
 };
 

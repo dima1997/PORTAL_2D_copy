@@ -28,7 +28,6 @@ public:
     Body(b2World &world, float32 xPos, float32 yPos, uint32_t id);
     Body(const Body &other);
     virtual ~Body();
-    bool throughPortal;
     float32 hx;
     float32 hy;
     void applyImpulse(float32 xSpeed, float32 ySpeed);

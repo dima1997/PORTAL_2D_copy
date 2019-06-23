@@ -34,6 +34,7 @@ private:
     bool grabIfRock(Body *body);
 public:
     int footContacts;
+    bool throughPortal;
     Chell(b2World &world, float32 xPos, float32 yPos, uint32_t playerId, Portal &bluePortal, Portal &orangePortal,
           PinTool &pinTool, float32 maxReach);
     Chell(const Chell &other);

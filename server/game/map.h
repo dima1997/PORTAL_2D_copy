@@ -8,16 +8,16 @@
 
 #include <cstdint>
 #include <yaml-cpp/node/node.h>
-#include "body/cake.h"
-#include "body/chell.h"
-#include "body/block.h"
-#include "body/door.h"
-#include "body/button.h"
-#include "body/rock.h"
-#include "body/barrier.h"
-#include "body/energy_emitter.h"
-#include "body/energy_ball.h"
-#include "body/energy_receiver.h"
+#include "model/cake.h"
+#include "model/chell.h"
+#include "model/block.h"
+#include "model/door.h"
+#include "model/button.h"
+#include "model/rock.h"
+#include "model/barrier.h"
+#include "model/energy_emitter.h"
+#include "model/energy_ball.h"
+#include "model/energy_receiver.h"
 
 class Map {
     YAML::Node file;

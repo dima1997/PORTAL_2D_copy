@@ -5,7 +5,7 @@
 #include "body.h"
 
 Body::Body(b2World &world, float32 xPos, float32 yPos, uint32_t id):
-           updated_position(false), lastPosition(xPos, yPos), id(id), world(world), body(), throughPortal(false), hx(), hy() {}
+           updated_position(false), lastPosition(xPos, yPos), id(id), world(world), body(), hx(), hy() {}
 
 bool Body::changedPosition() {
     if (updated_position) {
@@ -50,8 +50,7 @@ b2Vec2 Body::getCurrentVelocity() {
 }
 
 Body::Body(const Body &other): updated_position(other.updated_position), lastPosition(other.lastPosition),
-                         id(other.id), world(other.world), body(other.body), throughPortal(other.throughPortal),
-                         hx(other.hx), hy(other.hy) {
+                         id(other.id), world(other.world), body(other.body), hx(other.hx), hy(other.hy) {
     body->SetUserData(this);
 }
 
