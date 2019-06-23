@@ -9,20 +9,18 @@
 #include <list>
 #include "body.h"
 #include "door.h"
+#include "switchable.h"
 
-class EnergyReceiver: public Body {
+class EnergyReceiver: public Body, public Switchable {
 private:
     void customizeBody() override;
-    bool updatedActive;
     std::list<std::reference_wrapper<Door>> doors;
-    void updateDoors();
+    void _switchState() override;
 public:
     EnergyReceiver(b2World &world, float32 xPos, float32 yPos, uint32_t id, std::list<std::reference_wrapper<Door>> &doors);
     EnergyReceiver(const EnergyReceiver &other);
     ~EnergyReceiver() override;
     body_type_t getBodyType() override;
-    void updateActive();
-    bool wasUpdated();
 
 };
 

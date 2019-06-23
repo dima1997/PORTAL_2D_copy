@@ -57,7 +57,7 @@ void World::step(std::list<std::shared_ptr<Event>> &events) {
         }
     }
     for (EnergyReceiver &receiver: receivers) {
-        if (receiver.wasUpdated()) {
+        if (receiver.switchedState()) {
             events.push_back(std::shared_ptr<Event>(new ObjectSwitchEvent(receiver.getId())));
         }
     }

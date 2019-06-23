@@ -52,7 +52,7 @@ void ContactListener::BeginContact(b2Contact *contact) {
             auto *ball = dynamic_cast<EnergyBall *>(dataA);
             if (dataB->getBodyType() == ENERGY_RECEIVER) {
                 ball->resetPosition();
-                dynamic_cast<EnergyReceiver *>(dataB)->updateActive();
+                dynamic_cast<EnergyReceiver *>(dataB)->switchState();
             } else {
                 b2WorldManifold worldManifold;
                 contact->GetWorldManifold(&worldManifold);
@@ -97,7 +97,7 @@ void ContactListener::BeginContact(b2Contact *contact) {
             auto *ball = dynamic_cast<EnergyBall *>(dataB);
             if (dataA->getBodyType() == ENERGY_RECEIVER) {
                 ball->resetPosition();
-                dynamic_cast<EnergyReceiver *>(dataA)->updateActive();
+                dynamic_cast<EnergyReceiver *>(dataA)->switchState();
             } else {
                 b2WorldManifold worldManifold;
                 contact->GetWorldManifold(&worldManifold);

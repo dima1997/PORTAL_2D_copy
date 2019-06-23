@@ -15,31 +15,20 @@ void EnergyReceiver::customizeBody() {
 }
 
 EnergyReceiver::EnergyReceiver(b2World &world, float32 xPos, float32 yPos, uint32_t id, std::list<std::reference_wrapper<Door>> &doors):
-                               Body(world, xPos, yPos, id), updatedActive(false), doors(doors) {
+                               Body(world, xPos, yPos, id), Switchable(), doors(doors) {
     customizeBody();
 }
 
-EnergyReceiver::EnergyReceiver(const EnergyReceiver &other): Body(other), updatedActive(other.updatedActive), doors(other.doors) {}
+EnergyReceiver::EnergyReceiver(const EnergyReceiver &other): Body(other), Switchable(other), doors(other.doors) {}
 
 body_type_t EnergyReceiver::getBodyType() {
     return ENERGY_RECEIVER;
 }
 
-bool EnergyReceiver::wasUpdated() {
-    bool updated = updatedActive;
-    updatedActive = false;
-    return updated;
-}
-
-void EnergyReceiver::updateDoors() {
-    updatedActive = true;
+void EnergyReceiver::_switchState() {
     for (auto &door : doors) {
         door.get().updateConditionStatus(this->id);
     }
-}
-
-void EnergyReceiver::updateActive() {
-    updateDoors();
 }
 
 EnergyReceiver::~EnergyReceiver() = default;
