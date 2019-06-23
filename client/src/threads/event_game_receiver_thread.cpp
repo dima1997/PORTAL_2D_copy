@@ -86,7 +86,9 @@ void EventGameReceiverThread::receive_event(){
                         portalMovesEvent.getId(),
                         portalMovesEvent.getX(),
                         portalMovesEvent.getY(),
-                        portalMovesEvent.get_chell_id()
+                        portalMovesEvent.get_chell_id(),
+                        portalMovesEvent.get_normal_x(),
+                        portalMovesEvent.get_normal_y()
                     )
                 );
                 this->changesQueue.push(ptrChange);  

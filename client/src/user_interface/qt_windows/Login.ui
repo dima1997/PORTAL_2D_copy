@@ -13,6 +13,9 @@
   <property name="windowTitle">
    <string>PORTAL</string>
   </property>
+  <property name="autoFillBackground">
+   <bool>true</bool>
+  </property>
   <property name="styleSheet">
    <string notr="true">border-image: url(:/img/portal_background_4.jpg) 0 0 0 0 stretch stretch;</string>
   </property>

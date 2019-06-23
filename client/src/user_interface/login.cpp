@@ -15,7 +15,6 @@
 #include <QDesktopWidget>
 #include <QPixmap>
 
-#define PATH_BACKGROUND "/home/soporte/Documentos/Fiuba/cuatrimestre_actual/a_taller_1/tp_final/rama_master/TP4_TALLER/client/assets/portal_background_4.jpg"
 #define LOGIN_WIDTH 640
 #define LOGIN_HEIGHT 480
 
@@ -39,11 +38,6 @@ Login::Login(bool & keepInput, GameConfig & gameConfig, QWidget *parent)
         QApplication::desktop()->screen()->rect().center() 
         - (this->rect()).center()
     );
-    QPixmap bkgnd(PATH_BACKGROUND);
-    bkgnd = bkgnd.scaled(this->size(), Qt::IgnoreAspectRatio);
-    QPalette palette;
-    palette.setBrush(QPalette::Background, bkgnd);
-    this->setPalette(palette);
     this->keepInput = true;
 }
 

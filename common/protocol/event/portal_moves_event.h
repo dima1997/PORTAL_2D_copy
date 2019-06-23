@@ -31,6 +31,10 @@ public:
 
 
     uint32_t get_chell_id();
+
+    float get_normal_x();
+
+    float get_normal_y();
 };
 
 

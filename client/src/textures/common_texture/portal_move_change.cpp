@@ -5,6 +5,8 @@
 
 #include <cstdint>
 
+#include <iostream>
+
 /*
 PRE: Recibe:
     el id de una textura de portal;
@@ -18,13 +20,17 @@ PortalMoveChange::PortalMoveChange(
     uint32_t idPortal, 
     float newX, 
     float newY, 
-    uint32_t idShooter
+    uint32_t idShooter,
+    float normalX,
+    float normalY
 )
 :   TextureChange(idPortal),
     idPortal(idPortal),
     newX(newX),
     newY(newY),
-    idShooter(idShooter) {}
+    idShooter(idShooter),
+    normalX(normalX),
+    normalY(normalY) {}
 
 /*
 Destruye el cambio de ubicacion de la textura 
@@ -39,6 +45,10 @@ POST: Realiza el cambio que representa
 en la ventana recibida.
 */
 void PortalMoveChange::change(Window & window){
+    std::cout << "PORTAL : \n";
+    std::cout << "New X : " << this->newX << " New Y : "<< this->newY <<" \n";
+    std::cout << "Normal X : " << this->normalX << " Normal Y : "<< this->normalY << " \n";
     window.move_texture(this->idPortal, this->newX, this->newY);
+    window.point_texture(this->idPortal, this->normalX, this->normalY);
     window.point_texture(this->idShooter, this->newX, this->newY);
 }
