@@ -27,10 +27,16 @@
      </property>
      <item>
       <layout class="QVBoxLayout" name="verticalLayout_4">
+       <property name="sizeConstraint">
+        <enum>QLayout::SetDefaultConstraint</enum>
+       </property>
        <item>
         <widget class="QLabel" name="labelMapId">
          <property name="text">
-          <string>       Choose a map id :      </string>
+          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:12pt; font-weight:600; color:#ffffff;&quot;&gt;Choose a map id : &lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
          </property>
         </widget>
        </item>
@@ -57,7 +63,10 @@
        <item>
         <widget class="QLabel" name="labelGameName">
          <property name="text">
-          <string>     Choose a name for the game :</string>
+          <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-size:12pt; font-weight:600; color:#ffffff;&quot;&gt;Choose a name for the game :&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
          </property>
         </widget>
        </item>
@@ -73,14 +82,14 @@
      <item>
       <widget class="QPushButton" name="buttonNew">
        <property name="text">
-        <string>new</string>
+        <string>New</string>
        </property>
       </widget>
      </item>
      <item>
       <widget class="QPushButton" name="buttonQuit">
        <property name="text">
-        <string>Quit Game</string>
+        <string>Quit</string>
        </property>
       </widget>
      </item>

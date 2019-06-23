@@ -16,9 +16,9 @@ LoginServer::LoginServer(LoginMode & loginMode, QWidget *parent)
 :   QWidget(parent), 
     loginMode(loginMode)
 {
-    this->hide();
     Ui::LoginServer loginServer;
     loginServer.setupUi(this);
+    this->hide();
     this->connect_events();
 }
 
@@ -43,7 +43,7 @@ void LoginServer::login(){
         qMsg.exec();
         this->loginMode.show();
         this->close();
-        //emit login_server_success();
+        ((Login*)this->parentWidget())->adjustSize();
 
         return;
     } catch (SocketException & error){
@@ -58,7 +58,6 @@ void LoginServer::login(){
         qMsg.exec();
         ((Login*)this->parentWidget())->close();
         this->close();
-        //emit login_server_failed();
         return;
     }
 }

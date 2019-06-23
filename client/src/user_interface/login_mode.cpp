@@ -24,9 +24,9 @@ LoginMode::LoginMode(
     connector(),
     isOpen(true)
 {
-    this->hide();
     Ui::LoginMode loginMode;
     loginMode.setupUi(this);
+    this->hide();
     this->connect_events();
 }
 
@@ -52,7 +52,7 @@ void LoginMode::config_new_game() {
     this->loginNew.show();
     this->loginJoin.close();
     this->close();
-    //emit login_mode_new();
+    ((Login*)this->parentWidget())->adjustSize();
     return;
 }
 
@@ -70,7 +70,6 @@ void LoginMode::config_join_game() {
         qMsg.exec();
         ((Login*)this->parentWidget())->close();
         this->close();
-        //emit login_mode_failed();
         return;
     }
     std::map<uint8_t,std::string> stockGames;
@@ -87,7 +86,7 @@ void LoginMode::config_join_game() {
     this->loginJoin.show();
     this->loginNew.close();
     this->close();
-    //emit login_mode_join();
+    ((Login*)this->parentWidget())->adjustSize();
     return;
 }
 
