@@ -28,7 +28,9 @@ void ContactListener::BeginContact(b2Contact *contact) {
         } else if (dataA->getBodyType() == CHELL) {
             auto *chell = dynamic_cast<Chell *>(dataA);
             if (contact->GetFixtureA()->GetUserData() == (void *)CONTACT_CHECK) {
-                ++chell->footContacts;
+                if (dataB->getBodyType() != BARRIER && dataB->getBodyType() != DOOR) {
+                    ++chell->footContacts;
+                }
                 return;
             }
 
@@ -82,7 +84,9 @@ void ContactListener::BeginContact(b2Contact *contact) {
         }else if (dataB->getBodyType() == CHELL) {
             auto *chell = dynamic_cast<Chell *>(dataB);
             if (contact->GetFixtureB()->GetUserData() == (void *)CONTACT_CHECK) {
-                ++chell->footContacts;
+                if (dataA->getBodyType() != BARRIER && dataA->getBodyType() != DOOR) {
+                    ++chell->footContacts;
+                }
                 return;
             }
 
@@ -140,7 +144,9 @@ void ContactListener::EndContact(b2Contact *contact) {
         } else if (dataA->getBodyType() == CHELL) {
             auto *chell = dynamic_cast<Chell *>(dataA);
             if (contact->GetFixtureA()->GetUserData() == (void *)CONTACT_CHECK) {
-                --chell->footContacts;
+                if (dataB->getBodyType() != BARRIER && dataB->getBodyType() != DOOR) {
+                    --chell->footContacts;
+                }
                 return;
             }
         } else if (dataA->getBodyType() == BUTTON) {
@@ -158,7 +164,9 @@ void ContactListener::EndContact(b2Contact *contact) {
             }        } else if (dataB->getBodyType() == CHELL) {
             auto *chell = dynamic_cast<Chell *>(dataB);
             if (contact->GetFixtureB()->GetUserData() == (void *)CONTACT_CHECK) {
-                --chell->footContacts;
+                if (dataA->getBodyType() != BARRIER && dataA->getBodyType() != DOOR) {
+                    --chell->footContacts;
+                }
                 return;
             }
         } else if (dataB->getBodyType() == BUTTON) {
