@@ -8,11 +8,12 @@
 #include "portal.h"
 
 Portal::Portal(b2World &world, float32 xPos, float32 yPos, uint32_t id):
-               Body(world, xPos, yPos, id), other(), usable(true), normal(0, 1) {
+               Body(world, xPos, yPos, id), other(), usable(false), visible(false), changeVisibility(false), normal(0, 1) {
     createBody(xPos, yPos);
 }
 
-Portal::Portal(const Portal &other): Body(other), other(other.other), usable(other.usable), normal(other.normal) {
+Portal::Portal(const Portal &other): Body(other), other(other.other), usable(other.usable), visible(other.visible),
+                                     changeVisibility(false), normal(other.normal) {
     if (this->other) {
         this->other->other = this;
     }
@@ -63,12 +64,47 @@ body_type_t Portal::getBodyType() {
 }
 
 void Portal::endGoingThrough() {
-    usable = true;
+    if (visible && other->visible) {
+        usable = true;
+    }
 }
 
 void Portal::setNormal(b2Vec2 normal) {
     this->normal = normal;
     createBody(this->getXPos(), this->getYPos());
+}
+
+void Portal::showAndActivateIfRequires() {
+    if (!visible) {
+        visible = true;
+        changeVisibility = true;
+        if (other->visible) {
+            this->usable = true;
+            other->usable = true;
+        }
+    }
+}
+
+void Portal::hideAndDeactivate() {
+    if (visible) {
+        changeVisibility = true;
+    }
+    visible = false;
+    usable = false;
+}
+
+bool Portal::changedVisivility() {
+    bool changed = changeVisibility;
+    changeVisibility = false;
+    return changed;
+}
+
+float32 Portal::getNormalX() {
+    return normal.x;
+}
+
+float32 Portal::getNormalY() {
+    return normal.y;
 }
 
 Portal::~Portal() = default;

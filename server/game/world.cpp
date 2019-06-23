@@ -28,7 +28,7 @@ World::World(Map &map): gravity(0.0f, -9.8f), world(new b2World(gravity)), conta
                         numberOfPlayers(map.getPlayersNumber()), finished(false), chells(map.loadChells(*world)),
                         blocks(map.loadBlocks(*world)), doors(map.loadDoors(*world)),
                         buttons(map.loadButtons(*world, doors)), rocks(map.loadRocks(*world)),
-                        barriers(map.loadBarriers(*world)), emitters(map.loadEmitters(*world)),
+                        barriers(map.loadBarriers(*world)), emitters(map.loadEmitters(*world)), receivers(map.loadReceivers(*world, doors)),
                         balls(map.loadBalls(*world, emitters)), cake(map.loadCake(*world)) {
     world->SetContactListener(&contactListener);
     world->SetContactFilter(&contactFilter);
@@ -55,6 +55,11 @@ void World::step(std::list<std::shared_ptr<Event>> &events) {
     for (Button &button : buttons) {
         if (button.wasUpdated()) {
             events.push_back(std::shared_ptr<Event>(new ObjectSwitchEvent(button.getId())));
+        }
+    }
+    for (EnergyReceiver &receiver: receivers) {
+        if (receiver.wasUpdated()) {
+            events.push_back(std::shared_ptr<Event>(new ObjectSwitchEvent(receiver.getId())));
         }
     }
     for (Door &door : doors) {
@@ -90,13 +95,16 @@ void World::step(std::list<std::shared_ptr<Event>> &events) {
         Portal &orange = chell.getPortal(ORANGE);
         if (orange.changedPosition()) {
             events.push_back(std::shared_ptr<Event>(
-                    new PortalMovesEvent(orange.getId(), orange.getXPos(), orange.getYPos(), chell.getId())));
+                    new PortalMovesEvent(orange.getId(), orange.getXPos(), orange.getYPos(), chell.getId(), orange.getNormalX(), orange.getNormalY())));
+        } else if (orange.changedVisivility()) {
+            events.push_back(std::shared_ptr<Event>(new ObjectSwitchEvent(orange.getId())));
         }
         Portal &blue = chell.getPortal(BLUE);
         if (blue.changedPosition()) {
-            events.push_back(
-                    std::shared_ptr<Event>(
-                        new PortalMovesEvent(blue.getId(), blue.getXPos(), blue.getYPos(), chell.getId())));
+            events.push_back(std::shared_ptr<Event>(
+                    new PortalMovesEvent(blue.getId(), blue.getXPos(), blue.getYPos(), chell.getId(), blue.getNormalX(), blue.getNormalY())));
+        } else if (blue.changedVisivility()) {
+            events.push_back(std::shared_ptr<Event>(new ObjectSwitchEvent(blue.getId())));
         }
     }
     for (Rock &rock : rocks) {

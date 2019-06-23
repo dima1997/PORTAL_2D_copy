@@ -18,7 +18,7 @@ PortalSpriteStrategy::PortalSpriteStrategy()
 :   SpriteStrategy(
         PortalWhiteSprite::get_sprite()
     ), 
-    spriteName(PORTAL_OPEN) {}
+    spriteName(PORTAL_CLOSE) {}
 
 /*Destruye uel sprite strategy del portal.*/
 PortalSpriteStrategy::~PortalSpriteStrategy() = default;

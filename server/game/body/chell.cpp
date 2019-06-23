@@ -60,9 +60,9 @@ void Chell::createBody(float32 xPos, float32 yPos) {
 
 Chell::Chell(b2World &world, float32 xPos, float32 yPos, uint32_t playerId, Portal &bluePortal, Portal &orangePortal,
              float32 maxReach) :
-             Body(world, xPos, yPos, playerId), portals{bluePortal, orangePortal}, state(STOP), alive(true), footContacts(0),
-             jumpTimer(), maxReach(maxReach), carriesRock(false), rock(nullptr), grabbedRockUpdated(false),
-             threwRockUpdated(false), forceThrew(false), _justDied(false) {
+             Body(world, xPos, yPos, playerId), portals{bluePortal, orangePortal}, state(STOP), footContacts(0),
+             jumpTimer(), maxReach(maxReach), rock(nullptr), rockStateUpdated(false),
+             threwRockUpdated(false), rockState(NO_ROCK), _justDied(false) {
     connect(bluePortal, orangePortal);
     createBody(xPos, yPos);
 }
@@ -118,8 +118,9 @@ body_type_t Chell::getBodyType() {
 }
 
 void Chell::die() {
-    alive = false;
     _justDied = true;
+    throwRock(THROW_IN);
+    resetPortals();
 }
 
 void Chell::shootPortal(float x, float y, portal_color_t color) {
@@ -135,6 +136,7 @@ void Chell::shootPortal(float x, float y, portal_color_t color) {
                 b2Vec2 position = portalRaycastCallback->getPoint();
                 portals[color].moveTo(position.x, position.y);
                 portals[color].setNormal(portalRaycastCallback->getNormal());
+                portals[color].showAndActivateIfRequires();
             }
             delete portalRaycastCallback;
             return;
@@ -144,7 +146,7 @@ void Chell::shootPortal(float x, float y, portal_color_t color) {
 }
 
 void Chell::grabRock() {
-    if (carriesRock) {
+    if (rockState != NO_ROCK) {
         return;
     }
     for (b2ContactEdge *contactEdge = body->GetContactList(); contactEdge != nullptr; contactEdge = contactEdge->next) {
@@ -159,27 +161,27 @@ void Chell::grabRock() {
     }
 }
 
-void Chell::throwRock(bool force) {
-    if (!carriesRock) return;
+void Chell::throwRock(rock_state_t rock_state) {
+    if (rockState != HAS_ROCK) return;
     threwRockUpdated = true;
-    forceThrew = force;
+    rockState = rock_state;
 }
 
 bool Chell::grabIfRock(Body *body) {
     if (body->getBodyType() == ROCK) {
-        carriesRock = true;
+        rockState = HAS_ROCK;
         rock = dynamic_cast<Rock *>(body);
-        grabbedRockUpdated = true;
+        rockStateUpdated = true;
         return true;
     }
     return false;
 }
 
 bool Chell::grabbedRock() {
-    if (!carriesRock)
+    if (rockState != HAS_ROCK)
         return false;
-    bool updated = grabbedRockUpdated;
-    grabbedRockUpdated = false;
+    bool updated = rockStateUpdated;
+    rockStateUpdated = false;
     rock->setActive(false);
     return updated;
 }
@@ -189,19 +191,22 @@ Rock &Chell::getRock() {
 }
 
 bool Chell::threwRock() {
-    if (!carriesRock)
+    if (rockState == HAS_ROCK || rockState == NO_ROCK)
         return false;
     bool updated = threwRockUpdated;
     threwRockUpdated = false;
     if (updated) {
         rock->setActive(true);
-        if (forceThrew) {
+        if (rockState == THROW_IN) {
+            rock->moveTo(getXPos(), getYPos());
+        } else if (rockState == THROW_INITIAL) {
             rock->moveToInitial();
-            forceThrew = false;
-        } else {
-            rock->moveTo(getXPos(), getYPos() + hy + rock->hy);
+        } else if (rockState == THROW_LEFT) {
+                rock->moveTo(getXPos() - hx - rock->hx, getYPos());
+        } else if (rockState == THROW_RIGHT) {
+            rock->moveTo(getXPos() + hx + rock->hx, getYPos());
         }
-        carriesRock = false;
+        rockState = NO_ROCK;
     }
     return updated;
 }
@@ -216,9 +221,15 @@ bool Chell::justDied() {
 }
 
 Chell::Chell(const Chell &other): Body(other), portals{other.portals[BLUE], other.portals[ORANGE]},
-                                      state(other.state), alive(other.alive), footContacts(other.footContacts),
-                                      jumpTimer(other.jumpTimer), maxReach(other.maxReach), carriesRock(other.carriesRock),
-                                      rock(other.rock), grabbedRockUpdated(other.grabbedRockUpdated),
-                                      threwRockUpdated(other.threwRockUpdated), forceThrew(other.forceThrew), _justDied(other._justDied) {
+                                      state(other.state), footContacts(other.footContacts),
+                                      jumpTimer(other.jumpTimer), maxReach(other.maxReach),
+                                      rock(other.rock), rockStateUpdated(other.rockStateUpdated),
+                                      threwRockUpdated(other.threwRockUpdated),
+                                      rockState(other.rockState), _justDied(other._justDied) {
     connect(portals[BLUE], portals[ORANGE]);
+}
+
+void Chell::resetPortals() {
+    portals[BLUE].hideAndDeactivate();
+    portals[ORANGE].hideAndDeactivate();
 }

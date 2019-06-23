@@ -14,6 +14,7 @@
 
 typedef enum chell_state {LEFT, RIGHT, STOP, JUMP, AIR} chell_state_t;
 typedef enum portal_color {BLUE, ORANGE} portal_color_t;
+typedef enum rock_state {THROW_RIGHT, THROW_LEFT, THROW_IN, THROW_INITIAL, NO_ROCK, HAS_ROCK} rock_state_t;
 
 class Chell: public Body {
 private:
@@ -21,14 +22,12 @@ private:
     Portal portals[2];
     chell_state_t state;
     bool isJumping();
-    bool alive;
     bool _justDied;
     b2Timer jumpTimer;
     float32 maxReach;
-    bool carriesRock;
-    bool grabbedRockUpdated;
+    bool rockStateUpdated;
     bool threwRockUpdated;
-    bool forceThrew;
+    rock_state_t rockState;
     Rock *rock;
     bool grabIfRock(Body *body);
 public:
@@ -45,10 +44,11 @@ public:
     bool justDied();
     void shootPortal(float x, float y, portal_color_t color);
     void grabRock();
-    void throwRock(bool force);
+    void throwRock(rock_state_t state);
     bool grabbedRock();
     bool threwRock();
     Rock &getRock();
+    void resetPortals();
 };
 
 

@@ -10,6 +10,7 @@
 #include "../body/button.h"
 #include "../body/energy_ball.h"
 #include "../../utils/geometry_utils.h"
+#include "../body/energy_receiver.h"
 #include <Box2D/Dynamics/Contacts/b2Contact.h>
 
 void ContactListener::BeginContact(b2Contact *contact) {
@@ -31,7 +32,7 @@ void ContactListener::BeginContact(b2Contact *contact) {
             } else if (dataB->getBodyType() == ACID_BLOCK) {
                 chell->die();
             } else if (dataB->getBodyType() == BARRIER) {
-                chell->throwRock(true);
+                chell->throwRock(THROW_INITIAL);
             }
         } else if (dataA->getBodyType() == BUTTON) {
             auto *button = dynamic_cast<Button *>(dataA);
@@ -43,12 +44,17 @@ void ContactListener::BeginContact(b2Contact *contact) {
                 dynamic_cast<Rock *>(dataB)->moveToInitial();
             }
         } else if (dataA->getBodyType() == ENERGY_BALL) {
-            b2WorldManifold worldManifold;
-            contact->GetWorldManifold(&worldManifold);
             auto *ball = dynamic_cast<EnergyBall *>(dataA);
-            const b2Vec2 vec2 = ball->getDirection();
-            const b2Vec2 vec3 = -vec2;
-            ball->setDirection(normal_reflection(vec3, worldManifold.normal));
+            if (dataB->getBodyType() == ENERGY_RECEIVER) {
+                ball->resetPosition();
+                dynamic_cast<EnergyReceiver *>(dataB)->updateActive();
+            } else {
+                b2WorldManifold worldManifold;
+                contact->GetWorldManifold(&worldManifold);
+                const b2Vec2 vec2 = ball->getDirection();
+                const b2Vec2 vec3 = -vec2;
+                ball->setDirection(normal_reflection(vec3, worldManifold.normal));
+            }
         }
 
         if (dataB->getBodyType() == PORTAL) {
@@ -66,7 +72,7 @@ void ContactListener::BeginContact(b2Contact *contact) {
             } else if (dataA->getBodyType() == ACID_BLOCK) {
                 chell->die();
             } else if (dataA->getBodyType() == BARRIER) {
-                chell->throwRock(true);
+                chell->throwRock(THROW_INITIAL);
             }
         } else if (dataB->getBodyType() == BUTTON) {
             auto *button = dynamic_cast<Button *>(dataB);
@@ -78,12 +84,17 @@ void ContactListener::BeginContact(b2Contact *contact) {
                 dynamic_cast<Rock *>(dataA)->moveToInitial();
             }
         } else if (dataB->getBodyType() == ENERGY_BALL) {
-            b2WorldManifold worldManifold;
-            contact->GetWorldManifold(&worldManifold);
             auto *ball = dynamic_cast<EnergyBall *>(dataB);
-            const b2Vec2 vec2 = ball->getDirection();
-            const b2Vec2 vec3 = -vec2;
-            ball->setDirection(normal_reflection(vec3, worldManifold.normal));
+            if (dataA->getBodyType() == ENERGY_RECEIVER) {
+                ball->resetPosition();
+                dynamic_cast<EnergyReceiver *>(dataA)->updateActive();
+            } else {
+                b2WorldManifold worldManifold;
+                contact->GetWorldManifold(&worldManifold);
+                const b2Vec2 vec2 = ball->getDirection();
+                const b2Vec2 vec3 = -vec2;
+                ball->setDirection(normal_reflection(vec3, worldManifold.normal));
+            }
         }
     }
 }

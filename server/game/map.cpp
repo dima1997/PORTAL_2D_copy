@@ -100,18 +100,21 @@ Block Map::loadBlock(const YAML::Node &block, b2World &world, body_type_t type, 
 std::list<Door> Map::loadDoors(b2World &world) {
     YAML::Node doorsInfo = file["doors_one"]["id_coordinates"];
     std::list<Door> doors;
+    std::vector<std::unordered_map<uint32_t, bool>> conditions_or;
     for (auto && doorInfo : doorsInfo) {
-        std::unordered_map<uint32_t, bool> conditions;
-        for (auto condition : doorInfo["conditions"]) {
-            auto button_id = condition["button_id"].as<uint32_t>();
-            auto cond = condition["condition"].as<bool>();
-            conditions.insert(std::make_pair(button_id, cond));
+        for (const auto& condition_or : doorInfo["conditions"]) {
+            std::unordered_map<uint32_t, bool> conditions;
+            for (auto condition_and : condition_or) {
+                auto cond_id = condition_and["cond_id"].as<uint32_t>();
+                auto cond = condition_and["condition"].as<bool>();
+                conditions.insert(std::make_pair(cond_id, cond));
+            }
+            conditions_or.push_back(conditions);
         }
         auto id = doorInfo["id"].as<uint32_t>();
         auto x = doorInfo["xCoord"].as<float32>();
         auto y = doorInfo["yCoord"].as<float32>();
-//        doors.push_back(std::move(Door(world, x, y, id, conditions)));
-        doors.emplace_back(world, x, y, id, conditions);
+        doors.emplace_back(world, x, y, id, conditions_or);
     }
     return doors;
 }
@@ -191,6 +194,21 @@ std::list<EnergyEmitter> Map::loadEmitters(b2World &world) {
         EnergyEmitter emitter = loadEmitter(emitterInfo, world, RIGHT_D);
         emitters.push_back(emitter);
     }
+    emittersInfo = file["emitters_left"]["id_coordinates"];
+    for (auto && emitterInfo : emittersInfo) {
+        EnergyEmitter emitter = loadEmitter(emitterInfo, world, LEFT_D);
+        emitters.push_back(emitter);
+    }
+    emittersInfo = file["emitters_up"]["id_coordinates"];
+    for (auto && emitterInfo : emittersInfo) {
+        EnergyEmitter emitter = loadEmitter(emitterInfo, world, UP_D);
+        emitters.push_back(emitter);
+    }
+    emittersInfo = file["emitters_down"]["id_coordinates"];
+    for (auto && emitterInfo : emittersInfo) {
+        EnergyEmitter emitter = loadEmitter(emitterInfo, world, DOWN_D);
+        emitters.push_back(emitter);
+    }
     return emitters;
 }
 
@@ -217,4 +235,26 @@ std::list<EnergyBall> Map::loadBalls(b2World &world, std::list<EnergyEmitter> &e
         }
     }
     return balls;
+}
+
+std::list<EnergyReceiver> Map::loadReceivers(b2World &world, std::list<Door> &doors) {
+    YAML::Node receiversInfo = file["receivers"]["id_coordinates"];
+    std::list<EnergyReceiver> receivers;
+    for (auto &&receiverInfo: receiversInfo) {
+        auto id = receiverInfo["id"].as<uint32_t>();
+        auto x = receiverInfo["xCoord"].as<float32>();
+        auto y = receiverInfo["yCoord"].as<float32>();
+        std::list<std::reference_wrapper<Door>> receiverDoors;
+        for (auto && doorIdNode : receiverInfo["door_ids"]) {
+            auto doorId = doorIdNode.as<uint32_t>();
+            for (auto &door : doors) {
+                if (door.getId() == doorId) {
+                    receiverDoors.emplace_back(door);
+                    break;
+                }
+            }
+        }
+        receivers.emplace_back(world, x, y, id, receiverDoors);
+    }
+    return receivers;
 }

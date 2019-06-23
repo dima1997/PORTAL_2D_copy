@@ -33,6 +33,7 @@ private:
     std::list<Rock> rocks;
     std::list<Barrier> barriers;
     std::list<EnergyEmitter> emitters;
+    std::list<EnergyReceiver> receivers;
     std::list<EnergyBall> balls;
     ContactListener contactListener;
     ContactFilter contactFilter;

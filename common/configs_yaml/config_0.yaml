@@ -152,16 +152,25 @@ doors_one:
     width: 1.0
     height: 2.0
     id_coordinates:
-        [
-            {id: 58, number: 1, xCoord: 5.5, yCoord: 2.0, conditions: [{button_id: 61,  condition: true}]},
-            {id: 59, number: 1, xCoord: -5.0, yCoord: 2.0, conditions: [{button_id: 61,  condition: false}]}
-        ]
+        - id: 58
+          number: 1
+          xCoord: 5.5
+          yCoord: 2.0
+          conditions:
+              - [{cond_id: 61,  condition: true}, {cond_id: 76, condition: false}]
+              - [{cond_id: 61,  condition: false}, {cond_id: 76, condition: true}]
+        - id: 59
+          number: 1
+          xCoord: -5.0
+          yCoord: 2.0
+          conditions:
+              - [{cond_id: 61,  condition: false}, {cond_id: 76, condition: true}]
 energy_balls_green:
     width: 0.5
     height: 0.5
     id_coordinates:
         [
-            {id: 60, color: 'green', xCoord: -5.5, yCoord: 7.5, emitter: 67}
+            {id: 60, color: 'green', xCoord: -5.5, yCoord: 7.5, emitter: 77}
         ]
 buttons:
     width: 2
@@ -264,7 +273,7 @@ receivers:
     height: 1
     id_coordinates:
         [
-            {id: 76, xCoord: 7.5, yCoord: 7.5}
+            {id: 76, xCoord: 7.5, yCoord: 7.5, door_ids: [58, 59]}
         ]
 emitters_right:
     width: 1
@@ -273,6 +282,21 @@ emitters_right:
         [
             {id: 77, position: 'right', xCoord: -5.5, yCoord: 7.5}
         ]
+emitters_left:
+    width: 1
+    height: 1
+    id_coordinates:
+        []
+emitters_up:
+    width: 1
+    height: 1
+    id_coordinates:
+        []
+emitters_down:
+    width: 1
+    height: 1
+    id_coordinates:
+        []
 cakes:
     width: 1
     height: 1

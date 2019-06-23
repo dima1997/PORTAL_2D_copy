@@ -6,6 +6,7 @@
 #include "energy_ball.h"
 
 #define VEL 2.0f
+#define RESET_TIME_MILLIS 15000
 
 void EnergyBall::createBody(float32 xPos, float32 yPos) {
     b2BodyDef bodyDef;
@@ -21,14 +22,15 @@ void EnergyBall::createBody(float32 xPos, float32 yPos) {
 }
 
 EnergyBall::EnergyBall(b2World &world, float32 xPos, float32 yPos, uint32_t id, EnergyEmitter &emitter):
-                       Body(world, xPos, yPos, id), emitter(emitter) {
+                       Body(world, xPos, yPos, id), emitter(emitter), timer() {
     createBody(xPos, yPos);
     resetDirection();
     b2Vec2 final = VEL * direction;
     applyImpulse(final.x, final.y);
 }
 
-EnergyBall::EnergyBall(const EnergyBall &other): Body(other), emitter(other.emitter), direction(other.direction) {}
+EnergyBall::EnergyBall(const EnergyBall &other): Body(other), emitter(other.emitter), direction(other.direction),
+                                                 timer(other.timer) {}
 
 body_type_t EnergyBall::getBodyType() {
     return ENERGY_BALL;
@@ -53,6 +55,10 @@ void EnergyBall::resetDirection() {
 }
 
 void EnergyBall::move() {
+    if (timer.GetMilliseconds() >= RESET_TIME_MILLIS) {
+        resetPosition();
+        return;
+    }
     b2Vec2 final = VEL * direction;
     applyImpulse(final.x, final.y);
 }
@@ -64,6 +70,12 @@ void EnergyBall::setDirection(b2Vec2 dir) {
 
 b2Vec2 EnergyBall::getDirection() {
     return direction;
+}
+
+void EnergyBall::resetPosition() {
+    resetDirection();
+    timer.Reset();
+    moveTo(emitter.getXPos(), emitter.getYPos());
 }
 
 

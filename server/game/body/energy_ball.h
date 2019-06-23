@@ -6,6 +6,7 @@
 #define PORTAL_ENERGY_BALL_H
 
 
+#include <Box2D/Common/b2Timer.h>
 #include "body.h"
 #include "energy_emitter.h"
 
@@ -13,12 +14,14 @@ class EnergyBall: public Body {
 private:
     b2Vec2 direction;
     EnergyEmitter &emitter;
+    b2Timer timer;
     void resetDirection();
     void createBody(float32 xPos, float32 yPos) override;
 public:
     EnergyBall(b2World &world, float32 xPos, float32 yPos, uint32_t id, EnergyEmitter &emitter);
     EnergyBall(const EnergyBall &other);
     ~EnergyBall() override;
+    void resetPosition();
     void move();
     body_type_t getBodyType() override;
     void setDirection(b2Vec2 dir);

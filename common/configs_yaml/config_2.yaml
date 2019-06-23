@@ -274,11 +274,25 @@ doors_one:
     width: 1.0
     height: 2.0
     id_coordinates:
-        [   
-            {id: 153, xCoord: -5.5, yCoord: 9, conditions: [{button_id: 156,  condition: true}]},
-            {id: 154, xCoord: -0.5, yCoord: 9, conditions: [{button_id: 156,  condition: true}]},
-            {id: 155, xCoord: 0.5, yCoord: 9, conditions: [{button_id: 156,  condition: true}]}
-        ]
+        - id: 153
+          number: 1
+          xCoord: -5.5
+          yCoord: 9.0
+          conditions:
+              - [{cond_id: 156,  condition: true}]
+        - id: 154
+          number: 1
+          xCoord: -0.5
+          yCoord: 9.0
+          conditions:
+              - [{cond_id: 156,  condition: true}]
+        - id: 155
+          number: 1
+          xCoord: 0.5
+          yCoord: 9.0
+          conditions:
+              - [{cond_id: 156,  condition: true}]
+
 energy_balls_green:
     width: 0.5
     height: 0.5
@@ -359,6 +373,21 @@ receivers:
     id_coordinates:
         []
 emitters_right:
+    width: 1
+    height: 1
+    id_coordinates:
+        []
+emitters_left:
+    width: 1
+    height: 1
+    id_coordinates:
+        []
+emitters_up:
+    width: 1
+    height: 1
+    id_coordinates:
+        []
+emitters_down:
     width: 1
     height: 1
     id_coordinates:
