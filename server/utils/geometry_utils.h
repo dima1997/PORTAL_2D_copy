@@ -7,6 +7,7 @@
 
 #include <Box2D/Common/b2Math.h>
 
+bool vector_equals(b2Vec2 v1, b2Vec2 v2);
 float32 angle_between_vectors(b2Vec2 v1, b2Vec2 v2);
 b2Vec2 rotate_vector_counterclockwise(float32 angle, b2Vec2 vector);
 b2Vec2 normal_reflection(b2Vec2 input, b2Vec2 normal);

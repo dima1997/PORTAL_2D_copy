@@ -1,0 +1,308 @@
+---
+# Al agregar nuevos objetos, no repetir ids. 
+# Para facilitar el conteo de ids, ordenar la descripcion 
+# de cada objeto, por su id de menor a mayor.
+# Tambien se recomienda respetar las convenciones de ids,
+# descritas en cada seccion.
+
+# Atencion los valores modulizadores de color RGB van de 1 a 255
+# (No poner 0, en cuyo caso, el programara levantara error.)
+
+player_number: 2
+sections: 
+    [
+        background,
+        blocks_metal, 
+        blocks_rock, 
+        blocks_acid, 
+        doors_one, 
+        buttons, 
+        rocks_one, 
+        rocks_two, 
+        rocks_three, 
+        rocks_four, 
+        rocks_five, 
+        rocks_six, 
+        rocks_seven, 
+        rocks_eight,
+        barriers,
+        energy_balls_green, 
+        receivers,
+        emitters_right,
+        emitters_left,
+        emitters_up,
+        emitters_down,
+        triangles_botom_left,
+        triangles_botom_right,
+        triangles_top_left,
+        triangles_top_right,
+        cakes, 
+        portals_blue, 
+        portals_orange, 
+        chells,
+        pin_tools,
+        records
+    ]
+blocks_metal:
+    width: 1
+    height: 1
+    id_coordinates:
+      # Distanciar ids de a 1.
+      [
+      {id: 0, xCoord: -7.5, yCoord: 8.5},
+      {id: 1, xCoord: -6.5, yCoord: 8.5},
+      {id: 2, xCoord: -5.5, yCoord: 8.5},
+      {id: 3, xCoord: -4.5, yCoord: 8.5},
+      {id: 4, xCoord: -3.5, yCoord: 8.5},
+      {id: 5, xCoord: -2.5, yCoord: 8.5},
+      {id: 6, xCoord: -1.5, yCoord: 8.5},
+      {id: 7, xCoord: -0.5, yCoord: 8.5},
+      {id: 8, xCoord: 0.5, yCoord: 8.5},
+      {id: 9, xCoord: 1.5, yCoord: 8.5},
+      {id: 10, xCoord: 2.5, yCoord: 8.5},
+      {id: 11, xCoord: 3.5, yCoord: 8.5},
+      {id: 12, xCoord: 4.5, yCoord: 8.5},
+      {id: 13, xCoord: 5.5, yCoord: 8.5},
+      {id: 14, xCoord: 6.5, yCoord: 8.5},
+      {id: 15, xCoord: 7.5, yCoord: 8.5},
+      {id: 16, xCoord: 8.5, yCoord: 8.5},
+      {id: 17, xCoord: 9.5, yCoord: 8.5},
+      {id: 18, xCoord: 9.5, yCoord: 7.5},
+      {id: 19, xCoord: 9.5, yCoord: 6.5},
+      {id: 20, xCoord: 9.5, yCoord: 5.5},
+      {id: 21, xCoord: 9.5, yCoord: 4.5},
+      {id: 22, xCoord: 9.5, yCoord: 3.5},
+      {id: 23, xCoord: 9.5, yCoord: 2.5},
+      {id: 24, xCoord: 9.5, yCoord: 1.5},
+      {id: 29, xCoord: 5.5, yCoord: 0.5},
+      {id: 30, xCoord: 4.5, yCoord: 0.5},
+      {id: 31, xCoord: 3.5, yCoord: 0.5},
+      {id: 32, xCoord: 2.5, yCoord: 0.5},
+      {id: 33, xCoord: 1.5, yCoord: 0.5},
+      {id: 34, xCoord: 0.5, yCoord: 0.5},
+      {id: 35, xCoord: -0.5, yCoord: 0.5},
+      {id: 36, xCoord: -1.5, yCoord: 0.5},
+      {id: 37, xCoord: -2.5, yCoord: 0.5},
+      {id: 38, xCoord: -3.5, yCoord: 0.5},
+      {id: 39, xCoord: -4.5, yCoord: 0.5},
+      {id: 40, xCoord: -5.5, yCoord: 0.5},
+      {id: 41, xCoord: -6.5, yCoord: 0.5},
+      {id: 42, xCoord: -7.5, yCoord: 0.5},
+      {id: 43, xCoord: -7.5, yCoord: 1.5},
+      {id: 44, xCoord: -7.5, yCoord: 2.5},
+      {id: 45, xCoord: -7.5, yCoord: 3.5},
+      {id: 46, xCoord: -7.5, yCoord: 4.5},
+      {id: 47, xCoord: -7.5, yCoord: 5.5},
+      {id: 48, xCoord: -7.5, yCoord: 6.5},
+      {id: 49, xCoord: -7.5, yCoord: 7.5},
+      {id: 25, xCoord: 9.5, yCoord: 0.5},
+      {id: 26, xCoord: 8.5, yCoord: 0.5},
+      {id: 27, xCoord: 7.5, yCoord: 0.5},
+      {id: 28, xCoord: 6.5, yCoord: 0.5}
+      ]
+blocks_acid:
+    width: 1
+    height: 1
+    id_coordinates:
+      [
+      ]
+blocks_rock:
+    width: 1
+    height: 1
+    id_coordinates:
+      [
+      ]
+chells:
+    width: 1
+    height: 1.5
+    id_coordinates: 
+    # Usar ids distanciados de a 3 
+        [
+            {id: 50, xCoord: 0.5, yCoord: 1.75, redMod: 1, greenMod: 255, blueMod: 1},
+            {id: 53, xCoord: 2.5, yCoord: 3.75, redMod: 120, greenMod: 40, blueMod: 140}
+        ]
+portals_blue:
+    width: 1.5
+    height: 1.5
+    id_coordinates: 
+    # Distanciar los id de blue a orange de a 1,
+    # pero de orange a blue de a 2 
+    # Utilizar coordenadas fuera de los limites del mapa.
+        [
+
+            {id: 51, xCoord: 9.5, yCoord: 9.5},
+            {id: 54, xCoord: -7.5, yCoord: 9.5}
+
+        ]
+portals_orange:
+    width: 1.5
+    height: 1.5
+    id_coordinates: 
+        [
+            {id: 52, xCoord: 9.5, yCoord: 9.5},
+            {id: 55, xCoord: -7.5, yCoord: 9.5}
+        ]
+pin_tools:
+    width: 1
+    height: 1
+    id_coordinates:
+        # Recomendacion: Usar los mismo colores de las Chells que son propietarios de cada pin tool
+        [
+            {id: 56, xCoord: 8.5, yCoord: 9.5, redMod: 1, greenMod: 255, blueMod: 1, chell_id: 50},
+            {id: 57, xCoord: -6.5, yCoord: 9.5, redMod: 120, greenMod: 40, blueMod: 140, chell_id: 53}
+        ]
+doors_one:
+    width: 1.0
+    height: 2.0
+    id_coordinates:
+#        - id: 58
+#          number: 1
+#          xCoord: 5.5
+#          yCoord: 2.0
+#          conditions:
+#              - [{cond_id: 61,  condition: true}, {cond_id: 69, condition: false}]
+energy_balls_green:
+    width: 0.5
+    height: 0.5
+    id_coordinates:
+        [
+            {id: 60, color: 'green', xCoord: -5.5, yCoord: 7.5, emitter: 70}
+        ]
+buttons:
+    width: 2
+    height: 0.5
+    id_coordinates:
+        [
+#            {id: 61, xCoord: -0.5, yCoord: 1.25, door_ids: [58]}
+        ]
+rocks_one:
+    width: 1.0
+    height: 1.0
+    id_coordinates:
+        [
+            {id: 62, xCoord: -2.5, yCoord: 1.5, hx: 0.5, hy: 0.5}
+        ]
+rocks_two:
+    width: 1.0
+    height: 1.0
+    id_coordinates:
+        []
+rocks_three:
+    width: 1.0
+    height: 1.0
+    id_coordinates:
+        []
+rocks_four:
+    width: 1.0
+    height: 1.0
+    id_coordinates:
+        []
+rocks_five:
+    width: 1.0
+    height: 1.0
+    id_coordinates:
+        []
+rocks_six:
+    width: 1.0
+    height: 1.0
+    id_coordinates:
+        []
+rocks_seven:
+    width: 1.0
+    height: 1.0
+    id_coordinates:
+        []
+rocks_eight:
+    width: 1.0
+    height: 1.0
+    id_coordinates:
+        []
+barriers:
+    [
+#        {id: 63, width: 0.25, height: 4.0, xCoord: 5.5, yCoord: 3.0},
+#    	{id: 64, width: 16.0, height: 0.25, xCoord: 1.0, yCoord: 6.125}
+    ]
+triangles_botom_left:
+    width: 1
+    height: 1
+    id_coordinates:
+        [
+            {id: 65, position: 'botom_left', xCoord: -6.5, yCoord: 1.5}
+        ]
+triangles_botom_right:
+    width: 1
+    height: 1
+    id_coordinates:
+        [
+            {id: 66, position: 'botom_right', xCoord: 8.5, yCoord: 1.5}
+        ]
+triangles_top_left:
+    width: 1
+    height: 1
+    id_coordinates:
+        [
+            {id: 67, position: 'top_left', xCoord: -6.5, yCoord: 7.5}
+        ]
+triangles_top_right:
+    width: 1
+    height: 1
+    id_coordinates:
+        [
+            {id: 68, position: 'top_right', xCoord: 8.5, yCoord: 7.5}
+        ]
+receivers:
+    width: 1
+    height: 1
+    id_coordinates:
+        [
+            {id: 69, xCoord: -6.5, yCoord: 7.5, door_ids: [58]}
+        ]
+emitters_right:
+    width: 1
+    height: 1
+    id_coordinates:
+        [
+            {id: 70, position: 'right', xCoord: -5.5, yCoord: 7.5}
+        ]
+emitters_left:
+    width: 1
+    height: 1
+    id_coordinates:
+        [
+#            {id: 71, position: 'left', xCoord: -4.5, yCoord: 7.5}
+        ]
+emitters_up:
+    width: 1
+    height: 1
+    id_coordinates:
+        [
+#            {id: 72, position: 'up', xCoord: -3.5, yCoord: 7.5}
+        ]
+emitters_down:
+    width: 1
+    height: 1
+    id_coordinates:
+        [
+#            {id: 73, position: 'down', xCoord: -2.5, yCoord: 7.5}
+        ]
+cakes:
+    width: 1
+    height: 1
+    id_coordinates:
+        [
+            {id: 74, xCoord: 15.0, yCoord: 1.5}
+        ]
+background:
+    width: 30
+    height: 30
+    id_coordinates:
+        [
+            {id: 75, xCoord: 0, yCoord: 0}
+        ]
+records:
+    width: 1
+    height: 1
+    id_coordinates:
+        [
+            {id: 76, xCoord: 0, yCoord: 0}
+        ]
