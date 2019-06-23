@@ -41,6 +41,12 @@ void ContactListener::BeginContact(b2Contact *contact) {
             } else if (dataB->getBodyType() == ENERGY_BALL) {
                 chell->die();
                 return;
+            } else if (dataB->getBodyType() == ROCK) {
+                Rock *rock = dynamic_cast<Rock *>(dataB);
+                if (rock->getCurrentVelocity().y < 0 && rock->getYPos() > chell->getYPos() + chell->hy) {
+                    chell->die();
+                    return;
+                }
             }
         } else if (dataA->getBodyType() == BUTTON) {
             auto *button = dynamic_cast<Button *>(dataA);
@@ -89,6 +95,12 @@ void ContactListener::BeginContact(b2Contact *contact) {
             } else if (dataA->getBodyType() == ENERGY_BALL) {
                 chell->die();
                 return;
+            } else if (dataA->getBodyType() == ROCK) {
+                Rock *rock = dynamic_cast<Rock *>(dataA);
+                if (rock->getCurrentVelocity().y < 0 && rock->getYPos() > chell->getYPos() + chell->hy) {
+                    chell->die();
+                    return;
+                }
             }
         } else if (dataB->getBodyType() == BUTTON) {
             auto *button = dynamic_cast<Button *>(dataB);

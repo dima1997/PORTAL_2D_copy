@@ -198,7 +198,7 @@ rocks_three:
     height: 1.0
     id_coordinates:
         [
-            {id: 64, xCoord: -1.5, yCoord: 1.5}
+            {id: 64, xCoord: 0.5, yCoord: 5.0}
         ]
 rocks_four:
     width: 1.0
