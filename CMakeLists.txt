@@ -64,11 +64,15 @@ set(CLIENT_FOLDER "client")
 
 find_package(Qt5Widgets)
 qt5_wrap_ui(UIS_HEADERS
-	"${CLIENT_FOLDER}/src/user_interface/qt_windows/Login.ui"
-	"${CLIENT_FOLDER}/src/user_interface/qt_windows/LoginNew.ui"
-	"${CLIENT_FOLDER}/src/user_interface/qt_windows/LoginJoin.ui"
-	"${CLIENT_FOLDER}/src/user_interface/qt_windows/LoginMode.ui"
-	"${CLIENT_FOLDER}/src/user_interface/qt_windows/LoginServer.ui"
+	"${CLIENT_FOLDER}/src/user_interface/uis/Login.ui"
+	"${CLIENT_FOLDER}/src/user_interface/uis/LoginNew.ui"
+	"${CLIENT_FOLDER}/src/user_interface/uis/LoginJoin.ui"
+	"${CLIENT_FOLDER}/src/user_interface/uis/LoginMode.ui"
+	"${CLIENT_FOLDER}/src/user_interface/uis/LoginServer.ui"
+)
+
+qt5_add_resources(UIS_RC
+    "${CLIENT_FOLDER}/src/user_interface/qt_images/resources.qrc"
 )
 
 include_directories(${PROJECT_BINARY_DIR})
@@ -166,7 +170,7 @@ file(GLOB client_files
 	"${CLIENT_FOLDER}/src/user_interface/login_join.cpp"
         )
 
-add_executable(${CLIENT_NAME} ${common_files} ${client_files} ${UIS_HEADERS})
+add_executable(${CLIENT_NAME} ${common_files} ${client_files} ${UIS_HEADERS} ${UIS_RC})  
 
 target_compile_features(${CLIENT_NAME} PUBLIC cxx_std_11)
 target_link_libraries(${CLIENT_NAME} PORTAL::Common)
