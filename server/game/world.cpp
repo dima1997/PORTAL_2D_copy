@@ -52,7 +52,7 @@ void World::step(std::list<std::shared_ptr<Event>> &events) {
         return;
     }
     for (Button &button : buttons) {
-        if (button.wasUpdated()) {
+        if (button.switchedState()) {
             events.push_back(std::shared_ptr<Event>(new ObjectSwitchEvent(button.getId())));
         }
     }
@@ -62,7 +62,7 @@ void World::step(std::list<std::shared_ptr<Event>> &events) {
         }
     }
     for (Door &door : doors) {
-        if (door.update()) {
+        if (door.switchedState()) {
             events.push_back(std::shared_ptr<Event>(new ObjectSwitchEvent(door.getId())));
         }
     }

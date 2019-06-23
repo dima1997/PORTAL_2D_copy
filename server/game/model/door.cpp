@@ -7,7 +7,7 @@
 
 Door::Door(b2World &world, float32 xPos, float32 yPos, uint32_t id,
            std::vector<std::unordered_map<uint32_t, bool>> &conditions):
-           Body(world, xPos, yPos, id), conditions(std::move(conditions)), current(), lastStatus(false) {
+           Body(world, xPos, yPos, id), Switchable(), conditions(std::move(conditions)), current(), lastStatus(false) {
     for (auto &cond_or : this->conditions) {
         std::unordered_map<uint32_t, bool> cond;
         for (auto &cond_and : cond_or) {
@@ -18,7 +18,7 @@ Door::Door(b2World &world, float32 xPos, float32 yPos, uint32_t id,
     customizeBody();
 }
 
-Door::Door(const Door &other): Body(other), conditions(other.conditions), current(other.current), lastStatus(other.lastStatus) {}
+Door::Door(const Door &other): Body(other), Switchable(other), conditions(other.conditions), current(other.current), lastStatus(other.lastStatus) {}
 
 body_type_t Door::getBodyType() {
     return DOOR;
@@ -52,7 +52,7 @@ void Door::updateConditionStatus(uint32_t id) {
     }
 }
 
-bool Door::update() {
+bool Door::_switchedState(bool updated) {
     bool isOpenNow = isOpen();
     body->SetActive(!isOpenNow);
     if (isOpenNow != lastStatus) {

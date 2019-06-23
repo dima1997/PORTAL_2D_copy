@@ -8,11 +8,11 @@
 #include "button.h"
 
 Button::Button(b2World &world, float32 xPos, float32 yPos, uint32_t id, std::list<std::reference_wrapper<Door>> &doors):
-               Body(world, xPos, yPos, id), doors(doors), contactCount(0), updated(false) {
+               Body(world, xPos, yPos, id), Switchable(), doors(doors), contactCount(0) {
     customizeBody();
 }
 
-Button::Button(const Button &other): Body(other), doors(other.doors), contactCount(other.contactCount), updated(other.updated) {}
+Button::Button(const Button &other): Body(other), Switchable(other), doors(other.doors), contactCount(other.contactCount) {}
 
 body_type_t Button::getBodyType() {
     return BUTTON;
@@ -42,31 +42,25 @@ void Button::customizeBody() {
     body->CreateFixture(&sensorFixtureDef);
 }
 
-void Button::updateDoors() {
-    updated = true;
-    for (auto &door : doors) {
-        door.get().updateConditionStatus(this->id);
-    }
-}
 
 void Button::increaseContact() {
     ++contactCount;
     if (contactCount == 1) {
-        updateDoors();
+        switchState();
     }
 }
 
 void Button::decreaseContact() {
     --contactCount;
     if (contactCount == 0) {
-        updateDoors();
+        switchState();
     }
 }
 
-bool Button::wasUpdated() {
-    bool wasUpdated = updated;
-    updated = false;
-    return wasUpdated;
+void Button::_switchState() {
+    for (auto &door : doors) {
+        door.get().updateConditionStatus(this->id);
+    }
 }
 
 Button::~Button() = default;
