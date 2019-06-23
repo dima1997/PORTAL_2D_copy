@@ -1,6 +1,7 @@
 #include "../../includes/user_interface/login.h"
 
 #include "ui_Login.h"
+//#include "../../includes/user_interface/ui_login_fwd.h"
 
 #include "../../includes/game/game_config.h"
 
@@ -25,6 +26,7 @@ Login::Login(bool & keepInput, GameConfig & gameConfig, QWidget *parent)
     loginServer(this->loginMode, this),
     keepInput(keepInput)   
 {
+    Q_INIT_RESOURCE(resources);
     Ui::Login login;
     login.setupUi(this);
     this->hide();
@@ -37,7 +39,7 @@ Login::Login(bool & keepInput, GameConfig & gameConfig, QWidget *parent)
     this->move(
         QApplication::desktop()->screen()->rect().center() 
         - (this->rect()).center()
-    );
+    );    
     this->keepInput = true;
 }
 
