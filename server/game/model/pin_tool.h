@@ -7,11 +7,11 @@
 
 
 #include <Box2D/Common/b2Timer.h>
-#include "body.h"
+#include "movable_body.h"
 
-class PinTool: public Body {
+class PinTool: public MovableBody {
 private:
-    void createBody(float32 xPos, float32 yPos) override;
+    void customizeBody() override;
     b2Timer timer;
     bool visible;
     bool updated;

@@ -39,7 +39,7 @@ file(GLOB server_files
         "${SERVER_FOLDER}/game/model/energy_receiver.cpp"
         "${SERVER_FOLDER}/game/model/energy_ball.cpp"
         "${SERVER_FOLDER}/game/model/pin_tool.cpp"
-        "${SERVER_FOLDER}/game/model/movable.cpp"
+        "${SERVER_FOLDER}/game/model/movable_body.cpp"
         "${SERVER_FOLDER}/game/model/switchable.cpp"
         "${SERVER_FOLDER}/game/ray_cast_callback/portal_ray_cast_callback.cpp"
         "${SERVER_FOLDER}/utils/geometry_utils.cpp"

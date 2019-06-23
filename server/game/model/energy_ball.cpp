@@ -8,28 +8,22 @@
 #define VEL 2.0f
 #define RESET_TIME_MILLIS 15000
 
-void EnergyBall::createBody(float32 xPos, float32 yPos) {
-    b2BodyDef bodyDef;
-    bodyDef.position.Set(xPos, yPos);
-    bodyDef.type = b2_dynamicBody;
-    bodyDef.gravityScale = 0;
-    bodyDef.fixedRotation = true;
-    body = world.CreateBody(&bodyDef);
-    body->SetUserData(this);
+void EnergyBall::customizeBody() {
+    body->SetGravityScale(0);
     b2CircleShape circle;
     circle.m_radius = 0.1;
     body->CreateFixture(&circle, 0.1f);
 }
 
 EnergyBall::EnergyBall(b2World &world, float32 xPos, float32 yPos, uint32_t id, EnergyEmitter &emitter):
-                       Body(world, xPos, yPos, id), emitter(emitter), timer() {
-    createBody(xPos, yPos);
+                       MovableBody(world, xPos, yPos, id), emitter(emitter), timer() {
+    customizeBody();
     resetDirection();
     b2Vec2 final = VEL * direction;
     applyImpulse(final.x, final.y);
 }
 
-EnergyBall::EnergyBall(const EnergyBall &other): Body(other), emitter(other.emitter), direction(other.direction),
+EnergyBall::EnergyBall(const EnergyBall &other): MovableBody(other), emitter(other.emitter), direction(other.direction),
                                                  timer(other.timer) {}
 
 body_type_t EnergyBall::getBodyType() {

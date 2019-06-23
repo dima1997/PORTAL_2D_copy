@@ -10,18 +10,14 @@ Barrier::Barrier(b2World &world, float32 xPos, float32 yPos, uint32_t id, float3
                  Body(world, xPos, yPos, id) {
     this->hx = hx;
     this->hy = hy;
-    createBody(xPos, yPos);
+    customizeBody();
 }
 
 body_type_t Barrier::getBodyType() {
     return BARRIER;
 }
 
-void Barrier::createBody(float32 xPos, float32 yPos) {
-    b2BodyDef bodyDef;
-    bodyDef.position.Set(xPos, yPos);
-    body = world.CreateBody(&bodyDef);
-    body->SetUserData(this);
+void Barrier::customizeBody() {
     b2PolygonShape box;
     box.SetAsBox(hx, hy);
     b2FixtureDef sensorFixtureDef;

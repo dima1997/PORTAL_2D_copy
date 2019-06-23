@@ -7,7 +7,7 @@
 
 
 #include <Box2D/Common/b2Timer.h>
-#include "body.h"
+#include "movable_body.h"
 #include "portal.h"
 #include "rock.h"
 #include "pin_tool.h"
@@ -17,9 +17,9 @@ typedef enum chell_state {LEFT, RIGHT, STOP, JUMP, AIR} chell_state_t;
 typedef enum portal_color {BLUE, ORANGE} portal_color_t;
 typedef enum rock_state {THROW_RIGHT, THROW_LEFT, THROW_IN, THROW_INITIAL, NO_ROCK, HAS_ROCK} rock_state_t;
 
-class Chell: public Body {
+class Chell: public MovableBody {
 private:
-    void createBody(float32 xPos, float32 yPos) override;
+    void customizeBody() override;
     Portal portals[2];
     PinTool pinTool;
     chell_state_t state;

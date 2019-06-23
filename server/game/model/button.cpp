@@ -9,7 +9,7 @@
 
 Button::Button(b2World &world, float32 xPos, float32 yPos, uint32_t id, std::list<std::reference_wrapper<Door>> &doors):
                Body(world, xPos, yPos, id), doors(doors), contactCount(0), updated(false) {
-    createBody(xPos, yPos);
+    customizeBody();
 }
 
 Button::Button(const Button &other): Body(other), doors(other.doors), contactCount(other.contactCount), updated(other.updated) {}
@@ -18,12 +18,7 @@ body_type_t Button::getBodyType() {
     return BUTTON;
 }
 
-void Button::createBody(float32 xPos, float32 yPos) {
-    b2BodyDef bodyDef;
-    bodyDef.position.Set(xPos, yPos);
-    body = world.CreateBody(&bodyDef);
-    body->SetUserData(this);
-
+void Button::customizeBody() {
     b2PolygonShape button;
     button.SetAsBox(0.60f, 0.10f);
 

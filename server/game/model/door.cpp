@@ -15,7 +15,7 @@ Door::Door(b2World &world, float32 xPos, float32 yPos, uint32_t id,
         }
         current.push_back(cond);
     }
-    createBody(xPos, yPos);
+    customizeBody();
 }
 
 Door::Door(const Door &other): Body(other), conditions(other.conditions), current(other.current), lastStatus(other.lastStatus) {}
@@ -24,12 +24,7 @@ body_type_t Door::getBodyType() {
     return DOOR;
 }
 
-void Door::createBody(float32 xPos, float32 yPos) {
-    b2BodyDef bodyDef;
-    bodyDef.position.Set(xPos, yPos);
-    body = world.CreateBody(&bodyDef);
-    body->SetUserData(this);
-
+void Door::customizeBody() {
     b2PolygonShape door;
     door.SetAsBox(0.4f, 1.0f);
 

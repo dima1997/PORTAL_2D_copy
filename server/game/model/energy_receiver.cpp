@@ -6,11 +6,7 @@
 #include "energy_receiver.h"
 #include "door.h"
 
-void EnergyReceiver::createBody(float32 xPos, float32 yPos) {
-    b2BodyDef bodyDef;
-    bodyDef.position.Set(xPos, yPos);
-    body = world.CreateBody(&bodyDef);
-    body->SetUserData(this);
+void EnergyReceiver::customizeBody() {
     b2PolygonShape box;
     box.SetAsBox(0.5f, 0.5f);
     hx = 0.5f;
@@ -20,7 +16,7 @@ void EnergyReceiver::createBody(float32 xPos, float32 yPos) {
 
 EnergyReceiver::EnergyReceiver(b2World &world, float32 xPos, float32 yPos, uint32_t id, std::list<std::reference_wrapper<Door>> &doors):
                                Body(world, xPos, yPos, id), updatedActive(false), doors(doors) {
-    createBody(xPos, yPos);
+    customizeBody();
 }
 
 EnergyReceiver::EnergyReceiver(const EnergyReceiver &other): Body(other), updatedActive(other.updatedActive), doors(other.doors) {}

@@ -12,7 +12,7 @@
 
 class Door: public Body {
 private:
-    void createBody(float32 xPos, float32 yPos) override;
+    void customizeBody() override;
     std::vector<std::unordered_map<uint32_t, bool>> conditions;
     std::vector<std::unordered_map<uint32_t, bool>> current;
     bool lastStatus;

@@ -12,7 +12,7 @@
 
 class EnergyReceiver: public Body {
 private:
-    void createBody(float32 xPos, float32 yPos) override;
+    void customizeBody() override;
     bool updatedActive;
     std::list<std::reference_wrapper<Door>> doors;
     void updateDoors();

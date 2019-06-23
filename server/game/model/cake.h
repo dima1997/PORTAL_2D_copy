@@ -10,7 +10,7 @@
 
 class Cake: public Body {
 private:
-    void createBody(float32 xPos, float32 yPos) override;
+    void customizeBody() override;
     bool reached;
 public:
     Cake(b2World &world, float32 xPos, float32 yPos, uint32_t id);

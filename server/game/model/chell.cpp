@@ -15,13 +15,7 @@
 
 #define JUMP_TIMEOUT 100
 
-void Chell::createBody(float32 xPos, float32 yPos) {
-    b2BodyDef bodyDef;
-    bodyDef.type = b2_dynamicBody;
-    bodyDef.position.Set(xPos, yPos);
-    bodyDef.fixedRotation = true;
-    body = world.CreateBody(&bodyDef);
-    body->SetUserData(this);
+void Chell::customizeBody() {
 
     b2PolygonShape dynamicBox;
     dynamicBox.SetAsBox(0.35f, 0.5f);
@@ -60,11 +54,11 @@ void Chell::createBody(float32 xPos, float32 yPos) {
 
 Chell::Chell(b2World &world, float32 xPos, float32 yPos, uint32_t playerId, Portal &bluePortal, Portal &orangePortal,
              PinTool &pinTool, float32 maxReach) :
-             Body(world, xPos, yPos, playerId), portals{bluePortal, orangePortal}, pinTool(pinTool), state(STOP),
+             MovableBody(world, xPos, yPos, playerId), portals{bluePortal, orangePortal}, pinTool(pinTool), state(STOP),
              footContacts(0), jumpTimer(), maxReach(maxReach), rock(nullptr), rockStateUpdated(false),
              threwRockUpdated(false), rockState(NO_ROCK), _justDied(false), throughPortal(false) {
     connect(bluePortal, orangePortal);
-    createBody(xPos, yPos);
+    customizeBody();
 }
 
 Chell::~Chell() = default;
@@ -220,7 +214,7 @@ bool Chell::justDied() {
     return false;
 }
 
-Chell::Chell(const Chell &other): Body(other), portals{other.portals[BLUE], other.portals[ORANGE]},
+Chell::Chell(const Chell &other): MovableBody(other), portals{other.portals[BLUE], other.portals[ORANGE]},
                                   pinTool(other.pinTool), state(other.state), footContacts(other.footContacts),
                                   jumpTimer(other.jumpTimer), maxReach(other.maxReach),
                                   rock(other.rock), rockStateUpdated(other.rockStateUpdated),

@@ -8,11 +8,11 @@
 #include "portal.h"
 
 Portal::Portal(b2World &world, float32 xPos, float32 yPos, uint32_t id):
-               Body(world, xPos, yPos, id), other(), usable(false), visible(false), changeVisibility(false), normal(0, 1) {
-    createBody(xPos, yPos);
+               MovableBody(world, xPos, yPos, id), other(), usable(false), visible(false), changeVisibility(false), normal(0, 1) {
+    customizeBody();
 }
 
-Portal::Portal(const Portal &other): Body(other), other(other.other), usable(other.usable), visible(other.visible),
+Portal::Portal(const Portal &other): MovableBody(other), other(other.other), usable(other.usable), visible(other.visible),
                                      changeVisibility(false), normal(other.normal) {
     if (this->other) {
         this->other->other = this;
@@ -24,15 +24,8 @@ void connect(Portal &portal1, Portal &portal2) {
     portal2.other = &portal1;
 }
 
-void Portal::createBody(float32 xPos, float32 yPos) {
-    if (body) {
-        world.DestroyBody(body);
-    }
-    b2BodyDef bodyDef;
-    bodyDef.position.Set(xPos, yPos);
-    body = world.CreateBody(&bodyDef);
-    body->SetUserData(this);
-
+void Portal::customizeBody() {
+    body->SetType(b2_staticBody);
     b2Vec2 direction = b2Vec2(-normal.y, normal.x);
     direction.Normalize();
     b2EdgeShape edgeShape;
@@ -42,7 +35,7 @@ void Portal::createBody(float32 xPos, float32 yPos) {
     body->CreateFixture(&edgeFixtureDef);
 }
 
-void Portal::startGoingThrough(Body *body) {
+void Portal::startGoingThrough(MovableBody *body) {
     if (!usable)
         return;
     body->moveTo(other->getXPos() + (body->hx * other->normal.x), other->getYPos() + (body->hy * other->normal.y));
@@ -71,7 +64,9 @@ void Portal::endGoingThrough() {
 
 void Portal::setNormal(b2Vec2 normal) {
     this->normal = normal;
-    createBody(this->getXPos(), this->getYPos());
+    b2Vec2 direction = b2Vec2(-normal.y, normal.x);
+    direction.Normalize();
+    ((b2EdgeShape *)(body->GetFixtureList()->GetShape()))->Set(-0.5f * direction, 0.5f * direction);
 }
 
 void Portal::showAndActivateIfRequires() {

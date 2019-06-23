@@ -7,17 +7,14 @@
 #include "cake.h"
 
 Cake::Cake(b2World &world, float32 xPos, float32 yPos, uint32_t id) : Body(world, xPos, yPos, id), reached(false) {
-    createBody(xPos, yPos);
+    customizeBody();
 }
 
 body_type_t Cake::getBodyType() {
     return CAKE;
 }
 
-void Cake::createBody(float32 xPos, float32 yPos) {
-    b2BodyDef bodyDef;
-    bodyDef.position.Set(xPos, yPos);
-    body = world.CreateBody(&bodyDef);
+void Cake::customizeBody() {
     body->SetUserData(this);
 
     b2PolygonShape box;

@@ -10,7 +10,7 @@
 
 class Barrier: public Body {
 private:
-    void createBody(float32 xPos, float32 yPos) override;
+    void customizeBody() override;
 public:
     Barrier(b2World &world, float32 xPos, float32 yPos, uint32_t id, float32 hy, float32 hx);
     Barrier(const Barrier &other);

@@ -4,28 +4,18 @@
 
 #include "body.h"
 
-Body::Body(b2World &world, float32 xPos, float32 yPos, uint32_t id):
-           updated_position(false), lastPosition(xPos, yPos), id(id), world(world), body(), hx(), hy() {}
-
-bool Body::changedPosition() {
-    if (updated_position) {
-        body->SetTransform(lastPosition, body->GetAngle());
-        updated_position = false;
-        return true;
-    }
-    if (lastPosition.x != body->GetPosition().x || lastPosition.y != body->GetPosition().y) {
-        lastPosition = body->GetPosition();
-        return true;
-    }
-    return false;
+bool is_movable(body_type_t bodyType) {
+    return bodyType == CHELL || bodyType == ROCK || bodyType == ENERGY_BALL;
 }
 
-void Body::applyImpulse(float32 xSpeed, float32 ySpeed) {
-    b2Vec2 vel = body->GetLinearVelocity();
-    float32 dvx = xSpeed - vel.x;
-    float32 dvy = ySpeed - vel.y;
-    float32 mass = body->GetMass();
-    body->ApplyLinearImpulseToCenter(b2Vec2(mass * dvx, mass * dvy), true);
+Body::Body(b2World &world, float32 xPos, float32 yPos, uint32_t id): lastPosition(xPos, yPos),
+           id(id), world(world), body(), hx(), hy() {
+    b2BodyDef bodyDef;
+    bodyDef.position.Set(xPos, yPos);
+    bodyDef.fixedRotation = true;
+    bodyDef.userData = this;
+    body = world.CreateBody(&bodyDef);
+    customizeBody();
 }
 
 uint32_t Body::getId() {
@@ -40,18 +30,11 @@ float32 Body::getYPos() {
     return lastPosition.y;
 }
 
-void Body::moveTo(float32 x, float32 y) {
-    lastPosition = b2Vec2(x, y);
-    updated_position = true;
-}
-
-b2Vec2 Body::getCurrentVelocity() {
-    return body->GetLinearVelocity();
-}
-
-Body::Body(const Body &other): updated_position(other.updated_position), lastPosition(other.lastPosition),
-                         id(other.id), world(other.world), body(other.body), hx(other.hx), hy(other.hy) {
+Body::Body(const Body &other): lastPosition(other.lastPosition), id(other.id), world(other.world), body(other.body),
+                               hx(other.hx), hy(other.hy) {
     body->SetUserData(this);
 }
+
+void Body::customizeBody() {}
 
 Body::~Body() = default;
