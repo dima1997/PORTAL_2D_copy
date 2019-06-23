@@ -12,6 +12,8 @@ private:
     float newX;
     float newY;
     uint32_t idShooter;
+    float normalX;
+    float normalY;
     
 public:
     /*
@@ -27,7 +29,9 @@ public:
         uint32_t idPortal, 
         float newX, 
         float newY, 
-        uint32_t idShooter
+        uint32_t idShooter,
+        float normalX,
+        float normalY
     );
 
     /*

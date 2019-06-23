@@ -18,9 +18,9 @@ LoginNew::LoginNew(GameConfig & gameConfig, QWidget *parent)
     connector(),
     isOpen(true)
 {
-    this->hide();
     Ui::LoginNew loginNew;
     loginNew.setupUi(this);
+    this->hide();
     this->connect_events();
 }
 
@@ -48,7 +48,6 @@ void LoginNew::config_new_game() {
         qMsg.exec();
         ((Login*)this->parentWidget())->close();
         this->close();
-        //emit login_new_failed();
         return;
     }
     uint8_t gameId;
@@ -68,7 +67,6 @@ void LoginNew::config_new_game() {
     qMsg.exec();
     ((Login*)this->parentWidget())->close();
     this->close();
-    //emit login_new_success();
     return;
 }
 

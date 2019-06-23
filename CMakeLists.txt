@@ -67,11 +67,11 @@ set(CLIENT_FOLDER "client")
 
 find_package(Qt5Widgets)
 qt5_wrap_ui(UIS_HEADERS
-	"${CLIENT_FOLDER}/src/user_interface/ui/LoginNew.ui"
-	"${CLIENT_FOLDER}/src/user_interface/ui/LoginJoin.ui"
-	"${CLIENT_FOLDER}/src/user_interface/ui/LoginServer.ui"
-	"${CLIENT_FOLDER}/src/user_interface/ui/LoginMode.ui"
-	"${CLIENT_FOLDER}/src/user_interface/ui/Login.ui"
+	"${CLIENT_FOLDER}/src/user_interface/qt_windows/Login.ui"
+	"${CLIENT_FOLDER}/src/user_interface/qt_windows/LoginNew.ui"
+	"${CLIENT_FOLDER}/src/user_interface/qt_windows/LoginJoin.ui"
+	"${CLIENT_FOLDER}/src/user_interface/qt_windows/LoginMode.ui"
+	"${CLIENT_FOLDER}/src/user_interface/qt_windows/LoginServer.ui"
 )
 
 include_directories(${PROJECT_BINARY_DIR})

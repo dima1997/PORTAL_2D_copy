@@ -18,13 +18,17 @@ PortalMoveChange::PortalMoveChange(
     uint32_t idPortal, 
     float newX, 
     float newY, 
-    uint32_t idShooter
+    uint32_t idShooter,
+    float normalX,
+    float normalY
 )
 :   TextureChange(idPortal),
     idPortal(idPortal),
     newX(newX),
     newY(newY),
-    idShooter(idShooter) {}
+    idShooter(idShooter),
+    normalX(normalX),
+    normalY(normalY) {}
 
 /*
 Destruye el cambio de ubicacion de la textura 
@@ -40,5 +44,6 @@ en la ventana recibida.
 */
 void PortalMoveChange::change(Window & window){
     window.move_texture(this->idPortal, this->newX, this->newY);
+    window.point_texture(this->idPortal, this->normalX, this->normalY);
     window.point_texture(this->idShooter, this->newX, this->newY);
 }

@@ -21,9 +21,9 @@ LoginJoin::LoginJoin(GameConfig & gameConfig, QWidget *parent)
     gameIds(),
     isOpen(true)
 {
-    this->hide();
     Ui::LoginJoin loginJoin;
     loginJoin.setupUi(this);
+    this->hide();
     this->connect_events();
 }
 
@@ -56,7 +56,6 @@ void LoginJoin::config_join_game() {
         qMsg.exec();
         ((Login*)this->parentWidget())->close();
         this->close();
-        //emit login_join_success();
         return;
     }
     if (status == game_is_full) {
@@ -68,7 +67,6 @@ void LoginJoin::config_join_game() {
         qMsg.exec();
         ((Login*)this->parentWidget())->close();
         this->close();
-        //emit login_join_failed();
         return;
     } 
     if (status == non_existent_game) {
@@ -80,7 +78,6 @@ void LoginJoin::config_join_game() {
         qMsg.exec();
         ((Login*)this->parentWidget())->close();
         this->close();
-        //emit login_join_failed();
         return;
     }
 }

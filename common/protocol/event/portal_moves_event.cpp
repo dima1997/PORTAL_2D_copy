@@ -46,3 +46,11 @@ void PortalMovesEvent::sendThrough(Connector & out) const {
 uint32_t PortalMovesEvent::get_chell_id(){
     return this->chellId;
 }
+
+float PortalMovesEvent::get_normal_x(){
+    return this->normalX;
+}
+
+float PortalMovesEvent::get_normal_y(){
+    return this->normalY;
+}

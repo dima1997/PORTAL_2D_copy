@@ -33,27 +33,22 @@ de coordenadas.
 POST: Orienta al portal segun su nueva normal.
 */
 void PortalTexture::point_to(float x, float y){
-    float xNow = this->areaMap.getX();
-    float yNow = this->areaMap.getY();
-    if (xNow == x){
-        if (yNow != y){
-            this->angle = 0;
-            return;
-        }
+    if (x == 0 && y != 0){
+        this->angle = 0;
         return;
     }
-    if (yNow == y){
-        if (xNow != x){
-            this->angle = 90;
-            return;
-        }
+
+    if (x != 0 && y == 0){
+        this->angle = 90;
         return;
     }
-    if (((yNow < y) && (xNow < x)) || ((yNow > y) && (xNow > x))){
+
+    if ( (x < 0 && y < 0) || (x > 0 && y > 0) ){
         this->angle = 45;
         return;
     }
-    if (((yNow > y) && (xNow < x)) || ((yNow < y) && (xNow > x))){
+
+    if ( (x < 0 && y > 0) || (x < 0 && y > 0) ){
         this->angle = 315;
         return;
     }
