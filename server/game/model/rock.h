@@ -6,11 +6,11 @@
 #define PORTAL_ROCK_H
 
 
-#include "body.h"
+#include "movable_body.h"
 
-class Rock: public Body {
+class Rock: public MovableBody {
 private:
-    void createBody(float32 xPos, float32 yPos) override;
+    void customizeBody() override;
     float32 initialX;
     float32 initialY;
 public:

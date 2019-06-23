@@ -3,7 +3,7 @@
 //
 
 #include <Box2D/Dynamics/b2Fixture.h>
-#include "../body/body.h"
+#include "../model/body.h"
 #include "portal_ray_cast_callback.h"
 
 PortalRaycastCallback::PortalRaycastCallback(Chell *chell): chell(chell), lastFixture(), point(), normal() {}

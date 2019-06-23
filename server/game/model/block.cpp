@@ -7,16 +7,12 @@
 
 Block::Block(b2World &world, float32 xPos, float32 yPos, body_type_t type, uint32_t id, orientation_t orientation):
            Body(world, xPos, yPos, id), type(type), orientation(orientation) {
-    createBody(xPos, yPos);
+    customizeBody();
 }
 
 Block::~Block() = default;
 
-void Block::createBody(float32 xPos, float32 yPos) {
-    b2BodyDef bodyDef;
-    bodyDef.position.Set(xPos, yPos);
-    body = world.CreateBody(&bodyDef);
-    body->SetUserData(this);
+void Block::customizeBody() {
     switch (orientation) {
         case SQUARE:
             createSquare();

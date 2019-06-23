@@ -7,16 +7,12 @@
 
 EnergyEmitter::EnergyEmitter(b2World &world, float32 xPos, float32 yPos, uint32_t id, direction_t direction):
                              Body(world, xPos, yPos, id), direction(direction) {
-    createBody(xPos, yPos);
+    customizeBody();
 }
 
 EnergyEmitter::EnergyEmitter(const EnergyEmitter &other): Body(other), direction(other.direction) {}
 
-void EnergyEmitter::createBody(float32 xPos, float32 yPos) {
-    b2BodyDef bodyDef;
-    bodyDef.position.Set(xPos, yPos);
-    body = world.CreateBody(&bodyDef);
-    body->SetUserData(this);
+void EnergyEmitter::customizeBody() {
     b2PolygonShape box;
     box.SetAsBox(0.5f, 0.5f);
     hx = 0.5f;
@@ -26,25 +22,6 @@ void EnergyEmitter::createBody(float32 xPos, float32 yPos) {
 
 body_type_t EnergyEmitter::getBodyType() {
     return ENERGY_EMITTER;
-}
-
-b2Vec2 EnergyEmitter::getDeparturePos() {
-    b2Vec2 add;
-    switch (direction) {
-        case LEFT_D:
-            add = b2Vec2(-hx, 0);
-            break;
-        case UP_D:
-            add = b2Vec2(0, hy);
-            break;
-        case DOWN_D:
-            add = b2Vec2(0, -hy);
-            break;
-        case RIGHT_D:
-            add = b2Vec2(hx, 0);
-            break;
-    }
-    return body->GetPosition() + add;
 }
 
 direction_t EnergyEmitter::getDirection() {

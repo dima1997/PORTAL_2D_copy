@@ -6,28 +6,27 @@
 #define PORTAL_PORTAL_H
 
 
-#include "body.h"
+#include "movable_body.h"
+#include "switchable.h"
 
-class Portal: public Body {
+class Portal: public MovableBody, public Switchable {
 private:
     Portal *other;
-    void createBody(float32 xPos, float32 yPos) override;
+    void customizeBody() override;
     bool usable;
     bool visible;
-    bool changeVisibility;
     b2Vec2 normal;
 public:
     Portal(b2World &world, float32 xPos, float32 yPos, uint32_t id);
     Portal(const Portal &other);
     ~Portal() override;
-    void startGoingThrough(Body *body);
+    void startGoingThrough(MovableBody *body);
     void endGoingThrough();
     friend void connect(Portal &portal1, Portal &portal2);
     body_type_t getBodyType() override;
     void setNormal(b2Vec2 normal);
     void showAndActivateIfRequires();
     void hideAndDeactivate();
-    bool changedVisivility();
     float32 getNormalX();
     float32 getNormalY();
 };

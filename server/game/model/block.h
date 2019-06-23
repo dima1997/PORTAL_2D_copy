@@ -14,7 +14,7 @@ typedef enum orientation {SQUARE, BOTTOM_LEFT, BOTTOM_RIGHT, TOP_LEFT, TOP_RIGHT
 
 class Block: public Body {
 private:
-    void createBody(float32 xPos, float32 yPos) override;
+    void customizeBody() override;
     body_type_t type;
     orientation_t orientation;
     void createSquare();

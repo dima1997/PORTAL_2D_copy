@@ -8,23 +8,24 @@
 
 #include <cstdint>
 #include <yaml-cpp/node/node.h>
-#include "body/cake.h"
-#include "body/chell.h"
-#include "body/block.h"
-#include "body/door.h"
-#include "body/button.h"
-#include "body/rock.h"
-#include "body/barrier.h"
-#include "body/energy_emitter.h"
-#include "body/energy_ball.h"
-#include "body/energy_receiver.h"
+#include "model/cake.h"
+#include "model/chell.h"
+#include "model/block.h"
+#include "model/door.h"
+#include "model/button.h"
+#include "model/rock.h"
+#include "model/barrier.h"
+#include "model/energy_emitter.h"
+#include "model/energy_ball.h"
+#include "model/energy_receiver.h"
 
 class Map {
     YAML::Node file;
     uint8_t id;
     uint8_t players_number;
     Portal loadPortal(const YAML::Node &portal, b2World &world);
-    Chell loadChell(const YAML::Node &chell, b2World &world, Portal &bluePortal, Portal &orangePortal);
+    PinTool loadPinTool(const YAML::Node &pinTool, b2World &world);
+    Chell loadChell(const YAML::Node &chell, b2World &world, Portal &bluePortal, Portal &orangePortal, PinTool &tool);
     Block loadBlock(const YAML::Node &block, b2World &world, body_type_t type, orientation_t orientation);
     EnergyEmitter loadEmitter(const YAML::Node &emitterInfo, b2World &world, direction_t direction);
 public:

@@ -93,7 +93,12 @@ void Game::manageActions(std::unique_ptr<GameAction> ptrAction) {
         }
             break;
         case pin_tool_on:
+        {
+            auto ptrAux = dynamic_cast<CoordsAction *>(ptrAction.release());
+            std::unique_ptr<CoordsAction> ptrCoordsAction(ptrAux);
+            world.getChell(player_id).showPinTool(ptrAux->getX(), ptrAux->getY());
             std::cout << "SERVER: pin tool on.\n";
+        }
             break;
         case grab_it:
             world.getChell(player_id).grabRock();

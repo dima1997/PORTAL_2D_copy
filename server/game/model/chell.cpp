@@ -15,13 +15,7 @@
 
 #define JUMP_TIMEOUT 100
 
-void Chell::createBody(float32 xPos, float32 yPos) {
-    b2BodyDef bodyDef;
-    bodyDef.type = b2_dynamicBody;
-    bodyDef.position.Set(xPos, yPos);
-    bodyDef.fixedRotation = true;
-    body = world.CreateBody(&bodyDef);
-    body->SetUserData(this);
+void Chell::customizeBody() {
 
     b2PolygonShape dynamicBox;
     dynamicBox.SetAsBox(0.35f, 0.5f);
@@ -45,7 +39,7 @@ void Chell::createBody(float32 xPos, float32 yPos) {
     body->CreateFixture(&circleFixtureDef);
 
     b2PolygonShape sensorShape;
-    sensorShape.SetAsBox(0.1, 0.1, b2Vec2(0, -0.70), 0);
+    sensorShape.SetAsBox(0.2, 0.1, b2Vec2(0, -0.70), 0);
 
     b2FixtureDef sensorFixtureDef;
     sensorFixtureDef.shape = &sensorShape;
@@ -59,12 +53,12 @@ void Chell::createBody(float32 xPos, float32 yPos) {
 }
 
 Chell::Chell(b2World &world, float32 xPos, float32 yPos, uint32_t playerId, Portal &bluePortal, Portal &orangePortal,
-             float32 maxReach) :
-             Body(world, xPos, yPos, playerId), portals{bluePortal, orangePortal}, state(STOP), footContacts(0),
-             jumpTimer(), maxReach(maxReach), rock(nullptr), rockStateUpdated(false),
-             threwRockUpdated(false), rockState(NO_ROCK), _justDied(false) {
+             PinTool &pinTool, float32 maxReach) :
+             MovableBody(world, xPos, yPos, playerId), portals{bluePortal, orangePortal}, pinTool(pinTool), state(STOP),
+             footContacts(0), jumpTimer(), maxReach(maxReach), rock(nullptr), rockStateUpdated(false),
+             threwRockUpdated(false), rockState(NO_ROCK), _justDied(false), throughPortal(false) {
     connect(bluePortal, orangePortal);
-    createBody(xPos, yPos);
+    customizeBody();
 }
 
 Chell::~Chell() = default;
@@ -220,16 +214,24 @@ bool Chell::justDied() {
     return false;
 }
 
-Chell::Chell(const Chell &other): Body(other), portals{other.portals[BLUE], other.portals[ORANGE]},
-                                      state(other.state), footContacts(other.footContacts),
-                                      jumpTimer(other.jumpTimer), maxReach(other.maxReach),
-                                      rock(other.rock), rockStateUpdated(other.rockStateUpdated),
-                                      threwRockUpdated(other.threwRockUpdated),
-                                      rockState(other.rockState), _justDied(other._justDied) {
+Chell::Chell(const Chell &other): MovableBody(other), portals{other.portals[BLUE], other.portals[ORANGE]},
+                                  pinTool(other.pinTool), state(other.state), footContacts(other.footContacts),
+                                  jumpTimer(other.jumpTimer), maxReach(other.maxReach),
+                                  rock(other.rock), rockStateUpdated(other.rockStateUpdated),
+                                  threwRockUpdated(other.threwRockUpdated), throughPortal(other.throughPortal),
+                                  rockState(other.rockState), _justDied(other._justDied) {
     connect(portals[BLUE], portals[ORANGE]);
 }
 
 void Chell::resetPortals() {
     portals[BLUE].hideAndDeactivate();
     portals[ORANGE].hideAndDeactivate();
+}
+
+void Chell::showPinTool(float32 x, float32 y) {
+    pinTool.show(x, y);
+}
+
+PinTool &Chell::getPinTool() {
+    return pinTool;
 }

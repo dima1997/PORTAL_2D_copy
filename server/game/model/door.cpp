@@ -3,11 +3,13 @@
 //
 
 #include <Box2D/Collision/Shapes/b2PolygonShape.h>
+#include <Box2D/Dynamics/Contacts/b2Contact.h>
 #include "door.h"
+#include "chell.h"
 
 Door::Door(b2World &world, float32 xPos, float32 yPos, uint32_t id,
            std::vector<std::unordered_map<uint32_t, bool>> &conditions):
-           Body(world, xPos, yPos, id), conditions(std::move(conditions)), current(), lastStatus(false) {
+           Body(world, xPos, yPos, id), Switchable(), conditions(std::move(conditions)), current(), lastStatus(false) {
     for (auto &cond_or : this->conditions) {
         std::unordered_map<uint32_t, bool> cond;
         for (auto &cond_and : cond_or) {
@@ -15,25 +17,21 @@ Door::Door(b2World &world, float32 xPos, float32 yPos, uint32_t id,
         }
         current.push_back(cond);
     }
-    createBody(xPos, yPos);
+    customizeBody();
 }
 
-Door::Door(const Door &other): Body(other), conditions(other.conditions), current(other.current), lastStatus(other.lastStatus) {}
+Door::Door(const Door &other): Body(other), Switchable(other), conditions(other.conditions), current(other.current), lastStatus(other.lastStatus) {}
 
 body_type_t Door::getBodyType() {
     return DOOR;
 }
 
-void Door::createBody(float32 xPos, float32 yPos) {
-    b2BodyDef bodyDef;
-    bodyDef.position.Set(xPos, yPos);
-    body = world.CreateBody(&bodyDef);
-    body->SetUserData(this);
-
+void Door::customizeBody() {
     b2PolygonShape door;
     door.SetAsBox(0.4f, 1.0f);
-
-    body->CreateFixture(&door, 0.0f);
+    hx = 0.4f, hy = 1.0f;
+    sensor = body->CreateFixture(&door, 0.0f);
+    sensor->SetSensor(false);
 }
 
 bool Door::isOpen() {
@@ -57,11 +55,24 @@ void Door::updateConditionStatus(uint32_t id) {
     }
 }
 
-bool Door::update() {
+bool Door::_switchedState(bool updated) {
     bool isOpenNow = isOpen();
-    body->SetActive(!isOpenNow);
+    sensor->SetSensor(isOpenNow);
     if (isOpenNow != lastStatus) {
         lastStatus = isOpenNow;
+        if (!isOpenNow) {
+            for(b2ContactEdge *contact = body->GetContactList();
+                contact != nullptr;
+                contact = contact->next) {
+                Body *body = (Body *) contact->other->GetUserData();
+                if (body->getBodyType() == CHELL) {
+                    auto * chell = dynamic_cast<Chell *>(body);
+                    if (chell->getXPos() > getXPos() - hx && chell->getXPos() < getXPos() + hx) {
+                        chell->die();
+                    }
+                }
+            }
+        }
         return true;
     }
     return false;

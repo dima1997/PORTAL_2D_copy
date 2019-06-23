@@ -3,7 +3,7 @@
 //
 
 #include "contact_filter.h"
-#include "../body/body.h"
+#include "../model/body.h"
 #include <Box2D/Dynamics/b2Fixture.h>
 
 bool ContactFilter::ShouldCollide(b2Fixture *fixtureA, b2Fixture *fixtureB) {

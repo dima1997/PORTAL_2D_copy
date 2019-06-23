@@ -6,7 +6,6 @@
 #include <Box2D/Collision/Shapes/b2PolygonShape.h>
 #include <Box2D/Dynamics/b2Fixture.h>
 #include "world.h"
-#include "body/block.h"
 
 #include <configs_yaml/config_paths.h>
 #include <portal_exception.h>
@@ -53,17 +52,17 @@ void World::step(std::list<std::shared_ptr<Event>> &events) {
         return;
     }
     for (Button &button : buttons) {
-        if (button.wasUpdated()) {
+        if (button.switchedState()) {
             events.push_back(std::shared_ptr<Event>(new ObjectSwitchEvent(button.getId())));
         }
     }
     for (EnergyReceiver &receiver: receivers) {
-        if (receiver.wasUpdated()) {
+        if (receiver.switchedState()) {
             events.push_back(std::shared_ptr<Event>(new ObjectSwitchEvent(receiver.getId())));
         }
     }
     for (Door &door : doors) {
-        if (door.update()) {
+        if (door.switchedState()) {
             events.push_back(std::shared_ptr<Event>(new ObjectSwitchEvent(door.getId())));
         }
     }
@@ -96,15 +95,22 @@ void World::step(std::list<std::shared_ptr<Event>> &events) {
         if (orange.changedPosition()) {
             events.push_back(std::shared_ptr<Event>(
                     new PortalMovesEvent(orange.getId(), orange.getXPos(), orange.getYPos(), chell.getId(), orange.getNormalX(), orange.getNormalY())));
-        } else if (orange.changedVisivility()) {
+        } else if (orange.switchedState()) {
             events.push_back(std::shared_ptr<Event>(new ObjectSwitchEvent(orange.getId())));
         }
         Portal &blue = chell.getPortal(BLUE);
         if (blue.changedPosition()) {
             events.push_back(std::shared_ptr<Event>(
                     new PortalMovesEvent(blue.getId(), blue.getXPos(), blue.getYPos(), chell.getId(), blue.getNormalX(), blue.getNormalY())));
-        } else if (blue.changedVisivility()) {
+        } else if (blue.switchedState()) {
             events.push_back(std::shared_ptr<Event>(new ObjectSwitchEvent(blue.getId())));
+        }
+        PinTool &pinTool = chell.getPinTool();
+        if (pinTool.switchedState()) {
+            events.push_back(std::shared_ptr<Event>(new ObjectSwitchEvent(pinTool.getId())));
+        }
+        if (pinTool.changedPosition()) {
+            events.push_back(std::shared_ptr<Event>(new ObjectMovesEvent(pinTool.getId(), pinTool.getXPos(), pinTool.getYPos())));
         }
     }
     for (Rock &rock : rocks) {
