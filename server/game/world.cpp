@@ -95,14 +95,14 @@ void World::step(std::list<std::shared_ptr<Event>> &events) {
         if (orange.changedPosition()) {
             events.push_back(std::shared_ptr<Event>(
                     new PortalMovesEvent(orange.getId(), orange.getXPos(), orange.getYPos(), chell.getId(), orange.getNormalX(), orange.getNormalY())));
-        } else if (orange.changedVisivility()) {
+        } else if (orange.switchedState()) {
             events.push_back(std::shared_ptr<Event>(new ObjectSwitchEvent(orange.getId())));
         }
         Portal &blue = chell.getPortal(BLUE);
         if (blue.changedPosition()) {
             events.push_back(std::shared_ptr<Event>(
                     new PortalMovesEvent(blue.getId(), blue.getXPos(), blue.getYPos(), chell.getId(), blue.getNormalX(), blue.getNormalY())));
-        } else if (blue.changedVisivility()) {
+        } else if (blue.switchedState()) {
             events.push_back(std::shared_ptr<Event>(new ObjectSwitchEvent(blue.getId())));
         }
         PinTool &pinTool = chell.getPinTool();

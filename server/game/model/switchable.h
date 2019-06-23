@@ -9,12 +9,14 @@
 class Switchable {
 private:
     bool updated;
-    virtual bool _wasUpdated();
+    virtual bool _switchedState();
+    virtual void _switchState();
 public:
-    explicit Switchable(bool initState);
+    explicit Switchable();
     Switchable(const Switchable &other);
     ~Switchable();
-    bool wasUpdated();
+    bool switchedState();
+    void switchState();
 };
 
 

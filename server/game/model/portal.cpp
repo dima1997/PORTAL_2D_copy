@@ -8,12 +8,12 @@
 #include "portal.h"
 
 Portal::Portal(b2World &world, float32 xPos, float32 yPos, uint32_t id):
-               MovableBody(world, xPos, yPos, id), other(), usable(false), visible(false), changeVisibility(false), normal(0, 1) {
+               MovableBody(world, xPos, yPos, id), other(), usable(false), visible(false), normal(0, 1) {
     customizeBody();
 }
 
 Portal::Portal(const Portal &other): MovableBody(other), other(other.other), usable(other.usable), visible(other.visible),
-                                     changeVisibility(false), normal(other.normal) {
+                                     normal(other.normal) {
     if (this->other) {
         this->other->other = this;
     }
@@ -72,7 +72,7 @@ void Portal::setNormal(b2Vec2 normal) {
 void Portal::showAndActivateIfRequires() {
     if (!visible) {
         visible = true;
-        changeVisibility = true;
+        switchState();
         if (other->visible) {
             this->usable = true;
             other->usable = true;
@@ -82,16 +82,10 @@ void Portal::showAndActivateIfRequires() {
 
 void Portal::hideAndDeactivate() {
     if (visible) {
-        changeVisibility = true;
+        switchState();
     }
     visible = false;
     usable = false;
-}
-
-bool Portal::changedVisivility() {
-    bool changed = changeVisibility;
-    changeVisibility = false;
-    return changed;
 }
 
 float32 Portal::getNormalX() {

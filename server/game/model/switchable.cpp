@@ -4,18 +4,25 @@
 
 #include "switchable.h"
 
-Switchable::Switchable(bool initState): updated(initState) {}
+Switchable::Switchable(): updated(false) {}
 
 Switchable::Switchable(const Switchable &other): updated(other.updated) {}
 
-bool Switchable::wasUpdated() {
-    return _wasUpdated();
+bool Switchable::switchedState() {
+    return _switchedState();
 }
 
-bool Switchable::_wasUpdated() {
+bool Switchable::_switchedState() {
     bool wasUpdated = updated;
     updated = false;
     return wasUpdated;
 }
+
+void Switchable::switchState() {
+    updated = true;
+    _switchState();
+}
+
+void Switchable::_switchState() {}
 
 Switchable::~Switchable() = default;
