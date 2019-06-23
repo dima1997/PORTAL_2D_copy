@@ -39,7 +39,7 @@ void Chell::customizeBody() {
     body->CreateFixture(&circleFixtureDef);
 
     b2PolygonShape sensorShape;
-    sensorShape.SetAsBox(0.1, 0.1, b2Vec2(0, -0.70), 0);
+    sensorShape.SetAsBox(0.2, 0.1, b2Vec2(0, -0.70), 0);
 
     b2FixtureDef sensorFixtureDef;
     sensorFixtureDef.shape = &sensorShape;
