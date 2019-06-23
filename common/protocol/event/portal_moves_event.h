@@ -12,20 +12,22 @@
 class PortalMovesEvent: public ObjectMovesEvent {
 protected:
     uint32_t chellId;
+    float normalX;
+    float normalY;
 public:
-    PortalMovesEvent(int objectId, float xPos, float yPos, uint32_t chellId);
+    PortalMovesEvent(int objectId, float xPos, float yPos, uint32_t chellId, float normalX, float normalY);
     PortalMovesEvent();
-    virtual ~PortalMovesEvent() override;
+    ~PortalMovesEvent() override;
     /*
     PRE: Recibe un conector (Connector &) conectado.
     POST: Recibe el evento, desde el connector.
     */
-    virtual void receiveFrom(Connector & in) override;
+    void receiveFrom(Connector & in) override;
     /*
     PRE: Recibe un conector (Connector &) conectado.
     POST: Envia el evento, a traves del connector.
     */
-    virtual void sendThrough(Connector & out) const override;
+    void sendThrough(Connector & out) const override;
 
 
     uint32_t get_chell_id();

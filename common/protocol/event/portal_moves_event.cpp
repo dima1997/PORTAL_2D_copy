@@ -7,14 +7,16 @@ PortalMovesEvent::PortalMovesEvent(
     int objectId, 
     float xPos, 
     float yPos, 
-    uint32_t chellId
+    uint32_t chellId,
+    float normalX,
+    float normalY
 )
 :   ObjectMovesEvent(objectId, xPos, yPos, portal_moves),
-    chellId(chellId) {}
+    chellId(chellId), normalX(normalX), normalY(normalY) {}
 
 PortalMovesEvent::PortalMovesEvent()
 :   ObjectMovesEvent(0,0,0,portal_moves),
-    chellId(0) {}
+    chellId(0), normalX(0), normalY(0) {}
 
 PortalMovesEvent::~PortalMovesEvent() = default;
 
@@ -28,6 +30,8 @@ void PortalMovesEvent::receiveFrom(Connector & in) {
     in >> this->xPos;
     in >> this->yPos;
     in >> this->chellId;
+    in >> this->normalX;
+    in >> this->normalY;
 }
 
 /*
@@ -36,7 +40,7 @@ POST: Envia el evento, a traves del connector.
 */
 void PortalMovesEvent::sendThrough(Connector & out) const {
     out << (uint8_t) this->eventType << (uint32_t) objectId;
-    out << this->xPos << this->yPos << this->chellId;
+    out << this->xPos << this->yPos << this->chellId << this->normalX << this->normalY;
 }
 
 uint32_t PortalMovesEvent::get_chell_id(){

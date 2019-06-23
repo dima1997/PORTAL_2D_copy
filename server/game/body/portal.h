@@ -28,6 +28,8 @@ public:
     void showAndActivateIfRequires();
     void hideAndDeactivate();
     bool changedVisivility();
+    float32 getNormalX();
+    float32 getNormalY();
 };
 
 

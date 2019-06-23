@@ -99,5 +99,13 @@ bool Portal::changedVisivility() {
     return changed;
 }
 
+float32 Portal::getNormalX() {
+    return normal.x;
+}
+
+float32 Portal::getNormalY() {
+    return normal.y;
+}
+
 Portal::~Portal() = default;
 
