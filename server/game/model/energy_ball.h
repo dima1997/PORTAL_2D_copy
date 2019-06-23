@@ -17,6 +17,7 @@ private:
     b2Timer timer;
     void resetDirection();
     void customizeBody() override;
+    void _applyImpulse(float32 xSpeed, float32 ySpeed) override;
 public:
     EnergyBall(b2World &world, float32 xPos, float32 yPos, uint32_t id, EnergyEmitter &emitter);
     EnergyBall(const EnergyBall &other);
