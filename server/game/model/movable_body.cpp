@@ -38,7 +38,7 @@ b2Vec2 MovableBody::getCurrentVelocity() {
 MovableBody::MovableBody(const MovableBody &other): Body(other), updated_position(other.updated_position) {}
 
 void MovableBody::_moveTo(float32 x, float32 y) {
-        body->SetTransform(lastPosition, body->GetAngle());
+        body->SetTransform(b2Vec2(lastPosition.x, lastPosition.y), body->GetAngle());
 }
 
 bool MovableBody::_changedPosition() {

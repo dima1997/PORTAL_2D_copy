@@ -177,15 +177,3 @@ void ContactListener::EndContact(b2Contact *contact) {
         }
     }
 }
-
-void ContactListener::PreSolve(b2Contact *contact, const b2Manifold *oldManifold) {
-    Body *dataA = (Body *)contact->GetFixtureA()->GetBody()->GetUserData();
-    Body *dataB = (Body *)contact->GetFixtureB()->GetBody()->GetUserData();
-    if (dataA && dataB) {
-        if (dataA->getBodyType() == PORTAL) {
-            contact->SetEnabled(false);
-        } else if (dataB->getBodyType() == PORTAL) {
-            contact->SetEnabled(false);
-        }
-    }
-}

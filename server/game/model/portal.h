@@ -29,6 +29,7 @@ public:
     void hideAndDeactivate();
     float32 getNormalX();
     float32 getNormalY();
+    bool isActive();
 };
 
 

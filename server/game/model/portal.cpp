@@ -90,5 +90,9 @@ float32 Portal::getNormalY() {
     return normal.y;
 }
 
+bool Portal::isActive() {
+    return usable || other->usable;
+}
+
 Portal::~Portal() = default;
 
