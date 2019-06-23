@@ -8,6 +8,7 @@
 
 #include <unordered_map>
 #include <vector>
+#include <Box2D/Dynamics/b2Fixture.h>
 #include "body.h"
 #include "switchable.h"
 
@@ -17,6 +18,7 @@ private:
     std::vector<std::unordered_map<uint32_t, bool>> conditions;
     std::vector<std::unordered_map<uint32_t, bool>> current;
     bool lastStatus;
+    b2Fixture *sensor;
     bool isOpen();
     bool _switchedState(bool updated) override;
 public:

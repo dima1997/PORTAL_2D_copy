@@ -3,7 +3,9 @@
 //
 
 #include <Box2D/Collision/Shapes/b2PolygonShape.h>
+#include <Box2D/Dynamics/Contacts/b2Contact.h>
 #include "door.h"
+#include "chell.h"
 
 Door::Door(b2World &world, float32 xPos, float32 yPos, uint32_t id,
            std::vector<std::unordered_map<uint32_t, bool>> &conditions):
@@ -27,8 +29,9 @@ body_type_t Door::getBodyType() {
 void Door::customizeBody() {
     b2PolygonShape door;
     door.SetAsBox(0.4f, 1.0f);
-
-    body->CreateFixture(&door, 0.0f);
+    hx = 0.4f, hy = 1.0f;
+    sensor = body->CreateFixture(&door, 0.0f);
+    sensor->SetSensor(false);
 }
 
 bool Door::isOpen() {
@@ -54,9 +57,22 @@ void Door::updateConditionStatus(uint32_t id) {
 
 bool Door::_switchedState(bool updated) {
     bool isOpenNow = isOpen();
-    body->SetActive(!isOpenNow);
+    sensor->SetSensor(isOpenNow);
     if (isOpenNow != lastStatus) {
         lastStatus = isOpenNow;
+        if (!isOpenNow) {
+            for(b2ContactEdge *contact = body->GetContactList();
+                contact != nullptr;
+                contact = contact->next) {
+                Body *body = (Body *) contact->other->GetUserData();
+                if (body->getBodyType() == CHELL) {
+                    auto * chell = dynamic_cast<Chell *>(body);
+                    if (chell->getXPos() > getXPos() - hx && chell->getXPos() < getXPos() + hx) {
+                        chell->die();
+                    }
+                }
+            }
+        }
         return true;
     }
     return false;
