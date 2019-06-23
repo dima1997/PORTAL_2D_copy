@@ -5,8 +5,10 @@
 #include "../../includes/textures/common_texture/big_texture.h"
 #include "../../includes/textures/common_texture/texture.h"
 #include "../../includes/textures/common_texture/sprite_strategy.h"
+#include "../../includes/textures/common_texture/two_sprites_strategy.h"
 #include "../../includes/textures/common_texture/sdl_exception.h"
 #include "../../includes/textures/common_texture/images_paths.h"
+#include "../../includes/textures/common_texture/null_sprite.h"
 #include "../../includes/textures/chell_texture/chell_texture.h"
 #include "../../includes/textures/block_metal_texture/block_metal_sprite.h"
 #include "../../includes/textures/block_rock_texture/block_rock_sprite.h"
@@ -857,6 +859,7 @@ create_pin_tool(
     uint8_t blueMod
 )
 {
+    /*
     return std::move(TextureFactory::create_texture_one_sprite(
         window,
         PIN_TOOL_SPRITES,
@@ -865,6 +868,23 @@ create_pin_tool(
         0,
         redMod, greenMod, blueMod
     ));
+    */
+    BigTexture & bigTexture = window.add_big_texture(
+                                    IMAGES_PATHS.at(PIN_TOOL_SPRITES)
+                                );
+    std::unique_ptr<Texture> ptrTexture(new Texture(
+        bigTexture, 
+        areaMap,
+        std::move(std::unique_ptr<SpriteStrategy>(
+            new TwoSpritesStrategy(
+                NullSprite::get_sprite(),
+                PinToolSprite::get_sprite()
+            )
+        )),
+        0,
+        redMod, greenMod, blueMod
+    ));
+    return ptrTexture;
 }
 
 /*
