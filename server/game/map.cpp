@@ -65,11 +65,13 @@ std::list<Chell> Map::loadChells(b2World &world) {
     YAML::Node chellsCoord = file["chells"]["id_coordinates"];
     const YAML::Node &bluePortalCoords = file["portals_blue"]["id_coordinates"];
     const YAML::Node &orangePortalCoords = file["portals_orange"]["id_coordinates"];
+    const YAML::Node &pintoolCoords = file["pin_tools"]["id_coordinates"];
     std::list<Chell> chells;
     for (int i = 0; i < (int)chellsCoord.size(); ++i) {
         Portal bluePortal = loadPortal(bluePortalCoords[i], world);
         Portal orangePortal = loadPortal(orangePortalCoords[i], world);
-        chells.push_back(std::move(loadChell(chellsCoord[i], world, bluePortal, orangePortal)));
+        PinTool pinTool = loadPinTool(pintoolCoords[i], world);
+        chells.push_back(std::move(loadChell(chellsCoord[i], world, bluePortal, orangePortal, pinTool)));
     }
     return chells;
 }
@@ -81,13 +83,20 @@ Portal Map::loadPortal(const YAML::Node &portal, b2World &world) {
     return Portal(world, x, y, id);
 }
 
-Chell Map::loadChell(const YAML::Node &chell, b2World &world, Portal &bluePortal, Portal &orangePortal) {
+PinTool Map::loadPinTool(const YAML::Node &portal, b2World &world) {
+    auto id = portal["id"].as<uint32_t>();
+    auto x = portal["xCoord"].as<float32>();
+    auto y = portal["yCoord"].as<float32>();
+    return PinTool(world, x, y, id);
+}
+
+Chell Map::loadChell(const YAML::Node &chell, b2World &world, Portal &bluePortal, Portal &orangePortal, PinTool &tool) {
     auto maxHeight = file["background"]["height"].as<float32>();
     auto maxWidth = file["background"]["width"].as<float32 >();
     auto id = chell["id"].as<uint32_t>();
     auto x = chell["xCoord"].as<float32>();
     auto y = chell["yCoord"].as<float32>();
-    return Chell(world, x, y, id, bluePortal, orangePortal, fmax(maxHeight, maxWidth));
+    return Chell(world, x, y, id, bluePortal, orangePortal, tool, fmax(maxHeight, maxWidth));
 }
 
 Block Map::loadBlock(const YAML::Node &block, b2World &world, body_type_t type, orientation_t orientation) {

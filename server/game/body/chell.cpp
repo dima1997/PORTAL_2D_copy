@@ -59,9 +59,9 @@ void Chell::createBody(float32 xPos, float32 yPos) {
 }
 
 Chell::Chell(b2World &world, float32 xPos, float32 yPos, uint32_t playerId, Portal &bluePortal, Portal &orangePortal,
-             float32 maxReach) :
-             Body(world, xPos, yPos, playerId), portals{bluePortal, orangePortal}, state(STOP), footContacts(0),
-             jumpTimer(), maxReach(maxReach), rock(nullptr), rockStateUpdated(false),
+             PinTool &pinTool, float32 maxReach) :
+             Body(world, xPos, yPos, playerId), portals{bluePortal, orangePortal}, pinTool(pinTool), state(STOP),
+             footContacts(0), jumpTimer(), maxReach(maxReach), rock(nullptr), rockStateUpdated(false),
              threwRockUpdated(false), rockState(NO_ROCK), _justDied(false) {
     connect(bluePortal, orangePortal);
     createBody(xPos, yPos);
@@ -221,15 +221,23 @@ bool Chell::justDied() {
 }
 
 Chell::Chell(const Chell &other): Body(other), portals{other.portals[BLUE], other.portals[ORANGE]},
-                                      state(other.state), footContacts(other.footContacts),
-                                      jumpTimer(other.jumpTimer), maxReach(other.maxReach),
-                                      rock(other.rock), rockStateUpdated(other.rockStateUpdated),
-                                      threwRockUpdated(other.threwRockUpdated),
-                                      rockState(other.rockState), _justDied(other._justDied) {
+                                  pinTool(other.pinTool), state(other.state), footContacts(other.footContacts),
+                                  jumpTimer(other.jumpTimer), maxReach(other.maxReach),
+                                  rock(other.rock), rockStateUpdated(other.rockStateUpdated),
+                                  threwRockUpdated(other.threwRockUpdated),
+                                  rockState(other.rockState), _justDied(other._justDied) {
     connect(portals[BLUE], portals[ORANGE]);
 }
 
 void Chell::resetPortals() {
     portals[BLUE].hideAndDeactivate();
     portals[ORANGE].hideAndDeactivate();
+}
+
+void Chell::showPinTool(float32 x, float32 y) {
+    pinTool.show(x, y);
+}
+
+PinTool &Chell::getPinTool() {
+    return pinTool;
 }

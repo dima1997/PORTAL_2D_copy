@@ -106,6 +106,13 @@ void World::step(std::list<std::shared_ptr<Event>> &events) {
         } else if (blue.changedVisivility()) {
             events.push_back(std::shared_ptr<Event>(new ObjectSwitchEvent(blue.getId())));
         }
+        PinTool &pinTool = chell.getPinTool();
+        if (pinTool.wasUpdated()) {
+            events.push_back(std::shared_ptr<Event>(new ObjectSwitchEvent(pinTool.getId())));
+        }
+        if (pinTool.changedPosition()) {
+            std::shared_ptr<Event>(new ObjectMovesEvent(pinTool.getId(), pinTool.getXPos(), pinTool.getYPos()));
+        }
     }
     for (Rock &rock : rocks) {
         if (rock.changedPosition()) {
