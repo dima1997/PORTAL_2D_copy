@@ -9,13 +9,12 @@ Switchable::Switchable(): updated(false) {}
 Switchable::Switchable(const Switchable &other): updated(other.updated) {}
 
 bool Switchable::switchedState() {
-    return _switchedState();
+    return _switchedState(updated);
 }
 
-bool Switchable::_switchedState() {
-    bool wasUpdated = updated;
-    updated = false;
-    return wasUpdated;
+bool Switchable::_switchedState(bool updated) {
+    this->updated = false;
+    return updated;
 }
 
 void Switchable::switchState() {

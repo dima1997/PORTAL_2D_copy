@@ -106,7 +106,7 @@ void World::step(std::list<std::shared_ptr<Event>> &events) {
             events.push_back(std::shared_ptr<Event>(new ObjectSwitchEvent(blue.getId())));
         }
         PinTool &pinTool = chell.getPinTool();
-        if (pinTool.wasUpdated()) {
+        if (pinTool.switchedState()) {
             events.push_back(std::shared_ptr<Event>(new ObjectSwitchEvent(pinTool.getId())));
         }
         if (pinTool.changedPosition()) {

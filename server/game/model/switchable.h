@@ -9,7 +9,8 @@
 class Switchable {
 private:
     bool updated;
-    virtual bool _switchedState();
+protected:
+    virtual bool _switchedState(bool updated);
     virtual void _switchState();
 public:
     explicit Switchable();

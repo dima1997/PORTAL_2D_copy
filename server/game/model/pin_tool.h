@@ -8,20 +8,20 @@
 
 #include <Box2D/Common/b2Timer.h>
 #include "movable_body.h"
+#include "switchable.h"
 
-class PinTool: public MovableBody {
+class PinTool: public MovableBody, public Switchable {
 private:
     void customizeBody() override;
+    bool _switchedState(bool updated) override;
     b2Timer timer;
     bool visible;
-    bool updated;
 public:
     PinTool(b2World &world, float32 xPos, float32 yPos, uint32_t id);
     PinTool(const PinTool &other);
     ~PinTool() override;
     body_type_t getBodyType() override;
     void show(float32 x, float32 y);
-    bool wasUpdated();
 };
 
 
