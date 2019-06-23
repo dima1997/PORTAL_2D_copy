@@ -5,7 +5,7 @@
 #include <Box2D/Dynamics/b2Fixture.h>
 #include "pin_tool.h"
 
-#define PIN_TOOL_RESET_MILLIS 20000
+#define PIN_TOOL_RESET_MILLIS 10000
 
 void PinTool::createBody(float32 xPos, float32 yPos) {
     b2BodyDef bodyDef;
@@ -13,10 +13,6 @@ void PinTool::createBody(float32 xPos, float32 yPos) {
     bodyDef.position = b2Vec2(xPos, yPos);
     bodyDef.userData = this;
     body = world.CreateBody(&bodyDef);
-//    b2FixtureDef fixtureDef;
-//    fixtureDef.isSensor = true;
-//    fixtureDef.density = 0;
-//    body->CreateFixture(&fixtureDef);
 }
 
 PinTool::PinTool(b2World &world, float32 xPos, float32 yPos, uint32_t id) : Body(world, xPos, yPos, id), timer(),
@@ -33,7 +29,6 @@ body_type_t PinTool::getBodyType() {
 bool PinTool::wasUpdated() {
     if (updated) {
         visible = true;
-        timer.Reset();
     } else if (visible && timer.GetMilliseconds() > PIN_TOOL_RESET_MILLIS) {
         visible = false;
         return true;
@@ -45,6 +40,7 @@ bool PinTool::wasUpdated() {
 
 void PinTool::show(float32 x, float32 y) {
     moveTo(x, y);
+    timer.Reset();
     if(!visible) {
         updated = true;
     }

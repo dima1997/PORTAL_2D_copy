@@ -111,7 +111,7 @@ void World::step(std::list<std::shared_ptr<Event>> &events) {
             events.push_back(std::shared_ptr<Event>(new ObjectSwitchEvent(pinTool.getId())));
         }
         if (pinTool.changedPosition()) {
-            std::shared_ptr<Event>(new ObjectMovesEvent(pinTool.getId(), pinTool.getXPos(), pinTool.getYPos()));
+            events.push_back(std::shared_ptr<Event>(new ObjectMovesEvent(pinTool.getId(), pinTool.getXPos(), pinTool.getYPos())));
         }
     }
     for (Rock &rock : rocks) {
