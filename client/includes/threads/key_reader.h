@@ -24,7 +24,9 @@ enum KeyUsed {
     Q,
     R,
     K,
-    V
+    V,
+    M,
+    EXIT
 };
 
 class KeyReader {

@@ -11,8 +11,6 @@
 #include <SDL2/SDL.h>
 #include <memory>
 
-#include <iostream>
-
 /*
 PRE: Recibe: 
     una referencia a la ventana (Window &) donde se realizan las 
@@ -39,6 +37,7 @@ KeyReader::KeyReader(
         std::make_pair<KeyUsed,bool>(R, false),
         std::make_pair<KeyUsed,bool>(K, false),
         std::make_pair<KeyUsed,bool>(V, false),
+        std::make_pair<KeyUsed,bool>(M, false),
     }),
     deadKeys(true) {}
 
@@ -73,13 +72,7 @@ ThreadStatus KeyReader::process_event(SDL_Event & event){
     switch(event.type) {
         case SDL_QUIT:
             {   
-                if (! this->deadKeys){
-                    GameActionName quitName = quit_game;
-                    std::unique_ptr<GameAction> ptrAction(
-                        new GameAction(quitName)
-                    );
-                    this->toGameQueue.push(ptrAction);
-                }
+                this->process_key_down(EXIT, quit_game);
                 return THREAD_STOP;
             }
             break;
@@ -145,6 +138,9 @@ void KeyReader::process_event_up(SDL_KeyboardEvent & keyEvent){
         case SDLK_v:
             this->process_key_up(V, null_action);
             break;
+        case SDLK_m:
+            this->process_key_up(M, null_action);
+            break;
         default:
             return;
     }
@@ -209,13 +205,7 @@ void KeyReader::process_event_down(SDL_KeyboardEvent & keyEvent){
             this->process_key_down(K, kill);
             break;
         case SDLK_m:
-            {
-                if (this->mixer.is_playing_music()){
-                    this->mixer.pause_music();
-                } else {
-                    this->mixer.play_music();
-                }
-            }
+            this->process_key_down(M, null_action);
             break;
         case SDLK_v:
             this->process_key_down(V, null_action);
@@ -228,8 +218,8 @@ void KeyReader::process_event_down(SDL_KeyboardEvent & keyEvent){
 /*
 PRE: Recibe el indicativo de la tecla presionada (KeyPressed), y el nombre
 de la accion del juego a procesar segun corresponda (GameActionEvent).
-POST: Comunica la accion del juego, solo si la tecla fue liberada antes de ser 
-presionada.
+POST: Comunica la accion del juego, solo si la tecla fue liberada antes de 
+ser presionada.
 */
 void KeyReader::process_key_down(KeyUsed actualKey, GameActionName actionName){
     if (this->keysSendOnce.count(actualKey) != 0) {
@@ -241,6 +231,10 @@ void KeyReader::process_key_down(KeyUsed actualKey, GameActionName actionName){
     }
     if (actualKey == V){
         this->window.record();
+        return;
+    }
+    if (actualKey == M){
+        this->mixer.music();
         return;
     }
     if (this->deadKeys){

@@ -11,6 +11,8 @@
 #include <vector>
 #include <string>
 
+#define MUSIC_VOLUME 10
+
 /*
 PRE: Recibe el path al unico soundtrack de fondo 
 que utilizar el mixer.
@@ -32,6 +34,9 @@ Mixer::Mixer(std::string pathMusic,
     for (int i = 0; i < (int)pathsChunks.size(); ++i){
         this->add_chunck(pathsChunks[i]);
     }
+
+    //Inicializo volumen de musica bajo
+    this->volume_music(MUSIC_VOLUME);
 }
 
 /*
@@ -112,7 +117,7 @@ void Mixer::pause_music(){
     music.pause();
 }
 /*
-Detiene la musca de fondo del mixer.
+Detiene la musica de fondo del mixer.
 (La proxima reproduccion empezara al inicio)
 */
 void Mixer::stop_music(){
@@ -136,4 +141,16 @@ y no esta pausada; false en caso contrario.
 bool Mixer::is_playing_music(){
     MixMusic & music = this->musics.at(this->pathMusic);
     return music.is_playing();
+}
+
+/*
+Reproduce la musica si no esta sonando;
+caso contrario pause la reproduccion.
+*/
+void Mixer::music(){
+    if (this->is_playing_music()){
+        this->pause_music();
+    } else {
+        this->play_music();
+    }
 }

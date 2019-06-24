@@ -1,14 +1,17 @@
+#include "includes/game/client.h"
 #include "includes/textures/common_texture/sdl_exception.h"
 #include "includes/window/os_exception.h"
-#include "includes/game/client.h"
+#include <portal_exception.h>
 
-#include <iostream>
 #include <exception> 
-#include <string>
 #include <iostream>
+#include <string>
 
-#include <QApplication>
-#include <QLabel>
+#define ERROR_ARGS 1
+#define ERROR_SDL 2
+#define ERROR_PORTAL 3
+#define ERROR_OS 4
+#define ERROR_UNEXPECTED 5
 
 int main(int argc, char **argv) {
     try {
@@ -39,17 +42,20 @@ int main(int argc, char **argv) {
             std::cerr << "Usage:\n\t" << argv[0] << " line" << std::endl;
             std::cerr << "or" << std::endl;
             std::cerr << "Usage:\n\t" << argv[0] << " window" << std::endl;
-            return 1;
+            return ERROR_ARGS;
         }
-    } catch (SdlException &error){
-        std::cout << error.what() << "\n";
-        return 2;
-    } catch (OSException &error){
-        std::cout << error.what() << "\n";
-        return 3;
-    } catch (std::exception &error){
-        std::cout << error.what() << "\n";
-        return 4;
+    } catch (SdlException & error){
+        std::cerr << error.what() << "\n";
+        return ERROR_SDL;
+    } catch (OSException & error){
+        std::cerr << error.what() << "\n";
+        return ERROR_OS;
+    } catch (PortalException & error){
+        std::cerr << error.what() << "\n";
+        return ERROR_PORTAL;
+    } catch (std::exception & error){
+        std::cerr << error.what() << "\n";
+        return ERROR_UNEXPECTED;
     }
     return 0;
 }

@@ -42,10 +42,14 @@ void LoginMode::set_connector(Connector & connector){
 
 void LoginMode::config_new_game() {
     this->connector << (uint8_t) new_game;
-    // Simula recibir ids del connector
+    // Recibe ids de mapas a elegir
     std::vector<uint8_t> mapIds;
-    for (uint8_t i = 0; i < 3; ++i){
-        mapIds.push_back(i);
+    uint8_t mapsNumber;
+    connector >> mapsNumber;
+    for (uint8_t i = 0; i < mapsNumber; ++i) {
+        uint8_t mapId;
+        connector >> mapId;
+        mapIds.push_back(mapId);
     }
     this->loginNew.set_connector(this->connector);
     this->loginNew.set_map_ids(mapIds);

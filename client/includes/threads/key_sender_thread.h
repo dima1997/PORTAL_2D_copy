@@ -2,13 +2,14 @@
 #define KEY_SENDER_THREAD_H
 
 #include <thread.h>
-#include <connector/connector.h>
 #include <protocol/protocol_code.h>
 #include <protocol/game_action/game_action.h>
 #include <blocking_queue.h>
 #include <thread_safe_queue.h>
 
 #include <mutex>
+
+class Connector;
 
 class KeySenderThread : public Thread {
 private:

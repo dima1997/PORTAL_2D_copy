@@ -1,18 +1,16 @@
 #ifndef EVENT_GAME_PROCESSOR_H
 #define EVENT_GAME_PROCESSOR_H
 
-#include "play_result.h"
-#include "../window/window.h"
 #include "../textures/common_texture/texture_change.h"
 
 #include <thread_safe_queue.h>
 #include <protocol/protocol_code.h>
-// #include <protocol/event/event.h>
-// #include <protocol/event/object_moves_event.h>
-// #include <protocol/event/portal_moves_event.h>
-//#include <protocol/event/object_switch_event.h>
 
 #include <memory>
+
+class Window;
+class PlayResult;
+class KeyReader;
 
 class EventGameProcessor {
 private:

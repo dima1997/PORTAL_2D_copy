@@ -1,8 +1,12 @@
 #ifndef _MIXER_H_
 #define _MIXER_H_
-
+/*
 #include "mix_chunck.h"
 #include "mix_music.h"
+*/
+class MixChunck;
+class MixMusic;
+
 #include <string>
 #include <map>
 #include <vector>
@@ -87,6 +91,12 @@ public:
     y no esta pausada; false en caso contrario.
     */
     bool is_playing_music();
+
+    /*
+    Reproduce la musica si no esta sonando;
+    caso contrario pause la reproduccion.
+    */
+    void music();
 };
 
 #endif // _MIXER_H_

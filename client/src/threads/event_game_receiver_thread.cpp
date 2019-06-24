@@ -175,6 +175,8 @@ void EventGameReceiverThread::run(){
         return;
     } catch (PortalException & error){
         std::cerr << error.what();
+    } catch (std::exception &error){
+        std::cerr << error.what();
     }
     if (! this->is_dead()){
         this->stop();

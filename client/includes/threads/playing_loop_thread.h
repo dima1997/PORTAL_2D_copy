@@ -1,18 +1,18 @@
 #ifndef PLAYING_LOOP_THREAD_H
 #define PLAYING_LOOP_THREAD_H
 
-#include "../window/window.h"
-#include "../mixer/mixer.h"
 #include "../textures/common_texture/texture_change.h"
-#include "play_result.h"
 
 #include <thread.h>
 #include <thread_safe_queue.h>
 #include <blocking_queue.h>
 #include <protocol/protocol_code.h>
-#include <protocol/event/event.h>
 #include <protocol/game_action/game_action.h>
 #include <mutex>
+
+class Window;
+class Mixer;
+class PlayResult;
 
 class PlayingLoopThread : public Thread {
 private:
@@ -28,7 +28,7 @@ private:
 public:
     /*
     PRE: Recibe:
-        una cola segura en hilos donde se para recibir eventos del juego;
+        una cola segura en hilos donde se para recibir cambios del juego;
         una cola bloqueante para enviar acciones a realizar al juego;
         la ventana (Window &) donde se renderizan las texturas;
         el mixer que reproduce los sonidos del juego;
