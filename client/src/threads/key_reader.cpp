@@ -40,8 +40,7 @@ KeyReader::KeyReader(
         std::make_pair<KeyUsed,bool>(K, false),
         std::make_pair<KeyUsed,bool>(V, false),
     }),
-    deadKeys(false),
-    started(false) {}
+    deadKeys(true) {}
 
 /*Destruye el lector de eventos de entrada.*/
 KeyReader::~KeyReader() = default;
@@ -74,7 +73,7 @@ ThreadStatus KeyReader::process_event(SDL_Event & event){
     switch(event.type) {
         case SDL_QUIT:
             {   
-                if (this->started){
+                if (! this->deadKeys){
                     GameActionName quitName = quit_game;
                     std::unique_ptr<GameAction> ptrAction(
                         new GameAction(quitName)
@@ -303,5 +302,4 @@ todos los eventos del usuario.
 */
 void KeyReader::set_alive_keys(){
     this->deadKeys = false;
-    this->started = true;
 }

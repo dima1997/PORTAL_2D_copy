@@ -34,7 +34,6 @@ private:
     BlockingQueue<std::unique_ptr<GameAction>> & toGameQueue; 
     std::map<KeyUsed,bool> keysSendOnce;
     bool deadKeys;
-    bool started;
 
     /*
     PRE: Recibe un evento de teclado de sdl (SDL_KeyboardEvent &),
