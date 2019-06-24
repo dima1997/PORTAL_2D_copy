@@ -4,6 +4,7 @@
 #include "../../../includes/window/window.h"
 
 #include <connector/connector.h>
+#include <protocol/event/grab_rock_event.h>
 
 #include <cstdint>
 
@@ -16,8 +17,10 @@ una textura.
 */
 StartFollowChange::StartFollowChange(Connector & connector)
 :   TextureChange(0) {
-    connector >> this->idFollowing;
-    connector >> this->idFollowed;
+    GrabRockEvent event(0,0);
+    connector >> event;
+    this->idFollowed = event.getChellId();
+    this->idFollowing = event.getRockId();
 }
 
 /*
