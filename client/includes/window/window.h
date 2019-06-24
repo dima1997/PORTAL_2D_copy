@@ -31,6 +31,7 @@ public:
     SDL_Texture * videoTexture;
     bool isRecording;
     uint32_t idRecordTexture;
+    uint32_t idLoadingTexture;
 
     /*
     PRE: Recibe la ruta (const std::string &) de un gran textura 
@@ -198,6 +199,10 @@ public:
     void set_record_id(uint32_t id);
 
     void point_texture(uint32_t id, float x, float y);
+
+    void set_loading_id(uint32_t id);
+
+    void switch_loading_texture();
 };
 
 #endif // WINDOW_H

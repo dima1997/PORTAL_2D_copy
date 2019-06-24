@@ -13,6 +13,7 @@
 #include <cstdint>
 #include <map>
 #include <sstream>
+#include <iostream>
 
 LoginJoin::LoginJoin(GameConfig & gameConfig, QWidget *parent)
 :   QWidget(parent),
@@ -42,11 +43,17 @@ void LoginJoin::config_join_game() {
     if (status == command_ok){
         uint32_t playerId;
         this->connector >> playerId;
-        uint8_t mapId = 0; // Esto es irrelevante
+        std::string mapYaml;
+        connector >> mapYaml;
+        /*
+        uint8_t start;
+        std::cout << "Waiting for other players at QT ... \n";
+        connector >> start;
+        */
         this->gameConfig.set_connector(this->connector);
         this->gameConfig.set_game_id(gameId);
         this->gameConfig.set_player_id(playerId);
-        this->gameConfig.set_map_id(mapId);
+        this->gameConfig.set_map(mapYaml);
         this->gameConfig.set_well_config();
         QMessageBox qMsg;
         qMsg.setWindowTitle("Portal");

@@ -16,7 +16,8 @@ enum IMAGE_PATH{
     CAKE_SPRITES,
     BACKGROUND_SPRITES,
     RECORD_SPRITES,
-    PIN_TOOL_SPRITES
+    PIN_TOOL_SPRITES,
+    LOADING_SPRITES
 };
 
 const std::map<IMAGE_PATH,std::string> IMAGES_PATHS({
@@ -32,6 +33,7 @@ const std::map<IMAGE_PATH,std::string> IMAGES_PATHS({
     std::pair<IMAGE_PATH,std::string>(BACKGROUND_SPRITES, "portal_background_3.jpg"),
     std::pair<IMAGE_PATH,std::string>(RECORD_SPRITES, "record_icons.png"),
     std::pair<IMAGE_PATH,std::string>(PIN_TOOL_SPRITES, "pin_tool.png"),
+    std::pair<IMAGE_PATH,std::string>(LOADING_SPRITES, "loading_2.png")
 });
 
 #endif // IMAGES_PATH_H

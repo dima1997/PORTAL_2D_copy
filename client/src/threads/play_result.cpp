@@ -40,6 +40,20 @@ PlayResult::PlayResult(YAML::Node & gameConfig){
 /*Destruye el estado del juego.*/
 PlayResult::~PlayResult() = default;
 
+PlayResult::PlayResult(const PlayResult & other){
+    this->gameStatus = other.gameStatus;
+    this->playersStatus = other.playersStatus;
+}
+
+PlayResult & PlayResult::operator=(const PlayResult & other){
+    if (this == & other){
+        return *this;
+    }
+    this->gameStatus = other.gameStatus;
+    this->playersStatus = other.playersStatus;
+    return *this;
+}
+
 /*
 Setea el status (PlayerStatus) del jugador 
 de id (uint32_t) recibido.

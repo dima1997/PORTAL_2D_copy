@@ -2,6 +2,7 @@
 
 #include "../../includes/user_interface/message_exception.h"
 #include "../../includes/game/game.h"
+#include "../../includes/game/game_config.h"
 #include <portal_exception.h>
 #include <protocol/protocol_code.h>
 #include <connector/connector.h>
@@ -92,7 +93,7 @@ std::string LineInterface::choose_game_name(){
     return std::move(gameName);
 } 
 
-Game LineInterface::_get_new_game(Connector & connector, 
+GameConfig LineInterface::_get_new_game(Connector & connector, 
                                   uint8_t mapId, 
                                   std::string & gameName){
     connector << mapId;
@@ -106,15 +107,18 @@ Game LineInterface::_get_new_game(Connector & connector,
     connector >> gameId;
     uint32_t playerId;
     connector >> playerId;
+    std::string mapYaml;
+    connector >> mapYaml;
+    //this->wait_game_starts(connector);
     std::cout << "Starting game :\n";
     std::cout << "Game name : " << gameName << "\n";
     std::cout << "Game id : " << (unsigned) gameId << "\n";
     std::cout << "Player id : " << playerId << "\n";
-    std::cout << "Map id : " << (unsigned) mapId << "\n";
-    return std::move(Game(connector, gameId, playerId, mapId));
+    GameConfig gameConfig(connector, gameId, playerId, mapYaml);
+    return std::move(gameConfig);
 } 
 
-Game LineInterface::get_new_game(Connector & connector){
+GameConfig LineInterface::get_new_game(Connector & connector){
     connector << (uint8_t) new_game;
     // TODO : Pedir mapas al servidor
     // Ids de mapa hard-codeados
@@ -153,19 +157,20 @@ uint8_t LineInterface::choose_game_id
     return gameId; 
 }
 
-Game LineInterface::_get_join_game(Connector & connector, uint8_t gameId){
+GameConfig LineInterface::_get_join_game(Connector & connector, uint8_t gameId){
     uint8_t status;
     connector >> status;
     if (status == command_ok) {
         uint32_t playerId;
         connector >> playerId;
-        // TODO : Pedir mapa
-        uint8_t mapId = 0;
+        std::string mapYaml;
+        connector >> mapYaml;
+        //this->wait_game_starts(connector);
         std::cout << "Joining game.\n";
         std::cout << "Game id :" << (unsigned) gameId << "\n";
         std::cout << "Player id : " << playerId << "\n";
-        std::cout << "Map id : " << (unsigned) mapId << "\n";
-        return std::move(Game(connector, gameId, playerId, mapId));
+        GameConfig gameConfig(connector, gameId, playerId, mapYaml);
+        return std::move(gameConfig);
     } 
     if (status == game_is_full) {
         std::stringstream msg;
@@ -178,10 +183,9 @@ Game LineInterface::_get_join_game(Connector & connector, uint8_t gameId){
         throw MessageException(msg.str());
     }
     throw MessageException("Unexpected error...");
-
 }
 
-Game LineInterface::get_join_game(Connector & connector){
+GameConfig LineInterface::get_join_game(Connector & connector){
         connector << (uint8_t) join_game;
         uint8_t gameCount;
         connector >> gameCount;
@@ -202,7 +206,7 @@ Game LineInterface::get_join_game(Connector & connector){
         return std::move(this->_get_join_game(connector, gameId));
 }
 
-Game LineInterface::create_game(){
+GameConfig LineInterface::create_game(){
     Connector connector = this->log_to_server();
     std::string command = this->choose_game_mode();
     if (command == COMMAND_NEW){
@@ -212,4 +216,16 @@ Game LineInterface::create_game(){
     } else {
         throw MessageException("Wrong game mode.");
     }
+}
+
+void LineInterface::wait_game_starts(Connector & connector){
+    uint8_t start;
+    std::cout << "Waiting for other players ... \n";
+    connector >> start;
+    if ((EventType) start != game_starts) {
+        std::stringstream msg;
+        msg << "Game could not start\n";
+        throw MessageException(msg.str()); 
+    }
+    std::cout << "Game is about to start.\n";
 }

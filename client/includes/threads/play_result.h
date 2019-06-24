@@ -29,6 +29,10 @@ public:
     /*Destruye el estado del juego.*/
     ~PlayResult();
 
+    PlayResult(const PlayResult & other);
+
+    PlayResult & operator=(const PlayResult & other);
+
     /*
     Setea el status (PlayerStatus) del juegado 
     de id (uint32_t) recibido.

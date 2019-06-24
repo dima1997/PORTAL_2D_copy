@@ -11,13 +11,28 @@ private:
     Connector connector;
     uint8_t gameId;
     uint32_t playerId;
-    uint8_t mapId;
+    std::string mapYaml;
     bool isWellConfig;
 
 public:
     GameConfig();
 
+    /*
+    Inicializa una configuracion de 
+    juego sin setear correcta.
+    */
+    GameConfig(
+        Connector & connector,
+        uint8_t gameId,
+        uint32_t playerId,
+        const std::string & mapYaml
+    );
+
     virtual ~GameConfig();
+
+    GameConfig(GameConfig && other);
+
+    GameConfig & operator=(GameConfig && other);
 
     void set_connector(Connector & connector);
 
@@ -25,7 +40,7 @@ public:
 
     void set_player_id(uint32_t id);
 
-    void set_map_id(uint8_t id);
+    void set_map(const std::string & mapYaml);
 
     void set_well_config();
 

@@ -48,6 +48,7 @@ const std::map<std::string, texture_creator> ADD_TEXTURE_METHODS({
     std::pair<std::string, texture_creator>("background",TextureFactory::create_background),
     std::pair<std::string, texture_creator>("records",TextureFactory::create_record),
     std::pair<std::string, texture_creator>("pin_tools",TextureFactory::create_pin_tool),
+    std::pair<std::string, texture_creator>("loadings",TextureFactory::create_loading)
 });
 
 
@@ -97,6 +98,9 @@ void MapCreator::add_texture(
     )));
     if (subSectionName == "records"){
         this->window.set_record_id(id);
+    }
+    if (subSectionName == "loadings"){
+        this->window.set_loading_id(id);
     }
 }
 

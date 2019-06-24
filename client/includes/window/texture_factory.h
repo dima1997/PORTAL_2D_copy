@@ -491,6 +491,21 @@ public:
     );
 
     /*
+    PRE: Recibe el area (Area) donde 
+    se ubicara la textura.
+    POST: Devuelve un puntero unico 
+    a una textura(std::unique_ptr<Texture>), 
+    de la textura de cargando partida.
+    */
+    static std::unique_ptr<Texture> create_loading(
+        Window & window, 
+        Area & areaMap,
+        uint8_t redMod,
+        uint8_t greenMod,
+        uint8_t blueMod
+    );
+
+    /*
     PRE: Recibe:
         la ruta de una gran imagen (IMAGES_PATH);
         el area (Area) del mapa de juego donde se ubica 

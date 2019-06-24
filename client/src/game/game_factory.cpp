@@ -25,7 +25,9 @@ Game GameFactory::createGame(std::string &host, std::string &port, std::string &
         std::cout << (unsigned) game_id << std::endl;
         uint32_t player_id;
         connector >> player_id;
-        return std::move(Game(connector, game_id, player_id, id));
+        std::string mapYaml;
+        connector >> mapYaml;
+        return std::move(Game(connector, game_id, player_id, mapYaml));
     }
     if (command == "join") {
         connector << (uint8_t) join_game;
@@ -47,7 +49,9 @@ Game GameFactory::createGame(std::string &host, std::string &port, std::string &
             uint32_t player_id;
             connector >> player_id;
             std::cout << (unsigned) player_id << std::endl;
-            return std::move(Game(connector, id, player_id, 0));
+            std::string mapYaml;
+            connector >> mapYaml;
+            return std::move(Game(connector, id, player_id, mapYaml));
         } else if (status == game_is_full) {
             std::stringstream msg;
             msg << "Game " << (unsigned) id << " is full." << std::endl;

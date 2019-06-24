@@ -12,6 +12,7 @@
 #include <protocol/game_action/game_action.h>
 #include <protocol/event/event.h>
 
+#include "../threads/play_result.h"
 #include "../textures/common_texture/texture_change.h"
 
 #include <mutex>
@@ -20,11 +21,10 @@
 
 class Game {
 private:
-    bool isDead;
     Connector connector;
     uint8_t gameId;
     uint32_t  playerId;
-    uint8_t mapId;
+    std::string mapYaml;
     std::vector<std::unique_ptr<Thread>> threads;
     ThreadSafeQueue<std::unique_ptr<TextureChange>> changesMade;
     BlockingQueue<std::unique_ptr<GameAction>> changesAsk;
@@ -33,7 +33,7 @@ private:
     std::mutex mutex;
 public:
     Game(Connector &connector, uint8_t game_id,
-         uint32_t player_id, uint8_t mapId);
+         uint32_t player_id, std::string & mapYaml);
     
     /*
     PRE: Recibe un doble referencia a otra juego (Game &&).
@@ -41,16 +41,11 @@ public:
     */
     Game(Game && other);
 
-    void operator()();
-    
     /*Ejecuta el juego.*/
-    void run();
+    PlayResult operator()();
 
     /*Detiene la ejecucion del juego.*/
     void stop();
-
-    /*Devuelve true si el hilo esta muerto.*/
-    bool is_dead();
 };
 
 #endif //PORTAL_GAME_H

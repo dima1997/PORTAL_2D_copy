@@ -5,6 +5,7 @@
 #include "../../includes/user_interface/line_interface.h"
 #include "../../includes/user_interface/message_exception.h"
 #include "../../includes/user_interface/login.h"
+#include "../../includes/threads/play_result.h"
 
 #include <connector/socket_exception.h>
 #include <iostream>
@@ -23,8 +24,13 @@ void Client::run_line(){
     LineInterface lineaInterface(keepInput);
     while (keepInput){
         try {
-            Game game = std::move(lineaInterface.create_game());
-            game();
+            GameConfig gameConfig = std::move(lineaInterface.create_game());
+            if (! gameConfig.is_well_config()){
+                continue;
+            }
+            Game game = std::move(gameConfig.create_game());
+            PlayResult playResult = game();
+            playResult.print();
         } catch (MessageException &except) {
             std::cout << except.what() << "\n";
         } catch (SocketException &except) {
@@ -53,7 +59,8 @@ void Client::run_qt(int argc, char **argv){
                 continue;
             }
             Game game = std::move(gameConfig.create_game());
-            game();
+            PlayResult playResult = game();
+            playResult.print();
         } catch (SocketException &except) {
             std::cout << "Connection Lost at C.\n";
         }

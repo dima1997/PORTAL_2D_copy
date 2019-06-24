@@ -154,6 +154,8 @@ file(GLOB client_files
 	"${CLIENT_FOLDER}/src/textures/pin_tool_texture/pin_tool_sprite.cpp"
 	"${CLIENT_FOLDER}/src/textures/record_texture/recording_sprite.cpp"
 	"${CLIENT_FOLDER}/src/textures/record_texture/record_texture.cpp"
+	"${CLIENT_FOLDER}/src/textures/loading_texture/loading_sprite.cpp"
+	"${CLIENT_FOLDER}/src/textures/loading_texture/loading_texture.cpp"
 	"${CLIENT_FOLDER}/src/user_interface/line_interface.cpp"
 	"${CLIENT_FOLDER}/src/user_interface/message_exception.cpp"
 	"${CLIENT_FOLDER}/src/mixer/mixer.cpp"
@@ -203,3 +205,4 @@ install(FILES client/assets/dying.wav DESTINATION ${CMAKE_BINARY_DIR})
 install(FILES client/assets/jump.wav DESTINATION ${CMAKE_BINARY_DIR})
 install(FILES client/assets/portal_background_3.jpg DESTINATION ${CMAKE_BINARY_DIR})
 install(FILES client/assets/pin_tool.png DESTINATION ${CMAKE_BINARY_DIR})
+install(FILES client/assets/loading_2.png DESTINATION ${CMAKE_BINARY_DIR})

@@ -453,3 +453,11 @@ void Window::point_texture(uint32_t id, float x, float y){
     Texture & textureOfId = *(this->allTextures.at(id));
     textureOfId.point_to(x,y);
 }
+
+void Window::set_loading_id(uint32_t id){
+    this->idLoadingTexture = id;
+}
+
+void Window::switch_loading_texture(){
+    this->switch_texture(this->idLoadingTexture);
+}

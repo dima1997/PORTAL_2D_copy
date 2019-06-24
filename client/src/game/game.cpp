@@ -32,12 +32,11 @@
 
 
 Game::Game(Connector &connector, uint8_t game_id, 
-            uint32_t player_id, uint8_t mapId)
-:   isDead(true),
-    connector(std::move(connector)), 
+            uint32_t player_id, std::string & mapYaml)
+:   connector(std::move(connector)), 
     gameId(game_id), 
     playerId(player_id), 
-    mapId(mapId),
+    mapYaml(mapYaml),
     threads(),
     changesMade(),
     changesAsk(),
@@ -46,20 +45,15 @@ Game::Game(Connector &connector, uint8_t game_id,
     mutex()
     {}
 
-void Game::operator()() {
-    this->run();
-}
-
 /*
 PRE: Recibe un doble referencia a otra juego (Game &&).
 POST: Inicializa un nuevo juego por movimiento semantico.
 */
 Game::Game(Game && other)
-:   isDead(other.isDead), 
-    connector(std::move(other.connector)),
+:   connector(std::move(other.connector)),
     gameId(other.gameId),
     playerId(other.playerId),
-    mapId(other.mapId),
+    mapYaml(other.mapYaml),
     threads(std::move(other.threads)),
     changesMade(std::move(other.changesMade)),
     changesAsk(std::move(other.changesAsk)),
@@ -68,24 +62,9 @@ Game::Game(Game && other)
     mutex() {}
 
 /*Ejecuta el juego.*/
-void Game::run(){
-    {
-        std::unique_lock<std::mutex> l(this->mutex);
-        this->isDead = false;    
-    }
-    //Cargo YAML
-    std::string mapFile;
-    connector >> mapFile;
-    YAML::Node baseNode = YAML::Load(mapFile);
-
-    uint8_t start;
+PlayResult Game::operator()(){
     std::cout << "Waiting for other players ... \n";
-    connector >> start;
-    if ((EventType) start != game_starts ) {
-        this->stop();
-        throw PortalException("Game could not start");
-    }
-    std::cout << "Game is about to start.\n";
+    YAML::Node mapNode = YAML::Load(this->mapYaml);
 
     //Inicializo SDL
     SdlSystem sdlSystem;
@@ -93,12 +72,12 @@ void Game::run(){
     sdlSystem.init_audio();
 
     //Inicializo resultado del juego
-    PlayResult playResult(baseNode);
+    PlayResult playResult(mapNode);
 
     //Inicializo Window
     int windowWidthPixels = VIDEO_WIDTH;
     int windowHeightPixels = VIDEO_HEIGHT;
-    Window window(windowWidthPixels, windowHeightPixels, this->playerId, baseNode);
+    Window window(windowWidthPixels, windowHeightPixels, this->playerId, mapNode);
     
     //Inicializo Mixer
     PortalMixer portalMixer;
@@ -138,7 +117,7 @@ void Game::run(){
     }
     playingLoop.run();
     this->stop();
-    playResult.print();
+    return playResult;
 }
 
 /*Detiene la ejecucion del juego.*/
@@ -150,11 +129,4 @@ void Game::stop(){
         (*(this->threads[i])).stop();
         (*(this->threads[i])).join();
     }
-    this->isDead = true; 
-}
-
-/*Devuelve true si el hilo esta muerto.*/
-bool Game::is_dead(){
-    std::unique_lock<std::mutex> l(this->mutex);
-    return this->isDead;
 }

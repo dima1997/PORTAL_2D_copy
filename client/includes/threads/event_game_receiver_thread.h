@@ -22,9 +22,13 @@ private:
     ThreadSafeQueue<std::unique_ptr<TextureChange>> & changesQueue;
     ThreadSafeQueue<ThreadStatus> & stopQueue;
     std::mutex mutex;
+    bool started;
 
     /*Recibe y procesa un evento del servidor.*/
     void receive_event();
+
+    /*Espera que el juego inicie.*/
+    void wait_start_game();
 public:
     /*
     PRE: Recibe una referencia a un conector (Connector &),

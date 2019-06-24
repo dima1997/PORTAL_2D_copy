@@ -130,6 +130,29 @@ void EventGameReceiverThread::receive_event(){
     }
 }
 
+/*Espera que el juego inicie.*/
+void EventGameReceiverThread::wait_start_game() {
+    uint8_t gameEventFromConnector;
+    this->connector >> gameEventFromConnector;
+    auto gameEvent = (EventType) gameEventFromConnector;
+    switch (gameEvent){
+        case game_starts:
+            {
+                std::cout << "Game is about to start.\n";
+                this->started = true;
+            }
+            break;
+        default:
+            {
+                std::cerr << "Game could not start\n";
+                this->stop();
+                ThreadStatus stop = THREAD_STOP;
+                this->stopQueue.push(stop);
+            }
+            break;
+    }
+}
+
 /*
 PRE: Recibe una referencia a un conector (Connector &),
 ya conectado con el servidor del juego.
@@ -144,7 +167,8 @@ EventGameReceiverThread::EventGameReceiverThread(
     connector(connector), 
     changesQueue(changesQueue),
     stopQueue(stopQueue),
-    mutex() {}
+    mutex(),
+    started(false) {}
 
 /*Destruye el hilo recibidor de eventos del juego*/
 EventGameReceiverThread::~EventGameReceiverThread() = default;
@@ -163,7 +187,11 @@ void EventGameReceiverThread::run(){
     }
     try {
         while (! this->is_dead()){
-            this->receive_event();
+            if (started){
+                this->receive_event();
+            } else {
+                this->wait_start_game();
+            }
         }
     } catch (SocketException &error){
         std::cerr << "Connection Lost at EGR.\n";

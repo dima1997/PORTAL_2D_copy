@@ -41,6 +41,7 @@ sections:
         portals_orange, 
         chells,
         pin_tools,
+        loadings,
         records
     ]
 blocks_metal:
@@ -312,4 +313,12 @@ records:
     id_coordinates:
         [
             {id: 76, xCoord: 0, yCoord: 0}
+        ]
+loadings:
+    # De esta seccion solo importa el id.
+    width: 1
+    height: 1
+    id_coordinates:
+        [
+            {id: 78, xCoord: 0, yCoord: 0}
         ]
