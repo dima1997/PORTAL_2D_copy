@@ -172,7 +172,6 @@ void EventGameReceiverThread::run(){
         }
     } catch (SocketException & error){
         std::cerr << "Connection Lost at EGR.\n";
-        return;
     } catch (PortalException & error){
         std::cerr << error.what();
     } catch (std::exception &error){
