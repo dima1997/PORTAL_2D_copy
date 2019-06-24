@@ -67,6 +67,7 @@ set(CLIENT_FOLDER "client")
 
 find_package(Qt5Widgets)
 qt5_wrap_ui(UIS_HEADERS
+	"${CLIENT_FOLDER}/src/user_interface/uis/GameOver.ui"
 	"${CLIENT_FOLDER}/src/user_interface/uis/Login.ui"
 	"${CLIENT_FOLDER}/src/user_interface/uis/LoginNew.ui"
 	"${CLIENT_FOLDER}/src/user_interface/uis/LoginJoin.ui"
@@ -75,7 +76,7 @@ qt5_wrap_ui(UIS_HEADERS
 )
 
 qt5_add_resources(UIS_RC
-    "${CLIENT_FOLDER}/src/user_interface/qt_images/resources.qrc"
+    "${CLIENT_FOLDER}/assets/resources.qrc"
 )
 
 include_directories(${PROJECT_BINARY_DIR})
@@ -168,6 +169,7 @@ file(GLOB client_files
 	"${CLIENT_FOLDER}/src/window/record/sws_context_wrapper.cpp"
 	"${CLIENT_FOLDER}/src/window/record/output_format.cpp"
 	"${CLIENT_FOLDER}/src/threads/video_record_thread.cpp"
+	"${CLIENT_FOLDER}/src/user_interface/game_over.cpp"
 	"${CLIENT_FOLDER}/src/user_interface/login.cpp"
 	"${CLIENT_FOLDER}/src/user_interface/login_server.cpp"
 	"${CLIENT_FOLDER}/src/user_interface/login_mode.cpp"

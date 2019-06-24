@@ -5,6 +5,7 @@
 #include "../../includes/user_interface/line_interface.h"
 #include "../../includes/user_interface/message_exception.h"
 #include "../../includes/user_interface/login.h"
+#include "../../includes/user_interface/game_over.h"
 #include "../../includes/threads/play_result.h"
 
 #include <connector/socket_exception.h>
@@ -60,7 +61,13 @@ void Client::run_qt(int argc, char **argv){
             }
             Game game = std::move(gameConfig.create_game());
             PlayResult playResult = game();
-            playResult.print();
+            {
+                QApplication app(argc, argv);
+                GameOver gameOver(playResult);
+                gameOver.show();
+                app.exec();
+            }
+            std::setlocale(LC_NUMERIC,"C");
         } catch (SocketException &except) {
             std::cout << "Connection Lost at C.\n";
         }

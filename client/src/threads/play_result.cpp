@@ -79,6 +79,7 @@ void PlayResult::print(){
     std::cout << "!!! Game Over !!! \n";
     std::cout << "Game status : " << GAME_STATUS_STR.at(this->gameStatus);
     std::cout << "\n";
+    /*
     for (std::map<uint32_t,PlayerStatus>::iterator 
          it=this->playersStatus.begin(); 
          it!=this->playersStatus.end(); 
@@ -89,6 +90,9 @@ void PlayResult::print(){
         std::cout << "\t- Status : " << PLAYER_STATUS_STR.at(status);
         std::cout << "\n"; 
     }
+    */
+    std::string playersStatusStr = this->get_players_status();
+    std::cout << playersStatusStr;
 }
 
 /*
@@ -126,6 +130,26 @@ uint32_t PlayResult::get_player_alive(){
 }
 
 /*Devuelve el estado del juego.*/
-GameStatus PlayResult::get_game_status(){
+GameStatus PlayResult::get_game_status() {
     return this->gameStatus;
 } 
+
+/*
+Devuelve un cadena de caracteres 
+representado en forma de reporte, 
+el estado de los juegadores.
+*/
+std::string PlayResult::get_players_status() {
+    std::stringstream playersStatusStream;
+    for (std::map<uint32_t,PlayerStatus>::iterator 
+         it=this->playersStatus.begin(); 
+         it!=this->playersStatus.end(); 
+         ++it){
+        uint32_t id = it->first;
+        PlayerStatus status = it->second;
+        playersStatusStream << "Player id : " << id << "\n";
+        playersStatusStream << "\t- Status : " << PLAYER_STATUS_STR.at(status);
+        playersStatusStream << "\n"; 
+    }
+    return std::move(playersStatusStream.str());
+}

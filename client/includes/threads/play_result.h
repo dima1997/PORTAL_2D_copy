@@ -62,6 +62,13 @@ public:
 
     /*Devuelve el estado del juego.*/
     GameStatus get_game_status();
+
+    /*
+    Devuelve un cadena de caracteres 
+    representado en forma de reporte, 
+    el estado de los juegadores.
+    */
+    std::string get_players_status();
 };
 
 #endif // PLAY_RESULT_H
