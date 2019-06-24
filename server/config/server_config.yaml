@@ -8,9 +8,18 @@ simulation:
     time_step_seconds: 0.015
     velocity_iterations: 8
     position_iterations: 2
-    game_options:
-        gravity_x: 0.0
-        gravity_y: -9.807
+game_options:
+    gravity_x: 0.0
+    gravity_y: -9.807
+    chell:
+        move_speed: 3.0
+        jump_speed: 6.0
+        jump_timeout_milliseconds: 100
+    energy_ball:
+        speed: 2.0
+        reset_time_milliseconds: 15000
+    pin_tool:
+        reset_time_milliseconds: 10000
 available_maps:
     - map_0.yaml
     - map_1.yaml

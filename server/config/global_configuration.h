@@ -24,6 +24,12 @@ public:
     const int positionIterations;
     const float gravityX;
     const float gravityY;
+    const float chellMoveSpeed;
+    const float chellJumpSpeed;
+    const float chellJumpTimeoutMilliseconds;
+    const float energy_ball_speed;
+    const float energy_ball_reset_time_milliseconds;
+    const float pin_tool_reset_time_milliseconds;
 };
 
 const GlobalConfiguration CONFIG;

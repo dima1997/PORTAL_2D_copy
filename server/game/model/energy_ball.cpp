@@ -4,9 +4,7 @@
 
 #include <Box2D/Collision/Shapes/b2CircleShape.h>
 #include "energy_ball.h"
-
-#define VEL 2.0f
-#define RESET_TIME_MILLIS 15000
+#include "../../config/global_configuration.h"
 
 void EnergyBall::customizeBody() {
     body->SetGravityScale(0);
@@ -19,7 +17,7 @@ EnergyBall::EnergyBall(b2World &world, float32 xPos, float32 yPos, uint32_t id, 
                        MovableBody(world, xPos, yPos, id), emitter(emitter), timer() {
     customizeBody();
     resetDirection();
-    b2Vec2 final = VEL * direction;
+    b2Vec2 final = CONFIG.energy_ball_speed * direction;
     applyImpulse(final.x, final.y);
 }
 
@@ -49,11 +47,11 @@ void EnergyBall::resetDirection() {
 }
 
 void EnergyBall::move() {
-    if (timer.GetMilliseconds() >= RESET_TIME_MILLIS) {
+    if (timer.GetMilliseconds() >= CONFIG.energy_ball_reset_time_milliseconds) {
         resetPosition();
         return;
     }
-    b2Vec2 final = VEL * direction;
+    b2Vec2 final = CONFIG.energy_ball_speed * direction;
     applyImpulse(final.x, final.y);
 }
 
