@@ -10,6 +10,7 @@
 #include "../../includes/textures/common_texture/player_wins_change.h"
 #include "../../includes/textures/common_texture/player_loses_change.h"
 #include "../../includes/textures/common_texture/start_game_change.h"
+#include "../../includes/textures/common_texture/player_reach_cake_change.h"
 
 #include <protocol/event/event.h>
 #include <protocol/event/player_wins_event.h>
@@ -20,6 +21,7 @@
 #include <protocol/event/object_switch_event.h>
 #include <protocol/event/grab_rock_event.h>
 #include <protocol/event/throw_rock_event.h>
+#include <protocol/event/player_reach_cake_event.h>
 
 #include <connector/connector.h>
 #include <connector/socket_exception.h>
@@ -62,6 +64,16 @@ void EventGameReceiverThread::receive_event(){
                 this->connector >> player_id_dead;
                 std::unique_ptr<TextureChange> ptrChange(
                     new PlayerDiesChange(player_id_dead)
+                );
+                this->changesQueue.push(ptrChange);
+            }
+            break;
+        case player_reach_cake:
+            {
+                uint32_t player_id_cake;
+                this->connector >> player_id_cake;
+                std::unique_ptr<TextureChange> ptrChange(
+                    new PlayerReachCakeChange(player_id_cake)
                 );
                 this->changesQueue.push(ptrChange);
             }
@@ -153,11 +165,6 @@ void EventGameReceiverThread::wait_start_game() {
                 std::stringstream err;
                 err << "Game could not start\n";
                 throw PortalException(err.str());
-                /*
-                this->stop();
-                ThreadStatus stop = THREAD_STOP;
-                this->stopQueue.push(stop);
-                */
             }
             break;
     }
