@@ -1,9 +1,8 @@
-//
-// Created by franciscosicardi on 12/05/19.
-//
-
 #ifndef PORTAL_GAME_H
 #define PORTAL_GAME_H
+
+#include "../threads/play_result.h"
+#include "../textures/common_texture/texture_change.h"
 
 #include <connector/connector.h>
 #include <thread.h>
@@ -12,12 +11,8 @@
 #include <protocol/game_action/game_action.h>
 #include <protocol/event/event.h>
 
-#include "../threads/play_result.h"
-#include "../textures/common_texture/texture_change.h"
-
-#include <mutex>
-#include <condition_variable>
 #include <vector>
+#include <mutex>
 
 class Game {
 private:
@@ -31,7 +26,16 @@ private:
     ThreadSafeQueue<ThreadStatus> stopQueue;
     BlockingQueue<std::vector<char>> videoFramesQueue;
     std::mutex mutex;
+
 public:
+    /*
+    PRE: Recibe:
+        un connector en comunicacion con el servidor del juego;
+        el id del juego;
+        el id del jugador principal del juego;
+        un mapa de juego;
+    POST: Inicializa un juego.
+    */
     Game(Connector &connector, uint8_t game_id,
          uint32_t player_id, std::string & mapYaml);
     

@@ -1,7 +1,6 @@
 #include "../../includes/user_interface/login.h"
 
 #include "ui_Login.h"
-//#include "../../includes/user_interface/ui_login_fwd.h"
 
 #include "../../includes/game/game_config.h"
 
@@ -14,7 +13,6 @@
 #include <QWidget>
 #include <QCloseEvent>
 #include <QDesktopWidget>
-#include <QPixmap>
 
 #define LOGIN_WIDTH 640
 #define LOGIN_HEIGHT 480
@@ -35,7 +33,6 @@ Login::Login(bool & keepInput, GameConfig & gameConfig, QWidget *parent)
     this->loginMode.setFixedSize(LOGIN_WIDTH,LOGIN_HEIGHT);
     this->loginNew.setFixedSize(LOGIN_WIDTH,LOGIN_HEIGHT);
     this->loginJoin.setFixedSize(LOGIN_WIDTH,LOGIN_HEIGHT);
-    this->adjustSize();
     this->move(
         QApplication::desktop()->screen()->rect().center() 
         - (this->rect()).center()

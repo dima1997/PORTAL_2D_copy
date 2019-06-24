@@ -5,7 +5,7 @@
 #include "../../includes/threads/play_result.h"
 
 #include <QWidget>
-#include <QFont>
+#include <QDesktopWidget>
 
 #include <string>
 
@@ -19,6 +19,10 @@ GameOver::GameOver(PlayResult & playResult, QWidget *parent)
     Ui::GameOver gameOver;
     gameOver.setupUi(this);
     this->hide();
+    this->move(
+        QApplication::desktop()->screen()->rect().center() 
+        - (this->rect()).center()
+    ); 
     this->set_game_status(playResult);
     this->set_players_status(playResult);
 }

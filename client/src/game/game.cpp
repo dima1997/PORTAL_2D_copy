@@ -24,11 +24,8 @@
 
 #include <iostream>
 
-#define VIDEO_FILE_NAME "portal_video_"
-#define VIDEO_FILE_END ".mp4"
 #define VIDEO_WIDTH 640
 #define VIDEO_HEIGHT 480
-#define VOLUME_MUSIC 10
 
 
 Game::Game(Connector &connector, uint8_t game_id, 
@@ -63,7 +60,6 @@ Game::Game(Game && other)
 
 /*Ejecuta el juego.*/
 PlayResult Game::operator()(){
-    std::cout << "Waiting for other players ... \n";
     YAML::Node mapNode = YAML::Load(this->mapYaml);
 
     //Inicializo SDL
@@ -82,28 +78,24 @@ PlayResult Game::operator()(){
     //Inicializo Mixer
     PortalMixer portalMixer;
     Mixer mixer = std::move(portalMixer.create_mixer());
-    mixer.volume_music(VOLUME_MUSIC);
     mixer.play_music();
 
+    //Inicializo hilos de ejecucion
     this->threads.push_back(std::move(std::unique_ptr<Thread>(
         new EventGameReceiverThread(this->connector, this->changesMade, this->stopQueue)
     )));
     this->threads.push_back(std::move(std::unique_ptr<Thread>(
         new KeySenderThread(this->connector, this->changesAsk, this->stopQueue)
-    )));
-
-    BlockingQueue<std::vector<char>> videoFramesQueue;
-    
-    std::stringstream videoFileName;
-    videoFileName << VIDEO_FILE_NAME << this->playerId << VIDEO_FILE_END;
+    )));    
     this->threads.push_back(std::move(std::unique_ptr<Thread>(
         new VideoRecordThread(
-            videoFileName.str(),
             VIDEO_WIDTH,
             VIDEO_HEIGHT,
             this->videoFramesQueue
         )
     )));
+
+    //Inicializo hilo principal
     PlayingLoopThread playingLoop(this->changesMade, 
                                   this->changesAsk, 
                                   window, 
@@ -112,10 +104,13 @@ PlayResult Game::operator()(){
                                   this->stopQueue,
                                   this->videoFramesQueue
                                   );
+
+    //Corro hilos
     for (auto & thread : this->threads){
         (*thread).start();
     }
     playingLoop.run();
+    
     this->stop();
     return playResult;
 }
