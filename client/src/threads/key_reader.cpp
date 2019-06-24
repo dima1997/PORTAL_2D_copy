@@ -1,6 +1,7 @@
 #include "../../includes/threads/key_reader.h"
 
 #include "../../includes/window/window.h"
+#include "../../includes/mixer/mixer.h"
 
 #include <blocking_queue.h>
 #include <protocol/protocol_code.h>

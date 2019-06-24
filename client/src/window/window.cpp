@@ -3,18 +3,20 @@
 #include "../../includes/window/os_exception.h"
 #include "../../includes/window/texture_factory.h"
 #include "../../includes/window/map_creator.h"
+#include "../../includes/textures/common_texture/area.h"
 #include "../../includes/textures/common_texture/big_texture.h"
 #include "../../includes/textures/common_texture/texture.h"
 #include "../../includes/textures/common_texture/sdl_exception.h"
-
 #include "../../includes/mixer/mixer.h"
 
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
+#include <yaml-cpp/yaml.h>
+
 #include <sstream>
 #include <mutex>
 
-#include <iostream>
+#define FRAMES_WAIT_CHANGE_CAMERA 60
 
 /*
 PRE: Recibe la ruta (const std::string &) de un gran textura 
@@ -33,17 +35,16 @@ BigTexture & Window::add_big_texture(const std::string & pathImage){
 }
 
 /*
-PRE: Recibe el id de la textura a agregar.
-POST: Agrega la textura al la ventana.
-Levanta OSError si el id recibdo ya fue previamente agregado.
+PRE: Recibe el id de la textura.
+POST: Levanta OSException si el id 
+no exite en la ventana.
 */
-void Window::add_id_texture(uint32_t id){
-    if (this->allTextures.count(id) != 0){
-        std::stringstream errMsj;
-        errMsj << "No puede haber dos texturas con el mismo id: " << id << ".";
-        throw OSException("Error en ventana:",errMsj.str().c_str());
+void Window::check_id(uint32_t id){
+    if (this->allTextures.count(id) == 0){
+        std::stringstream errDescription; 
+        errDescription << "No existe textura con id : " << std::dec << id << ".";
+        throw OSException("Error en ventana:",errDescription.str().c_str());
     }
-    this->ids.push_back(id);
 }
 
 /*
@@ -52,7 +53,12 @@ unico a textura (std::unique_ptr<Texture>) de la textura a agregar.
 POST: Agrega la textura recibida.
 */
 void Window::add_texture(uint32_t id, std::unique_ptr<Texture> ptrTexture) {
-    this->add_id_texture(id);
+    if (this->allTextures.count(id) != 0){
+        std::stringstream errMsj;
+        errMsj << "No puede haber dos texturas con el mismo id: " << id << ".";
+        throw OSException("Error en ventana:",errMsj.str().c_str());
+    }
+    this->ids.push_back(id);
     this->allTextures.insert(std::make_pair(id,std::move(ptrTexture)));
 }
 
@@ -74,19 +80,15 @@ Window::Window(
 :   videoWidth(width), 
     videoHeight(height), 
     idMainTexture(idMainTexture),
-    isRecording(false) 
+    isRecording(false) ,
+    waitFramesChangeCamera(0)
 {
     this->init_window();
     this->init_renderer();
     this->init_video_record();
-
     MapCreator mapCreator(mapConfig,*this);
     mapCreator.add_map(); 
-    {
-        std::unique_lock<std::mutex> l(this->mutex);
-        Texture & mainTexture = *(this->allTextures.at(this->idMainTexture));
-        this->areaCamera = mainTexture.getVisionArea(); 
-    }
+    this->_update_area_camera();
 }
 
 /*
@@ -145,7 +147,6 @@ void Window::init_video_record(){
             "On Window: initialization of video texture failed.",
             SDL_GetError()
         );
-    
     }
 }
 
@@ -183,13 +184,22 @@ void Window::fill() {
 }
 
 /*
-Renderiza todas las texturas que se agregaron a la ventana, 
-en el orden en que fueron agregadas; y por la ultimo la ventana 
-en si.
+Actualiza el area de la camara.
+Devuelve un factor de ajuste 
+Pixeles/Metros (float), que 
+corresponde a la escala de las 
+dimensiones actuales de la 
+ventana en pixeles, con respecto 
+al area de la camara
 */
-void Window::render(std::vector<char> & videoFrameBuffer) {
-    Texture & mainTexture = *(this->allTextures.at(this->idMainTexture));
-    Area newAreaCamera = mainTexture.getVisionArea(); 
+float Window::_update_area_camera(){
+    Area newAreaCamera;
+    if (this->waitFramesChangeCamera <= 0){
+        Texture & mainTexture = *(this->allTextures.at(this->idMainTexture));
+        newAreaCamera = mainTexture.getVisionArea(); 
+    } else {
+        newAreaCamera = this->areaCamera;
+    }
     int widthPixels;
     int heightPixels;
     SDL_GetWindowSize(this->window,&widthPixels,&heightPixels);
@@ -208,18 +218,27 @@ void Window::render(std::vector<char> & videoFrameBuffer) {
         std::unique_lock<std::mutex> l(this->mutex);
         this->areaCamera = newAreaCamera;
     }
+    return adjuster;
+}
 
+/*
+PRE: Recibe un vector de caracteres.
+POST: Renderiza todas las texturas que se agregaron a la ventana, 
+en el orden en que fueron agregadas; y por la ultimo la ventana 
+en si.
+Si la ventana esta grabando, redimensiona y guarda en el vector 
+recibido los pixeles de la ventana tras renderizarse.
+*/
+void Window::render(std::vector<char> & videoFrameBuffer) {
+    float adjuster = this->_update_area_camera();
     SDL_SetRenderTarget(this->renderer, NULL);
-    this->_render(adjuster, newAreaCamera);
+    this->_render(adjuster, this->areaCamera);
     if (this->is_recording()){
         SDL_SetRenderTarget(this->renderer, this->videoTexture); 
-        this->_render(adjuster, newAreaCamera, this->idRecordTexture);
+        this->_render(adjuster, this->areaCamera, this->idRecordTexture);
     }
-    
     this->_update();
-
     SDL_RenderPresent(this->renderer);
-
     if (this->is_recording()){
         videoFrameBuffer.resize(this->videoWidth*this->videoHeight*3);
         int res = SDL_RenderReadPixels(
@@ -240,7 +259,7 @@ PRE: Recibe el factor de ajuste; y el area de la camara
 que representa la ventana.
 POST: Renderiza todas las texturas segun estos datos.
 */
-void Window::_render(float adjuster, Area areaCamera){
+void Window::_render(float adjuster, Area & areaCamera){
     this->fill();
     for (int i = 0; i < (int)this->ids.size(); ++i){
         uint32_t actualId = this->ids[i];
@@ -249,7 +268,8 @@ void Window::_render(float adjuster, Area areaCamera){
     }
 }
 
-void Window::_render(float adjuster, Area areaCamera, uint32_t idNotRender){
+/*Renderiza todas las textura menos la de id recibido.*/
+void Window::_render(float adjuster, Area & areaCamera, uint32_t idNotRender){
     this->fill();
     for (int i = 0; i < (int)this->ids.size(); ++i){
         uint32_t actualId = this->ids[i];
@@ -261,11 +281,15 @@ void Window::_render(float adjuster, Area areaCamera, uint32_t idNotRender){
     }
 }
 
+/*Actualiza los datos de la ventana.*/
 void Window::_update(){
     for (int i = 0; i < (int)this->ids.size(); ++i){
         uint32_t actualId = this->ids[i];
         Texture & actualTexture = *(this->allTextures.at(actualId));
         actualTexture.update();
+    }
+    if (this->waitFramesChangeCamera > 0){
+        --this->waitFramesChangeCamera;
     }
 }
 
@@ -278,13 +302,24 @@ recibidas.
 Levanta OSException en caso de error. 
 */
 void Window::move_texture(uint32_t id, float x, float y){
-    if (this->allTextures.count(id) == 0){
-        std::stringstream errDescription; 
-        errDescription << "No existe textura con id : " << std::dec << id << ".";
-        throw OSException("Error en ventana:",errDescription.str().c_str());
-    }
+    this->check_id(id);
     Texture & textureOfId = *(this->allTextures.at(id));
     textureOfId.move_to(x,y);
+}
+
+/*
+PRE: Recibe 
+    el id de un textura en la ventana;
+    las coordenadas x,y donde la textura
+    debe apuntar.
+POST: Hace que la textura indicada apunte 
+en la direccion indicada.
+Levanta OSException en caso de error.
+*/
+void Window::point_texture(uint32_t id, float x, float y){
+    this->check_id(id);
+    Texture & textureOfId = *(this->allTextures.at(id));
+    textureOfId.point_to(x,y);
 }
 
 /*
@@ -293,49 +328,17 @@ POST: Switchea el sprite de la textura.
 Levanta OSException en caso de error. 
 */
 void Window::switch_texture(uint32_t id){
-    if (this->allTextures.count(id) == 0){
-        std::stringstream errDescription; 
-        errDescription << "No existe textura con id : " << std::dec << id << ".";
-        throw OSException("Error en ventana:",errDescription.str().c_str());
-    }
+    this->check_id(id);
     Texture & textureOfId = *(this->allTextures.at(id));
     textureOfId.switch_sprite();
 }
 
 /*
-PRE: Recibe las coordenadas x,y (int) en pixeles 
-de algun punto en la ventana.
-POST: Devuelve las coordenadas x,y (float) de dicho 
-punto en el mapa de juego. 
+Realiza un swtich en la textura de la 
+partida cargando.
 */
-std::tuple<float,float> Window::getMapCoords(int x, int y){
-    Area actualAreaCamera;
-    int actualWidth;
-    int actualHeight;
-    {
-        std::unique_lock<std::mutex> l(this->mutex);
-        actualAreaCamera = this->areaCamera;
-        SDL_GetWindowSize(this->window, &actualWidth, &actualHeight);
-    }
-    Area areaCameraTopLeft = actualAreaCamera.from_center_to_top_left();
-    float reverseAdjuster = (areaCameraTopLeft.getWidth()/actualWidth);
-    float xMap = x * reverseAdjuster;
-    float yMap = y * reverseAdjuster;
-    xMap = xMap + areaCameraTopLeft.getX();
-    yMap = (-yMap + areaCameraTopLeft.getY());
-    return std::move(std::tuple<float,float>(xMap,yMap));
-}
-
-/*
-Reproduce los sonidos de todas 
-las textura de la ventana.
-*/
-void Window::sound(Mixer & mixer){
-    for (int i = 0; i < (int)this->ids.size(); ++i){
-        uint32_t actualId = this->ids[i];
-        Texture & actualTexture = *(this->allTextures.at(actualId));
-        actualTexture.sound(mixer);
-    }
+void Window::switch_loading_texture(){
+    this->switch_texture(this->idLoadingTexture);
 }
 
 /*
@@ -344,17 +347,10 @@ POST: Hace que la primera (idFollowing) se ponga a seguir
 a la segunda (idFollowed).
 */
 void Window::start_follow(uint32_t idFollowing, uint32_t idFollowed){
-    if (this->allTextures.count(idFollowing) == 0){
-        std::stringstream errDescription; 
-        errDescription << "No existe textura con id : " << idFollowing << ".";
-        throw OSException("Error en ventana:",errDescription.str().c_str());
-    } 
-    if (this->allTextures.count(idFollowed) == 0){
-        std::stringstream errDescription; 
-        errDescription << "No existe textura con id : " << idFollowed << ".";
-        throw OSException("Error en ventana:",errDescription.str().c_str());
-    } 
-    const Area & areaFollow = (this->allTextures.at(idFollowed))->get_area_map();
+    this->check_id(idFollowing);
+    this->check_id(idFollowed);
+    const Area & areaFollow = 
+        (this->allTextures.at(idFollowed))->get_area_map();
     (this->allTextures.at(idFollowing))->follow_area(areaFollow);
 }
 
@@ -364,11 +360,7 @@ POST: Hace que la textura deje de seguir a cualquier
 otra textura que este siguiendo.
 */
 void Window::stop_follow(uint32_t idFollowing){
-    if (this->allTextures.count(idFollowing) == 0){
-        std::stringstream errDescription; 
-        errDescription << "No existe textura con id : " << idFollowing << ".";
-        throw OSException("Error en ventana:",errDescription.str().c_str());
-    } 
+    this->check_id(idFollowing);
     (this->allTextures.at(idFollowing))->stop_follow();
 }
 
@@ -384,12 +376,27 @@ PRE: Recibe un id de una textura en el ventana.
 POST: Setea el id recibido como id de textura principal.
 */
 void Window::set_main_id(uint32_t id){
-    if (this->allTextures.count(id) == 0){
-        std::stringstream errDescription; 
-        errDescription << "No existe textura con id : " << id << ".";
-        throw OSException("Error en ventana:",errDescription.str().c_str());
-    } 
+    this->check_id(id);
     this->idMainTexture = id;
+    this->waitFramesChangeCamera = FRAMES_WAIT_CHANGE_CAMERA;
+}
+
+/*
+PRE: Recibe el id (uint32_t) la textura 
+de partida cargando.
+POST: Setea el id recibido.  
+*/
+void Window::set_loading_id(uint32_t id){
+    this->idLoadingTexture = id;
+}
+
+/*
+PRE: Recibe el id de la textura utilizada 
+para indicar grabacion.
+POST: Setea el id de dicha textura.
+*/
+void Window::set_record_id(uint32_t id){
+    this->idRecordTexture = id;
 }
 
 /*
@@ -436,28 +443,37 @@ void Window::record(){
 }
 
 /*
-PRE: Recibe el id de la textura utilizada 
-para indicar grabacion.
-POST: Setea el id de dicha textura.
+PRE: Recibe las coordenadas x,y (int) en pixeles 
+de algun punto en la ventana.
+POST: Devuelve las coordenadas x,y (float) de dicho 
+punto en el mapa de juego. 
 */
-void Window::set_record_id(uint32_t id){
-    this->idRecordTexture = id;
-}
-
-void Window::point_texture(uint32_t id, float x, float y){
-    if (this->allTextures.count(id) == 0){
-        std::stringstream errDescription; 
-        errDescription << "No existe textura con id : " << std::dec << id << ".";
-        throw OSException("Error en ventana:",errDescription.str().c_str());
+std::tuple<float,float> Window::getMapCoords(int x, int y){
+    Area actualAreaCamera;
+    int actualWidth;
+    int actualHeight;
+    {
+        std::unique_lock<std::mutex> l(this->mutex);
+        actualAreaCamera = this->areaCamera;
+        SDL_GetWindowSize(this->window, &actualWidth, &actualHeight);
     }
-    Texture & textureOfId = *(this->allTextures.at(id));
-    textureOfId.point_to(x,y);
+    Area areaCameraTopLeft = actualAreaCamera.from_center_to_top_left();
+    float reverseAdjuster = (areaCameraTopLeft.getWidth()/actualWidth);
+    float xMap = x * reverseAdjuster;
+    float yMap = y * reverseAdjuster;
+    xMap = xMap + areaCameraTopLeft.getX();
+    yMap = (-yMap + areaCameraTopLeft.getY());
+    return std::move(std::tuple<float,float>(xMap,yMap));
 }
 
-void Window::set_loading_id(uint32_t id){
-    this->idLoadingTexture = id;
-}
-
-void Window::switch_loading_texture(){
-    this->switch_texture(this->idLoadingTexture);
+/*
+Reproduce los sonidos de todas 
+las textura de la ventana.
+*/
+void Window::sound(Mixer & mixer){
+    for (int i = 0; i < (int)this->ids.size(); ++i){
+        uint32_t actualId = this->ids[i];
+        Texture & actualTexture = *(this->allTextures.at(actualId));
+        actualTexture.sound(mixer);
+    }
 }

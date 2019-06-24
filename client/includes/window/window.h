@@ -1,13 +1,19 @@
 #ifndef WINDOW_H
 #define WINDOW_H
 
-#include "../textures/common_texture/big_texture.h"
-#include "../textures/common_texture/texture.h"
-#include "../mixer/mixer.h"
+#include "../textures/common_texture/area.h"
+
+class Area;
+class BigTexture;
+class Texture;
+class Mixer;
+class SDL_Window;
+class SDL_Renderer;
+class SDL_Texture;
+namespace YAML { class Node; }
 
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
-#include <yaml-cpp/yaml.h>
 
 #include <map>
 #include <vector> 
@@ -24,7 +30,9 @@ public:
     SDL_Window* window;
     SDL_Renderer* renderer;
     std::map<std::string, BigTexture> bigTextures;
-    std::vector<uint32_t> ids;
+    std::vector<uint32_t> ids; 
+    // Necesario pues hay problema para 
+    // recorrer el mapa de texturas
     std::map<uint32_t, std::unique_ptr<Texture>> allTextures;
     Area areaCamera;
     std::mutex mutex;
@@ -32,6 +40,7 @@ public:
     bool isRecording;
     uint32_t idRecordTexture;
     uint32_t idLoadingTexture;
+    int waitFramesChangeCamera;
 
     /*
     PRE: Recibe la ruta (const std::string &) de un gran textura 
@@ -41,13 +50,6 @@ public:
     Levanta SdlException en caso de error.
     */
     BigTexture & add_big_texture(const std::string & pathImage);
-
-    /*
-    PRE: Recibe el id de la textura a agregar.
-    POST: Agrega la textura al la ventana.
-    Levanta OSError si el id recibdo ya fue previamente agregado.
-    */
-    void add_id_texture(uint32_t id);
 
     /*
     PRE: Recibe el id (uint32_t) de la textura a agregar, y un puntero
@@ -82,13 +84,23 @@ public:
     que representa la ventana.
     POST: Renderiza todas las texturas segun estos datos.
     */
-    void _render(float adjuster, Area areaCamera);
+    void _render(float adjuster, Area & areaCamera);
 
-    void _render(float adjuster, Area areaCamera, uint32_t idNotRender);
+    void _render(float adjuster, Area & areaCamera, uint32_t idNotRender);
 
     /*Actualiza todas las texturas de la ventana.*/
     void _update();
     
+    /*Actualiza el area de la camara.*/
+    float _update_area_camera();
+
+    /*
+    PRE: Recibe el id de la textura.
+    POST: Levanta OSException si el id 
+    no exite en la ventana.
+    */
+    void check_id(uint32_t id);
+
 public:
     /*
     PRE: Recibe:
@@ -116,9 +128,12 @@ public:
     void fill();
 
     /*
-    Renderiza todas las texturas que se agregaron a la ventana, 
+    PRE: Recibe un vector de caracteres.
+    POST: Renderiza todas las texturas que se agregaron a la ventana, 
     en el orden en que fueron agregadas; y por la ultimo la ventana 
     en si.
+    Si la ventana esta grabando, redimensiona y guarda en el vector 
+    recibido los pixeles de la ventana tras renderizarse.
     */
     void render(std::vector<char> & videoFrameBuffer);
 
@@ -133,6 +148,17 @@ public:
     void move_texture(uint32_t id, float x, float y);
 
     /*
+    PRE: Recibe 
+        el id de un textura en la ventana;
+        las coordenadas x,y donde la textura
+        debe apuntar.
+    POST: Hace que la textura indicada apunte 
+    en la direccion indicada.
+    Levanta OSException en caso de error.
+    */
+    void point_texture(uint32_t id, float x, float y);
+
+    /*
     PRE: Recibe un identificador (uint32_t) de una textura.
     POST: Switchea el sprite de la textura.
     Levanta OSException en caso de error. 
@@ -140,23 +166,16 @@ public:
     void switch_texture(uint32_t id);
 
     /*
-    PRE: Recibe las coordenadas x,y (int) en pixeles 
-    de algun punto en la ventana.
-    POST: Devuelve las coordenadas x,y (float) de dicho 
-    punto en el mapa de juego. 
+    Realiza un switch en la textura de la 
+    partida cargando.
     */
-    std::tuple<float,float> getMapCoords(int x, int y);
-
-    /*
-    Reproduce los sonidos de todas 
-    las textura de la ventana.
-    */
-    void sound(Mixer & mixer);
+    void switch_loading_texture();   
 
     /*
     PRE: Recibe el id (uint32_t) de dos texturas en la ventana.
     POST: Hace que la primera (idFollowing) se ponga a seguir 
     a la segunda (idFollowed).
+    Levanta OSException en caso de error.
     */
     void start_follow(uint32_t idFollowing, uint32_t idFollowed);
 
@@ -164,6 +183,7 @@ public:
     PRE: Recibe el id de una textura en la ventana.
     POST: Hace que la textura deje de seguir a cualquier
     otra textura que este siguiendo.
+    Levanta OSException en caso de error.
     */
     void stop_follow(uint32_t idFollowing);
 
@@ -179,6 +199,20 @@ public:
     void set_main_id(uint32_t id);
 
     /*
+    PRE: Recibe el id (uint32_t) la textura 
+    de partida cargando.
+    POST: Setea el id recibido.  
+    */
+    void set_loading_id(uint32_t id);
+
+    /*
+    PRE: Recibe el id de la textura utilizada 
+    para indicar grabacion.
+    POST: Setea el id de dicha textura.
+    */
+    void set_record_id(uint32_t id);
+
+    /*
     Devuelve true si la ventana esta grabando, 
     false en caso contrario.
     */
@@ -192,17 +226,18 @@ public:
     void record();
 
     /*
-    PRE: Recibe el id de la textura utilizada 
-    para indicar grabacion.
-    POST: Setea el id de dicha textura.
+    PRE: Recibe las coordenadas x,y (int) en pixeles 
+    de algun punto en la ventana.
+    POST: Devuelve las coordenadas x,y (float) de dicho 
+    punto en el mapa de juego. 
     */
-    void set_record_id(uint32_t id);
+    std::tuple<float,float> getMapCoords(int x, int y);
 
-    void point_texture(uint32_t id, float x, float y);
-
-    void set_loading_id(uint32_t id);
-
-    void switch_loading_texture();
+    /*
+    Reproduce los sonidos de todas 
+    las textura de la ventana.
+    */
+    void sound(Mixer & mixer);
 };
 
 #endif // WINDOW_H
