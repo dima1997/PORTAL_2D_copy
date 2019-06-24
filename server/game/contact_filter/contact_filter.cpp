@@ -4,6 +4,7 @@
 
 #include "contact_filter.h"
 #include "../model/body.h"
+#include "../model/portal.h"
 #include <Box2D/Dynamics/b2Fixture.h>
 
 bool ContactFilter::ShouldCollide(b2Fixture *fixtureA, b2Fixture *fixtureB) {
@@ -16,6 +17,12 @@ bool ContactFilter::ShouldCollide(b2Fixture *fixtureA, b2Fixture *fixtureB) {
 
     if (dataA && dataB && dataB->getBodyType() == ENERGY_BALL) {
         return dataA->getBodyType() != BARRIER && dataA->getBodyType() != ENERGY_EMITTER && dataA->getBodyType() != CAKE;
+    }
+    if (dataA && dataB && dataA->getBodyType() == PORTAL) {
+        return dynamic_cast<Portal *>(dataA)->isActive();
+    }
+    if (dataA && dataB && dataB->getBodyType() == PORTAL) {
+        return dynamic_cast<Portal *>(dataB)->isActive();
     }
     return true;
 }

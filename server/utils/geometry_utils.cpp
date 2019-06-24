@@ -5,8 +5,16 @@
 #include "geometry_utils.h"
 #include <stdlib.h>
 
+bool vector_equals(b2Vec2 v1, b2Vec2 v2) {
+    return abs(v1.x - v2.x) <= b2_epsilon && abs(v1.y - v2.y) <= b2_epsilon;
+}
+
 float32 angle_between_vectors(b2Vec2 v1, b2Vec2 v2) {
-    return acosf(b2Dot(v1, v2)/(v1.Length() * v2.Length()));
+    float angle = acosf(b2Dot(v1, v2) / (v1.Length() * v2.Length()));
+    if (vector_equals(rotate_vector_counterclockwise(angle, v1), v2)) {
+        return angle;
+    }
+    return -angle;
 }
 
 b2Vec2 rotate_vector_counterclockwise(float32 angle, b2Vec2 vector) {
@@ -22,7 +30,7 @@ b2Vec2 rotate_vector_counterclockwise(float32 angle, b2Vec2 vector) {
 b2Vec2 normal_reflection(b2Vec2 input, b2Vec2 normal) {
     float32 angle = angle_between_vectors(input, normal);
     b2Vec2 rot = rotate_vector_counterclockwise(angle, normal);
-    if (abs(rot.x - input.x) <= b2_epsilon && abs(rot.y - input.y) <= b2_epsilon) {
+    if (vector_equals(rot, input)) {
         rot = rotate_vector_counterclockwise(-angle, normal);
     }
     return rot;

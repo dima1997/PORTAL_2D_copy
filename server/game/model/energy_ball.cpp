@@ -12,7 +12,7 @@ void EnergyBall::customizeBody() {
     body->SetGravityScale(0);
     b2CircleShape circle;
     circle.m_radius = 0.1;
-    body->CreateFixture(&circle, 0.1f);
+    body->CreateFixture(&circle, 0.0f);
 }
 
 EnergyBall::EnergyBall(b2World &world, float32 xPos, float32 yPos, uint32_t id, EnergyEmitter &emitter):
@@ -70,6 +70,11 @@ void EnergyBall::resetPosition() {
     resetDirection();
     timer.Reset();
     moveTo(emitter.getXPos(), emitter.getYPos());
+}
+
+void EnergyBall::_applyImpulse(float32 xSpeed, float32 ySpeed) {
+    setDirection(b2Vec2(xSpeed, ySpeed));
+    MovableBody::_applyImpulse(xSpeed, ySpeed);
 }
 
 

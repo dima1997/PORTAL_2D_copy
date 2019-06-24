@@ -15,6 +15,13 @@ Game GameFactory::createGame(std::string &host, std::string &port, std::string &
     Connector connector(host, port);
     if (command == "new") {
         connector << (uint8_t) new_game;
+        // Ignore map info
+        uint8_t mapsNumber;
+        connector >> mapsNumber;
+        for (uint8_t i = 0; i < mapsNumber; ++i) {
+            uint8_t mapId;
+            connector >> mapId;
+        }
         connector << (uint8_t) id;
         connector << "Hard-coded game name";
         uint8_t status;

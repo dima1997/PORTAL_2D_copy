@@ -22,10 +22,12 @@
 Player::Player(uint32_t id, Connector &connector,
                 ThreadSafeQueue<std::unique_ptr<GameAction>> &inQueue) :
                id(id), connector(std::move(connector)), outThread(), inThread(),
-               outQueue(), inQueue(inQueue), recvMsgs(true) {}
+               outQueue(), inQueue(inQueue), mutex(), state(WAITING_P) {
+    start();
+}
 
 void Player::join() {
-    stopRecv();
+    setState(FINISHED_P);
     inThread.join();
     outQueue.close();
     outThread.join();
@@ -47,6 +49,10 @@ void Player::recvGameActions() {
         uint8_t actionNameExplicit;
         try {
             connector >> actionNameExplicit;
+            if (getState() == WAITING_P) {
+                setState(ERROR_P);
+                return;
+            }
             auto actionName = (GameActionName) actionNameExplicit;
             std::unique_ptr<GameAction> ptrAction;
             switch(actionName){
@@ -57,7 +63,7 @@ void Player::recvGameActions() {
                     connector >> *ptrAction;
                     break;
                 case quit_game:
-                    stopRecv();
+                    setState(FINISHED_P);
                 default:
                     ptrAction = std::unique_ptr<GameAction>(new GameAction(actionName));
                     break;
@@ -65,36 +71,39 @@ void Player::recvGameActions() {
             ptrAction->setPlayerId(id);
             inQueue.push(ptrAction);
         } catch (SocketException &e) {
-            stopRecv();
+            setState(ERROR_P);
+
         }
     }
 }
 
 bool Player::stillRecvMsgs() {
     std::unique_lock<std::mutex> l(mutex);
-    return recvMsgs;
+    return state == WAITING_P || state == RECEIVING_P;
 }
 
-void Player::stopRecv() {
+void Player::setState(player_state_t state) {
     std::unique_lock<std::mutex> l(mutex);
-    recvMsgs = false;
+    this->state = state;
 }
 
 void Player::start() {
     outThread = std::thread(&Player::sendEvents, this);
     inThread = std::thread(&Player::recvGameActions, this);
+    setState(RECEIVING_P);
 }
 
 Player::Player(Player &&other) noexcept : id(other.id), connector(std::move(other.connector)), outThread(std::move(other.outThread)),
                                 inThread(std::move(other.inThread)), outQueue(std::move(other.outQueue)),
-                                inQueue(other.inQueue), mutex(), recvMsgs(other.recvMsgs) {}
+                                inQueue(other.inQueue), mutex(), state(other.state) {}
 
 void Player::addToQueue(std::shared_ptr<Event> &ptrEvent) {
     outQueue.push(ptrEvent);
 }
 
-Player::~Player() = default;
-
-uint32_t Player::getPlayerId(){
-    return this->id;
+player_state_t Player::getState() {
+    std::unique_lock<std::mutex> l(mutex);
+    return state;
 }
+
+Player::~Player() = default;

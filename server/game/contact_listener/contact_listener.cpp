@@ -28,7 +28,9 @@ void ContactListener::BeginContact(b2Contact *contact) {
         } else if (dataA->getBodyType() == CHELL) {
             auto *chell = dynamic_cast<Chell *>(dataA);
             if (contact->GetFixtureA()->GetUserData() == (void *)CONTACT_CHECK) {
-                ++chell->footContacts;
+                if (dataB->getBodyType() != BARRIER && dataB->getBodyType() != DOOR) {
+                    ++chell->footContacts;
+                }
                 return;
             }
 
@@ -82,7 +84,9 @@ void ContactListener::BeginContact(b2Contact *contact) {
         }else if (dataB->getBodyType() == CHELL) {
             auto *chell = dynamic_cast<Chell *>(dataB);
             if (contact->GetFixtureB()->GetUserData() == (void *)CONTACT_CHECK) {
-                ++chell->footContacts;
+                if (dataA->getBodyType() != BARRIER && dataA->getBodyType() != DOOR) {
+                    ++chell->footContacts;
+                }
                 return;
             }
 
@@ -140,7 +144,9 @@ void ContactListener::EndContact(b2Contact *contact) {
         } else if (dataA->getBodyType() == CHELL) {
             auto *chell = dynamic_cast<Chell *>(dataA);
             if (contact->GetFixtureA()->GetUserData() == (void *)CONTACT_CHECK) {
-                --chell->footContacts;
+                if (dataB->getBodyType() != BARRIER && dataB->getBodyType() != DOOR) {
+                    --chell->footContacts;
+                }
                 return;
             }
         } else if (dataA->getBodyType() == BUTTON) {
@@ -158,7 +164,9 @@ void ContactListener::EndContact(b2Contact *contact) {
             }        } else if (dataB->getBodyType() == CHELL) {
             auto *chell = dynamic_cast<Chell *>(dataB);
             if (contact->GetFixtureB()->GetUserData() == (void *)CONTACT_CHECK) {
-                --chell->footContacts;
+                if (dataA->getBodyType() != BARRIER && dataA->getBodyType() != DOOR) {
+                    --chell->footContacts;
+                }
                 return;
             }
         } else if (dataB->getBodyType() == BUTTON) {
@@ -166,18 +174,6 @@ void ContactListener::EndContact(b2Contact *contact) {
             if (contact->GetFixtureB()->GetUserData() == (void *)CONTACT_CHECK) {
                 button->decreaseContact();
             }
-        }
-    }
-}
-
-void ContactListener::PreSolve(b2Contact *contact, const b2Manifold *oldManifold) {
-    Body *dataA = (Body *)contact->GetFixtureA()->GetBody()->GetUserData();
-    Body *dataB = (Body *)contact->GetFixtureB()->GetBody()->GetUserData();
-    if (dataA && dataB) {
-        if (dataA->getBodyType() == PORTAL) {
-            contact->SetEnabled(false);
-        } else if (dataB->getBodyType() == PORTAL) {
-            contact->SetEnabled(false);
         }
     }
 }

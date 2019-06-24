@@ -6,6 +6,7 @@
 #include <Box2D/Dynamics/b2Fixture.h>
 #include <Box2D/Collision/Shapes/b2CircleShape.h>
 #include "portal.h"
+#include "../../utils/geometry_utils.h"
 
 Portal::Portal(b2World &world, float32 xPos, float32 yPos, uint32_t id):
                MovableBody(world, xPos, yPos, id), other(), usable(false), visible(false), normal(0, 1) {
@@ -39,16 +40,9 @@ void Portal::startGoingThrough(MovableBody *body) {
     if (!usable)
         return;
     body->moveTo(other->getXPos() + (body->hx * other->normal.x), other->getYPos() + (body->hy * other->normal.y));
-
-    float32 angle = acosf(b2Dot(this->normal, -other->normal)/(this->normal.Length() * other->normal.Length()));
-    float32 cs = cosf(angle);
-    float32 sn = sinf(angle);
-
-    b2Vec2 currentVel = body->getCurrentVelocity();
-
-    float32 newX = currentVel.x * cs - currentVel.y * sn;
-    float32 newY = currentVel.x * sn + currentVel.y * cs;
-    body->applyImpulse(newX, newY);
+    float32 angle = angle_between_vectors(normal, -other->normal);
+    b2Vec2 newDirection = rotate_vector_counterclockwise(angle, body->getCurrentVelocity());
+    body->applyImpulse(newDirection.x, newDirection.y);
     other->usable = false;
 }
 
@@ -94,6 +88,10 @@ float32 Portal::getNormalX() {
 
 float32 Portal::getNormalY() {
     return normal.y;
+}
+
+bool Portal::isActive() {
+    return usable || other->usable;
 }
 
 Portal::~Portal() = default;
