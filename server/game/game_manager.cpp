@@ -12,29 +12,29 @@ GameManager::GameManager(): games(), mutex(), biggestKey(0) {}
 
 void GameManager::addGame(Connector &connector) {
     std::unique_lock<std::mutex> l(mutex);
-    connector << (uint8_t) CONFIG_PATHS.size();
-    for (const auto &map : CONFIG_PATHS) {
-        connector << (uint8_t) map.first;
-    }
-    uint8_t mapId;
-    std::string gameName;
     try {
+        connector << (uint8_t) CONFIG_PATHS.size();
+        for (const auto &map : CONFIG_PATHS) {
+            connector << (uint8_t) map.first;
+        }
+        uint8_t mapId;
+        std::string gameName;
         connector >> mapId;
         connector >> gameName;
+        uint8_t game_id = this->getKey();
+        games.insert(std::make_pair(game_id, GameLobby(game_id, mapId, connector, gameName)));
+        games.at(game_id).startIfReady();
+        this->eraseFinished();
     } catch(SocketException &se) {
         std::cerr << se.what() << std::endl;
     }
-    uint8_t game_id = this->getKey();
-    games.insert(std::make_pair(game_id, GameLobby(game_id, mapId, connector, gameName)));
-    games.at(game_id).startIfReady();
-    this->eraseFinished();
 }
 
 void GameManager::joinToGame(Connector &connector) {
     std::unique_lock<std::mutex> l(mutex);
-    sendAvailableGames(connector);
-    uint8_t gameId;
     try {
+        sendAvailableGames(connector);
+        uint8_t gameId;
         connector >> gameId;
         try {
             GameLobby &game = games.at(gameId);
@@ -88,12 +88,8 @@ void GameManager::sendAvailableGames(Connector &connector) {
             ++ availableGamesCount;
         }
     }
-    try {
-        connector << availableGamesCount;
-        for (auto &game : availableGames) {
-            connector << game->getId() << game->getName();
-        }
-    } catch(SocketException &se) {
-        std::cerr << se.what() << std::endl;
+    connector << availableGamesCount;
+    for (auto &game : availableGames) {
+        connector << game->getId() << game->getName();
     }
 }

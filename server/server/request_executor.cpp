@@ -27,9 +27,10 @@ void RequestExecutor::execute() {
             connector >> instruction;
         } catch(SocketException &se) {
             std::cerr << se.what() << std::endl;
+            continue;
         }
         if (instruction == new_game) {
-            gameManager.addGame(connector);
+            gameManager.addGqame(connector);
         } else if (instruction == join_game) {
             gameManager.joinToGame(connector);
         } else {
