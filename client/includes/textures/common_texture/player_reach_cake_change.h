@@ -1,5 +1,5 @@
-#ifndef PLAYER_DIES_CHANGE_H
-#define PLAYER_DIES_CHANGE_H
+#ifndef PLAYER_REACH_CAKE_CHANGE_H
+#define PLAYER_REACH_CAKE_CHANGE_H
 
 #include "texture_change.h"
 
@@ -7,24 +7,24 @@
 
 class Window;
 class PlayResult;
-class KeyReader;
 
-class PlayerDiesChange : public TextureChange { 
+class PlayerReachCakeChange : public TextureChange { 
 public:
     /*
     PRE: Recibe:
         el id de una textura seguidora;
         el id de una textura a seguir;
-    POST: Inicializa un cambio donde muere un jugador.
+    POST: Inicializa un cambio donde gane 
+    un jugador.
     */
-    PlayerDiesChange(
+    PlayerReachCakeChange(
         uint32_t idPlayer
     );
 
     /*
     Destruye el cambio.
     */
-    virtual ~PlayerDiesChange();
+    virtual ~PlayerReachCakeChange();
 
     /*
     PRE: Recibe un ventana (Window &) donde 
@@ -50,4 +50,4 @@ public:
     );
 };
 
-#endif // PLAYER_DIES_CHANGE_H
+#endif // PLAYER_REACH_CAKE_CHANGE_H

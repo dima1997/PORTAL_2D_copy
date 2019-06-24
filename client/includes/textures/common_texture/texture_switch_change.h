@@ -1,11 +1,10 @@
 #ifndef TEXTURE_SWITCH_CHANGE_H
 #define TEXTURE_SWITCH_CHANGE_H
 
-#include "../../../includes/textures/common_texture/texture_change.h"
+#include "texture_change.h"
 
-#include "../../../includes/window/window.h"
-
-#include <protocol/event/object_switch_event.h>
+class ObjectSwitchEvent;
+class Window;
 
 class TextureSwitchChange : public TextureChange {
 public:

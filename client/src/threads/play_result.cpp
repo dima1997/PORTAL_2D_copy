@@ -1,7 +1,9 @@
 #include "../../includes/threads/play_result.h"
 
-#include <portal_exception.h>
 #include <yaml-cpp/yaml.h>
+
+#include <portal_exception.h>
+
 #include <cstdint>
 #include <string>
 #include <map>
@@ -10,16 +12,17 @@
 
 const std::map<GameStatus,std::string> GAME_STATUS_STR(
     {
-        std::make_pair(WON, "Won"),
-        std::make_pair(LOST, "Lost"),
-        std::make_pair(NOT_FINISHED, "Not finished")
+        std::make_pair(GAME_STATUS_WON, "Won"),
+        std::make_pair(GAME_STATUS_LOST, "Lost"),
+        std::make_pair(GAME_STATUS_NOT_FINISHED, "Not finished")
     }
 );
 
 const std::map<PlayerStatus,std::string> PLAYER_STATUS_STR(
     {
-        std::make_pair(ALIVE, "Alive"),
-        std::make_pair(DEAD, "Dead"),
+        std::make_pair(PLAYER_STATUS_ALIVE, "Alive"),
+        std::make_pair(PLAYER_STATUS_DEAD, "Dead"),
+        std::make_pair(PLAYER_STATUS_CAKE, "Reached cake"),
     }
 );
 
@@ -32,19 +35,21 @@ PlayResult::PlayResult(YAML::Node & gameConfig){
     YAML::Node playerIdsNode = gameConfig["chells"]["id_coordinates"];
     for (int i = 0; i < (int)playerIdsNode.size(); ++i){
         uint32_t id = playerIdsNode[i]["id"].as<uint32_t>();
-        this->playersStatus.insert(std::make_pair(id, ALIVE));
+        this->playersStatus.insert(std::make_pair(id, PLAYER_STATUS_ALIVE));
     }
-    this->gameStatus = NOT_FINISHED;
+    this->gameStatus = GAME_STATUS_NOT_FINISHED;
 }
 
 /*Destruye el estado del juego.*/
 PlayResult::~PlayResult() = default;
 
+/*Constructor por copia.*/
 PlayResult::PlayResult(const PlayResult & other){
     this->gameStatus = other.gameStatus;
     this->playersStatus = other.playersStatus;
 }
 
+/*Asignacion por copia.*/
 PlayResult & PlayResult::operator=(const PlayResult & other){
     if (this == & other){
         return *this;
@@ -79,18 +84,6 @@ void PlayResult::print(){
     std::cout << "!!! Game Over !!! \n";
     std::cout << "Game status : " << GAME_STATUS_STR.at(this->gameStatus);
     std::cout << "\n";
-    /*
-    for (std::map<uint32_t,PlayerStatus>::iterator 
-         it=this->playersStatus.begin(); 
-         it!=this->playersStatus.end(); 
-         ++it){
-        uint32_t id = it->first;
-        PlayerStatus status = it->second;
-        std::cout << "Player id : " << id << "\n";
-        std::cout << "\t- Status : " << PLAYER_STATUS_STR.at(status);
-        std::cout << "\n"; 
-    }
-    */
     std::string playersStatusStr = this->get_players_status();
     std::cout << playersStatusStr;
 }
@@ -108,7 +101,7 @@ bool PlayResult::is_player_alive(uint32_t id){
         err << "Not player with id: " << id << "\n";
         throw PortalException(err.str().c_str());
     }
-    return (this->playersStatus.at(id) == ALIVE);
+    return (this->playersStatus.at(id) == PLAYER_STATUS_ALIVE);
 }
 
 /*
@@ -122,7 +115,7 @@ uint32_t PlayResult::get_player_alive(){
          ++it){
         uint32_t id = it->first;
         PlayerStatus status = it->second;
-        if (status == ALIVE){
+        if (status == PLAYER_STATUS_ALIVE){
             return id;
         }
     }

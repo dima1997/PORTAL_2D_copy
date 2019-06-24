@@ -1,4 +1,4 @@
-#include "../../../includes/textures/common_texture/player_dies_change.h"
+#include "../../../includes/textures/common_texture/player_reach_cake_change.h"
 
 #include "../../../includes/textures/common_texture/texture_change.h"
 #include "../../../includes/window/window.h"
@@ -10,10 +10,10 @@
 /*
 PRE: Recibe:
     el id del jugador muerto.
-POST: Inicializa un cambio donde muere 
+POST: Inicializa un cambio donde gane
 un jugador.
 */
-PlayerDiesChange::PlayerDiesChange(
+PlayerReachCakeChange::PlayerReachCakeChange(
     uint32_t idPlayer 
 )
 :   TextureChange(idPlayer) {}
@@ -21,7 +21,7 @@ PlayerDiesChange::PlayerDiesChange(
 /*
 Destruye el cambio.
 */
-PlayerDiesChange::~PlayerDiesChange() = default;
+PlayerReachCakeChange::~PlayerReachCakeChange() = default;
 
 /*
 PRE: Recibe un ventana (Window &) donde 
@@ -29,13 +29,14 @@ realizar el cambio.
 POST: Realiza el cambio que representa 
 en la ventana recibida.
 */
-void PlayerDiesChange::change(Window &window){
+void PlayerReachCakeChange::change(Window &window){
     window.switch_texture(this->id);
+    window.switch_texture(this->id); // x2
 }  
 
 /*Actualiza el resultado del juego.*/
-void PlayerDiesChange::change(PlayResult & playResult){
-    playResult.setPlayerStatus(this->id, PLAYER_STATUS_DEAD);
+void PlayerReachCakeChange::change(PlayResult & playResult){
+    playResult.setPlayerStatus(this->id, PLAYER_STATUS_CAKE);
 }
 
 /*
@@ -44,7 +45,7 @@ Actualiza:
     el resultado de juego;
     y el input del usuario;
 */
-void PlayerDiesChange::change(
+void PlayerReachCakeChange::change(
     Window & window, 
     PlayResult & playResult, 
     KeyReader & keyReader

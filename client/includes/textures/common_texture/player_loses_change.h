@@ -2,9 +2,10 @@
 #define PLAYER_LOSES_CHANGE_H
 
 #include "texture_change.h"
-#include "../../window/window.h"
 
 #include <cstdint>
+
+class Window;
 
 class PlayerLosesChange : public TextureChange { 
 public:

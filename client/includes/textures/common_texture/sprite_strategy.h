@@ -3,7 +3,6 @@
 
 #include "dynamic_sprite.h"
 #include "area.h"
-
 #include "../../mixer/sounds_path.h"
 
 #include <memory>

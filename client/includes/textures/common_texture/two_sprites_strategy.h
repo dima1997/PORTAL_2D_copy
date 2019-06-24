@@ -3,7 +3,6 @@
 
 #include "sprite_strategy.h"
 #include "dynamic_sprite.h"
-#include "area.h"
 
 class TwoSpritesStrategy : public SpriteStrategy {
 private:

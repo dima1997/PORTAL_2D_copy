@@ -2,7 +2,8 @@
 #define NULL_STRATEGY_H
 
 #include "two_sprites_strategy.h"
-#include "dynamic_sprite.h"
+
+class DynamicSprite;
 
 enum NullEndSpriteName {
     NULL_SPRITE,

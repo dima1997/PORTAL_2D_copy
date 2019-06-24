@@ -20,5 +20,5 @@ PlayerWinsChange::~PlayerWinsChange() = default;
 
 /*Actualiza el resultado del juego.*/
 void PlayerWinsChange::change(PlayResult & playResult){
-    playResult.setGameStatus(WON);
+    playResult.setGameStatus(GAME_STATUS_WON);
 }

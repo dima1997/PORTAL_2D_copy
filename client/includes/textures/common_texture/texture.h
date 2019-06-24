@@ -1,15 +1,15 @@
 #ifndef TEXTURE_H
 #define TEXTURE_H
 
-#include "../../../includes/mixer/mixer.h"
-#include "../../../includes/mixer/sounds_path.h"
-
 #include "area.h"
 #include "big_texture.h"
-#include "sprite_strategy.h" 
-#include "dynamic_sprite.h" 
+#include "sprite_strategy.h"  
+#include "../../../includes/mixer/sounds_path.h"
 
 #include <memory>
+
+class DynamicSprite;
+class Mixer;
 
 class Texture {
 protected:
@@ -48,7 +48,7 @@ public:
     */
     Texture(
         BigTexture & bigTexture, 
-        Area areaMap, 
+        Area & areaMap, 
         std::unique_ptr<SpriteStrategy> ptrSpriteStrategy
     );
 
@@ -69,7 +69,7 @@ public:
     */
     Texture(
         BigTexture & bigTexture, 
-        Area areaMap, 
+        Area & areaMap, 
         std::unique_ptr<SpriteStrategy> ptrSpriteStrategy,
         double angle,
         uint8_t redMod,
@@ -88,8 +88,8 @@ public:
     */
     Texture(
         BigTexture & bigTexture, 
-        Area areaMap, 
-        DynamicSprite dynamicSprite
+        Area & areaMap, 
+        const DynamicSprite & dynamicSprite
     );
 
     /*
@@ -106,8 +106,8 @@ public:
     */
     Texture(
         BigTexture & bigTexture, 
-        Area areaMap, 
-        DynamicSprite dynamicSprite,
+        Area & areaMap, 
+        const DynamicSprite & dynamicSprite,
         double angle
     );
 
@@ -128,8 +128,8 @@ public:
     */
     Texture(
         BigTexture & bigTexture, 
-        Area areaMap, 
-        DynamicSprite dynamicSprite,
+        Area & areaMap, 
+        const DynamicSprite & dynamicSprite,
         double angle,
         uint8_t redMod,
         uint8_t greenMod,

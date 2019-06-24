@@ -2,10 +2,11 @@
 #define START_GAME_CHANGE_H
 
 #include "texture_change.h"
-//#include "../../window/window.h"
 
 class TextureChange;
 class Window;
+class PlayResult;
+class KeyReader;
 
 #include <cstdint>
 

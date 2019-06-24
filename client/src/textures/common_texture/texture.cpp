@@ -3,7 +3,8 @@
 #include "../../../includes/textures/common_texture/area.h"
 #include "../../../includes/textures/common_texture/big_texture.h"
 #include "../../../includes/textures/common_texture/sprite_strategy.h" 
-#include "../../../includes/textures/common_texture/dynamic_sprite.h" 
+#include "../../../includes/textures/common_texture/dynamic_sprite.h"
+#include "../../../includes/mixer/mixer.h" 
 
 #include <memory>
 
@@ -34,7 +35,7 @@ y un puntero unico con el sprite strategy que utiliza
 la textura para ir variando sus sprites.
 POST: 
 */
-Texture::Texture(BigTexture & bigTexture, Area areaMap, 
+Texture::Texture(BigTexture & bigTexture, Area & areaMap, 
 std::unique_ptr<SpriteStrategy> ptrSpriteStrategy)
 :   bigTexture(bigTexture), 
     areaMap(areaMap), 
@@ -64,7 +65,7 @@ POST: Inicializa una textura.
 */
 Texture::Texture(
     BigTexture & bigTexture, 
-    Area areaMap, 
+    Area & areaMap, 
     std::unique_ptr<SpriteStrategy> ptrSpriteStrategy,
     double angle,
     uint8_t redMod,
@@ -91,8 +92,8 @@ y sprite dinamico que sera el unico sprite a usar en la
 vida de la textura.
 POST: Inicializa una textura.
 */
-Texture::Texture(BigTexture & bigTexture, Area areaMap, 
-DynamicSprite dynamicSprite)
+Texture::Texture(BigTexture & bigTexture, Area & areaMap, 
+const DynamicSprite & dynamicSprite)
 :   bigTexture(bigTexture), 
     areaMap(areaMap),
     ptrSpriteStrategy(new SpriteStrategy(dynamicSprite)),
@@ -118,8 +119,8 @@ POST: Inicializa una textura.
 */
 Texture::Texture(
     BigTexture & bigTexture, 
-    Area areaMap, 
-    DynamicSprite dynamicSprite,
+    Area & areaMap, 
+    const DynamicSprite & dynamicSprite,
     double angle
 )
 :   bigTexture(bigTexture), 
@@ -151,8 +152,8 @@ POST: Inicializa una textura.
 */
 Texture::Texture(
     BigTexture & bigTexture, 
-    Area areaMap, 
-    DynamicSprite dynamicSprite,
+    Area & areaMap, 
+    const DynamicSprite & dynamicSprite,
     double angle,
     uint8_t redMod,
     uint8_t greenMod,

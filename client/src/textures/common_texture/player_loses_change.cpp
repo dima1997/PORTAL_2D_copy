@@ -20,5 +20,5 @@ PlayerLosesChange::~PlayerLosesChange() = default;
 
 /*Actualiza el resultado del juego.*/
 void PlayerLosesChange::change(PlayResult & playResult){
-    playResult.setGameStatus(LOST);
+    playResult.setGameStatus(GAME_STATUS_LOST);
 }

@@ -30,9 +30,9 @@ POST: Setea la etiqueta de estado del juego.
 void GameOver::set_game_status(PlayResult & playResult){
     QLabel* gameStatusLabel = findChild<QLabel*>("gameStatusLabel");
     GameStatus gameStatus = playResult.get_game_status();
-    if (gameStatus == WON){
+    if (gameStatus == GAME_STATUS_WON){
        gameStatusLabel->setText("WON");
-    } else if (gameStatus == LOST){
+    } else if (gameStatus == GAME_STATUS_LOST){
        gameStatusLabel->setText("LOST");
     } else {
        gameStatusLabel->setText("NOT_FINISHED");

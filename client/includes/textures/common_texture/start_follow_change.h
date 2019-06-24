@@ -2,9 +2,10 @@
 #define START_FOLLOW_CHANGE_H
 
 #include "texture_change.h"
-#include "../../window/window.h"
 
 #include <cstdint>
+
+class Window;
 
 class StartFollowChange : public TextureChange { 
 private:

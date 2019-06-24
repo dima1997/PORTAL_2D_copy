@@ -3,6 +3,8 @@
 #include "../../../includes/textures/common_texture/texture_change.h"
 #include "../../../includes/window/window.h"
 
+#include <protocol/event/object_moves_event.h>
+
 /*
 PRE: Recibe el id de una textura, y las nuevas 
 coordenadas x,y de la misma, en el mapa de juego.

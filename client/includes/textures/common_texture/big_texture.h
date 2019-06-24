@@ -17,12 +17,14 @@ class BigTexture {
 private:
     SDL_Renderer* renderer;
     SDL_Texture* texture;
+
     /*
     PRE: Recibe la ruta (const std::string &) de un archivo con un textura.
     POST: Devuelve una textura (SDL_Texture *) con la textura cargada.
     Levanta SDLException en caso de error. 
     */
     SDL_Texture * loadTexture(const std::string & pathImage);
+
 public:
     /*
     PRE: Recibe un puntero al renderizador (SDL_Renderer *) de la ventana donde 

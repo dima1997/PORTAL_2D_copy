@@ -1,17 +1,20 @@
 #ifndef PLAY_RESULT_H
 #define PLAY_RESULT_H
 
-#include <yaml-cpp/yaml.h>
+namespace YAML { class Node; }
+
+#include <map>
 
 enum PlayerStatus {
-    ALIVE,
-    DEAD
+    PLAYER_STATUS_ALIVE,
+    PLAYER_STATUS_DEAD,
+    PLAYER_STATUS_CAKE
 };
 
 enum GameStatus {
-    WON,
-    LOST,
-    NOT_FINISHED
+    GAME_STATUS_WON,
+    GAME_STATUS_LOST,
+    GAME_STATUS_NOT_FINISHED
 };
 
 class PlayResult {

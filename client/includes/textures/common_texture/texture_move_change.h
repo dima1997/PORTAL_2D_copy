@@ -2,9 +2,11 @@
 #define TEXTURE_MOVE_CHANGE_H
 
 #include "texture_change.h"
-#include "../../window/window.h"
 
-#include <protocol/event/object_moves_event.h>
+#include <cstdint>
+
+class ObjectMovesEvent;
+class Window;
 
 class TextureMoveChange : public TextureChange {
 private:
@@ -30,7 +32,7 @@ public:
     PRE: Recibe un ventana (Window &) donde realizar el cambio.
     POST: Realiza el cambio que representa en la ventan recibida.
     */
-    virtual void change(Window &window);
+    virtual void change(Window & window);
 };
 
 #endif // TEXTURE_MOVE_CHANGE_H

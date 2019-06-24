@@ -2,9 +2,10 @@
 #define PORTAL_MOVE_CHANGE_H
 
 #include "texture_change.h"
-#include "../../window/window.h"
 
 #include <cstdint>
+
+class Window;
 
 class PortalMoveChange : public TextureChange {
 private:
