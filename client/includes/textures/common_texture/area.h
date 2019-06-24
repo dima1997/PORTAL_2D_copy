@@ -7,6 +7,7 @@ class Area {
 private:
 	float x, y;
 	float width, height;
+    
 public:
     /*
     Construye un area de coordenadas y dimensiones cero.

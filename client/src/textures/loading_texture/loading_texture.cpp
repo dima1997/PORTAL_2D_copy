@@ -15,7 +15,11 @@ LoadingTexture::LoadingTexture(BigTexture & bigTexture, Area & areaMap)
             std::move(std::unique_ptr<SpriteStrategy>(new TwoSpritesStrategy(
                 LoadingSprite::get_sprite(),
                 NullSprite::get_sprite()
-            )))
+            ))),
+            0,
+            255,
+            255,
+            255
     ){}
 
 LoadingTexture::~LoadingTexture() = default;

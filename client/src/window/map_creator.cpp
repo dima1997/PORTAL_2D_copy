@@ -5,8 +5,10 @@
 #include "../../includes/window/texture_factory.h"
 #include "../../includes/textures/common_texture/texture.h"
 
-#include <configs_yaml/config_paths.h>
+#include "yaml-cpp/yaml.h"
+
 #include <cstdint>
+#include <sstream>
 
 typedef std::unique_ptr<Texture> (&texture_creator)(
     Window &, 
@@ -66,7 +68,7 @@ MapCreator::~MapCreator() = default;
 
 void MapCreator::add_texture(
     uint32_t id, 
-    Area area,
+    Area & area,
     std::string & subSectionName
 )
 {
@@ -75,7 +77,7 @@ void MapCreator::add_texture(
 
 void MapCreator::add_texture(
     uint32_t id, 
-    Area area,
+    Area & area,
     uint8_t redMod,
     uint8_t greenMod,
     uint8_t blueMod,

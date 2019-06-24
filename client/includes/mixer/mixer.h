@@ -1,9 +1,6 @@
 #ifndef _MIXER_H_
 #define _MIXER_H_
-/*
-#include "mix_chunck.h"
-#include "mix_music.h"
-*/
+
 class MixChunck;
 class MixMusic;
 

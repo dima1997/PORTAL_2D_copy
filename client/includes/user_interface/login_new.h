@@ -1,7 +1,6 @@
 #ifndef LOGIN_NEW_H
 #define LOGIN_NEW_H
 
-#include "../game/game_config.h"
 #include <connector/connector.h>
 
 #include <QWidget>
@@ -10,8 +9,9 @@
 #include <cstdint>
 #include <vector>
 
+class GameConfig;
+
 class LoginNew : public QWidget {
-//    Q_OBJECT
 private:
     Connector connector;
     GameConfig & gameConfig;
@@ -27,11 +27,6 @@ public:
     void set_map_ids(std::vector<uint8_t> & mapIds);
     virtual void closeEvent(QCloseEvent *event);
     void quit();
-/*
-signals:
-    void login_new_success();
-    void login_new_failed();
-*/
 };
 
 #endif // LOGIN_NEW_H

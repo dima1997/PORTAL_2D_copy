@@ -4,15 +4,19 @@
 #include "sws_context_wrapper.h"
 
 extern "C" {
-#include <libavformat/avformat.h>
-#include <libavcodec/avcodec.h>
-#include <libavutil/opt.h>
 #include <libswscale/swscale.h>
 }
 
 #include <cstdio>
 #include <string>
 #include <stdexcept>
+
+class AVCodecContext;
+class AVFrame;
+class AVPacket;
+class AVOutputFormat;
+class AVCodec;
+
 class CodecContextWrapper {
 private:
     int bufferWidth;

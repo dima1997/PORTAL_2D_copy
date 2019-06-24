@@ -1,8 +1,9 @@
 #ifndef _MIX_CHUNCK_H_
 #define _MIX_CHUNCK_H_
 
-#include <SDL2/SDL_mixer.h>
 #include <string>
+
+class Mix_Chunk;
 
 class MixChunck {
 private:

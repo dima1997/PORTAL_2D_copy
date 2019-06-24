@@ -15,7 +15,11 @@ RecordTexture::RecordTexture(BigTexture & bigTexture, Area areaMap)
             std::move(std::unique_ptr<SpriteStrategy>(new TwoSpritesStrategy(
                 NullSprite::get_sprite(),
                 RecordingSprite::get_sprite()
-            )))
+            ))),
+            0,
+            255,
+            255,
+            255
     ){}
 
 RecordTexture::~RecordTexture() = default;

@@ -1,7 +1,7 @@
 #ifndef NULL_SPRITE_H
 #define NULL_SPRITE_H
 
-#include "../common_texture/dynamic_sprite.h"
+#include "dynamic_sprite.h"
 
 class NullSprite {
 public:

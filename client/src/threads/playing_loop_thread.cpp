@@ -1,11 +1,10 @@
 #include "../../includes/threads/playing_loop_thread.h"
 
-#include "../../includes/window/window.h"
-#include "../../includes/mixer/mixer.h"
-
 #include "../../includes/threads/key_reader.h"
 #include "../../includes/threads/event_game_processor.h"
-
+#include "../../includes/window/window.h"
+#include "../../includes/mixer/mixer.h"
+#include "../../includes/textures/common_texture/texture_change.h"
 #include "../../includes/render_time.h" 
 
 #include <thread.h>
@@ -21,12 +20,6 @@
 #include <ctime>
 #include <chrono>
 #include <vector>
-
-#include "../../includes/window/record/output_format.h"
-#include "../../includes/textures/common_texture/texture_move_change.h"
-
-#define VIDEO_FILE_NAME "portal_video_"
-#define VIDEO_FILE_END ".mp4"
 
 /*
 PRE: Recibe:
@@ -142,7 +135,8 @@ void PlayingLoopThread::stop(){
 }
 
 /*
-Devuelve true, si el hilo esta muerto; false en caso contrario.
+Devuelve true, si el hilo esta muerto; 
+false en caso contrario.
 */
 bool PlayingLoopThread::is_dead(){
     std::unique_lock<std::mutex> l(this->mutex);

@@ -38,21 +38,6 @@ protected:
 
 public:
     /*
-    PRE: Recibe una referencia a una gran textura que 
-    contiene la imagen donde se encuentra el/los sprite/s 
-    que utiliza la textura; el area (Area) que ocupa el 
-    objeto que representa la textura en el mapa de juego;
-    y un puntero unico con el sprite strategy que utiliza 
-    la textura para ir variando sus sprites.
-    POST: Inicializa una textura.
-    */
-    Texture(
-        BigTexture & bigTexture, 
-        Area & areaMap, 
-        std::unique_ptr<SpriteStrategy> ptrSpriteStrategy
-    );
-
-    /*
     PRE: Recibe:
         una referencia a una gran textura que 
         contiene la imagen donde se encuentra el/los sprite/s 
@@ -75,40 +60,6 @@ public:
         uint8_t redMod,
         uint8_t greenMod,
         uint8_t blueMod
-    );
-
-    /*
-    PRE: Recibe una referencia a una gran textura que 
-    contiene la imagen donde se encuentra el/los sprite/s 
-    que utiliza la textura; el area (Area) que ocupa el 
-    objeto que representa la textura en el mapa de juego;
-    y sprite dinamico que sera el unico sprite a usar en la
-    vida de la textura.
-    POST: Inicializa una textura.
-    */
-    Texture(
-        BigTexture & bigTexture, 
-        Area & areaMap, 
-        const DynamicSprite & dynamicSprite
-    );
-
-    /*
-    PRE: Recibe:
-        una referencia a una gran textura que 
-        contiene la imagen donde se encuentra el/los sprite/s 
-        que utiliza la textura; 
-        el area (Area) que ocupa el objeto que representa la 
-        textura en el mapa de juego;
-        el sprite dinamico que sera el unico sprite a usar en la
-        vida de la textura;
-        un angulo (double) para rotar la textura al renderizarla.
-    POST: Inicializa una textura.
-    */
-    Texture(
-        BigTexture & bigTexture, 
-        Area & areaMap, 
-        const DynamicSprite & dynamicSprite,
-        double angle
     );
 
     /*
@@ -187,10 +138,10 @@ public:
     POST: Ahora el area del mapa de esta textura, copia las 
     coordenadas del area recibida, cada vez que se renderiza.
     */
-    void follow_area(const Area & areaMap);
+    virtual void follow_area(const Area & areaMap);
 
     /*Deja de seguir al area que sigue.*/
-    void stop_follow();
+    virtual void stop_follow();
 
 
     /*Actualiza la textura.*/

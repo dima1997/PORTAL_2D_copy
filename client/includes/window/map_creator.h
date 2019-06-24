@@ -1,10 +1,12 @@
 #ifndef MAP_CREATOR_H
 #define MAP_CREATOR_H
 
-#include "window.h"
-#include "yaml-cpp/yaml.h"
-
 #include <cstdint>
+#include <string>
+
+class Window;
+class Area;
+namespace YAML { class Node; }
 
 class MapCreator {
 private: 
@@ -22,11 +24,11 @@ public:
     /*Destruye el creador de mapa*/
     ~MapCreator();
     
-    void add_texture(uint32_t id, Area area, std::string & subSectionName);
+    void add_texture(uint32_t id, Area & area, std::string & subSectionName);
 
     void add_texture(
         uint32_t id, 
-        Area area,
+        Area & area,
         uint8_t redMod,
         uint8_t greenMod,
         uint8_t blueMod,
