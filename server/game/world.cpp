@@ -64,7 +64,6 @@ void World::step(std::list<std::shared_ptr<Event>> &events) {
     }
     for (EnergyBall &ball : balls) {
         ball.changedPosition();
-        ball.move();
         events.push_back(std::shared_ptr<Event>(new ObjectMovesEvent(ball.getId(), ball.getXPos(), ball.getYPos())));
     }
     for (Chell &chell : chells) {

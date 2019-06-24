@@ -75,5 +75,11 @@ void EnergyBall::_applyImpulse(float32 xSpeed, float32 ySpeed) {
     MovableBody::_applyImpulse(xSpeed, ySpeed);
 }
 
+bool EnergyBall::_changedPosition() {
+    MovableBody::_changedPosition();
+    move();
+    return true;
+}
+
 
 EnergyBall::~EnergyBall() = default;

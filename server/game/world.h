@@ -35,9 +35,9 @@ private:
     std::list<EnergyEmitter> emitters;
     std::list<EnergyReceiver> receivers;
     std::list<EnergyBall> balls;
+    Cake cake;
     ContactListener contactListener;
     ContactFilter contactFilter;
-    Cake cake;
     int numberOfPlayers;
     bool finished;
 public:
