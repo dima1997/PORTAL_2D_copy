@@ -76,7 +76,6 @@ void Game::manageActions(std::unique_ptr<GameAction> ptrAction) {
             std::unique_ptr<CoordsAction> ptrCoordsAction(ptrAux);
             float xMap = ptrCoordsAction->getX();
             float yMap = ptrCoordsAction->getY();
-            std::cout << "SERVER: Abriendo portal AZUL en x : "<< xMap << " y : " << yMap << "\n";
             world.getChell(player_id).shootPortal(xMap, yMap, BLUE);
         }
             break;
@@ -86,7 +85,6 @@ void Game::manageActions(std::unique_ptr<GameAction> ptrAction) {
             std::unique_ptr<CoordsAction> ptrCoordsAction(ptrAux);
             float xMap = ptrCoordsAction->getX();
             float yMap = ptrCoordsAction->getY();
-            std::cout << "SERVER: Abriendo portal NARANJA en x : "<< xMap << " y : " << yMap << "\n";
             world.getChell(player_id).shootPortal(xMap, yMap, ORANGE);
         }
             break;
@@ -95,7 +93,6 @@ void Game::manageActions(std::unique_ptr<GameAction> ptrAction) {
             auto ptrAux = dynamic_cast<CoordsAction *>(ptrAction.release());
             std::unique_ptr<CoordsAction> ptrCoordsAction(ptrAux);
             world.getChell(player_id).showPinTool(ptrAux->getX(), ptrAux->getY());
-            std::cout << "SERVER: pin tool on.\n";
         }
             break;
         case grab_it:

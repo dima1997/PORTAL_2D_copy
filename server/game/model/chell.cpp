@@ -85,11 +85,9 @@ void Chell::update() {
             }
             break;
         case LEFT:
-            printf("move left\n");
             applyImpulse(-CONFIG.chellMoveSpeed, vel.y);
             break;
         case RIGHT:
-            printf("move right\n");
             applyImpulse(CONFIG.chellMoveSpeed, vel.y);
             break;
         case STOP:
