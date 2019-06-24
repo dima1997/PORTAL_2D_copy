@@ -1,8 +1,11 @@
 #ifndef KEY_READER_H
 #define KEY_READER_H
 
-#include "../window/window.h"
-#include "../mixer/mixer.h"
+//#include "../window/window.h"
+//#include "../mixer/mixer.h"
+
+class Window;
+class Mixer;
 
 #include <blocking_queue.h>
 #include <protocol/protocol_code.h>
@@ -10,6 +13,8 @@
 #include <protocol/game_action/coords_action.h>
 
 #include <SDL2/SDL.h>
+
+#include <map>
 #include <memory>
 
 enum KeyUsed {
@@ -32,6 +37,7 @@ private:
     BlockingQueue<std::unique_ptr<GameAction>> & toGameQueue; 
     std::map<KeyUsed,bool> keysSendOnce;
     bool deadKeys;
+    bool started;
 
     /*
     PRE: Recibe un evento de teclado de sdl (SDL_KeyboardEvent &),
@@ -117,6 +123,12 @@ public:
     manejar la musica y salir del juego.
     */
     void set_dead_keys();
+
+    /*
+    Hace que el lector de eventos proceso 
+    todos los eventos del usuario.
+    */
+    void set_alive_keys();
 };
 
 #endif // KEY_READER_H

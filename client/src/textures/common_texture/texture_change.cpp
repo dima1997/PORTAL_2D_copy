@@ -2,6 +2,7 @@
 
 #include "../../../includes/window/window.h"
 #include "../../../includes/threads/play_result.h"
+#include "../../../includes/threads/key_reader.h"
 
 #include <cstdint>
 
@@ -28,3 +29,17 @@ PRE: Recibe un resultado de juego.
 POST: Realiza un cambio nulo en dicho resultado.
 */
 void TextureChange::change(PlayResult & playResult) {}
+
+/*
+PRE: Recibe un ventana de juego, 
+el resultado de juego, y el 
+procesardor de eventos del usuario 
+del juego.
+POST: Realiza un cambio nulo en los 
+elementos recibidos.
+*/
+void TextureChange::change(
+    Window & window, 
+    PlayResult & playResult, 
+    KeyReader & keyReader
+) {}

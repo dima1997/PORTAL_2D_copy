@@ -1,16 +1,9 @@
 #include "../../includes/threads/event_game_processor.h"
 
 #include "../../includes/threads/play_result.h"
+#include "../../includes/threads/key_reader.h"
 #include "../../includes/window/window.h"
 #include "../../includes/textures/common_texture/texture_change.h"
-#include "../../includes/textures/common_texture/texture_move_change.h"
-#include "../../includes/textures/common_texture/texture_switch_change.h"
-#include "../../includes/textures/common_texture/portal_move_change.h"
-#include "../../includes/textures/common_texture/start_follow_change.h"
-#include "../../includes/textures/common_texture/stop_follow_change.h"
-#include "../../includes/textures/common_texture/player_dies_change.h"
-#include "../../includes/textures/common_texture/player_wins_change.h"
-#include "../../includes/textures/common_texture/player_loses_change.h"
 
 #include <thread_safe_queue.h>
 #include <protocol/protocol_code.h>
@@ -28,6 +21,7 @@ ThreadStatus EventGameProcessor::process_event(std::unique_ptr<TextureChange> pt
     ThreadStatus status = THREAD_GO;
     ptrChange->change(this->window);
     ptrChange->change(this->playResult);
+    ptrChange->change(this->window, this->playResult, this->keyReader);
     if (this->playResult.get_game_status() != NOT_FINISHED){
         status = THREAD_STOP;
     }
@@ -47,11 +41,13 @@ PRE: Recibe:
 EventGameProcessor::EventGameProcessor(
     Window & window, 
     ThreadSafeQueue<std::unique_ptr<TextureChange>> & fromGameQueue,
-    PlayResult & playResult
+    PlayResult & playResult,
+    KeyReader & keyReader
 )
 :   window(window), 
     fromGameQueue(fromGameQueue),
-    playResult(playResult) {}
+    playResult(playResult),
+    keyReader(keyReader) {}
 
 /*Destruye el procesador de eventos del juego.*/
 EventGameProcessor::~EventGameProcessor() = default;

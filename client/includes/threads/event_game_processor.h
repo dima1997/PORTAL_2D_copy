@@ -19,6 +19,7 @@ private:
     Window & window;
     ThreadSafeQueue<std::unique_ptr<TextureChange>> & fromGameQueue;
     PlayResult & playResult;
+    KeyReader & keyReader;
 
 public:
     /*
@@ -28,13 +29,12 @@ public:
         afectan;
         una cola segura en hilos, de donde extraer el 
         proximo evento a ejecutar;
-        un tiempo (int) maximo de procesamiento, que superado
-        se deja de procesar. 
     */
     EventGameProcessor(
         Window & window, 
         ThreadSafeQueue<std::unique_ptr<TextureChange>> & fromGameQueue,
-        PlayResult & playResult
+        PlayResult & playResult,
+        KeyReader & keyReader
     );
 
     /*Destruye el procesador de eventos del juego.*/

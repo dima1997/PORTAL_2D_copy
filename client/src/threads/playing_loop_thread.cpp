@@ -74,25 +74,36 @@ void PlayingLoopThread::run(){
         std::unique_lock<std::mutex> l(this->mutex);
         this->isDead = false;
     }
-    EventGameProcessor eventProcessor(this->window, 
-                                      this->fromGameQueue,
-                                      this->playResult
-                                      );
+
+    // Inicializa procesardor de eventos del usuario.
     KeyReader keyReader(this->window,
                         this->mixer,
                         this->toGameQueue
                         );
+
+    // Inicializa procesador de eventos del juego.
+    EventGameProcessor eventProcessor(this->window, 
+                                      this->fromGameQueue,
+                                      this->playResult,
+                                      keyReader
+                                      );
     unsigned t0, t1;
     double timeWaitMicroSeconds = FRAME_TIME_WAIT_MICRO_SECONDS;
     while( ! this->is_dead() ){
         t0=clock();
+
+        // Proceso eventos del usuario
         if (keyReader.process_some_events() == THREAD_STOP){
             break;
         }
+
+        // Proceso eventos del juego.
         if (eventProcessor.process_some_events(timeWaitMicroSeconds) 
             == THREAD_STOP){
             break;
         }
+
+        //Actualizo jugador de principal
         uint32_t mainPlayerId = this->window.get_main_id();
         if (! this->playResult.is_player_alive(mainPlayerId)){
             keyReader.set_dead_keys();
@@ -101,18 +112,27 @@ void PlayingLoopThread::run(){
                 this->window.set_main_id(playerIdAlive);
             }
         }
+
+        //Renderiza texturas
         std::vector<char> videoFrameBuffer;
         this->window.render(videoFrameBuffer);
         if (this->window.is_recording()){
             this->videoFramesQueue.push(videoFrameBuffer);
         }
+
+        //Reproduce sonidos
         this->window.sound(this->mixer);
+        
         t1 = clock();
+
+        //Espero un tiempo entre renderizacion y renderizacion
         double timeSpendMicroSeconds = 
             (double(t1-t0)/CLOCKS_PER_SEC) * ONE_SECOND_EQ_MICRO_SECONDS;
         std::this_thread::sleep_for(std::chrono::microseconds(
             (int)(timeWaitMicroSeconds - timeSpendMicroSeconds)
         ));
+
+        // Verifico el estado de los otros hilos.
         ThreadStatus status;
         if (this->stopQueue.pop(status)){
             if (status == THREAD_STOP){

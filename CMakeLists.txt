@@ -113,6 +113,7 @@ file(GLOB client_files
         "${CLIENT_FOLDER}/src/textures/common_texture/player_dies_change.cpp"
         "${CLIENT_FOLDER}/src/textures/common_texture/player_wins_change.cpp"
         "${CLIENT_FOLDER}/src/textures/common_texture/player_loses_change.cpp"
+        "${CLIENT_FOLDER}/src/textures/common_texture/start_game_change.cpp"
         "${CLIENT_FOLDER}/src/textures/common_texture/null_sprite.cpp"
         "${CLIENT_FOLDER}/src/textures/common_texture/null_end_strategy.cpp"
         "${CLIENT_FOLDER}/src/textures/block_metal_texture/block_metal_sprite.cpp"

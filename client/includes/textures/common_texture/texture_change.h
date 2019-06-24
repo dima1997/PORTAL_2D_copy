@@ -1,8 +1,13 @@
 #ifndef TEXTURE_CHANGE_H
 #define TEXTURE_CHANGE_H
 
-#include "../../window/window.h"
-#include "../../threads/play_result.h"
+//#include "../../window/window.h"
+//#include "../../threads/play_result.h"
+//#include "../../threads/key_reader.h"
+
+class Window;
+class PlayResult;
+class KeyReader;
 
 #include <cstdint>
 
@@ -32,6 +37,20 @@ public:
     POST: Realiza un cambio nulo en dicho resultado.
     */
     virtual void change(PlayResult & playResult);   
+
+    /*
+    PRE: Recibe un ventana de juego, 
+    el resultado de juego, y el 
+    procesardor de eventos del usuario 
+    del juego.
+    POST: Realiza un cambio nulo en los 
+    elementos recibidos.
+    */
+    virtual void change(
+        Window & window, 
+        PlayResult & playResult, 
+        KeyReader & keyReader
+    );
 };
 
 #endif // TEXTURE_CHANGE_H

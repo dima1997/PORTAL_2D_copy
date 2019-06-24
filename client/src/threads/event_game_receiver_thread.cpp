@@ -9,6 +9,7 @@
 #include "../../includes/textures/common_texture/player_dies_change.h"
 #include "../../includes/textures/common_texture/player_wins_change.h"
 #include "../../includes/textures/common_texture/player_loses_change.h"
+#include "../../includes/textures/common_texture/start_game_change.h"
 
 #include <protocol/event/event.h>
 #include <protocol/event/player_wins_event.h>
@@ -25,8 +26,10 @@
 #include <protocol/protocol_code.h>
 #include <thread_safe_queue.h>
 #include <thread.h>
+#include <portal_exception.h>
 
 #include <iostream>
+#include <sstream>
 
 /*Recibe y procesa un evento del servidor.*/
 void EventGameReceiverThread::receive_event(){
@@ -138,16 +141,23 @@ void EventGameReceiverThread::wait_start_game() {
     switch (gameEvent){
         case game_starts:
             {
-                std::cout << "Game is about to start.\n";
                 this->started = true;
+                std::unique_ptr<TextureChange> ptrChange(
+                    new StartGameChange()
+                );
+                this->changesQueue.push(ptrChange);
             }
             break;
         default:
-            {
-                std::cerr << "Game could not start\n";
+            {   
+                std::stringstream err;
+                err << "Game could not start\n";
+                throw PortalException(err.str());
+                /*
                 this->stop();
                 ThreadStatus stop = THREAD_STOP;
                 this->stopQueue.push(stop);
+                */
             }
             break;
     }
@@ -193,12 +203,16 @@ void EventGameReceiverThread::run(){
                 this->wait_start_game();
             }
         }
-    } catch (SocketException &error){
+    } catch (SocketException & error){
         std::cerr << "Connection Lost at EGR.\n";
+        return;
+    } catch (PortalException & error){
+        std::cerr << error.what();
+    }
+    if (! this->is_dead()){
         this->stop();
         ThreadStatus stop = THREAD_STOP;
         this->stopQueue.push(stop);
-        return;
     }
 }
 
@@ -208,6 +222,9 @@ Detiene la ejecucion del hilo.
 void EventGameReceiverThread::stop(){
     std::unique_lock<std::mutex> l(this->mutex);
     if (! this->isDead){
+        try {
+            this->connector.shutDownRD();
+        } catch (SocketException & error){}
         this->isDead = true;
     }
 }

@@ -9,6 +9,10 @@
 
 #include <string>
 
+/*
+PRE: Recibe un resultado de juego.
+POST:Iniicaliza una ventana de fin de juego.
+*/
 GameOver::GameOver(PlayResult & playResult, QWidget *parent)
 :   QWidget(parent)
 {
@@ -19,6 +23,10 @@ GameOver::GameOver(PlayResult & playResult, QWidget *parent)
     this->set_players_status(playResult);
 }
 
+/*
+PRE: Recibe el resultado de un juego.
+POST: Setea la etiqueta de estado del juego.
+*/
 void GameOver::set_game_status(PlayResult & playResult){
     QLabel* gameStatusLabel = findChild<QLabel*>("gameStatusLabel");
     GameStatus gameStatus = playResult.get_game_status();
@@ -32,6 +40,10 @@ void GameOver::set_game_status(PlayResult & playResult){
     gameStatusLabel->setStyleSheet("QLabel { color : white; font-size: 20pt }");
 }
 
+/*
+PRE: Recibe el resultado de un juego.
+POST: Setea el estado de los jugadores en el text browser.
+*/
 void GameOver::set_players_status(PlayResult & playResult){
     QTextBrowser* playersStatusTextBrowser = 
         findChild<QTextBrowser*>("playersStatusTextBrowser");
@@ -39,4 +51,5 @@ void GameOver::set_players_status(PlayResult & playResult){
     playersStatusTextBrowser->append(playersStatusStr.c_str());
 }
 
+/*Destruye ventantana.*/
 GameOver::~GameOver() = default;
