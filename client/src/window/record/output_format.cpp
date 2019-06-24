@@ -3,10 +3,6 @@
 #include "../../../includes/window/record/format_context.h"
 #include "../../../includes/window/record/codec_context_wrapper.h"
 
-#include <cstdio>
-#include <string>
-#include <stdexcept>
-
 /*
 PRE: Recibe: 
     el nombre de archivo de salida de 

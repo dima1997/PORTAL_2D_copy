@@ -25,7 +25,7 @@ public:
     de nombre recibido.
     */
     OutputFormat(
-        const std::string& fileName, 
+        const std::string & fileName, 
         int bufferWidth, 
         int bufferHeight
     );

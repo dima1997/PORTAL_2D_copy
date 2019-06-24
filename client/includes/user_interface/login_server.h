@@ -4,10 +4,9 @@
 #include <QWidget>
 #include <QCloseEvent>
 
-#include "login_mode.h"
+class LoginMode;
 
 class LoginServer : public QWidget {
-//    Q_OBJECT
 private:
     LoginMode & loginMode;
 
@@ -18,11 +17,6 @@ public:
     LoginServer(LoginMode & loginMode, QWidget *parent = 0);
     virtual ~LoginServer();
     void quit();
-/*  
-signals:
-    void login_server_success();
-    void login_server_failed();
-*/
 };
 
 #endif // LOGIN_SERVER_H

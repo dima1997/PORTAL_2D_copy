@@ -1,9 +1,8 @@
 #ifndef FORMAT_CONTEXT_H
 #define FORMAT_CONTEXT_H
 
-#include <string>
-
 class AVFormatContext;
+
 class FormatContext {
 private:
     AVFormatContext *pFormatCtx;

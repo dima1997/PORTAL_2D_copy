@@ -9,13 +9,10 @@
 #include <iostream>
 #include <sstream>
 
-GameFactory::GameFactory() = default;
-
 Game GameFactory::createGame(std::string &host, std::string &port, std::string &command, uint8_t id) {
     Connector connector(host, port);
     if (command == "new") {
         connector << (uint8_t) new_game;
-        // Ignore map info
         uint8_t mapsNumber;
         connector >> mapsNumber;
         for (uint8_t i = 0; i < mapsNumber; ++i) {
@@ -46,7 +43,6 @@ Game GameFactory::createGame(std::string &host, std::string &port, std::string &
             std::string gameName;
             connector >> gameName;
         }
-        // ---
         connector << (uint8_t) id;
         uint8_t status;
         connector >> status;

@@ -4,14 +4,12 @@
 #include <QWidget>
 #include <QCloseEvent>
 
-#include "login_new.h"
-#include "login_join.h"
-
 #include <connector/connector.h>
 
-class LoginMode : public QWidget {
-//    Q_OBJECT
+class LoginNew;
+class LoginJoin;
 
+class LoginMode : public QWidget {
 private:
     LoginNew & loginNew;
     LoginJoin & loginJoin;
@@ -31,13 +29,6 @@ public:
     void set_connector(Connector & connector);
     virtual void closeEvent(QCloseEvent *event);
     void quit();
-
-/*
-signals:
-    void login_mode_new();
-    void login_mode_join();
-    void login_mode_failed();
-*/
 };
 
 #endif // LOGIN_MODE_H

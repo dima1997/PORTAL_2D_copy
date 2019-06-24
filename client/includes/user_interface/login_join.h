@@ -1,7 +1,6 @@
 #ifndef LOGIN_JOIN_H
 #define LOGIN_JOIN_H
 
-#include "../game/game_config.h"
 #include <connector/connector.h>
 
 #include <QWidget>
@@ -10,8 +9,9 @@
 #include <cstdint>
 #include <map>
 
+class GameConfig;
+
 class LoginJoin : public QWidget {
-//    Q_OBJECT
 private:
     Connector connector;
     GameConfig & gameConfig;
@@ -27,11 +27,6 @@ public:
     void set_connector(Connector & connector);
     virtual void closeEvent(QCloseEvent *event);
     void quit();
-/*
-signals:
-    void login_join_success();
-    void login_join_failed();
-*/
 };
 
 #endif // LOGIN_JOIN_H

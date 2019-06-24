@@ -1,11 +1,14 @@
 #ifndef TEXTURE_FACTORY_H
 #define TEXTURE_FACTORY_H
 
-#include <memory>
-#include "window.h"
 #include "../textures/common_texture/texture.h"
-#include "../textures/common_texture/area.h"
 #include "../textures/common_texture/images_paths.h"
+
+#include <memory>
+#include <cstdint>
+
+class Window;
+class Area;
 
 class TextureFactory {
 public:

@@ -1,12 +1,11 @@
 #ifndef BIG_TEXTURA_H
 #define BIG_TEXTURA_H
 
-#include "area.h"
-
-#include <SDL2/SDL.h>
-#include <SDL2/SDL_image.h>
-
 #include <string>
+
+class Area;
+class SDL_Renderer;
+class SDL_Texture;
 
 enum textureFlip_t {
     NO_FLIP,

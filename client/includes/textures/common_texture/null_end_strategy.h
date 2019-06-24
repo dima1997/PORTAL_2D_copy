@@ -13,6 +13,7 @@ enum NullEndSpriteName {
 class NullEndStrategy : public TwoSpritesStrategy {
 private:
     NullEndSpriteName spriteName;
+    
 public:
     /*
     PRE: Recibe recibe el sprite dinamico a usar antes de 

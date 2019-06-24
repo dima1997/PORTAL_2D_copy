@@ -23,30 +23,8 @@ Area Texture::getAreaDest(float adjuster, const Area & areaCamera) {
     dest = dest.to_y_axis_down_reference_system(
                     areaCameraTopLeft.getX(), areaCameraTopLeft.getY());
     dest = dest.adjust(adjuster);
-    return std::move(dest);
+    return dest;
 }
-
-/*
-PRE: Recibe una referencia a una gran textura que 
-contiene la imagen donde se encuentra el/los sprite/s 
-que utiliza la textura; el area (Area) que ocupa el 
-objeto que representa la textura en el mapa de juego;
-y un puntero unico con el sprite strategy que utiliza 
-la textura para ir variando sus sprites.
-POST: 
-*/
-Texture::Texture(BigTexture & bigTexture, Area & areaMap, 
-std::unique_ptr<SpriteStrategy> ptrSpriteStrategy)
-:   bigTexture(bigTexture), 
-    areaMap(areaMap), 
-    ptrSpriteStrategy(std::move(ptrSpriteStrategy)),
-    following(false),
-    ptrFollowArea(NULL),
-    angle(0),
-    redMod(255),
-    greenMod(255),
-    blueMod(255),
-    flip(NO_FLIP) {}
 
 /*
 PRE: Recibe:
@@ -63,6 +41,7 @@ PRE: Recibe:
     sobre 255.
 POST: Inicializa una textura.
 */
+
 Texture::Texture(
     BigTexture & bigTexture, 
     Area & areaMap, 
@@ -82,58 +61,6 @@ Texture::Texture(
     greenMod(greenMod),
     blueMod(blueMod),
     flip(NO_FLIP) {}
-
-/*
-PRE: Recibe una referencia a una gran textura que 
-contiene la imagen donde se encuentra el/los sprite/s 
-que utiliza la textura; el area (Area) que ocupa el 
-objeto que representa la textura en el mapa de juego;
-y sprite dinamico que sera el unico sprite a usar en la
-vida de la textura.
-POST: Inicializa una textura.
-*/
-Texture::Texture(BigTexture & bigTexture, Area & areaMap, 
-const DynamicSprite & dynamicSprite)
-:   bigTexture(bigTexture), 
-    areaMap(areaMap),
-    ptrSpriteStrategy(new SpriteStrategy(dynamicSprite)),
-    following(false),
-    ptrFollowArea(NULL),
-    angle(0),
-    redMod(255),
-    greenMod(255),
-    blueMod(255),
-    flip(NO_FLIP) {}
-
-/*
-PRE: Recibe:
-    una referencia a una gran textura que 
-    contiene la imagen donde se encuentra el/los sprite/s 
-    que utiliza la textura; 
-    el area (Area) que ocupa el objeto que representa la 
-    textura en el mapa de juego;
-    el sprite dinamico que sera el unico sprite a usar en la
-    vida de la textura;
-    un angulo (double) para rotar la textura al renderizarla;
-POST: Inicializa una textura.
-*/
-Texture::Texture(
-    BigTexture & bigTexture, 
-    Area & areaMap, 
-    const DynamicSprite & dynamicSprite,
-    double angle
-)
-:   bigTexture(bigTexture), 
-    areaMap(areaMap),
-    ptrSpriteStrategy(new SpriteStrategy(dynamicSprite)),
-    following(false),
-    ptrFollowArea(NULL),
-    angle(angle),
-    redMod(255),
-    greenMod(255),
-    blueMod(255),
-    flip(NO_FLIP)
-    {}
 
 /*
 PRE: Recibe:
@@ -234,7 +161,7 @@ void Texture::render(float adjuster, const Area & areaCamera) {
 Retorna un area (Area) de vision nula.
 */
 Area Texture::getVisionArea() {
-    return std::move(Area(0,0,0,0));
+    return Area(0,0,0,0);
 }
 
 /*
