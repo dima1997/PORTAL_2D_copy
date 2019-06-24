@@ -16,8 +16,8 @@
 #define ONE_SECOND_EQ_MICRO_SECONDS 100000
 
 void Game::start() {
+    gameState = PLAYING;
     for(auto &player : players) {
-        player.start();
         auto event = std::shared_ptr<Event>(new GameStartsEvent());
         player.addToQueue(event);
     }
@@ -51,7 +51,7 @@ void Game::start() {
         double timeSpendMicroSeconds = (double(t1-t0)/CLOCKS_PER_SEC) * ONE_SECOND_EQ_MICRO_SECONDS;
         std::this_thread::sleep_for(std::chrono::microseconds((int)(timeWaitMicroSeconds - timeSpendMicroSeconds)));
     }
-    finished = true;
+    gameState = FINISHED;
 }
 
 void Game::manageActions(std::unique_ptr<GameAction> ptrAction) {
@@ -122,12 +122,12 @@ void Game::manageActions(std::unique_ptr<GameAction> ptrAction) {
     }
 }
 
-Game::Game(std::vector<Connector> &connectors, Map &map): players(), thread(), world(map), inQueue(), finished(false) {
-    for (int i = 0; i < (int)connectors.size(); ++i) {
-        auto playerId = map.getPlayerId(i);
-        Connector &connector = connectors[i];
-        players.emplace_back(playerId, connector, inQueue);
-    }
+Game::Game(Connector &connector, uint8_t mapId): players(), thread(), map(mapId), world(map), inQueue(), gameState(WAITING) {
+    uint32_t playerId = map.getPlayerId(0);
+    connector << (uint32_t) playerId;
+    connector << map.toString();
+    players.emplace_back(playerId, connector, inQueue);
+    if (readyToStart()) gameState = READY;
 }
 
 void Game::operator()() {
@@ -141,10 +141,35 @@ void Game::join() {
     }
 }
 
-bool Game::isFinished() {
-    return finished;
-}
-
 Game::~Game() {
     this->join();
+}
+
+void Game::addPlayer(Connector &connector) {
+    uint32_t playerId = map.getPlayerId(getNumberOfPlayers());
+    connector << playerId;
+    connector << map.toString();
+    players.emplace_back(playerId, connector, inQueue);
+    if (readyToStart()) gameState = READY;
+}
+
+uint8_t Game::getNumberOfPlayers() {
+    auto it = players.begin();
+    while (it != players.end()) {
+        if (!(*it).stillRecvMsgs()) {
+            (*it).join();
+            it = players.erase(it);
+        } else {
+            ++it;
+        }
+    }
+    return players.size();
+}
+
+bool Game::readyToStart() {
+    return getNumberOfPlayers() == map.getPlayersNumber();
+}
+
+game_state_t Game::getState() {
+    return gameState;
 }

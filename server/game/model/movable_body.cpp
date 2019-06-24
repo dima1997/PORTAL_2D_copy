@@ -18,7 +18,7 @@ bool MovableBody::changedPosition() {
     return _changedPosition();
 }
 
-void MovableBody::applyImpulse(float32 xSpeed, float32 ySpeed) {
+void MovableBody::_applyImpulse(float32 xSpeed, float32 ySpeed) {
     b2Vec2 vel = body->GetLinearVelocity();
     float32 dvx = xSpeed - vel.x;
     float32 dvy = ySpeed - vel.y;
@@ -38,7 +38,7 @@ b2Vec2 MovableBody::getCurrentVelocity() {
 MovableBody::MovableBody(const MovableBody &other): Body(other), updated_position(other.updated_position) {}
 
 void MovableBody::_moveTo(float32 x, float32 y) {
-        body->SetTransform(lastPosition, body->GetAngle());
+        body->SetTransform(b2Vec2(lastPosition.x, lastPosition.y), body->GetAngle());
 }
 
 bool MovableBody::_changedPosition() {
@@ -47,6 +47,10 @@ bool MovableBody::_changedPosition() {
         return true;
     }
     return false;
+}
+
+void MovableBody::applyImpulse(float32 xSpeed, float32 ySpeed) {
+    _applyImpulse(xSpeed, ySpeed);
 }
 
 MovableBody::~MovableBody() = default;

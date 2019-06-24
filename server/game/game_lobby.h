@@ -27,20 +27,16 @@
 class GameLobby {
 private:
     uint8_t id;
-    std::vector<Connector> players;
     std::mutex mutex;
     std::condition_variable cv;
-    bool ready;
-    std::vector<uint32_t> playerIds;
-    Map map;
     std::unique_ptr<Game> game;
     std::string gameName;
+    void startIfReady();
 public:
     GameLobby(uint8_t id, uint8_t mapId, Connector &connector, std::string &gameName);
     ~GameLobby();
     GameLobby(GameLobby &&other) noexcept;
     GameLobby &operator=(GameLobby &&other) noexcept;
-    void startIfReady();
     bool isFinished();
     bool addPlayer(Connector &connector);
     bool isReady();

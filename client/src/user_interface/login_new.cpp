@@ -29,6 +29,13 @@ LoginNew::~LoginNew() = default;
 
 void LoginNew::config_new_game() {
     this->hide();
+    // TODO: use map info
+    uint8_t mapsNumber;
+    connector >> mapsNumber;
+    for (uint8_t i = 0; i < mapsNumber; ++i) {
+        uint8_t mapId;
+        connector >> mapId;
+    }
     QComboBox* comboBoxMapId = findChild<QComboBox*>("comboBoxMapId");
     QString currentMapIdStr = comboBoxMapId->currentText();
     bool allOk;
