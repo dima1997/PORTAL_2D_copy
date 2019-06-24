@@ -5,7 +5,6 @@
 #include "../../includes/window/texture_factory.h"
 #include "../../includes/textures/common_texture/texture.h"
 
-#include "../../../server/config/maps_configuration.h"
 #include <cstdint>
 
 typedef std::unique_ptr<Texture> (&texture_creator)(

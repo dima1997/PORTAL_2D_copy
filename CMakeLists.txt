@@ -14,7 +14,6 @@ set(SERVER_FOLDER "server")
 file(GLOB server_files
         "${SERVER_FOLDER}/main.cpp"
         "${SERVER_FOLDER}/config/global_configuration.cpp"
-        "${SERVER_FOLDER}/config/maps_configuration.cpp"
         "${SERVER_FOLDER}/server/server.cpp"
         "${SERVER_FOLDER}/server/thread_pool.cpp"
         "${SERVER_FOLDER}/server/client_acceptor.cpp"
@@ -47,10 +46,10 @@ file(GLOB server_files
         )
 
 install(FILES server/config/server_config.yaml DESTINATION ${CMAKE_BINARY_DIR})
-install(FILES server/config/config_0.yaml DESTINATION ${CMAKE_BINARY_DIR})
-install(FILES server/config/config_1.yaml DESTINATION ${CMAKE_BINARY_DIR})
-install(FILES server/config/config_2.yaml DESTINATION ${CMAKE_BINARY_DIR})
-install(FILES server/config/config_3.yaml DESTINATION ${CMAKE_BINARY_DIR})
+install(FILES server/config/map_0.yaml DESTINATION ${CMAKE_BINARY_DIR})
+install(FILES server/config/map_1.yaml DESTINATION ${CMAKE_BINARY_DIR})
+install(FILES server/config/map_2.yaml DESTINATION ${CMAKE_BINARY_DIR})
+install(FILES server/config/map_3.yaml DESTINATION ${CMAKE_BINARY_DIR})
 
 add_executable(${SERVER_NAME} ${server_files})
 target_compile_features(${SERVER_NAME} PUBLIC cxx_std_11)

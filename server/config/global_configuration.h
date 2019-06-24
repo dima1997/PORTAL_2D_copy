@@ -18,9 +18,12 @@ public:
     const int requestExecutorsNumber;
     const int waitBeforeStartSeconds;
     const double stepMaxTimeMicroSeconds;
+    const std::vector<std::string> availableMaps;
     const float timeStepSeconds;
     const int velocityIterations;
     const int positionIterations;
+    const float gravityX;
+    const float gravityY;
 };
 
 const GlobalConfiguration CONFIG;

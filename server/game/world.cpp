@@ -7,7 +7,6 @@
 #include <Box2D/Dynamics/b2Fixture.h>
 #include "world.h"
 
-#include "../config/maps_configuration.h"
 #include <portal_exception.h>
 #include <protocol/event/player_wins_event.h>
 #include <protocol/event/player_dies_event.h>
@@ -20,7 +19,7 @@
 #include "contact_listener/contact_listener.h"
 #include "../config/global_configuration.h"
 
-World::World(Map &map): gravity(0.0f, -9.8f), world(new b2World(gravity)), contactListener(), contactFilter(),
+World::World(Map &map): world(new b2World(b2Vec2(CONFIG.gravityX, CONFIG.gravityY))), contactListener(), contactFilter(),
                         numberOfPlayers(map.getPlayersNumber()), finished(false), chells(map.loadChells(*world)),
                         blocks(map.loadBlocks(*world)), doors(map.loadDoors(*world)),
                         buttons(map.loadButtons(*world, doors)), rocks(map.loadRocks(*world)),

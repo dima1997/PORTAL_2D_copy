@@ -15,7 +15,6 @@
 #include "../../includes/mixer/mixer.h"
 #include "../../includes/mixer/portal_mixer.h"
 
-#include "../../../server/config/maps_configuration.h"
 #include <yaml-cpp/yaml.h>
 
 #include <mutex>

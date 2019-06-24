@@ -21,11 +21,7 @@
 
 #include <iostream>
 
-#include "../config/maps_configuration.h"
 #include "yaml-cpp/yaml.h"
-
-#define TIME_WAIT_MICRO_SECONDS 10000
-#define ONE_SECOND_EQ_MICRO_SECONDS 100000 
 
 GameLobby &GameLobby::operator=(GameLobby &&other) noexcept {
     this->id = other.id;
