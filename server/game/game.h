@@ -13,20 +13,26 @@
 #include "player.h"
 #include "map.h"
 
+typedef enum game_state {WAITING, READY, PLAYING, FINISHED, ERROR} game_state_t;
+
 class Game {
-    std::vector<Player> players;
+    std::list<Player> players;
     std::thread thread;
+    Map map;
     World world;
     ThreadSafeQueue<std::unique_ptr<GameAction>> inQueue;
+    game_state_t gameState;
     void start();
     void manageActions(std::unique_ptr<GameAction> ptrAction);
-    bool finished;
     void join();
+    bool readyToStart();
+    uint8_t getNumberOfPlayers();
 public:
-    Game(std::vector<Connector> &vector, Map &map);
+    Game(Connector &connector, uint8_t mapId);
     ~Game();
+    void addPlayer(Connector &connector);
     void operator()();
-    bool isFinished();
+    game_state_t getState();
 };
 
 

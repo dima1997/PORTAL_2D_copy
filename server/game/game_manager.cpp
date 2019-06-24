@@ -23,7 +23,6 @@ void GameManager::addGame(Connector &connector) {
         connector >> gameName;
         uint8_t game_id = this->getKey();
         games.insert(std::make_pair(game_id, GameLobby(game_id, mapId, connector, gameName)));
-        games.at(game_id).startIfReady();
         this->eraseFinished();
     } catch(SocketException &se) {
         std::cerr << se.what() << std::endl;
@@ -38,9 +37,7 @@ void GameManager::joinToGame(Connector &connector) {
         connector >> gameId;
         try {
             GameLobby &game = games.at(gameId);
-            if (game.addPlayer(connector)) {
-                game.startIfReady();
-            } else {
+            if (!game.addPlayer(connector)) {
                 connector << (uint8_t) game_is_full;
             }
         } catch (const std::out_of_range &e) {

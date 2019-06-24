@@ -16,6 +16,8 @@
 
 #include <memory>
 
+typedef enum player_state {WAITING_P, RECEIVING_P, FINISHED_P, ERROR_P} player_state_t;
+
 class Player {
 private:
     uint32_t id;
@@ -25,19 +27,19 @@ private:
     BlockingQueue<std::shared_ptr<Event>> outQueue;
     ThreadSafeQueue<std::unique_ptr<GameAction>> &inQueue;
     std::mutex mutex;
-    bool recvMsgs;
-    bool stillRecvMsgs();
-    void stopRecv();
+    player_state_t state;
+    void setState(player_state_t state);
     void sendEvents();
     void recvGameActions();
+    void start();
 public:
     Player(uint32_t id, Connector &connector, ThreadSafeQueue<std::unique_ptr<GameAction>> &inQueue);
     Player(Player &&other) noexcept;
     ~Player();
-    void start();
+    bool stillRecvMsgs();
     void join();
     void addToQueue(std::shared_ptr<Event> &ptrEvent);
-    uint32_t getPlayerId();
+    player_state_t getState();
 };
 
 

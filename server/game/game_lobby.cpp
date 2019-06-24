@@ -29,28 +29,21 @@
 
 GameLobby &GameLobby::operator=(GameLobby &&other) noexcept {
     this->id = other.id;
-    this->ready = other.ready;
-    this->players = std::move(other.players);
-    this->playerIds = std::move(other.playerIds);
     this->game = std::move(other.game);
     return *this;
 }
 
-GameLobby::GameLobby(GameLobby &&other) noexcept: id(other.id), players(std::move(other.players)), mutex(), cv(),
-                                   ready(other.ready), playerIds(std::move(other.playerIds)), map(std::move(other.map)),
-                                   game(std::move(other.game)), gameName(std::move(other.gameName)) {}
+GameLobby::GameLobby(GameLobby &&other) noexcept: id(other.id), mutex(), cv(),
+                     game(std::move(other.game)), gameName(std::move(other.gameName)) {}
 
 GameLobby::GameLobby(uint8_t id, uint8_t map_id, Connector &connector, std::string &gameName):
-                     id(id), players(), mutex(), cv(), ready(false),playerIds(), map(map_id),
-                     game(), gameName(std::move(gameName)) {
+                     id(id), mutex(), cv(), game(), gameName(std::move(gameName)) {
     try {
+        std::unique_lock<std::mutex> l(mutex);
         connector << (uint8_t) command_ok;
         connector << (uint8_t) id;
-        std::unique_lock<std::mutex> l(mutex);
-        uint32_t playerId = map.getPlayerId(0);
-        connector << (uint32_t) playerId;
-        connector << map.toString();
-        players.push_back(std::move(connector));
+        game = std::unique_ptr<Game>(new Game(connector, map_id));
+        startIfReady();
     } catch(SocketException &se) {
         std::cerr << se.what() << std::endl;
     }
@@ -59,13 +52,11 @@ GameLobby::GameLobby(uint8_t id, uint8_t map_id, Connector &connector, std::stri
 
 bool GameLobby::addPlayer(Connector &connector) {
     std::unique_lock<std::mutex> l(mutex);
-    if (!ready) {
+    if (game->getState() == WAITING) {
         try {
             connector << (uint8_t) command_ok;
-            uint32_t playerId = map.getPlayerId(players.size());
-            connector << playerId;
-            connector << map.toString();
-            players.push_back(std::move(connector));
+            game->addPlayer(connector);
+            startIfReady();
             return true;
         } catch(SocketException &se) {
             std::cerr << se.what() << std::endl;
@@ -77,17 +68,14 @@ bool GameLobby::addPlayer(Connector &connector) {
 GameLobby::~GameLobby() = default;
 
 void GameLobby::startIfReady() {
-    std::unique_lock<std::mutex> l(mutex);
-    if (players.size() == map.getPlayersNumber() && !ready) {
-        ready = true;
-        game = std::unique_ptr<Game>(new Game(players, map));
+    if (game->getState() == READY) {
         (*game)();
     }
 }
 
 bool GameLobby::isFinished() {
-    if(game == nullptr) return false;
-    return game->isFinished();
+    std::unique_lock<std::mutex> l(mutex);
+    return game->getState() == FINISHED;
 }
 
 std::string &GameLobby::getName() {
@@ -95,7 +83,8 @@ std::string &GameLobby::getName() {
 }
 
 bool GameLobby::isReady() {
-    return ready;
+    std::unique_lock<std::mutex> l(mutex);
+    return game->getState() == READY;
 }
 
 uint8_t GameLobby::getId() {
