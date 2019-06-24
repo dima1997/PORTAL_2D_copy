@@ -3,21 +3,18 @@
 
 #include "texture_change.h"
 
-class ObjectSwitchEvent;
 class Window;
+class Connector;
 
 class TextureSwitchChange : public TextureChange {
 public:
     /*
-    PRE: Recibe un evento de swtich en objeto 
-    (const ObjectSwitchEvent &).
-    POST: Inicializa un cambio de tipo switch
-    en textura.
+    PRE: Recibe un connector por donde se recibira a 
+    continuacion un ObjectSwitchEvent.
+    POST: Inicializa el cambio.
     */
-    TextureSwitchChange(const ObjectSwitchEvent & ObjectSwitchEvent);
+    TextureSwitchChange(Connector & connector);
 
-    TextureSwitchChange(uint32_t idObject);
-    
     /*Destruye el cambio de tipo switch en textura.*/
     virtual ~TextureSwitchChange();
 

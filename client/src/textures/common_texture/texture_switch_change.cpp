@@ -4,19 +4,20 @@
 #include "../../../includes/window/window.h"
 
 #include <protocol/event/object_switch_event.h>
+#include <connector/connector.h>
 
 /*
-PRE: Recibe un evento de swtich en objeto 
-(const ObjectSwitchEvent &).
+PRE: Recibe un connector por donde se recibira a 
+continuacion un ObjectSwitchEvent
 POST: Inicializa un cambio de tipo switch
 en textura.
 */
-TextureSwitchChange::TextureSwitchChange
-(const ObjectSwitchEvent & objectSwitchEvent)
-:   TextureChange(objectSwitchEvent.getObjectId()) {}
-
-TextureSwitchChange::TextureSwitchChange(uint32_t idObject)
-:   TextureChange(idObject) {}
+TextureSwitchChange::TextureSwitchChange(Connector & connector)
+:   TextureChange(0) {
+    ObjectSwitchEvent event;
+    connector >> event;
+    this->id = event.getObjectId();
+}
 
 /*Destruye el cambio de tipo switch en textura.*/
 TextureSwitchChange::~TextureSwitchChange() = default;

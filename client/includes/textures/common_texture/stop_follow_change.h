@@ -6,19 +6,16 @@
 #include <cstdint>
 
 class Window;
+class Connector;
 
 class StopFollowChange : public TextureChange { 
 public:
     /*
-    PRE: Recibe:
-        el id de una textura seguidora;
-        el id de una textura a seguir;
-    POST: Inicializa un cambio de dejar de seguir
-    una textura.
+    PRE: Recibe un connector por donde se recibira a 
+    continuacion el id de la textura a seguir.
+    POST: Inicializa el cambio.
     */
-    StopFollowChange(
-        uint32_t idFollowing
-    );
+    StopFollowChange(Connector & connector);
 
     /*
     Destruye el cambio de seguimiento de la textura.

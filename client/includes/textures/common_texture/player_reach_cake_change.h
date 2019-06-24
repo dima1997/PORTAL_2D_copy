@@ -7,19 +7,19 @@
 
 class Window;
 class PlayResult;
+class Connector;
 
 class PlayerReachCakeChange : public TextureChange { 
 public:
+
     /*
-    PRE: Recibe:
-        el id de una textura seguidora;
-        el id de una textura a seguir;
-    POST: Inicializa un cambio donde gane 
-    un jugador.
+    PRE: Recibe un connector por donde se vaya 
+    a recibir a continuacion el id del jugador 
+    ganador.
+    POST: Inicializa el cambio de jugador que 
+    gana.
     */
-    PlayerReachCakeChange(
-        uint32_t idPlayer
-    );
+    PlayerReachCakeChange(Connector & connector);
 
     /*
     Destruye el cambio.

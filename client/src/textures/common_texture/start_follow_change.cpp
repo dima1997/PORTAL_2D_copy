@@ -3,22 +3,22 @@
 #include "../../../includes/textures/common_texture/texture_change.h"
 #include "../../../includes/window/window.h"
 
+#include <connector/connector.h>
+
 #include <cstdint>
 
 /*
-PRE: Recibe:
+PRE: Recibe un connector que recibira a continuacion:
     el id de una textura seguidora;
-    el id de una textura a seguir;
+    luego, el id de una textura a seguir;
 POST: Inicializa un cambio de empezar a seguir
 una textura.
 */
-StartFollowChange::StartFollowChange(
-    uint32_t idFollowing, 
-    uint32_t idFollowed
-)
-:   TextureChange(idFollowing),
-    idFollowing(idFollowing),
-    idFollowed(idFollowed) {}
+StartFollowChange::StartFollowChange(Connector & connector)
+:   TextureChange(0) {
+    connector >> this->idFollowing;
+    connector >> this->idFollowed;
+}
 
 /*
 Destruye el cambio de seguimiento de la textura.

@@ -5,18 +5,21 @@
 #include "../../../includes/threads/play_result.h"
 #include "../../../includes/threads/key_reader.h"
 
+#include <connector/connector.h>
+
 #include <cstdint>
 
 /*
-PRE: Recibe:
-    el id del jugador muerto.
+PRE: Recibe un connector que vaya a recibir 
+a continuacion:
+    el id del jugador ganadors.
 POST: Inicializa un cambio donde gane
 un jugador.
 */
-PlayerReachCakeChange::PlayerReachCakeChange(
-    uint32_t idPlayer 
-)
-:   TextureChange(idPlayer) {}
+PlayerReachCakeChange::PlayerReachCakeChange(Connector & connector)
+:   TextureChange(0) {
+    connector >> this->id;
+}
 
 /*
 Destruye el cambio.

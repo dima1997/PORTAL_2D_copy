@@ -8,18 +8,18 @@
 class Window;
 class PlayResult;
 class KeyReader;
+class Connector;
 
 class PlayerDiesChange : public TextureChange { 
 public:
     /*
-    PRE: Recibe:
+    PRE: Recibe un connector por donde se vaya a recibir 
+    a continuacion:
         el id de una textura seguidora;
         el id de una textura a seguir;
     POST: Inicializa un cambio donde muere un jugador.
     */
-    PlayerDiesChange(
-        uint32_t idPlayer
-    );
+    PlayerDiesChange(Connector & connector);
 
     /*
     Destruye el cambio.

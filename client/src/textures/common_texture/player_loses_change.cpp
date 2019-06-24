@@ -4,14 +4,19 @@
 #include "../../../includes/window/window.h"
 #include "../../../includes/threads/play_result.h"
 
+#include <connector/connector.h>
+
 #include <cstdint>
 
 /*
-Inicializa un cambio donde pierde 
+PRE: Recibe un connector;
+POST: Inicializa un cambio donde pierde 
 un jugador.
 */
-PlayerLosesChange::PlayerLosesChange()
-:   TextureChange(0) {}
+PlayerLosesChange::PlayerLosesChange(Connector & connector)
+:   TextureChange(0) {
+    // No necesita recibir nada del connetor
+}
 
 /*
 Destruye el cambio.

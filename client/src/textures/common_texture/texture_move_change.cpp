@@ -4,20 +4,22 @@
 #include "../../../includes/window/window.h"
 
 #include <protocol/event/object_moves_event.h>
+#include <connector/connector.h>
 
 /*
-PRE: Recibe el id de una textura, y las nuevas 
-coordenadas x,y de la misma, en el mapa de juego.
+PRE: Recibe un connector por donde se recibira a 
+continuacion un ObjectMovesEvent.
 POST: Inicializa un cambio en la ubicacion de la
-textura, bajo las condiciones indicadas.
+textura.
 */
-TextureMoveChange::TextureMoveChange(uint32_t idTexture, float newX, float newY)
-: TextureChange(idTexture), newX(newX), newY(newY) {}
-
-TextureMoveChange::TextureMoveChange(const ObjectMovesEvent &objectMovesEvent)
-:   TextureChange(objectMovesEvent.getId()),
-    newX(objectMovesEvent.getX()),
-    newY(objectMovesEvent.getY()) {}
+TextureMoveChange::TextureMoveChange(Connector & connector)
+:   TextureChange(0) {
+    ObjectMovesEvent event;
+    connector >> event;
+    this->id = event.getId();
+    this->newX = event.getX();
+    this->newY = event.getY();
+}
 
 /*
 Destruye el cambio de ubicacion de la textura.

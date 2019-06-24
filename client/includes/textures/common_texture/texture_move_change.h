@@ -5,8 +5,8 @@
 
 #include <cstdint>
 
-class ObjectMovesEvent;
 class Window;
+class Connector;
 
 class TextureMoveChange : public TextureChange {
 private:
@@ -14,14 +14,11 @@ private:
     float newY;
 public:
     /*
-    PRE: Recibe el id de una textura, y las nuevas 
-    coordenadas x,y de la misma, en el mapa de juego.
-    POST: Inicializa un cambio en la ubicacion de la
-    textura, bajo las condiciones indicadas.
+    PRE: Recibe un connector por donde se recibira a 
+    continuacion un ObjectMoveEvent.
+    POST: Inicializa el cambio.
     */
-    TextureMoveChange(uint32_t idTexture, float newX, float newY);
-
-    TextureMoveChange(const ObjectMovesEvent &objectMovesEvent);
+    TextureMoveChange(Connector & connector);
 
     /*
     Destruye el cambio de ubicacion de la textura.

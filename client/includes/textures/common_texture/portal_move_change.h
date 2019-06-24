@@ -6,6 +6,7 @@
 #include <cstdint>
 
 class Window;
+class Connector;
 
 class PortalMoveChange : public TextureChange {
 private:
@@ -18,22 +19,11 @@ private:
     
 public:
     /*
-    PRE: Recibe:
-        el id de una textura de portal;
-        las nuevas coordenadas x,y de la misma, en el mapa de 
-        juego;
-        y el id de la textura quien dispara el portal.
-    POST: Inicializa un cambio en la ubicacion de la
-    textura del portal, bajo las condiciones indicadas.
+    PRE: Recibe un connector por donde se vaya a recibir a 
+    continuacion un PortalMoveEvent.
+    POST: Inicializa el cambio.
     */
-    PortalMoveChange(
-        uint32_t idPortal, 
-        float newX, 
-        float newY, 
-        uint32_t idShooter,
-        float normalX,
-        float normalY
-    );
+    PortalMoveChange(Connector & connector);
 
     /*
     Destruye el cambio de ubicacion de la textura.

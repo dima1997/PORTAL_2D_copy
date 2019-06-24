@@ -5,11 +5,17 @@
 #include "../../../includes/threads/key_reader.h"
 #include "../../../includes/window/window.h"
 
+#include <connector/connector.h>
+
 /*
-Inicializa un cambio de inicio de partida.
+PRE: Recibe un connector.
+POST: Inicializa un cambio de inicio 
+de partida.
 */
-StartGameChange::StartGameChange()
-:   TextureChange(0) {}
+StartGameChange::StartGameChange(Connector & connector)
+:   TextureChange(0){
+    //No necesita recibir nada 
+}
 
 /*
 Destruye el cambio.

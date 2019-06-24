@@ -10,7 +10,7 @@
 class PlayerWinsEvent: public Event {
 public:
     PlayerWinsEvent();
-    ~PlayerWinsEvent() override;
+    virtual ~PlayerWinsEvent() override;
 };
 
 

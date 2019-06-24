@@ -3,32 +3,27 @@
 #include "../../../includes/textures/common_texture/texture_change.h"
 #include "../../../includes/window/window.h"
 
+#include <protocol/event/portal_moves_event.h>
+#include <connector/connector.h>
+
 #include <cstdint>
 
 /*
-PRE: Recibe:
-    el id de una textura de portal;
-    las nuevas coordenadas x,y de la misma, en el 
-    mapa de juego;
-    y el id de la textura quien dispara el portal.
-POST: Inicializa un cambio en la ubicacion de la
-textura del portal, bajo las condiciones indicadas.
+PRE: Recibe un connector por donde se vaya a recibir a 
+continuacion un PortalMoveEvent.
+POST: Inicializa un cambio de portal moviendose.
 */
-PortalMoveChange::PortalMoveChange(
-    uint32_t idPortal, 
-    float newX, 
-    float newY, 
-    uint32_t idShooter,
-    float normalX,
-    float normalY
-)
-:   TextureChange(idPortal),
-    idPortal(idPortal),
-    newX(newX),
-    newY(newY),
-    idShooter(idShooter),
-    normalX(normalX),
-    normalY(normalY) {}
+PortalMoveChange::PortalMoveChange(Connector & connector)
+:   TextureChange(0) {
+    PortalMovesEvent event;
+    connector >> event;
+    this->idPortal = event.getId(); 
+    this->newX = event.getX();
+    this->newY = event.getY();
+    this->idShooter = event.get_chell_id();
+    this->normalX = event.get_normal_x();
+    this->normalY = event.get_normal_y();
+}
 
 /*
 Destruye el cambio de ubicacion de la textura 

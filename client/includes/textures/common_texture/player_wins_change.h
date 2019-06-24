@@ -6,14 +6,17 @@
 #include <cstdint>
 
 class Window;
+class PlayResult;
+class Connector;
 
 class PlayerWinsChange : public TextureChange { 
 public:
     /*
-    Inicializa un cambio donde gana 
+    PRE: Recibe un connector.
+    POST: Inicializa el cambio donde gana 
     un jugador.
     */
-    PlayerWinsChange();
+    PlayerWinsChange(Connector & connector);
 
     /*
     Destruye el cambio.

@@ -5,18 +5,20 @@
 #include "../../../includes/threads/play_result.h"
 #include "../../../includes/threads/key_reader.h"
 
+#include <connector/connector.h>
+
 #include <cstdint>
 
 /*
-PRE: Recibe:
-    el id del jugador muerto.
+PRE: Recibe un connector por donde se recibira a 
+continuacion el ide de un jugador muerto.
 POST: Inicializa un cambio donde muere 
 un jugador.
 */
-PlayerDiesChange::PlayerDiesChange(
-    uint32_t idPlayer 
-)
-:   TextureChange(idPlayer) {}
+PlayerDiesChange::PlayerDiesChange(Connector & connector)
+:   TextureChange(0){
+    connector >> this->id;
+}
 
 /*
 Destruye el cambio.

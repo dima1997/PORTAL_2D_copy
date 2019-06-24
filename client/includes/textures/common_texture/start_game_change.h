@@ -3,20 +3,21 @@
 
 #include "texture_change.h"
 
-class TextureChange;
+#include <cstdint>
+
 class Window;
 class PlayResult;
 class KeyReader;
-
-#include <cstdint>
+class Connector;
 
 class StartGameChange : public TextureChange { 
 public:
     /*
-    Inicializa un cambio de inicio 
-    de partida.
+    PRE: Recibe un connector.
+    POST: Inicializa el cambio de inicio 
+    de juego.
     */
-    StartGameChange();
+    StartGameChange(Connector & connector);
 
     /*
     Destruye el cambio.
