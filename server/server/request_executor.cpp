@@ -30,7 +30,7 @@ void RequestExecutor::execute() {
             continue;
         }
         if (instruction == new_game) {
-            gameManager.addGqame(connector);
+            gameManager.addGame(connector);
         } else if (instruction == join_game) {
             gameManager.joinToGame(connector);
         } else {
