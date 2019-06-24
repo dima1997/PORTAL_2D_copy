@@ -35,12 +35,6 @@ void LoginServer::login(){
     try {
         Connector connector(ipStr, portStr);
         this->loginMode.set_connector(connector);
-        QMessageBox qMsg;
-        qMsg.setWindowTitle("Portal");
-        std::stringstream ok;
-        ok << "Connection Success.\n";
-        qMsg.setText(QString(ok.str().c_str()));
-        qMsg.exec();
         this->loginMode.show();
         this->close();
         ((Login*)this->parentWidget())->adjustSize();

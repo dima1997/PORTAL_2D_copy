@@ -45,11 +45,6 @@ void LoginJoin::config_join_game() {
         this->connector >> playerId;
         std::string mapYaml;
         connector >> mapYaml;
-        /*
-        uint8_t start;
-        std::cout << "Waiting for other players at QT ... \n";
-        connector >> start;
-        */
         this->gameConfig.set_connector(this->connector);
         this->gameConfig.set_game_id(gameId);
         this->gameConfig.set_player_id(playerId);
@@ -59,6 +54,7 @@ void LoginJoin::config_join_game() {
         qMsg.setWindowTitle("Portal");
         std::stringstream ok;
         ok << "Join game success.\n";
+        ok << "Player id : " << playerId << "\n";
         qMsg.setText(QString(ok.str().c_str()));
         qMsg.exec();
         ((Login*)this->parentWidget())->close();

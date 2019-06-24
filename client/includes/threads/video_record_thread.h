@@ -1,8 +1,6 @@
 #ifndef VIDEO_RECORD_THREAD_H
 #define VIDEO_RECORD_THREAD_H
 
-#include "../window/record/output_format.h"
-
 #include <thread.h>
 #include <blocking_queue.h>
 
@@ -12,9 +10,13 @@
 class VideoRecordThread : public Thread {
 private:
     bool isDead;
-    OutputFormat outputFormat;
+    int width;
+    int height;
     BlockingQueue<std::vector<char>> & videoFramesQueue;
     std::mutex mutex;
+
+    /*Detiene la ejecucion del hilo*/
+    void _stop();
 
 public:
     /*
@@ -26,9 +28,9 @@ public:
     POST: 
     */
     VideoRecordThread(
-        const std::string & videoFileName,
+        //const std::string & videoFileName,
         int videoWidth,
-        int videoheight,
+        int videoHeight,
         BlockingQueue<std::vector<char>> & videoFramesQueue
     );
 
