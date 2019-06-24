@@ -1,9 +1,6 @@
 #ifndef KEY_READER_H
 #define KEY_READER_H
 
-//#include "../window/window.h"
-//#include "../mixer/mixer.h"
-
 class Window;
 class Mixer;
 

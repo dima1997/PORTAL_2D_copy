@@ -103,16 +103,6 @@ void PlayingLoopThread::run(){
             break;
         }
 
-        //Actualizo jugador de principal
-        uint32_t mainPlayerId = this->window.get_main_id();
-        if (! this->playResult.is_player_alive(mainPlayerId)){
-            keyReader.set_dead_keys();
-            uint32_t playerIdAlive = this->playResult.get_player_alive();
-            if (playerIdAlive != (uint32_t)(-1)){
-                this->window.set_main_id(playerIdAlive);
-            }
-        }
-
         //Renderiza texturas
         std::vector<char> videoFrameBuffer;
         this->window.render(videoFrameBuffer);

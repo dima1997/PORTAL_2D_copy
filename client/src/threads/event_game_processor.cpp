@@ -19,8 +19,6 @@ POST: Procesa el evento.
 */
 ThreadStatus EventGameProcessor::process_event(std::unique_ptr<TextureChange> ptrChange){
     ThreadStatus status = THREAD_GO;
-    ptrChange->change(this->window);
-    ptrChange->change(this->playResult);
     ptrChange->change(this->window, this->playResult, this->keyReader);
     if (this->playResult.get_game_status() != NOT_FINISHED){
         status = THREAD_STOP;

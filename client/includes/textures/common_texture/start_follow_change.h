@@ -34,7 +34,7 @@ public:
     POST: Realiza el cambio que representa 
     en la ventana recibida.
     */
-    virtual void change(Window & window);    
+    virtual void change(Window & window);
 };
 
 #endif // START_FOLLOW_CHANGE_H

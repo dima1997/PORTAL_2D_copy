@@ -31,6 +31,12 @@ POST: Realiza un cambio nulo en dicho resultado.
 void TextureChange::change(PlayResult & playResult) {}
 
 /*
+PRE: Recibe un lector de eventos del usuario.
+POST: Realiza un cambio nulo en dicho resultado.
+*/
+void TextureChange::change(KeyReader & keyReader) {}
+
+/*
 PRE: Recibe un ventana de juego, 
 el resultado de juego, y el 
 procesardor de eventos del usuario 
@@ -42,4 +48,8 @@ void TextureChange::change(
     Window & window, 
     PlayResult & playResult, 
     KeyReader & keyReader
-) {}
+) {
+    this->change(window);
+    this->change(playResult);
+    this->change(keyReader);
+}

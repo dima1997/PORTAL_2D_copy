@@ -34,6 +34,18 @@ public:
     
     /*Actualiza el resultado del juego.*/
     virtual void change(PlayResult & playResult); 
+
+    /*
+    Actualiza: 
+        la textura principal del la ventana;
+        el resultado de juego;
+        y el input del usuario;
+    */
+    virtual void change(
+        Window & window, 
+        PlayResult & playResult, 
+        KeyReader & keyReader
+    );
 };
 
 #endif // PLAYER_DIES_CHANGE_H

@@ -45,8 +45,7 @@ public:
     POST: Realiza el cambio que representa 
     en la ventana recibida.
     */
-    virtual void change(Window &window);
-    
+    virtual void change(Window &window); 
 };
 
 #endif // PORTAL_MOVE_CHANGE_H
