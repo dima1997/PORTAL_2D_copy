@@ -7,16 +7,14 @@ set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -ggdb -DDEBUG")
 
 # YAML
 add_subdirectory(lib/yaml-cpp)
-install(FILES common/configs_yaml/config_0.yaml DESTINATION ${CMAKE_BINARY_DIR})
-install(FILES common/configs_yaml/config_1.yaml DESTINATION ${CMAKE_BINARY_DIR})
-install(FILES common/configs_yaml/config_2.yaml DESTINATION ${CMAKE_BINARY_DIR})
-install(FILES common/configs_yaml/config_3.yaml DESTINATION ${CMAKE_BINARY_DIR})
 
 # SERVER -----------------------
 set(SERVER_NAME "PORTAL-server")
 set(SERVER_FOLDER "server")
 file(GLOB server_files
         "${SERVER_FOLDER}/main.cpp"
+        "${SERVER_FOLDER}/config/global_configuration.cpp"
+        "${SERVER_FOLDER}/config/maps_configuration.cpp"
         "${SERVER_FOLDER}/server/server.cpp"
         "${SERVER_FOLDER}/server/thread_pool.cpp"
         "${SERVER_FOLDER}/server/client_acceptor.cpp"
@@ -47,6 +45,12 @@ file(GLOB server_files
         "${SERVER_FOLDER}/game/contact_listener/contact_listener.cpp"
         "${SERVER_FOLDER}/game/contact_filter/contact_filter.cpp"
         )
+
+install(FILES server/config/server_config.yaml DESTINATION ${CMAKE_BINARY_DIR})
+install(FILES server/config/config_0.yaml DESTINATION ${CMAKE_BINARY_DIR})
+install(FILES server/config/config_1.yaml DESTINATION ${CMAKE_BINARY_DIR})
+install(FILES server/config/config_2.yaml DESTINATION ${CMAKE_BINARY_DIR})
+install(FILES server/config/config_3.yaml DESTINATION ${CMAKE_BINARY_DIR})
 
 add_executable(${SERVER_NAME} ${server_files})
 target_compile_features(${SERVER_NAME} PUBLIC cxx_std_11)

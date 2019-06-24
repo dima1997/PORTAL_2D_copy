@@ -7,7 +7,7 @@
 #include <Box2D/Dynamics/b2Fixture.h>
 #include "world.h"
 
-#include <configs_yaml/config_paths.h>
+#include "../config/maps_configuration.h"
 #include <portal_exception.h>
 #include <protocol/event/player_wins_event.h>
 #include <protocol/event/player_dies_event.h>
@@ -18,10 +18,7 @@
 #include <protocol/event/portal_moves_event.h>
 #include "yaml-cpp/yaml.h"
 #include "contact_listener/contact_listener.h"
-
-#define TIME_STEP 1.0f / 60.0f
-#define VELOCITY_ITERATIONS 8
-#define POSITION_ITERATIONS 2
+#include "../config/global_configuration.h"
 
 World::World(Map &map): gravity(0.0f, -9.8f), world(new b2World(gravity)), contactListener(), contactFilter(),
                         numberOfPlayers(map.getPlayersNumber()), finished(false), chells(map.loadChells(*world)),
@@ -35,10 +32,10 @@ World::World(Map &map): gravity(0.0f, -9.8f), world(new b2World(gravity)), conta
 
 void World::step(std::list<std::shared_ptr<Event>> &events) {
 
-    float32 timeStep = TIME_STEP;
+    float32 timeStep = CONFIG.timeStepSeconds;
 
-    int32 velocityIterations = VELOCITY_ITERATIONS;
-    int32 positionIterations = POSITION_ITERATIONS;
+    int32 velocityIterations = CONFIG.velocityIterations;
+    int32 positionIterations = CONFIG.positionIterations;
 
     for (Chell &chell : chells) {
         chell.update();

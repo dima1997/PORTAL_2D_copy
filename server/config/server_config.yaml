@@ -1,0 +1,10 @@
+server:
+    default_port: "8082"
+    request_executors: 5
+game_loop:
+    wait_before_start_seconds: 2
+    step_max_time_microseconds: 10000
+simulation:
+    time_step_seconds: 1.5
+    velocity_iterations: 8
+    position_iterations: 2

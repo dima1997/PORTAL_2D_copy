@@ -3,7 +3,7 @@
 //
 
 #include <yaml-cpp/node/node.h>
-#include <configs_yaml/config_paths.h>
+#include "../config/maps_configuration.h"
 #include <yaml-cpp/yaml.h>
 #include <fstream>
 #include "map.h"

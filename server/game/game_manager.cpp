@@ -6,7 +6,7 @@
 #include <protocol/protocol_code.h>
 #include <portal_exception.h>
 #include <iostream>
-#include <configs_yaml/config_paths.h>
+#include "../config/maps_configuration.h"
 
 GameManager::GameManager(): games(), mutex(), biggestKey(0) {}
 
