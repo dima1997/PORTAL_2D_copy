@@ -28,8 +28,10 @@ Player::Player(uint32_t id, Connector &connector,
 
 void Player::join() {
     setState(FINISHED_P);
+    connector.shutDownRD();
     inThread.join();
     outQueue.close();
+    connector.shutDownWR();
     outThread.join();
 }
 

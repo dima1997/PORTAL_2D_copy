@@ -135,15 +135,15 @@ void Game::operator()() {
 }
 
 void Game::join() {
-    thread.join();
+    if (thread.joinable()) {
+        thread.join();
+    }
     for (auto &player : players) {
         player.join();
     }
 }
 
-Game::~Game() {
-    this->join();
-}
+Game::~Game() = default;
 
 void Game::addPlayer(Connector &connector) {
     uint32_t playerId = map.getPlayerId(getNumberOfPlayers());

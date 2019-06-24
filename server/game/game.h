@@ -24,12 +24,12 @@ class Game {
     game_state_t gameState;
     void start();
     void manageActions(std::unique_ptr<GameAction> ptrAction);
-    void join();
     bool readyToStart();
     uint8_t getNumberOfPlayers();
 public:
     Game(Connector &connector, uint8_t mapId);
     ~Game();
+    void join();
     void addPlayer(Connector &connector);
     void operator()();
     game_state_t getState();

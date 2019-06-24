@@ -65,7 +65,11 @@ bool GameLobby::addPlayer(Connector &connector) {
     return false;
 }
 
-GameLobby::~GameLobby() = default;
+GameLobby::~GameLobby() {
+    if (game != nullptr) {
+        game->join();
+    }
+}
 
 void GameLobby::startIfReady() {
     if (game->getState() == READY) {
