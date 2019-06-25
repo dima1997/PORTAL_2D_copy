@@ -10,9 +10,8 @@
 #include <protocol/event/player_wins_event.h>
 #include <protocol/event/game_starts_event.h>
 #include "game.h"
+#include "../config/global_configuration.h"
 
-#define SECONDS_WAIT_BEFORE_START 2
-#define TIME_WAIT_MICRO_SECONDS 10000
 #define ONE_SECOND_EQ_MICRO_SECONDS 100000
 
 void Game::start() {
@@ -22,14 +21,13 @@ void Game::start() {
         player.addToQueue(event);
     }
     // this to make time for the last window to load
-    std::this_thread::sleep_for(std::chrono::seconds(SECONDS_WAIT_BEFORE_START));
-    double timeWaitMicroSeconds = TIME_WAIT_MICRO_SECONDS;
+    std::this_thread::sleep_for(std::chrono::seconds(CONFIG.waitBeforeStartSeconds));
     unsigned t0,t1,t2;
     while (true){
         t0 = clock();
         t2 = clock();
         double timeProcessMicroSeconds = (double(t2-t0)/CLOCKS_PER_SEC) * ONE_SECOND_EQ_MICRO_SECONDS;
-        while (timeProcessMicroSeconds <= timeWaitMicroSeconds && !world.hasFinished()) {
+        while (timeProcessMicroSeconds <= CONFIG.stepMaxTimeMicroSeconds && !world.hasFinished()) {
             std::unique_ptr<GameAction> ptrAction;
             if (!this->inQueue.pop(ptrAction)){
                 break;
@@ -49,7 +47,7 @@ void Game::start() {
         if (world.hasFinished()) break;
         t1 = clock();
         double timeSpendMicroSeconds = (double(t1-t0)/CLOCKS_PER_SEC) * ONE_SECOND_EQ_MICRO_SECONDS;
-        std::this_thread::sleep_for(std::chrono::microseconds((int)(timeWaitMicroSeconds - timeSpendMicroSeconds)));
+        std::this_thread::sleep_for(std::chrono::microseconds((int)(CONFIG.stepMaxTimeMicroSeconds - timeSpendMicroSeconds)));
     }
     gameState = FINISHED;
 }
@@ -78,7 +76,6 @@ void Game::manageActions(std::unique_ptr<GameAction> ptrAction) {
             std::unique_ptr<CoordsAction> ptrCoordsAction(ptrAux);
             float xMap = ptrCoordsAction->getX();
             float yMap = ptrCoordsAction->getY();
-            std::cout << "SERVER: Abriendo portal AZUL en x : "<< xMap << " y : " << yMap << "\n";
             world.getChell(player_id).shootPortal(xMap, yMap, BLUE);
         }
             break;
@@ -88,7 +85,6 @@ void Game::manageActions(std::unique_ptr<GameAction> ptrAction) {
             std::unique_ptr<CoordsAction> ptrCoordsAction(ptrAux);
             float xMap = ptrCoordsAction->getX();
             float yMap = ptrCoordsAction->getY();
-            std::cout << "SERVER: Abriendo portal NARANJA en x : "<< xMap << " y : " << yMap << "\n";
             world.getChell(player_id).shootPortal(xMap, yMap, ORANGE);
         }
             break;
@@ -97,7 +93,6 @@ void Game::manageActions(std::unique_ptr<GameAction> ptrAction) {
             auto ptrAux = dynamic_cast<CoordsAction *>(ptrAction.release());
             std::unique_ptr<CoordsAction> ptrCoordsAction(ptrAux);
             world.getChell(player_id).showPinTool(ptrAux->getX(), ptrAux->getY());
-            std::cout << "SERVER: pin tool on.\n";
         }
             break;
         case grab_it:

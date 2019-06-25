@@ -6,7 +6,7 @@ set(SOURCES
         "${PROJECT_SOURCE_DIR}/connector/socket.cpp"
         "${PROJECT_SOURCE_DIR}/connector/connector.cpp"
         "${PROJECT_SOURCE_DIR}/blocking_queue.cpp"
-	"${PROJECT_SOURCE_DIR}/blocking_queue.h"
+		"${PROJECT_SOURCE_DIR}/blocking_queue.h"
         "${PROJECT_SOURCE_DIR}/portal_exception.cpp"
         "${PROJECT_SOURCE_DIR}/protocol/event/event.cpp"
         "${PROJECT_SOURCE_DIR}/protocol/event/object_moves_event.cpp"
@@ -24,7 +24,6 @@ set(SOURCES
         "${PROJECT_SOURCE_DIR}/thread_safe_queue.h"
         "${PROJECT_SOURCE_DIR}/protocol/game_action/game_action.cpp"
         "${PROJECT_SOURCE_DIR}/protocol/game_action/coords_action.cpp"
-	"${PROJECT_SOURCE_DIR}/configs_yaml/config_paths.h"
         )
 
 add_library(${PROJECT_NAME} STATIC ${SOURCES})

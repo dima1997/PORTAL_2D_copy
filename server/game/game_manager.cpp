@@ -3,19 +3,20 @@
 //
 
 #include "game_manager.h"
+#include "../config/global_configuration.h"
 #include <protocol/protocol_code.h>
 #include <portal_exception.h>
 #include <iostream>
-#include <configs_yaml/config_paths.h>
 
 GameManager::GameManager(): games(), mutex(), biggestKey(0) {}
 
 void GameManager::addGame(Connector &connector) {
     std::unique_lock<std::mutex> l(mutex);
     try {
-        connector << (uint8_t) CONFIG_PATHS.size();
-        for (const auto &map : CONFIG_PATHS) {
-            connector << (uint8_t) map.first;
+        unsigned long size = CONFIG.availableMaps.size();
+        connector << (uint8_t) size;
+        for (uint8_t i = 0; i < size; ++i) {
+            connector << i;
         }
         uint8_t mapId;
         std::string gameName;

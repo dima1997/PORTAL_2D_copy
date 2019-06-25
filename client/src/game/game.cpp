@@ -15,7 +15,6 @@
 #include "../../includes/mixer/mixer.h"
 #include "../../includes/mixer/portal_mixer.h"
 
-#include <configs_yaml/config_paths.h>
 #include <yaml-cpp/yaml.h>
 
 #include <mutex>

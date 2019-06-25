@@ -4,11 +4,10 @@
 
 #include <string>
 #include "server/server.h"
-
-#define DEFAULT_PORT "8082"
+#include "config/global_configuration.h"
 
 int main(int argc, char **argv) {
-    std::string port = DEFAULT_PORT;
+    std::string port = CONFIG.defaultPort;
     if (argc == 2) {
         port = argv[1];
     } else if (argc > 2) {

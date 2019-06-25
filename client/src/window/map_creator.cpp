@@ -6,7 +6,6 @@
 #include "../../includes/textures/common_texture/texture.h"
 
 #include "yaml-cpp/yaml.h"
-
 #include <cstdint>
 #include <sstream>
 

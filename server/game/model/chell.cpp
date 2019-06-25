@@ -12,8 +12,7 @@
 #include "chell.h"
 #include "../ray_cast_callback/portal_ray_cast_callback.h"
 #include "portal.h"
-
-#define JUMP_TIMEOUT 100
+#include "../../config/global_configuration.h"
 
 void Chell::customizeBody() {
 
@@ -80,18 +79,16 @@ void Chell::update() {
             break;
         case JUMP:
             if (!isJumping()) {
-                applyImpulse(vel.x, 6.0f);
+                applyImpulse(vel.x, CONFIG.chellJumpSpeed);
                 state = AIR;
                 jumpTimer.Reset();
             }
             break;
         case LEFT:
-            printf("move left\n");
-            applyImpulse(-3.0f, vel.y);
+            applyImpulse(-CONFIG.chellMoveSpeed, vel.y);
             break;
         case RIGHT:
-            printf("move right\n");
-            applyImpulse(3.0f, vel.y);
+            applyImpulse(CONFIG.chellMoveSpeed, vel.y);
             break;
         case STOP:
             applyImpulse(0, vel.y);
@@ -100,7 +97,7 @@ void Chell::update() {
 }
 
 bool Chell::isJumping() {
-    return footContacts == 0 || jumpTimer.GetMilliseconds() < JUMP_TIMEOUT;
+    return footContacts == 0 || jumpTimer.GetMilliseconds() < CONFIG.chellJumpTimeoutMilliseconds;
 }
 
 Portal &Chell::getPortal(portal_color_t color) {

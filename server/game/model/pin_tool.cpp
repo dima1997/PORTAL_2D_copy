@@ -4,8 +4,7 @@
 
 #include <Box2D/Dynamics/b2Fixture.h>
 #include "pin_tool.h"
-
-#define PIN_TOOL_RESET_MILLIS 10000
+#include "../../config/global_configuration.h"
 
 void PinTool::customizeBody() {
     body->SetActive(false);
@@ -33,7 +32,7 @@ void PinTool::show(float32 x, float32 y) {
 bool PinTool::_switchedState(bool updated) {
     if (updated) {
         visible = true;
-    } else if (visible && timer.GetMilliseconds() > PIN_TOOL_RESET_MILLIS) {
+    } else if (visible && timer.GetMilliseconds() > CONFIG.pin_tool_reset_time_milliseconds) {
         visible = false;
         return true;
     }

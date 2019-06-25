@@ -25,7 +25,6 @@
 
 class World {
 private:
-    b2Vec2 gravity;
     b2World *world;
     std::list<Chell> chells;
     std::list<Block> blocks;

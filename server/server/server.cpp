@@ -4,12 +4,11 @@
 
 #include <iostream>
 #include "server.h"
-
-#define NUMBER_OF_THREADS 10
+#include "../config/global_configuration.h"
 
 Server::Server(std::string &port): queue(), clientAcceptor(port, queue),
                                    gameManager(),
-                                   threadPool(NUMBER_OF_THREADS, queue, gameManager) {}
+                                   threadPool(CONFIG.requestExecutorsNumber, queue, gameManager) {}
 
 void Server::operator()() {
     clientAcceptor();
