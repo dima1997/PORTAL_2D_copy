@@ -9,6 +9,9 @@
 
 #include <string>
 
+#define WINDOW_WIDTH 640
+#define WINDOW_HEIGHT 480
+
 /*
 PRE: Recibe un resultado de juego.
 POST:Iniicaliza una ventana de fin de juego.
@@ -18,6 +21,7 @@ GameOver::GameOver(PlayResult & playResult, QWidget *parent)
 {
     Ui::GameOver gameOver;
     gameOver.setupUi(this);
+    this->setFixedSize(WINDOW_WIDTH, WINDOW_HEIGHT);
     this->hide();
     this->move(
         QApplication::desktop()->screen()->rect().center() 
