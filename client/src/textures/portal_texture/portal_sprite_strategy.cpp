@@ -16,7 +16,7 @@ images_paths.h .
 */
 PortalSpriteStrategy::PortalSpriteStrategy()
 :   SpriteStrategy(
-        PortalWhiteSprite::get_sprite()
+        NullSprite::get_sprite()
     ), 
     spriteName(PORTAL_CLOSE) {}
 
