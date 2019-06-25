@@ -65,6 +65,7 @@ install(FILES server/config/map_1.yaml DESTINATION ${CMAKE_BINARY_DIR})
 install(FILES server/config/map_2.yaml DESTINATION ${CMAKE_BINARY_DIR})
 install(FILES server/config/map_3.yaml DESTINATION ${CMAKE_BINARY_DIR})
 install(FILES server/config/map_4.yaml DESTINATION ${CMAKE_BINARY_DIR})
+install(FILES server/config/map_5.yaml DESTINATION ${CMAKE_BINARY_DIR})
 
 add_executable(${SERVER_NAME} ${server_files})
 target_compile_features(${SERVER_NAME} PUBLIC cxx_std_11)
