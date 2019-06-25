@@ -49,13 +49,14 @@ void KeySenderThread::run(){
             this->connector << action;
         }
         this->stop();
-    } catch (SocketException &except){
-        this->stop();
-        std::cout << "Connection Lost at KS.\n";
-        ThreadStatus stop = THREAD_STOP;
-        this->stopQueue.push(stop);
-        return;
+    } catch (SocketException & error){
+        std::cerr << "Connection Lost at KS.\n";
+    } catch (std::exception & error){
+        std::cerr << error.what();
     }
+    this->stop();
+    ThreadStatus stop = THREAD_STOP;
+    this->stopQueue.push(stop);
 }
 
 /*Detiene la ejecucion del hilo.*/

@@ -90,6 +90,9 @@ std::string LineInterface::choose_game_name(){
     std::string gameName;
     std::getline(std::cin, gameName);
     this->keep_input(gameName);
+    if (gameName == ""){
+        gameName = "New game";
+    }
     return std::move(gameName);
 } 
 
@@ -109,7 +112,6 @@ GameConfig LineInterface::_get_new_game(Connector & connector,
     connector >> playerId;
     std::string mapYaml;
     connector >> mapYaml;
-    //this->wait_game_starts(connector);
     std::cout << "Starting game :\n";
     std::cout << "Game name : " << gameName << "\n";
     std::cout << "Game id : " << (unsigned) gameId << "\n";
@@ -167,7 +169,6 @@ GameConfig LineInterface::_get_join_game(Connector & connector, uint8_t gameId){
         connector >> playerId;
         std::string mapYaml;
         connector >> mapYaml;
-        //this->wait_game_starts(connector);
         std::cout << "Joining game.\n";
         std::cout << "Game id :" << (unsigned) gameId << "\n";
         std::cout << "Player id : " << playerId << "\n";
