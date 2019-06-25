@@ -202,6 +202,12 @@ doors_one:
          yCoord: 14.0
          conditions:
              - [{cond_id: 116,  condition: true}, {cond_id: 117,  condition: true}]
+       - id: 114
+         number: 1
+         xCoord: 2.5
+         yCoord: 17.0
+         conditions:
+             - [{cond_id: 151,  condition: true}]
 buttons:
     width: 2
     height: 0.5
@@ -331,7 +337,7 @@ receivers:
     height: 1
     id_coordinates:
         [
-            {id: 151, xCoord: -6.5, yCoord: 14.5}
+            {id: 151, xCoord: -6.5, yCoord: 14.5, door_ids: [114]}
         ]
 emitters_right:
     width: 1
