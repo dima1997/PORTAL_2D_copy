@@ -25,7 +25,7 @@ World::World(Map &map): world(new b2World(b2Vec2(CONFIG.gravityX, CONFIG.gravity
                         blocks(map.loadBlocks(*world)), doors(map.loadDoors(*world)),
                         buttons(map.loadButtons(*world, doors)), rocks(map.loadRocks(*world)),
                         barriers(map.loadBarriers(*world)), emitters(map.loadEmitters(*world)), receivers(map.loadReceivers(*world, doors)),
-                        balls(map.loadBalls(*world, emitters)), cake(map.loadCake(*world)) {
+                        balls(map.loadBalls(*world, emitters)), cakes(map.loadCakes(*world)) {
     world->SetContactListener(&contactListener);
     world->SetContactFilter(&contactFilter);
     for (auto &chell : chells) {

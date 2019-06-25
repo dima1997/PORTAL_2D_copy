@@ -19,12 +19,16 @@ uint32_t Map::getPlayerId(uint8_t i) {
     return file["chells"]["id_coordinates"][i]["id"].as<uint32_t>();
 }
 
-Cake Map::loadCake(b2World &world) {
+std::list<Cake> Map::loadCakes(b2World &world) {
     YAML::Node cakeIdCoords = file["cakes"]["id_coordinates"];
-    auto id = cakeIdCoords[0]["id"].as<uint32_t>();
-    auto x = cakeIdCoords[0]["xCoord"].as<float32>();
-    auto y = cakeIdCoords[0]["yCoord"].as<float32>();
-    return Cake(world, x, y, id);
+    std::list<Cake> cakes;
+    for (auto && cakeInfo : cakeIdCoords) {
+        auto id = cakeInfo["id"].as<uint32_t>();
+        auto x = cakeInfo["xCoord"].as<float32>();
+        auto y = cakeInfo["yCoord"].as<float32>();
+        cakes.emplace_back(world, x, y, id);
+    }
+    return cakes;
 }
 
 std::list<Block> Map::loadBlocks(b2World &world) {

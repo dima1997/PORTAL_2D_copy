@@ -35,9 +35,9 @@ private:
     std::list<EnergyEmitter> emitters;
     std::list<EnergyReceiver> receivers;
     std::list<EnergyBall> balls;
+    std::list<Cake> cakes;
     std::map<uint8_t, std::reference_wrapper<Switchable>> switchables;
     std::map<uint8_t, std::reference_wrapper<MovableBody>> movables;
-    Cake cake;
     ContactListener contactListener;
     ContactFilter contactFilter;
     int numberOfPlayers;
