@@ -4,8 +4,7 @@
 
 #include "move_right_action.h"
 
-MoveRightAction::MoveRightAction(GameActionName gameActionName, uint8_t playerId) : ClientAction(gameActionName,
-                                                                                               playerId) {}
+MoveRightAction::MoveRightAction(uint8_t playerId) : ClientAction(playerId) {}
 
 void MoveRightAction::_execute(World &world) {
     world.getChell(playerId).updateState(RIGHT);

@@ -4,8 +4,7 @@
 
 #include "stop_move_action.h"
 
-StopMoveAction::StopMoveAction(GameActionName gameActionName, uint8_t playerId) : ClientAction(gameActionName,
-                                                                                               playerId) {}
+StopMoveAction::StopMoveAction(uint8_t playerId) : ClientAction(playerId) {}
 
 void StopMoveAction::_execute(World &world) {
     world.getChell(playerId).updateState(STOP);

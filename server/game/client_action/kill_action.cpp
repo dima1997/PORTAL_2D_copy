@@ -4,8 +4,7 @@
 
 #include "kill_action.h"
 
-KillAction::KillAction(GameActionName gameActionName, uint8_t playerId) : ClientAction(gameActionName,
-                                                                                               playerId) {}
+KillAction::KillAction(uint8_t playerId) : ClientAction(playerId) {}
 
 void KillAction::_execute(World &world) {
     world.getChell(playerId).die();

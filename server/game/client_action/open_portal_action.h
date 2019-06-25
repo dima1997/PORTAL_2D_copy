@@ -13,7 +13,7 @@ private:
     void _execute(World &world) override;
     portal_color_t color;
 public:
-    OpenPortalAction(GameActionName gameActionName, uint8_t playerId, portal_color_t portalColor);
+    OpenPortalAction(uint8_t playerId, portal_color_t portalColor);
     ~OpenPortalAction() override;
 };
 

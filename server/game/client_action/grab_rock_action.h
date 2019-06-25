@@ -8,11 +8,11 @@
 
 #include "client_action.h"
 
-class GrabRockAction: ClientAction {
+class GrabRockAction: public ClientAction {
 private:
     void _execute(World &world) override;
 public:
-    GrabRockAction(GameActionName gameActionName, uint8_t playerId);
+    explicit GrabRockAction(uint8_t playerId);
     ~GrabRockAction() override;
 };
 

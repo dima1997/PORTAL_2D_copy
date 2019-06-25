@@ -13,12 +13,11 @@
 
 class ClientAction {
 private:
-    GameActionName gameActionName;
     virtual void _execute(World &world) = 0;
 protected:
     uint32_t playerId;
 public:
-    ClientAction(GameActionName gameActionName, uint8_t playerId);
+    explicit ClientAction(uint8_t playerId);
     ClientAction(const ClientAction &clientAction);
     virtual ~ClientAction();
     virtual Connector &receiveFrom(Connector &out);

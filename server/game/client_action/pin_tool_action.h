@@ -12,7 +12,7 @@ class PinToolAction: public ClientCoordAction {
 private:
     void _execute(World &world) override;
 public:
-    PinToolAction(GameActionName gameActionName, uint8_t playerId);
+    explicit PinToolAction(uint8_t playerId);
     ~PinToolAction() override;
 };
 

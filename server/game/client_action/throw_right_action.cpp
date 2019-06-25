@@ -4,8 +4,7 @@
 
 #include "throw_right_action.h"
 
-ThrowRightAction::ThrowRightAction(GameActionName gameActionName, uint8_t playerId) : ClientAction(gameActionName,
-                                                                                               playerId) {}
+ThrowRightAction::ThrowRightAction(uint8_t playerId) : ClientAction(playerId) {}
 
 void ThrowRightAction::_execute(World &world) {
     world.getChell(playerId).throwRock(THROW_RIGHT);

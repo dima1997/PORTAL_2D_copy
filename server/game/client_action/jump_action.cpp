@@ -4,8 +4,7 @@
 
 #include "jump_action.h"
 
-JumpAction::JumpAction(GameActionName gameActionName, uint8_t playerId) : ClientAction(gameActionName,
-                                                                                               playerId) {}
+JumpAction::JumpAction(uint8_t playerId) : ClientAction(playerId) {}
 
 void JumpAction::_execute(World &world) {
     world.getChell(playerId).updateState(JUMP);

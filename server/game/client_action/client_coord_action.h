@@ -15,7 +15,7 @@ protected:
     float32 xMap;
     float32 yMap;
 public:
-    ClientCoordAction(GameActionName gameActionName, uint8_t playerId);
+    explicit ClientCoordAction(uint8_t playerId);
     ~ClientCoordAction() override;
     Connector &receiveFrom(Connector &out) override;
 

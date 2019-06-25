@@ -8,11 +8,11 @@
 
 #include "client_action.h"
 
-class JumpAction: ClientAction {
+class JumpAction: public ClientAction {
 private:
     void _execute(World &world) override;
 public:
-    JumpAction(GameActionName gameActionName, uint8_t playerId);
+    explicit JumpAction(uint8_t playerId);
     ~JumpAction() override;
 };
 

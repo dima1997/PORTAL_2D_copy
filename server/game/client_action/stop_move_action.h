@@ -8,11 +8,11 @@
 
 #include "client_action.h"
 
-class StopMoveAction: ClientAction {
+class StopMoveAction: public ClientAction {
 private:
     void _execute(World &world) override;
 public:
-    StopMoveAction(GameActionName gameActionName, uint8_t playerId);
+    explicit StopMoveAction(uint8_t playerId);
     ~StopMoveAction() override;
 };
 

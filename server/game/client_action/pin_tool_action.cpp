@@ -8,7 +8,6 @@ void PinToolAction::_execute(World &world) {
     world.getChell(playerId).showPinTool(xMap, yMap);
 }
 
-PinToolAction::PinToolAction(GameActionName gameActionName, uint8_t playerId):
-                             ClientCoordAction(gameActionName, playerId) {}
+PinToolAction::PinToolAction(uint8_t playerId): ClientCoordAction(playerId) {}
 
 PinToolAction::~PinToolAction() = default;

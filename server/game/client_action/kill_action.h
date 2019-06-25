@@ -8,11 +8,11 @@
 
 #include "client_action.h"
 
-class KillAction: ClientAction {
+class KillAction: public ClientAction {
 private:
     void _execute(World &world) override;
 public:
-    KillAction(GameActionName gameActionName, uint8_t playerId);
+    explicit KillAction(uint8_t playerId);
     ~KillAction() override;
 };
 

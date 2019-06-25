@@ -4,8 +4,7 @@
 
 #include "move_left_action.h"
 
-MoveLeftAction::MoveLeftAction(GameActionName gameActionName, uint8_t playerId) : ClientAction(gameActionName,
-                                                                                               playerId) {}
+MoveLeftAction::MoveLeftAction(uint8_t playerId) : ClientAction(playerId) {}
 
 void MoveLeftAction::_execute(World &world) {
     world.getChell(playerId).updateState(LEFT);

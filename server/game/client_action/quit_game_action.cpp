@@ -4,8 +4,7 @@
 
 #include "quit_game_action.h"
 
-QuitGameAction::QuitGameAction(GameActionName gameActionName, uint8_t playerId) : ClientAction(gameActionName,
-                                                                                               playerId) {}
+QuitGameAction::QuitGameAction(uint8_t playerId) : ClientAction(playerId) {}
 
 void QuitGameAction::_execute(World &world) {
     world.getChell(playerId).die();

@@ -20,10 +20,9 @@ class Game {
     std::thread thread;
     Map map;
     World world;
-    ThreadSafeQueue<std::unique_ptr<GameAction>> inQueue;
+    ThreadSafeQueue<std::unique_ptr<ClientAction>> inQueue;
     game_state_t gameState;
     void start();
-    void manageActions(std::unique_ptr<GameAction> ptrAction);
     bool readyToStart();
     uint8_t getNumberOfPlayers();
 public:

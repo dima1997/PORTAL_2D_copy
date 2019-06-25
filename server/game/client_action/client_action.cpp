@@ -4,14 +4,11 @@
 
 #include "client_action.h"
 
-ClientAction::ClientAction(GameActionName gameActionName, uint8_t playerId): gameActionName(gameActionName), playerId(playerId) {}
+ClientAction::ClientAction(uint8_t playerId): playerId(playerId) {}
 
-ClientAction::ClientAction(const ClientAction &other): gameActionName(other.gameActionName), playerId(other.playerId) {}
+ClientAction::ClientAction(const ClientAction &other): playerId(other.playerId) {}
 
 Connector &ClientAction::receiveFrom(Connector &out) {
-    uint8_t name;
-    out >> name;
-    gameActionName = (GameActionName) name;
     return out;
 }
 

@@ -28,11 +28,11 @@ void Game::start() {
         t2 = clock();
         double timeProcessMicroSeconds = (double(t2-t0)/CLOCKS_PER_SEC) * ONE_SECOND_EQ_MICRO_SECONDS;
         while (timeProcessMicroSeconds <= CONFIG.stepMaxTimeMicroSeconds && !world.hasFinished()) {
-            std::unique_ptr<GameAction> ptrAction;
+            std::unique_ptr<ClientAction> ptrAction;
             if (!this->inQueue.pop(ptrAction)){
                 break;
             }
-            manageActions(std::move(ptrAction));
+            ptrAction->execute(world);
             t2 = clock();
             timeProcessMicroSeconds = (double(t2-t0)/CLOCKS_PER_SEC) * ONE_SECOND_EQ_MICRO_SECONDS;
         }
@@ -50,71 +50,6 @@ void Game::start() {
         std::this_thread::sleep_for(std::chrono::microseconds((int)(CONFIG.stepMaxTimeMicroSeconds - timeSpendMicroSeconds)));
     }
     gameState = FINISHED;
-}
-
-void Game::manageActions(std::unique_ptr<GameAction> ptrAction) {
-    uint32_t player_id = ptrAction->getPlayerId();
-    switch (ptrAction->getGameActionName()){
-        case quit_game:
-            world.getChell(player_id).die();
-            break;
-        case move_left:
-            world.getChell(player_id).updateState(LEFT);
-            break;
-        case move_right:
-            world.getChell(player_id).updateState(RIGHT);
-            break;
-        case stop_move:
-            world.getChell(player_id).updateState(STOP);
-            break;
-        case jump:
-            world.getChell(player_id).updateState(JUMP);
-            break;
-        case open_blue_portal:
-        {
-            auto ptrAux = dynamic_cast<CoordsAction *>(ptrAction.release());
-            std::unique_ptr<CoordsAction> ptrCoordsAction(ptrAux);
-            float xMap = ptrCoordsAction->getX();
-            float yMap = ptrCoordsAction->getY();
-            world.getChell(player_id).shootPortal(xMap, yMap, BLUE);
-        }
-            break;
-        case open_orange_portal:
-        {
-            auto ptrAux = dynamic_cast<CoordsAction *>(ptrAction.release());
-            std::unique_ptr<CoordsAction> ptrCoordsAction(ptrAux);
-            float xMap = ptrCoordsAction->getX();
-            float yMap = ptrCoordsAction->getY();
-            world.getChell(player_id).shootPortal(xMap, yMap, ORANGE);
-        }
-            break;
-        case pin_tool_on:
-        {
-            auto ptrAux = dynamic_cast<CoordsAction *>(ptrAction.release());
-            std::unique_ptr<CoordsAction> ptrCoordsAction(ptrAux);
-            world.getChell(player_id).showPinTool(ptrAux->getX(), ptrAux->getY());
-        }
-            break;
-        case grab_it:
-            world.getChell(player_id).grabRock();
-            break;
-        case throw_right:
-            world.getChell(player_id).throwRock(THROW_RIGHT);
-            break;
-        case throw_left:
-            world.getChell(player_id).throwRock(THROW_LEFT);
-            break;
-        case reset_portals:
-            world.getChell(player_id).resetPortals();
-            break;
-        case kill:
-            world.getChell(player_id).die();
-            break;
-        case null_action:
-            break;
-        default:
-            throw PortalException("Null action");
-    }
 }
 
 Game::Game(Connector &connector, uint8_t mapId): players(), thread(), map(mapId), world(map), inQueue(), gameState(WAITING) {

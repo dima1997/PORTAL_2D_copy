@@ -4,7 +4,7 @@
 
 #include "client_coord_action.h"
 
-ClientCoordAction::ClientCoordAction(GameActionName gameActionName, uint8_t playerId): ClientAction(gameActionName, playerId), xMap(), yMap() {}
+ClientCoordAction::ClientCoordAction(uint8_t playerId): ClientAction(playerId), xMap(), yMap() {}
 
 Connector &ClientCoordAction::receiveFrom(Connector &out) {
     return out >> xMap >> yMap;

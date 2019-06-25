@@ -4,8 +4,7 @@
 
 #include "grab_rock_action.h"
 
-GrabRockAction::GrabRockAction(GameActionName gameActionName, uint8_t playerId) : ClientAction(gameActionName,
-                                                                                               playerId) {}
+GrabRockAction::GrabRockAction(uint8_t playerId) : ClientAction(playerId) {}
 
 void GrabRockAction::_execute(World &world) {
     world.getChell(playerId).grabRock();
