@@ -4,7 +4,7 @@
 #include "protocol/protocol_code.h"
 
 PortalMovesEvent::PortalMovesEvent(
-    int objectId, 
+    uint32_t objectId,
     float xPos, 
     float yPos, 
     uint32_t chellId,

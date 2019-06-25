@@ -11,7 +11,6 @@
 GameManager::GameManager(): games(), mutex(), biggestKey(0) {}
 
 void GameManager::addGame(Connector &connector) {
-    std::unique_lock<std::mutex> l(mutex);
     try {
         unsigned long size = CONFIG.availableMaps.size();
         connector << (uint8_t) size;
@@ -23,7 +22,10 @@ void GameManager::addGame(Connector &connector) {
         connector >> mapId;
         connector >> gameName;
         uint8_t game_id = this->getKey();
-        games.insert(std::make_pair(game_id, GameLobby(game_id, mapId, connector, gameName)));
+        {
+            std::unique_lock<std::mutex> l(mutex);
+            games.insert(std::make_pair(game_id, GameLobby(game_id, mapId, connector, gameName)));
+        }
         this->eraseFinished();
     } catch(SocketException &se) {
         std::cerr << se.what() << std::endl;
@@ -31,7 +33,6 @@ void GameManager::addGame(Connector &connector) {
 }
 
 void GameManager::joinToGame(Connector &connector) {
-    std::unique_lock<std::mutex> l(mutex);
     try {
         sendAvailableGames(connector);
         uint8_t gameId;
@@ -54,7 +55,10 @@ void GameManager::eraseFinished() {
     for (uint8_t i = 0; i <= biggestKey; i++) {
         if (games.count(i) > 0) {
             if (games.at(i).isFinished()) {
-                games.erase(i);
+                {
+                    std::unique_lock<std::mutex> l(mutex);
+                    games.erase(i);
+                }
             } else {
                 if (i > biggest) biggest = i;
             }
