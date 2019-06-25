@@ -7,11 +7,12 @@
 
 
 #include "body.h"
+#include "switchable.h"
 
-class Cake: public Body {
+class Cake: public Body, public Switchable {
 private:
     void customizeBody() override;
-    bool reached;
+    int reachedNumber;
 public:
     Cake(b2World &world, float32 xPos, float32 yPos, uint32_t id);
     Cake(const Cake &other);

@@ -40,6 +40,7 @@ private:
     ContactFilter contactFilter;
     int numberOfPlayers;
     bool finished;
+    bool gameEnded(bool won, std::list<std::shared_ptr<Event>> &events);
 public:
     explicit World(Map &map);
     bool hasFinished();

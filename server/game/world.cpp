@@ -15,6 +15,7 @@
 #include <protocol/event/throw_rock_event.h>
 #include <protocol/event/player_loses_event.h>
 #include <protocol/event/portal_moves_event.h>
+#include <protocol/event/player_reach_cake_event.h>
 #include "yaml-cpp/yaml.h"
 #include "contact_listener/contact_listener.h"
 #include "../config/global_configuration.h"
@@ -36,13 +37,10 @@ void World::step(std::list<std::shared_ptr<Event>> &events) {
     int32 velocityIterations = CONFIG.velocityIterations;
     int32 positionIterations = CONFIG.positionIterations;
 
+    bool won = false;
+
     world->Step(timeStep, velocityIterations, positionIterations);
 
-    if (cake.wasReached()) {
-        events.push_back(std::shared_ptr<Event>(new PlayerWinsEvent()));
-        finished = true;
-        return;
-    }
     for (Button &button : buttons) {
         if (button.switchedState()) {
             events.push_back(std::shared_ptr<Event>(new ObjectSwitchEvent(button.getId())));
@@ -63,11 +61,22 @@ void World::step(std::list<std::shared_ptr<Event>> &events) {
         events.push_back(std::shared_ptr<Event>(new ObjectMovesEvent(ball.getId(), ball.getXPos(), ball.getYPos())));
     }
     for (Chell &chell : chells) {
-        if ( chell.justDied() ) {
+        if (chell.getState() == FINISHED_C) {
+            continue;
+        }
+        if (chell.getState() == DIED_C) {
+            chell.finish();
             events.push_back(std::shared_ptr<Event>(new PlayerDiesEvent(chell.getId())));
-            if (--numberOfPlayers == 0) {
-                events.push_back(std::shared_ptr<Event>(new PlayerLosesEvent()));
-                finished = true;
+            if (gameEnded(won, events)) {
+                return;
+            }
+            break;
+        }
+        if (chell.getState() == REACHED_CAKE_C) {
+            chell.finish();
+            won = true;
+            events.push_back(std::shared_ptr<Event>(new PlayerReachCakeEvent(chell.getId())));
+            if (gameEnded(won, events)) {
                 return;
             }
             break;
@@ -129,4 +138,17 @@ Chell &World::getChell(uint32_t i) {
 
 bool World::hasFinished() {
     return finished;
+}
+
+bool World::gameEnded(bool won, std::list<std::shared_ptr<Event>> &events) {
+    if (--numberOfPlayers == 0) {
+        if (won) {
+            events.push_back(std::shared_ptr<Event>(new PlayerWinsEvent()));
+        } else {
+            events.push_back(std::shared_ptr<Event>(new PlayerLosesEvent()));
+        }
+        finished = true;
+        return true;
+    }
+    return false;
 }

@@ -36,6 +36,7 @@ void ContactListener::BeginContact(b2Contact *contact) {
 
             if (dataB->getBodyType() == CAKE) {
                 dynamic_cast<Cake *>(dataB)->reach();
+                chell->reachCake();
             } else if (dataB->getBodyType() == ACID_BLOCK) {
                 chell->die();
             } else if (dataB->getBodyType() == BARRIER) {
