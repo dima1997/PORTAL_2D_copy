@@ -22,33 +22,36 @@ Si se puede unir exitosamente, el servidor le responde con un status _command_ok
 ## Modos de ejecucion
 
 El server se inica ejecutando el comando (por terminal):  
-	./PORTAL-server
-
+	./PORTAL-server  
+  
 El Cliente se inicia ejecutando el comando (por terminal):  
-	./PORTAL line
+	./PORTAL line  
 
 ## Controles del juego (Jugador)
 
-TECLADO:
+TECLADO:  
   
-- A/FLECHA IZQUIERDA -> Moverse hacia izquierda
-- W/FLECHA ARRIBA -> Saltar
-- D/FLECHA DERECHA -> Moverse hacia derecha
-- ESPACIO/CONTROL DERECHO -> Tomar una roca 
-- SHIFT IZQUIERDO/MENOS -> Soltar una roca 
-- M -> Pausar/Continuar musica de fondo
-- V -> Pausar/Continuar grabacion del video
-	(Por defecto comienza pausado)
+- A/FLECHA IZQUIERDA -> Moverse hacia izquierda  
+- W/FLECHA ARRIBA -> Saltar  
+- D/FLECHA DERECHA -> Moverse hacia derecha  
+- ESPACIO/CONTROL DERECHO -> Tomar una roca  
+- E/SHIFT DERECHO -> Soltar una roca a derecha  
+- Q/MENOS -> Soltar una roca a izquierda  
+- M -> Pausar/Continuar musica de fondo  
+- V -> Pausar/Continuar grabacion del video  
+	(Por defecto comienza pausado)  
 	Durante el modo grabacion, la ventana toma dimensiones fijas, 
 	que no podran redimensionarse hasta tanto no pausar la 
-	grabacion. Ademas durante la grabacion ser vera un icono rojo
+	grabacion. Ademas durante la grabacion se vera un icono rojo
 	de play (>) en l esquina superior izquierda. 
-  
-MOUSE:
+- R/RETORNO -> Reset portales  
+- K -> Mata al propio jugador  
 
-- CLICK IZQUIERDO -> Abrir portal azul 
-- CLICK DERECHO -> Abrir portal naranja
-- CLICK MEDIO -> Pin tool (Proximamente)
+MOUSE:  
+
+- CLICK IZQUIERDO -> Abrir portal azul  
+- CLICK DERECHO -> Abrir portal naranja  
+- CLICK MEDIO -> Pin tool  
 
 
 
