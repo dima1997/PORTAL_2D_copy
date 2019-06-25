@@ -114,8 +114,8 @@ blocks_metal:
             {id: 58, xCoord: -5.5, yCoord: 0.5},
             {id: 59, xCoord: -6.5, yCoord: 0.5},
             # Piso 1
-            #{id: 60, xCoord: 6.5, yCoord: 5.5},
-            #{id: 61, xCoord: 5.5, yCoord: 5.5},
+            {id: 60, xCoord: 0.5, yCoord: 3.5},
+            {id: 61, xCoord: 0.5, yCoord: 4.5},
             #{id: 62, xCoord: 4.5, yCoord: 5.5},
             #{id: 63, xCoord: 3.5, yCoord: 5.5},
             {id: 64, xCoord: 2.5, yCoord: 5.5},
@@ -152,18 +152,27 @@ blocks_metal:
             {id: 93, xCoord: 1.5, yCoord: 15.5},
             {id: 94, xCoord: 0.5, yCoord: 15.5},
             {id: 95, xCoord: -0.5, yCoord: 15.5},
-            {id: 96, xCoord: -1.5, yCoord: 15.5},
-            {id: 97, xCoord: -2.5, yCoord: 15.5},
-            {id: 98, xCoord: -3.5, yCoord: 15.5},
+            
+            
             {id: 99, xCoord: -4.5, yCoord: 15.5},
             {id: 100, xCoord: -5.5, yCoord: 15.5},
-            {id: 101, xCoord: -6.5, yCoord: 15.5}
+            {id: 101, xCoord: -6.5, yCoord: 15.5},
+
+            {id: 107, xCoord: 7.5, yCoord: 16.5},
+            {id: 108, xCoord: 7.5, yCoord: 17.5},
+            {id: 109, xCoord: 7.5, yCoord: 18.5},
+            {id: 110, xCoord: 7.5, yCoord: 19.5},
+            {id: 111, xCoord: 7.5, yCoord: 20.5},
         ]
 blocks_acid:
     width: 1
     height: 1
     id_coordinates:
-        []
+        [
+            {id: 96, xCoord: -1.5, yCoord: 15.5},
+            {id: 97, xCoord: -2.5, yCoord: 15.5},
+            {id: 98, xCoord: -3.5, yCoord: 15.5},
+        ]
 blocks_rock:
     width: 1
     height: 1
@@ -174,11 +183,7 @@ blocks_rock:
             {id: 104, xCoord: -7.5, yCoord: 18.5},
             {id: 105, xCoord: -7.5, yCoord: 19.5},
             {id: 106, xCoord: -7.5, yCoord: 20.5},
-            {id: 107, xCoord: 7.5, yCoord: 16.5},
-            {id: 108, xCoord: 7.5, yCoord: 17.5},
-            {id: 109, xCoord: 7.5, yCoord: 18.5},
-            {id: 110, xCoord: 7.5, yCoord: 19.5},
-            {id: 111, xCoord: 7.5, yCoord: 20.5},
+            
         ]
 doors_one:
     width: 1.0
@@ -356,7 +361,9 @@ cakes:
     width: 1
     height: 1
     id_coordinates:
-        []
+        [
+            {id: 160, xCoord: -4.5, yCoord: 16.5}
+        ]
 background:
     width: 100
     height: 50
