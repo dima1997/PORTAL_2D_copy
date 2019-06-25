@@ -29,29 +29,29 @@ World::World(Map &map): world(new b2World(b2Vec2(CONFIG.gravityX, CONFIG.gravity
     world->SetContactListener(&contactListener);
     world->SetContactFilter(&contactFilter);
     for (auto &chell : chells) {
-        movables.insert(std::make_pair(chell.getId(), std::reference_wrapper(chell)));
+        movables.insert(std::make_pair(chell.getId(), std::reference_wrapper<MovableBody>(chell)));
         PinTool &pinTool = chell.getPinTool();
-        movables.insert(std::make_pair(pinTool.getId(), std::reference_wrapper(pinTool)));
-        switchables.insert(std::make_pair(pinTool.getId(), std::reference_wrapper(pinTool)));
+        movables.insert(std::make_pair(pinTool.getId(), std::reference_wrapper<MovableBody>(pinTool)));
+        switchables.insert(std::make_pair(pinTool.getId(), std::reference_wrapper<Switchable>(pinTool)));
         Portal &blue = chell.getPortal(BLUE);
-        switchables.insert(std::make_pair(blue.getId(), std::reference_wrapper(blue)));
+        switchables.insert(std::make_pair(blue.getId(), std::reference_wrapper<Switchable>(blue)));
         Portal &orange = chell.getPortal(ORANGE);
-        switchables.insert(std::make_pair(orange.getId(), std::reference_wrapper(orange)));
+        switchables.insert(std::make_pair(orange.getId(), std::reference_wrapper<Switchable>(orange)));
     }
     for (auto &elem : doors) {
-        switchables.insert(std::make_pair(elem.getId(), std::reference_wrapper(elem)));
+        switchables.insert(std::make_pair(elem.getId(), std::reference_wrapper<Switchable>(elem)));
     }
     for (auto &elem : buttons) {
-        switchables.insert(std::make_pair(elem.getId(), std::reference_wrapper(elem)));
+        switchables.insert(std::make_pair(elem.getId(), std::reference_wrapper<Switchable>(elem)));
     }
     for (auto &elem : rocks) {
-        movables.insert(std::make_pair(elem.getId(), std::reference_wrapper(elem)));
+        movables.insert(std::make_pair(elem.getId(), std::reference_wrapper<MovableBody>(elem)));
     }
     for (auto &elem : receivers) {
-        switchables.insert(std::make_pair(elem.getId(), std::reference_wrapper(elem)));
+        switchables.insert(std::make_pair(elem.getId(), std::reference_wrapper<Switchable>(elem)));
     }
     for (auto &elem : balls) {
-        movables.insert(std::make_pair(elem.getId(), std::reference_wrapper(elem)));
+        movables.insert(std::make_pair(elem.getId(), std::reference_wrapper<MovableBody>(elem)));
     }
 }
 
