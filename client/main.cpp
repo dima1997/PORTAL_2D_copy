@@ -13,6 +13,14 @@
 #define ERROR_OS 4
 #define ERROR_UNEXPECTED 5
 
+int print_and_return_arg_error(const std::string &name) {
+    std::cerr << "Usage:\n\tRun directly -> " << name << " host port command id" << std::endl;
+    std::cerr << "\tCLI -> " << name << " -c" << std::endl;
+    std::cerr << "\tGUI -> " << name << " -g" << std::endl;
+    std::cerr << "\t    -> " << name << std::endl;
+    return ERROR_ARGS;
+}
+
 int main(int argc, char **argv) {
     try {
         bool wrongUse = false;
@@ -23,26 +31,25 @@ int main(int argc, char **argv) {
             uint8_t id = (uint8_t)std::stoul(argv[4]);
             Client client;
             client(host, port, command, id);
-        }  
-        if (argc == 2){
+        } else if (argc == 2) {
             std::string mode = argv[1];
-            if (mode == "line"){
+            if (mode == "-c"){
                 Client client;
                 client.run_line();
-            } else if (mode == "window"){
+            } else if (mode == "-g"){
                 Client client;
                 client.run_qt(argc, argv);
             } else {
                 wrongUse = true;
             }
+        } else if (argc == 1) {
+            Client client;
+            client.run_qt(argc, argv);
+        } else {
+            return print_and_return_arg_error(argv[0]);
         }
-        if ((argc != 2 && argc != 5) || (wrongUse)) {
-            std::cerr << "Usage:\n\t" << argv[0] << " host port command id" << std::endl;
-            std::cerr << "or" << std::endl;
-            std::cerr << "Usage:\n\t" << argv[0] << " line" << std::endl;
-            std::cerr << "or" << std::endl;
-            std::cerr << "Usage:\n\t" << argv[0] << " window" << std::endl;
-            return ERROR_ARGS;
+        if (wrongUse) {
+            return print_and_return_arg_error(argv[0]);
         }
     } catch (SdlException & error){
         std::cerr << error.what() << "\n";
