@@ -1,7 +1,6 @@
 #include "../../includes/window/texture_factory.h"
 
 #include "../../includes/window/window.h"
-#include "../../includes/window/os_exception.h"
 #include "../../includes/textures/common_texture/big_texture.h"
 #include "../../includes/textures/common_texture/texture.h"
 #include "../../includes/textures/common_texture/sprite_strategy.h"

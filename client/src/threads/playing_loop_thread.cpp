@@ -2,9 +2,9 @@
 
 #include "../../includes/threads/key_reader.h"
 #include "../../includes/threads/event_game_processor.h"
+#include "../../includes/window/changes/change.h"
 #include "../../includes/window/window.h"
 #include "../../includes/mixer/mixer.h"
-#include "../../includes/textures/common_texture/texture_change.h"
 #include "../../includes/render_time.h" 
 
 #include <thread.h>
@@ -23,15 +23,17 @@
 
 /*
 PRE: Recibe:
-    la ventana (Window &) donde se renderizan las texturas;
-    una cola segura en hilos donde se para recibir eventos del juego;
+    una cola segura en hilos donde se para recibir cambios del juego;
     una cola bloqueante para enviar acciones a realizar al juego;
-    una cola bloquante para comunicarse con los 'referis' del juego, y
-    reportar que el jugador se desea desconectar del juego.
+    la ventana (Window &) donde se renderizan las texturas;
+    el mixer que reproduce los sonidos;
+    el resultado del juego;
+    una cola segura para recibir estados de otros hilos del juego;
+    una cola bloqueante para enviar a escribir en el disco, video.
 POST: Inicializa un loop de juego (animaciones + input del usuario).
 */
 PlayingLoopThread::PlayingLoopThread(
-    ThreadSafeQueue<std::unique_ptr<TextureChange>> & fromGameQueue,
+    ThreadSafeQueue<std::unique_ptr<Change>> & fromGameQueue,
     BlockingQueue<std::unique_ptr<GameAction>> & toGameQueue,
     Window & window,
     Mixer & mixer,

@@ -101,6 +101,17 @@ file(GLOB client_files
         "${CLIENT_FOLDER}/src/window/texture_factory.cpp"
         "${CLIENT_FOLDER}/src/window/map_creator.cpp"
         "${CLIENT_FOLDER}/src/window/os_exception.cpp"
+        "${CLIENT_FOLDER}/src/window/changes/change.cpp"
+        "${CLIENT_FOLDER}/src/window/changes/start_game_change.cpp"
+        "${CLIENT_FOLDER}/src/window/changes/texture_move_change.cpp"
+        "${CLIENT_FOLDER}/src/window/changes/portal_move_change.cpp"
+        "${CLIENT_FOLDER}/src/window/changes/texture_switch_change.cpp"
+        "${CLIENT_FOLDER}/src/window/changes/start_follow_change.cpp"
+        "${CLIENT_FOLDER}/src/window/changes/stop_follow_change.cpp"
+        "${CLIENT_FOLDER}/src/window/changes/player_dies_change.cpp"
+        "${CLIENT_FOLDER}/src/window/changes/player_reach_cake_change.cpp"
+        "${CLIENT_FOLDER}/src/window/changes/player_wins_change.cpp"
+        "${CLIENT_FOLDER}/src/window/changes/player_loses_change.cpp"
         "${CLIENT_FOLDER}/src/textures/common_texture/area.cpp"
         "${CLIENT_FOLDER}/src/textures/common_texture/texture.cpp"
         "${CLIENT_FOLDER}/src/textures/common_texture/sprite_strategy.cpp"
@@ -108,17 +119,6 @@ file(GLOB client_files
         "${CLIENT_FOLDER}/src/textures/common_texture/sdl_exception.cpp"
         "${CLIENT_FOLDER}/src/textures/common_texture/big_texture.cpp"
         "${CLIENT_FOLDER}/src/textures/common_texture/dynamic_sprite.cpp"
-        "${CLIENT_FOLDER}/src/textures/common_texture/texture_change.cpp"
-        "${CLIENT_FOLDER}/src/textures/common_texture/start_game_change.cpp"
-        "${CLIENT_FOLDER}/src/textures/common_texture/texture_move_change.cpp"
-        "${CLIENT_FOLDER}/src/textures/common_texture/portal_move_change.cpp"
-        "${CLIENT_FOLDER}/src/textures/common_texture/texture_switch_change.cpp"
-        "${CLIENT_FOLDER}/src/textures/common_texture/start_follow_change.cpp"
-        "${CLIENT_FOLDER}/src/textures/common_texture/stop_follow_change.cpp"
-        "${CLIENT_FOLDER}/src/textures/common_texture/player_dies_change.cpp"
-        "${CLIENT_FOLDER}/src/textures/common_texture/player_reach_cake_change.cpp"
-        "${CLIENT_FOLDER}/src/textures/common_texture/player_wins_change.cpp"
-        "${CLIENT_FOLDER}/src/textures/common_texture/player_loses_change.cpp"
         "${CLIENT_FOLDER}/src/textures/common_texture/null_sprite.cpp"
         "${CLIENT_FOLDER}/src/textures/common_texture/null_end_strategy.cpp"
         "${CLIENT_FOLDER}/src/textures/block_metal_texture/block_metal_sprite.cpp"
@@ -213,4 +213,4 @@ install(FILES client/assets/dying.wav DESTINATION ${CMAKE_BINARY_DIR})
 install(FILES client/assets/jump.wav DESTINATION ${CMAKE_BINARY_DIR})
 install(FILES client/assets/portal_background_3.jpg DESTINATION ${CMAKE_BINARY_DIR})
 install(FILES client/assets/pin_tool.png DESTINATION ${CMAKE_BINARY_DIR})
-install(FILES client/assets/loading_2.png DESTINATION ${CMAKE_BINARY_DIR})
+install(FILES client/assets/loading_3.png DESTINATION ${CMAKE_BINARY_DIR})
