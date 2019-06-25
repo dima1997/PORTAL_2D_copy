@@ -118,14 +118,6 @@ void ChellSpriteStrategy::move(float xBefore, float yBefore, float xNow, float y
 }
 
 /*
-Devuelve el area correspondiente al siguiente sprite de Chell, 
-en la imagen ALL_CHELL_IMAGE de images_path.h .
-*/
-Area ChellSpriteStrategy::getNextArea(){
-    return std::move(this->dynamicSprite.getNextArea());
-}
-
-/*
 PRE: Recibe el nombre del nuevo sprite de chell, 
 aun sin asignar, y un vector de nombres de sonidos.
 POST: Setea un el sonido en correspondiente al 

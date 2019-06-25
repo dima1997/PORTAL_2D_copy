@@ -11,6 +11,7 @@ enum ButtonSpriteName {
 class ButtonSpriteStrategy : public SpriteStrategy {
 private: 
     ButtonSpriteName spriteName;
+    
 public:
     /*
     Iniciliza un boton sprite strategy, cuyos sprites 

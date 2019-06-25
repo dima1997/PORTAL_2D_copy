@@ -17,15 +17,6 @@ DoorOneSpriteStrategy::DoorOneSpriteStrategy()
 /*Destruye el manejador de sprites de la puerta.*/
 DoorOneSpriteStrategy::~DoorOneSpriteStrategy() = default;
 
-/*
-Devuelve el area correspondiente al siguiente sprite 
-de la puerta recibida, en la imagen ALL_CHELL_SPRITES de 
-images_path.h .
-*/
-Area DoorOneSpriteStrategy::getNextArea(){
-    return std::move(this->dynamicSprite.getNextArea());
-}
-
 /*Alterna entre puerta abierta y cerrada.*/
 void DoorOneSpriteStrategy::switch_sprite() {
     if (this->spriteName == DOOR_CLOSE){
@@ -33,6 +24,7 @@ void DoorOneSpriteStrategy::switch_sprite() {
         this->spriteName = DOOR_OPENING;
         return;
     }
+
     if (this->spriteName == DOOR_OPEN){
         this->dynamicSprite = DoorOneOpeningSprite::get_sprite();
         this->dynamicSprite.reverse_sprite();

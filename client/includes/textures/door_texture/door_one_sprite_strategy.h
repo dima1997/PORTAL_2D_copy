@@ -21,13 +21,6 @@ public:
     /*Destruye el manejador de sprites de la puerta.*/
     virtual ~DoorOneSpriteStrategy();
 
-    /*
-    Devuelve el area correspondiente al siguiente sprite 
-    de la puerta recibida, en la imagen ALL_DOOR_SPRITES de 
-    images_path.h .
-    */
-    virtual Area getNextArea();
-
     /*Alterna entre puerta abierta y cerrada.*/
     virtual void switch_sprite() ;
 

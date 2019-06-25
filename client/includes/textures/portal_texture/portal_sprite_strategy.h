@@ -35,7 +35,7 @@ public:
         una referencia a un vector de nombre de sonidos.
     POST: No hace nada.
     */
-    void move(float xBefore, float yBefore, float xNow, float yNow, 
+    virtual void move(float xBefore, float yBefore, float xNow, float yNow, 
               std::vector<SOUND_NAME> & sounds);
 };
 

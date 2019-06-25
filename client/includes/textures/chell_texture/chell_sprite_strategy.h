@@ -64,13 +64,6 @@ public:
     /*Por ahora no hace nada*/
     virtual void switch_sprite() {}
 
-    /*
-    Devuelve el area correspondiente al siguiente sprite de Chell, 
-    en la imagen ALL_CHELL_IMAGE de images_path.h .
-    */
-    virtual Area getNextArea() override;
-
-
     /*Actualiza el sprite al siguiente a ser usado.*/
     virtual void update();
 

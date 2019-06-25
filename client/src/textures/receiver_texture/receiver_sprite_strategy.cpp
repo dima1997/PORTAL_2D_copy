@@ -34,14 +34,6 @@ void ReceiverSpriteStrategy::switch_sprite(){
     }
 }
 
-/*
-Devuelve el area correspondiente al siguiente sprite de la textura que 
-representa, en la imagen.png correspondiente.
-*/
-Area ReceiverSpriteStrategy::getNextArea(){
-    return std::move(this->dynamicSprite.getNextArea());
-}
-
 /*Actualiza el sprite al siguiente a ser usado.*/
 void ReceiverSpriteStrategy::update(){
     this->dynamicSprite.update();
