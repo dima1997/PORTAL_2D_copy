@@ -1,14 +1,14 @@
 #ifndef PORTAL_MOVE_CHANGE_H
 #define PORTAL_MOVE_CHANGE_H
 
-#include "texture_change.h"
+#include "change.h"
 
 #include <cstdint>
 
 class Window;
 class Connector;
 
-class PortalMoveChange : public TextureChange {
+class PortalMoveChange : public Change {
 private:
     uint32_t idPortal;
     float newX;

@@ -1,6 +1,5 @@
-#include "../../../includes/textures/common_texture/texture_switch_change.h"
+#include "../../../includes/window/changes/texture_switch_change.h"
 
-#include "../../../includes/textures/common_texture/texture_change.h"
 #include "../../../includes/window/window.h"
 
 #include <protocol/event/object_switch_event.h>
@@ -12,8 +11,7 @@ continuacion un ObjectSwitchEvent
 POST: Inicializa un cambio de tipo switch
 en textura.
 */
-TextureSwitchChange::TextureSwitchChange(Connector & connector)
-:   TextureChange(0) {
+TextureSwitchChange::TextureSwitchChange(Connector & connector){
     ObjectSwitchEvent event;
     connector >> event;
     this->id = event.getObjectId();

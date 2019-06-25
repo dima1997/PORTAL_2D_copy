@@ -1,5 +1,5 @@
-#ifndef TEXTURE_CHANGE_H
-#define TEXTURE_CHANGE_H
+#ifndef CHANGE_H
+#define CHANGE_H
 
 class Window;
 class PlayResult;
@@ -7,19 +7,15 @@ class KeyReader;
 
 #include <cstdint>
 
-class TextureChange {
-protected:
-    uint32_t id;
+class Change {
 public:
     /*
-    PRE: Recibe el id de la textura donde se 
-    realizar el cambio.
-    POST: Inicializa un cambio en textura nulo.
+    Inicializa un cambio en textura nulo.
     */
-    TextureChange(uint32_t idTexture);
+    Change();
 
     /*Destruye el cambio en textura.*/
-    virtual ~TextureChange();
+    virtual ~Change();
 
     /*
     PRE: Recibe una ventana donde se encuentre la 
@@ -55,4 +51,4 @@ public:
     );
 };
 
-#endif // TEXTURE_CHANGE_H
+#endif // CHANGE_H

@@ -1,15 +1,16 @@
 #ifndef TEXTURE_MOVE_CHANGE_H
 #define TEXTURE_MOVE_CHANGE_H
 
-#include "texture_change.h"
+#include "change.h"
 
 #include <cstdint>
 
 class Window;
 class Connector;
 
-class TextureMoveChange : public TextureChange {
+class TextureMoveChange : public Change {
 private:
+    uint32_t id;
     float newX;
     float newY;
 public:

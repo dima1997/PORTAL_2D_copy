@@ -1,12 +1,14 @@
 #ifndef TEXTURE_SWITCH_CHANGE_H
 #define TEXTURE_SWITCH_CHANGE_H
 
-#include "texture_change.h"
+#include "change.h"
 
 class Window;
 class Connector;
 
-class TextureSwitchChange : public TextureChange {
+class TextureSwitchChange : public Change {
+private:
+    uint32_t id;
 public:
     /*
     PRE: Recibe un connector por donde se recibira a 

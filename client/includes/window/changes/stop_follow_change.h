@@ -1,30 +1,29 @@
-#ifndef START_FOLLOW_CHANGE_H
-#define START_FOLLOW_CHANGE_H
+#ifndef STOP_FOLLOW_CHANGE_H
+#define STOP_FOLLOW_CHANGE_H
 
-#include "texture_change.h"
+#include "change.h"
 
 #include <cstdint>
 
 class Window;
 class Connector;
 
-class StartFollowChange : public TextureChange { 
+class StopFollowChange : public Change {
 private:
-    uint32_t idFollowing;
-    uint32_t idFollowed;
+    uint32_t id;
+     
 public:
     /*
     PRE: Recibe un connector por donde se recibira a 
-    continuacion el id de la textura seguidora, y
-    luego la textura a seguir.
+    continuacion el id de la textura a seguir.
     POST: Inicializa el cambio.
     */
-    StartFollowChange(Connector & connector);
+    StopFollowChange(Connector & connector);
 
     /*
     Destruye el cambio de seguimiento de la textura.
     */
-    virtual ~StartFollowChange();
+    virtual ~StopFollowChange();
 
     /*
     PRE: Recibe un ventana (Window &) donde 
@@ -35,4 +34,4 @@ public:
     virtual void change(Window & window);
 };
 
-#endif // START_FOLLOW_CHANGE_H
+#endif // STOP_FOLLOW_CHANGE_H

@@ -1,4 +1,4 @@
-#include "../../../includes/textures/common_texture/texture_change.h"
+#include "../../../includes/window/changes/change.h"
 
 #include "../../../includes/window/window.h"
 #include "../../../includes/threads/play_result.h"
@@ -7,34 +7,31 @@
 #include <cstdint>
 
 /*
-PRE: Recibe el id de la textura donde se 
-realizar el cambio.
-POST: Inicializa un cambio en textura nulo.
+Inicializa un cambio en textura nulo.
 */
-TextureChange::TextureChange(uint32_t idTexture)
-: id(idTexture) {}
+Change::Change() {}
 
 /*Destruye el cambio en textura.*/
-TextureChange::~TextureChange() = default;
+Change::~Change() = default;
 
 /*
 PRE: Recibe una ventana donde se encuentre la 
 textura con el id correspondiente a este cambio.
 POST: Realiza un cambio nulo en la ventana.
 */
-void TextureChange::change(Window & window) {}
+void Change::change(Window & window) {}
 
 /*
 PRE: Recibe un resultado de juego.
 POST: Realiza un cambio nulo en dicho resultado.
 */
-void TextureChange::change(PlayResult & playResult) {}
+void Change::change(PlayResult & playResult) {}
 
 /*
 PRE: Recibe un lector de eventos del usuario.
 POST: Realiza un cambio nulo en dicho resultado.
 */
-void TextureChange::change(KeyReader & keyReader) {}
+void Change::change(KeyReader & keyReader) {}
 
 /*
 PRE: Recibe un ventana de juego, 
@@ -44,7 +41,7 @@ del juego.
 POST: Realiza un cambio nulo en los 
 elementos recibidos.
 */
-void TextureChange::change(
+void Change::change(
     Window & window, 
     PlayResult & playResult, 
     KeyReader & keyReader

@@ -1,6 +1,5 @@
-#include "../../../includes/textures/common_texture/player_reach_cake_change.h"
+#include "../../../includes/window/changes/player_reach_cake_change.h"
 
-#include "../../../includes/textures/common_texture/texture_change.h"
 #include "../../../includes/window/window.h"
 #include "../../../includes/threads/play_result.h"
 #include "../../../includes/threads/key_reader.h"
@@ -16,8 +15,7 @@ a continuacion:
 POST: Inicializa un cambio donde gane
 un jugador.
 */
-PlayerReachCakeChange::PlayerReachCakeChange(Connector & connector)
-:   TextureChange(0) {
+PlayerReachCakeChange::PlayerReachCakeChange(Connector & connector){
     connector >> this->id;
 }
 

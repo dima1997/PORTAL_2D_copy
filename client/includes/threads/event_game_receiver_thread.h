@@ -1,7 +1,7 @@
 #ifndef EVENT_GAME_RECEIVER_THREAD_H
 #define EVENT_GAME_RECEIVER_THREAD_H
 
-#include "../textures/common_texture/texture_change.h"
+#include "../window/changes/change.h"
 
 #include <connector/connector.h>
 #include <protocol/protocol_code.h>
@@ -19,7 +19,7 @@ class EventGameReceiverThread : public Thread {
 private:
     bool isDead;
     Connector & connector;
-    ThreadSafeQueue<std::unique_ptr<TextureChange>> & changesQueue;
+    ThreadSafeQueue<std::unique_ptr<Change>> & changesQueue;
     ThreadSafeQueue<ThreadStatus> & stopQueue;
     std::mutex mutex;
     bool started;
@@ -37,7 +37,7 @@ public:
     */
     EventGameReceiverThread(
         Connector & connetor, 
-        ThreadSafeQueue<std::unique_ptr<TextureChange>> & changesQueue,
+        ThreadSafeQueue<std::unique_ptr<Change>> & changesQueue,
         ThreadSafeQueue<ThreadStatus> & stopQueue
         );
 

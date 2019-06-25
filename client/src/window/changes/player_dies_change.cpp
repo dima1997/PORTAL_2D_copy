@@ -1,6 +1,5 @@
-#include "../../../includes/textures/common_texture/player_dies_change.h"
+#include "../../../includes/window/changes/player_dies_change.h"
 
-#include "../../../includes/textures/common_texture/texture_change.h"
 #include "../../../includes/window/window.h"
 #include "../../../includes/threads/play_result.h"
 #include "../../../includes/threads/key_reader.h"
@@ -15,8 +14,7 @@ continuacion el ide de un jugador muerto.
 POST: Inicializa un cambio donde muere 
 un jugador.
 */
-PlayerDiesChange::PlayerDiesChange(Connector & connector)
-:   TextureChange(0){
+PlayerDiesChange::PlayerDiesChange(Connector & connector){
     connector >> this->id;
 }
 

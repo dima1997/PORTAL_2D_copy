@@ -1,30 +1,33 @@
-#ifndef PLAYER_REACH_CAKE_CHANGE_H
-#define PLAYER_REACH_CAKE_CHANGE_H
+#ifndef PLAYER_DIES_CHANGE_H
+#define PLAYER_DIES_CHANGE_H
 
-#include "texture_change.h"
+#include "change.h"
 
 #include <cstdint>
 
 class Window;
 class PlayResult;
+class KeyReader;
 class Connector;
 
-class PlayerReachCakeChange : public TextureChange { 
-public:
+class PlayerDiesChange : public Change { 
+private:
+    uint32_t id;
 
+public:
     /*
-    PRE: Recibe un connector por donde se vaya 
-    a recibir a continuacion el id del jugador 
-    ganador.
-    POST: Inicializa el cambio de jugador que 
-    gana.
+    PRE: Recibe un connector por donde se vaya a recibir 
+    a continuacion:
+        el id de una textura seguidora;
+        el id de una textura a seguir;
+    POST: Inicializa un cambio donde muere un jugador.
     */
-    PlayerReachCakeChange(Connector & connector);
+    PlayerDiesChange(Connector & connector);
 
     /*
     Destruye el cambio.
     */
-    virtual ~PlayerReachCakeChange();
+    virtual ~PlayerDiesChange();
 
     /*
     PRE: Recibe un ventana (Window &) donde 
@@ -50,4 +53,4 @@ public:
     );
 };
 
-#endif // PLAYER_REACH_CAKE_CHANGE_H
+#endif // PLAYER_DIES_CHANGE_H

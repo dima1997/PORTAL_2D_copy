@@ -1,7 +1,7 @@
 #ifndef START_GAME_CHANGE_H
 #define START_GAME_CHANGE_H
 
-#include "texture_change.h"
+#include "change.h"
 
 #include <cstdint>
 
@@ -10,7 +10,7 @@ class PlayResult;
 class KeyReader;
 class Connector;
 
-class StartGameChange : public TextureChange { 
+class StartGameChange : public Change {
 public:
     /*
     PRE: Recibe un connector.

@@ -1,6 +1,5 @@
-#include "../../../includes/textures/common_texture/start_follow_change.h"
+#include "../../../includes/window/changes/start_follow_change.h"
 
-#include "../../../includes/textures/common_texture/texture_change.h"
 #include "../../../includes/window/window.h"
 
 #include <connector/connector.h>
@@ -15,8 +14,7 @@ PRE: Recibe un connector que recibira a continuacion:
 POST: Inicializa un cambio de empezar a seguir
 una textura.
 */
-StartFollowChange::StartFollowChange(Connector & connector)
-:   TextureChange(0) {
+StartFollowChange::StartFollowChange(Connector & connector){
     GrabRockEvent event(0,0);
     connector >> event;
     this->idFollowed = event.getChellId();

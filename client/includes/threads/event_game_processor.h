@@ -1,7 +1,7 @@
 #ifndef EVENT_GAME_PROCESSOR_H
 #define EVENT_GAME_PROCESSOR_H
 
-#include "../textures/common_texture/texture_change.h"
+#include "../window/changes/change.h"
 
 #include <thread_safe_queue.h>
 #include <protocol/protocol_code.h>
@@ -15,7 +15,7 @@ class KeyReader;
 class EventGameProcessor {
 private:
     Window & window;
-    ThreadSafeQueue<std::unique_ptr<TextureChange>> & fromGameQueue;
+    ThreadSafeQueue<std::unique_ptr<Change>> & fromGameQueue;
     PlayResult & playResult;
     KeyReader & keyReader;
 
@@ -30,7 +30,7 @@ public:
     */
     EventGameProcessor(
         Window & window, 
-        ThreadSafeQueue<std::unique_ptr<TextureChange>> & fromGameQueue,
+        ThreadSafeQueue<std::unique_ptr<Change>> & fromGameQueue,
         PlayResult & playResult,
         KeyReader & keyReader
     );
@@ -39,10 +39,10 @@ public:
     ~EventGameProcessor();
     
     /*
-    PRE: Recibe un puntero unico a un evento (std::unique_ptr<Event>).
+    PRE: Recibe un puntero unico a un evento (std::unique_ptr<Change>).
     POST: Procesa el evento.
     */
-    ThreadStatus process_event(std::unique_ptr<TextureChange> ptrChange);
+    ThreadStatus process_event(std::unique_ptr<Change> ptrChange);
 
     /*
     PRE: Recibe un tiempo maximo de procesamiento de eventos 

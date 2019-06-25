@@ -1,6 +1,5 @@
-#include "../../../includes/textures/common_texture/portal_move_change.h"
+#include "../../../includes/window/changes/portal_move_change.h"
 
-#include "../../../includes/textures/common_texture/texture_change.h"
 #include "../../../includes/window/window.h"
 
 #include <protocol/event/portal_moves_event.h>
@@ -13,8 +12,7 @@ PRE: Recibe un connector por donde se vaya a recibir a
 continuacion un PortalMoveEvent.
 POST: Inicializa un cambio de portal moviendose.
 */
-PortalMoveChange::PortalMoveChange(Connector & connector)
-:   TextureChange(0) {
+PortalMoveChange::PortalMoveChange(Connector & connector){
     PortalMovesEvent event;
     connector >> event;
     this->idPortal = event.getId(); 

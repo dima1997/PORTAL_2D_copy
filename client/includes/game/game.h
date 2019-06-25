@@ -2,7 +2,7 @@
 #define PORTAL_GAME_H
 
 #include "../threads/play_result.h"
-#include "../textures/common_texture/texture_change.h"
+#include "../window/changes/change.h"
 
 #include <connector/connector.h>
 #include <thread.h>
@@ -21,7 +21,7 @@ private:
     uint32_t  playerId;
     std::string mapYaml;
     std::vector<std::unique_ptr<Thread>> threads;
-    ThreadSafeQueue<std::unique_ptr<TextureChange>> changesMade;
+    ThreadSafeQueue<std::unique_ptr<Change>> changesMade;
     BlockingQueue<std::unique_ptr<GameAction>> changesAsk;
     ThreadSafeQueue<ThreadStatus> stopQueue;
     BlockingQueue<std::vector<char>> videoFramesQueue;

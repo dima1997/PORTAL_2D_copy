@@ -1,7 +1,7 @@
 #ifndef PLAYING_LOOP_THREAD_H
 #define PLAYING_LOOP_THREAD_H
 
-#include "../textures/common_texture/texture_change.h"
+#include "../window/changes/change.h"
 
 #include <thread.h>
 #include <thread_safe_queue.h>
@@ -17,7 +17,7 @@ class PlayResult;
 class PlayingLoopThread : public Thread {
 private:
     bool isDead;
-    ThreadSafeQueue<std::unique_ptr<TextureChange>> & fromGameQueue;
+    ThreadSafeQueue<std::unique_ptr<Change>> & fromGameQueue;
     BlockingQueue<std::unique_ptr<GameAction>> & toGameQueue;
     Window & window;
     Mixer & mixer;
@@ -36,7 +36,7 @@ public:
     POST: Inicializa un loop de juego.
     */
     PlayingLoopThread( 
-        ThreadSafeQueue<std::unique_ptr<TextureChange>> & fromGameQueue,
+        ThreadSafeQueue<std::unique_ptr<Change>> & fromGameQueue,
         BlockingQueue<std::unique_ptr<GameAction>> & toGameQueue,
         Window & window,
         Mixer & mixer,

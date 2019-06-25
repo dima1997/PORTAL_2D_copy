@@ -1,6 +1,5 @@
-#include "../../../includes/textures/common_texture/stop_follow_change.h"
+#include "../../../includes/window/changes/stop_follow_change.h"
 
-#include "../../../includes/textures/common_texture/texture_change.h"
 #include "../../../includes/window/window.h"
 
 #include <connector/connector.h>
@@ -14,8 +13,7 @@ continuacion:
 POST: Inicializa un cambio de dejar de seguir
 una textura.
 */
-StopFollowChange::StopFollowChange(Connector & connector)
-:   TextureChange(0) {
+StopFollowChange::StopFollowChange(Connector & connector) {
     connector >> this->id;
 }
 

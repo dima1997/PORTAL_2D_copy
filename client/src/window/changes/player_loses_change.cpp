@@ -1,6 +1,5 @@
-#include "../../../includes/textures/common_texture/player_loses_change.h"
+#include "../../../includes/window/changes/player_loses_change.h"
 
-#include "../../../includes/textures/common_texture/texture_change.h"
 #include "../../../includes/window/window.h"
 #include "../../../includes/threads/play_result.h"
 
@@ -13,8 +12,7 @@ PRE: Recibe un connector;
 POST: Inicializa un cambio donde pierde 
 un jugador.
 */
-PlayerLosesChange::PlayerLosesChange(Connector & connector)
-:   TextureChange(0) {
+PlayerLosesChange::PlayerLosesChange(Connector & connector){
     // No necesita recibir nada del connetor
 }
 

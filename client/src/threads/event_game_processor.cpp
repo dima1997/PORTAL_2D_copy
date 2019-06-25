@@ -3,7 +3,7 @@
 #include "../../includes/threads/play_result.h"
 #include "../../includes/threads/key_reader.h"
 #include "../../includes/window/window.h"
-#include "../../includes/textures/common_texture/texture_change.h"
+#include "../../includes/window/changes/change.h"
 
 #include <thread_safe_queue.h>
 #include <protocol/protocol_code.h>
@@ -17,7 +17,7 @@
 PRE: Recibe un puntero unico a un evento (std::unique_ptr<Event>).
 POST: Procesa el evento.
 */
-ThreadStatus EventGameProcessor::process_event(std::unique_ptr<TextureChange> ptrChange){
+ThreadStatus EventGameProcessor::process_event(std::unique_ptr<Change> ptrChange){
     ThreadStatus status = THREAD_GO;
     ptrChange->change(this->window, this->playResult, this->keyReader);
     if (this->playResult.get_game_status() != GAME_STATUS_NOT_FINISHED){
@@ -29,16 +29,16 @@ ThreadStatus EventGameProcessor::process_event(std::unique_ptr<TextureChange> pt
 /*
 PRE: Recibe: 
     una ventana donde se encuentran las texturas
-    de los objetos a los cuales los eventos del juego 
+    de los objetos a los cuales los cambios del juego 
     afectan;
     una cola segura en hilos, de donde extraer el 
-    proximo evento a ejecutar;
-    un tiempo (int) maximo de procesamiento, que superado
-    se deja de procesar. 
+    proximo cambios a ejecutar;
+    el resultado del juego;
+    y el lector de eventos del usuario.
 */
 EventGameProcessor::EventGameProcessor(
     Window & window, 
-    ThreadSafeQueue<std::unique_ptr<TextureChange>> & fromGameQueue,
+    ThreadSafeQueue<std::unique_ptr<Change>> & fromGameQueue,
     PlayResult & playResult,
     KeyReader & keyReader
 )
@@ -63,7 +63,7 @@ ThreadStatus EventGameProcessor::process_some_events
     t0 = clock();
     double timeSpendMicroSeconds = 0;
     while (timeSpendMicroSeconds < timeMaxProcessMicroSeconds){
-        std::unique_ptr<TextureChange> ptrChange;
+        std::unique_ptr<Change> ptrChange;
         if (! this->fromGameQueue.pop(ptrChange)){
             break;
         }

@@ -1,7 +1,7 @@
 #ifndef PLAYER_LOSES_CHANGE_H
 #define PLAYER_LOSES_CHANGE_H
 
-#include "texture_change.h"
+#include "change.h"
 
 #include <cstdint>
 
@@ -9,7 +9,7 @@ class Window;
 class PlayResult;
 class Connector;
 
-class PlayerLosesChange : public TextureChange { 
+class PlayerLosesChange : public Change { 
 public:
     /*
     PRE: Recibe un connector.

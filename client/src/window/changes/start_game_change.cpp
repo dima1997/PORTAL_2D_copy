@@ -1,6 +1,5 @@
-#include "../../../includes/textures/common_texture/start_game_change.h"
+#include "../../../includes/window/changes/start_game_change.h"
 
-#include "../../../includes/textures/common_texture/texture_change.h"
 #include "../../../includes/threads/play_result.h"
 #include "../../../includes/threads/key_reader.h"
 #include "../../../includes/window/window.h"
@@ -12,8 +11,7 @@ PRE: Recibe un connector.
 POST: Inicializa un cambio de inicio 
 de partida.
 */
-StartGameChange::StartGameChange(Connector & connector)
-:   TextureChange(0){
+StartGameChange::StartGameChange(Connector & connector){
     //No necesita recibir nada 
 }
 

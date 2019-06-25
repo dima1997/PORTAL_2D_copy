@@ -1,6 +1,5 @@
-#include "../../../includes/textures/common_texture/texture_move_change.h"
+#include "../../../includes/window/changes/texture_move_change.h"
 
-#include "../../../includes/textures/common_texture/texture_change.h"
 #include "../../../includes/window/window.h"
 
 #include <protocol/event/object_moves_event.h>
@@ -12,8 +11,7 @@ continuacion un ObjectMovesEvent.
 POST: Inicializa un cambio en la ubicacion de la
 textura.
 */
-TextureMoveChange::TextureMoveChange(Connector & connector)
-:   TextureChange(0) {
+TextureMoveChange::TextureMoveChange(Connector & connector) {
     ObjectMovesEvent event;
     connector >> event;
     this->id = event.getId();

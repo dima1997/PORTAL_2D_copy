@@ -1,6 +1,5 @@
-#include "../../../includes/textures/common_texture/player_wins_change.h"
+#include "../../../includes/window/changes/player_wins_change.h"
 
-#include "../../../includes/textures/common_texture/texture_change.h"
 #include "../../../includes/window/window.h"
 #include "../../../includes/threads/play_result.h"
 
@@ -13,8 +12,7 @@ PRE: Recibe un connector.
 POST: Inicializa un cambio donde gana 
 un jugador.
 */
-PlayerWinsChange::PlayerWinsChange(Connector & connector)
-:   TextureChange(0){
+PlayerWinsChange::PlayerWinsChange(Connector & connector){
     // No necesita nada del connector.
 }
 
