@@ -15,7 +15,7 @@ protected:
     float normalX;
     float normalY;
 public:
-    PortalMovesEvent(int objectId, float xPos, float yPos, uint32_t chellId, float normalX, float normalY);
+    PortalMovesEvent(uint32_t objectId, float xPos, float yPos, uint32_t chellId, float normalX, float normalY);
     PortalMovesEvent();
     ~PortalMovesEvent() override;
     /*

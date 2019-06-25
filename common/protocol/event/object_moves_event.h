@@ -15,9 +15,9 @@ protected:
     float xPos;
     float yPos;
 public:
-    ObjectMovesEvent(int objectId, float xPos, float yPos);
+    ObjectMovesEvent(uint32_t objectId, float xPos, float yPos);
     ObjectMovesEvent(
-        int objectId, 
+        uint32_t objectId,
         float xPos, 
         float yPos, 
         EventType eventType
@@ -31,12 +31,12 @@ public:
     PRE: Recibe un conector (Connector &) conectado.
     POST: Recibe el evento, desde el connector.
     */
-    virtual void receiveFrom(Connector & in) override;
+    void receiveFrom(Connector & in) override;
     /*
     PRE: Recibe un conector (Connector &) conectado.
     POST: Envia el evento, a traves del connector.
     */
-    virtual void sendThrough(Connector & out) const override;
+    void sendThrough(Connector & out) const override;
 };
 
 
