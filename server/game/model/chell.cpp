@@ -37,11 +37,8 @@ void Chell::customizeBody() {
 
     body->CreateFixture(&circleFixtureDef);
 
-    b2PolygonShape sensorShape;
-    sensorShape.SetAsBox(0.2, 0.1, b2Vec2(0, -0.70), 0);
-
     b2FixtureDef sensorFixtureDef;
-    sensorFixtureDef.shape = &sensorShape;
+    sensorFixtureDef.shape = &circleShape;
     sensorFixtureDef.isSensor = true;
     sensorFixtureDef.userData = (void *)CONTACT_CHECK;
 
