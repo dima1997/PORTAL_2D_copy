@@ -28,6 +28,31 @@ World::World(Map &map): world(new b2World(b2Vec2(CONFIG.gravityX, CONFIG.gravity
                         balls(map.loadBalls(*world, emitters)), cake(map.loadCake(*world)) {
     world->SetContactListener(&contactListener);
     world->SetContactFilter(&contactFilter);
+    for (auto &chell : chells) {
+        movables.insert(std::make_pair(chell.getId(), std::reference_wrapper(chell)));
+        PinTool &pinTool = chell.getPinTool();
+        movables.insert(std::make_pair(pinTool.getId(), std::reference_wrapper(pinTool)));
+        switchables.insert(std::make_pair(pinTool.getId(), std::reference_wrapper(pinTool)));
+        Portal &blue = chell.getPortal(BLUE);
+        switchables.insert(std::make_pair(blue.getId(), std::reference_wrapper(blue)));
+        Portal &orange = chell.getPortal(ORANGE);
+        switchables.insert(std::make_pair(orange.getId(), std::reference_wrapper(orange)));
+    }
+    for (auto &elem : doors) {
+        switchables.insert(std::make_pair(elem.getId(), std::reference_wrapper(elem)));
+    }
+    for (auto &elem : buttons) {
+        switchables.insert(std::make_pair(elem.getId(), std::reference_wrapper(elem)));
+    }
+    for (auto &elem : rocks) {
+        movables.insert(std::make_pair(elem.getId(), std::reference_wrapper(elem)));
+    }
+    for (auto &elem : receivers) {
+        switchables.insert(std::make_pair(elem.getId(), std::reference_wrapper(elem)));
+    }
+    for (auto &elem : balls) {
+        movables.insert(std::make_pair(elem.getId(), std::reference_wrapper(elem)));
+    }
 }
 
 void World::step(std::list<std::shared_ptr<Event>> &events) {
@@ -41,83 +66,9 @@ void World::step(std::list<std::shared_ptr<Event>> &events) {
 
     world->Step(timeStep, velocityIterations, positionIterations);
 
-    for (Button &button : buttons) {
-        if (button.switchedState()) {
-            events.push_back(std::shared_ptr<Event>(new ObjectSwitchEvent(button.getId())));
-        }
-    }
-    for (EnergyReceiver &receiver: receivers) {
-        if (receiver.switchedState()) {
-            events.push_back(std::shared_ptr<Event>(new ObjectSwitchEvent(receiver.getId())));
-        }
-    }
-    for (Door &door : doors) {
-        if (door.switchedState()) {
-            events.push_back(std::shared_ptr<Event>(new ObjectSwitchEvent(door.getId())));
-        }
-    }
-    for (EnergyBall &ball : balls) {
-        ball.changedPosition();
-        events.push_back(std::shared_ptr<Event>(new ObjectMovesEvent(ball.getId(), ball.getXPos(), ball.getYPos())));
-    }
-    for (Chell &chell : chells) {
-        if (chell.getState() == FINISHED_C) {
-            continue;
-        }
-        if (chell.getState() == DIED_C) {
-            chell.finish();
-            events.push_back(std::shared_ptr<Event>(new PlayerDiesEvent(chell.getId())));
-            if (gameEnded(won, events)) {
-                return;
-            }
-            break;
-        }
-        if (chell.getState() == REACHED_CAKE_C) {
-            chell.finish();
-            won = true;
-            events.push_back(std::shared_ptr<Event>(new PlayerReachCakeEvent(chell.getId())));
-            if (gameEnded(won, events)) {
-                return;
-            }
-            break;
-        }
-        if (chell.changedPosition()) {
-            events.push_back(
-                    std::shared_ptr<Event>(new ObjectMovesEvent(chell.getId(), chell.getXPos(), chell.getYPos())));
-        }
-        if (chell.grabbedRock()) {
-            events.push_back(std::shared_ptr<Event>(new GrabRockEvent(chell.getId(), chell.getRock().getId())));
-        }
-        if (chell.threwRock()) {
-            events.push_back(std::shared_ptr<Event>(new ThrowRockEvent(chell.getRock().getId())));
-        }
-        Portal &orange = chell.getPortal(ORANGE);
-        if (orange.changedPosition()) {
-            events.push_back(std::shared_ptr<Event>(
-                    new PortalMovesEvent(orange.getId(), orange.getXPos(), orange.getYPos(), chell.getId(), orange.getNormalX(), orange.getNormalY())));
-        } else if (orange.switchedState()) {
-            events.push_back(std::shared_ptr<Event>(new ObjectSwitchEvent(orange.getId())));
-        }
-        Portal &blue = chell.getPortal(BLUE);
-        if (blue.changedPosition()) {
-            events.push_back(std::shared_ptr<Event>(
-                    new PortalMovesEvent(blue.getId(), blue.getXPos(), blue.getYPos(), chell.getId(), blue.getNormalX(), blue.getNormalY())));
-        } else if (blue.switchedState()) {
-            events.push_back(std::shared_ptr<Event>(new ObjectSwitchEvent(blue.getId())));
-        }
-        PinTool &pinTool = chell.getPinTool();
-        if (pinTool.switchedState()) {
-            events.push_back(std::shared_ptr<Event>(new ObjectSwitchEvent(pinTool.getId())));
-        }
-        if (pinTool.changedPosition()) {
-            events.push_back(std::shared_ptr<Event>(new ObjectMovesEvent(pinTool.getId(), pinTool.getXPos(), pinTool.getYPos())));
-        }
-    }
-    for (Rock &rock : rocks) {
-        if (rock.changedPosition()) {
-            events.push_back(std::shared_ptr<Event>(new ObjectMovesEvent(rock.getId(), rock.getXPos(), rock.getYPos())));
-        }
-    }
+    processMoveEvents(events);
+    processSwitchEvents(events);
+    processChellEvents(won, events);
 
 }
 
@@ -151,4 +102,66 @@ bool World::gameEnded(bool won, std::list<std::shared_ptr<Event>> &events) {
         return true;
     }
     return false;
+}
+
+void World::processMoveEvents(std::list<std::shared_ptr<Event>> &events) {
+    for (auto &movable : movables) {
+        uint8_t id = movable.first;
+        MovableBody &body = movable.second.get();
+        if (body.changedPosition()) {
+            events.push_back(
+                    std::shared_ptr<Event>(new ObjectMovesEvent(id, body.getXPos(), body.getYPos())));
+        }
+    }
+}
+
+void World::processSwitchEvents(std::list<std::shared_ptr<Event>> &events) {
+    for (auto &switchable : switchables) {
+        uint8_t id = switchable.first;
+        Switchable &elem = switchable.second.get();
+        if (elem.switchedState()) {
+            events.push_back(std::shared_ptr<Event>(new ObjectSwitchEvent(id)));
+        }
+    }
+}
+
+void World::processChellEvents(bool won, std::list<std::shared_ptr<Event>> &events) {
+    for (Chell &chell : chells) {
+        switch (chell.getState()) {
+            case DIED_C:
+                chell.finish();
+                events.push_back(std::shared_ptr<Event>(new PlayerDiesEvent(chell.getId())));
+                if (gameEnded(won, events)) {
+                    return;
+                }
+                break;
+            case REACHED_CAKE_C:
+                chell.finish();
+                won = true;
+                events.push_back(std::shared_ptr<Event>(new PlayerReachCakeEvent(chell.getId())));
+                if (gameEnded(won, events)) {
+                    return;
+                }
+                break;
+            case FINISHED_C:
+            case PLAYING_C:
+                if (chell.grabbedRock()) {
+                    events.push_back(std::shared_ptr<Event>(new GrabRockEvent(chell.getId(), chell.getRock().getId())));
+                }
+                if (chell.threwRock()) {
+                    events.push_back(std::shared_ptr<Event>(new ThrowRockEvent(chell.getRock().getId())));
+                }
+                Portal &orange = chell.getPortal(ORANGE);
+                if (orange.changedPosition()) {
+                    events.push_back(std::shared_ptr<Event>(
+                            new PortalMovesEvent(orange.getId(), orange.getXPos(), orange.getYPos(), chell.getId(), orange.getNormalX(), orange.getNormalY())));
+                }
+                Portal &blue = chell.getPortal(BLUE);
+                if (blue.changedPosition()) {
+                    events.push_back(std::shared_ptr<Event>(
+                            new PortalMovesEvent(blue.getId(), blue.getXPos(), blue.getYPos(), chell.getId(), blue.getNormalX(), blue.getNormalY())));
+                }
+                break;
+        }
+    }
 }
