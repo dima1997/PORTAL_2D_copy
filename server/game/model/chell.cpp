@@ -232,3 +232,8 @@ void Chell::showPinTool(float32 x, float32 y) {
 PinTool &Chell::getPinTool() {
     return pinTool;
 }
+
+bool Chell::_changedPosition() {
+    update();
+    return MovableBody::_changedPosition();
+}

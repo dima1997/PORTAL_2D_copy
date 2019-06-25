@@ -32,6 +32,8 @@ private:
     rock_state_t rockState;
     Rock *rock;
     bool grabIfRock(Body *body);
+    bool _changedPosition() override;
+    void update();
 public:
     int footContacts;
     bool throughPortal;
@@ -40,7 +42,6 @@ public:
     Chell(const Chell &other);
     ~Chell() override;
     void updateState(chell_state_t state);
-    void update();
     Portal &getPortal(portal_color_t color);
     body_type_t getBodyType() override;
     void die();

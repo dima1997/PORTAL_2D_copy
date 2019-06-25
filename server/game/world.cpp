@@ -36,10 +36,6 @@ void World::step(std::list<std::shared_ptr<Event>> &events) {
     int32 velocityIterations = CONFIG.velocityIterations;
     int32 positionIterations = CONFIG.positionIterations;
 
-    for (Chell &chell : chells) {
-        chell.update();
-    }
-
     world->Step(timeStep, velocityIterations, positionIterations);
 
     if (cake.wasReached()) {
