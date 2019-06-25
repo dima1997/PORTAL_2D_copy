@@ -3,6 +3,8 @@
 
 #include <thread.h>
 #include <blocking_queue.h>
+#include <thread_safe_queue.h>
+#include <protocol/protocol_code.h>
 
 #include <vector>
 #include <mutex>
@@ -13,6 +15,7 @@ private:
     int width;
     int height;
     BlockingQueue<std::vector<char>> & videoFramesQueue;
+    ThreadSafeQueue<ThreadStatus> & stopQueue;
     std::mutex mutex;
 
     /*Detiene la ejecucion del hilo*/
@@ -21,17 +24,18 @@ private:
 public:
     /*
     PRE: Recibe: 
-        el nombre con el que se guardara el video grabado;
         las dimensiones del video : ancho y alto (int);
         una cola bloqueante por donde recibir los frames de 
         video a escribir en disco.
+        una cola segura por donde comicarle a hilo principal 
+        que termino de ejecutar por cierto motivo.
     POST: 
     */
     VideoRecordThread(
-        //const std::string & videoFileName,
         int videoWidth,
         int videoHeight,
-        BlockingQueue<std::vector<char>> & videoFramesQueue
+        BlockingQueue<std::vector<char>> & videoFramesQueue,
+        ThreadSafeQueue<ThreadStatus> & stopQueue
     );
 
     ~VideoRecordThread();

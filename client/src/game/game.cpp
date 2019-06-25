@@ -90,7 +90,8 @@ PlayResult Game::operator()(){
         new VideoRecordThread(
             VIDEO_WIDTH,
             VIDEO_HEIGHT,
-            this->videoFramesQueue
+            this->videoFramesQueue,
+            this->stopQueue
         )
     )));
 

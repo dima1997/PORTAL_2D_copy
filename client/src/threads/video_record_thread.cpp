@@ -4,6 +4,8 @@
 
 #include <thread.h>
 #include <blocking_queue.h>
+#include <thread_safe_queue.h>
+#include <protocol/protocol_code.h>
 
 #include <vector>
 #include <mutex>
@@ -19,17 +21,21 @@ PRE: Recibe:
     las dimensiones del video : ancho y alto (int);
     una cola bloqueante por donde recibir los frames de 
     video a escribir en disco.
+    una cola segura por donde indicarle al hilo principal 
+    que termino de ejecutar por cierta razon.
 POST: 
 */
 VideoRecordThread::VideoRecordThread(
     int videoWidth,
     int videoHeight,
-    BlockingQueue<std::vector<char>> & videoFramesQueue
+    BlockingQueue<std::vector<char>> & videoFramesQueue,
+    ThreadSafeQueue<ThreadStatus> & stopQueue
 )
 :   isDead(true),
     width(videoWidth),
     height(videoHeight),
     videoFramesQueue(videoFramesQueue),
+    stopQueue(stopQueue),
     mutex() {}
 
 /*Destruye el hilo grabador de video.*/
@@ -60,10 +66,14 @@ void VideoRecordThread::run(){
         while ((! this->is_dead()) && this->videoFramesQueue.pop(videoFrameBuffer)){
             outputFormat.write_frame(videoFrameBuffer.data());
         }
+        this->_stop();
     } catch (std::exception & error) {
         std::cerr << error.what();
     }
-    this->_stop();
+    if (! this->is_dead()){
+        ThreadStatus statusStop = THREAD_STOP;
+        this->stopQueue.push(statusStop);
+    }
     
 }
 
