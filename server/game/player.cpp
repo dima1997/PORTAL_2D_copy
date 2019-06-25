@@ -7,6 +7,17 @@
 //
 
 #include "player.h"
+#include "client_action/open_portal_action.h"
+#include "client_action/pin_tool_action.h"
+#include "client_action/quit_game_action.h"
+#include "client_action/move_left_action.h"
+#include "client_action/move_right_action.h"
+#include "client_action/jump_action.h"
+#include "client_action/stop_move_action.h"
+#include "client_action/grab_rock_action.h"
+#include "client_action/throw_right_action.h"
+#include "client_action/throw_left_action.h"
+#include "client_action/kill_action.h"
 #include <protocol/event/object_moves_event.h>
 #include <portal_exception.h>
 #include <protocol/event/player_dies_event.h>
@@ -20,7 +31,7 @@
 #include <iostream>
 
 Player::Player(uint32_t id, Connector &connector,
-                ThreadSafeQueue<std::unique_ptr<GameAction>> &inQueue) :
+                ThreadSafeQueue<std::unique_ptr<ClientAction>> &inQueue) :
                id(id), connector(std::move(connector)), outThread(), inThread(),
                outQueue(), inQueue(inQueue), mutex(), state(WAITING_P) {
     start();
@@ -56,21 +67,52 @@ void Player::recvGameActions() {
                 return;
             }
             auto actionName = (GameActionName) actionNameExplicit;
-            std::unique_ptr<GameAction> ptrAction;
+            std::unique_ptr<ClientAction> ptrAction;
             switch(actionName){
                 case open_blue_portal:
+                    ptrAction = std::unique_ptr<ClientAction>(new OpenPortalAction(id, BLUE));
+                    break;
                 case open_orange_portal:
+                    ptrAction = std::unique_ptr<ClientAction>(new OpenPortalAction(id, ORANGE));
+                    break;
                 case pin_tool_on:
-                    ptrAction = std::unique_ptr<CoordsAction>(new CoordsAction(actionName));
-                    connector >> *ptrAction;
+                    ptrAction = std::unique_ptr<ClientAction>(new PinToolAction(id));
                     break;
                 case quit_game:
                     setState(FINISHED_P);
-                default:
-                    ptrAction = std::unique_ptr<GameAction>(new GameAction(actionName));
+                    ptrAction = std::unique_ptr<ClientAction>(new QuitGameAction(id));
+                    break;
+                case move_left:
+                    ptrAction = std::unique_ptr<ClientAction>(new MoveLeftAction(id));
+                    break;
+                case move_right:
+                    ptrAction = std::unique_ptr<ClientAction>(new MoveRightAction(id));
+                    break;
+                case jump:
+                    ptrAction = std::unique_ptr<ClientAction>(new JumpAction(id));
+                    break;
+                case stop_move:
+                    ptrAction = std::unique_ptr<ClientAction>(new StopMoveAction(id));
+                    break;
+                case grab_it:
+                    ptrAction = std::unique_ptr<ClientAction>(new GrabRockAction(id));
+                    break;
+                case throw_right:
+                    ptrAction = std::unique_ptr<ClientAction>(new ThrowRightAction(id));
+                    break;
+                case throw_left:
+                    ptrAction = std::unique_ptr<ClientAction>(new ThrowLeftAction(id));
+                    break;
+                case reset_portals:
+                    ptrAction = std::unique_ptr<ClientAction>(new QuitGameAction(id));
+                    break;
+                case kill:
+                    ptrAction = std::unique_ptr<ClientAction>(new KillAction(id));
+                    break;
+                case null_action:
                     break;
             }
-            ptrAction->setPlayerId(id);
+            connector >> *ptrAction;
             inQueue.push(ptrAction);
         } catch (SocketException &e) {
             setState(ERROR_P);

@@ -55,14 +55,14 @@ Chell::Chell(b2World &world, float32 xPos, float32 yPos, uint32_t playerId, Port
              PinTool &pinTool, float32 maxReach) :
              MovableBody(world, xPos, yPos, playerId), portals{bluePortal, orangePortal}, pinTool(pinTool), state(STOP),
              footContacts(0), jumpTimer(), maxReach(maxReach), rock(nullptr), rockStateUpdated(false),
-             threwRockUpdated(false), rockState(NO_ROCK), _justDied(false), throughPortal(false) {
+             threwRockUpdated(false), rockState(NO_ROCK), throughPortal(false), gameState(PLAYING_C) {
     connect(bluePortal, orangePortal);
     customizeBody();
 }
 
 Chell::~Chell() = default;
 
-void Chell::updateState(chell_state_t state) {
+void Chell::updateState(move_state_t state) {
     if (this->state != AIR && this->state != JUMP) {
         this->state = state;
     }
@@ -109,7 +109,7 @@ body_type_t Chell::getBodyType() {
 }
 
 void Chell::die() {
-    _justDied = true;
+    gameState = DIED_C;
     throwRock(THROW_IN);
     resetPortals();
 }
@@ -202,21 +202,12 @@ bool Chell::threwRock() {
     return updated;
 }
 
-bool Chell::justDied() {
-    if (_justDied) {
-        _justDied = false;
-        body->SetActive(false);
-        return true;
-    }
-    return false;
-}
-
 Chell::Chell(const Chell &other): MovableBody(other), portals{other.portals[BLUE], other.portals[ORANGE]},
                                   pinTool(other.pinTool), state(other.state), footContacts(other.footContacts),
                                   jumpTimer(other.jumpTimer), maxReach(other.maxReach),
                                   rock(other.rock), rockStateUpdated(other.rockStateUpdated),
                                   threwRockUpdated(other.threwRockUpdated), throughPortal(other.throughPortal),
-                                  rockState(other.rockState), _justDied(other._justDied) {
+                                  rockState(other.rockState), gameState(other.gameState) {
     connect(portals[BLUE], portals[ORANGE]);
 }
 
@@ -231,4 +222,22 @@ void Chell::showPinTool(float32 x, float32 y) {
 
 PinTool &Chell::getPinTool() {
     return pinTool;
+}
+
+bool Chell::_changedPosition() {
+    update();
+    return MovableBody::_changedPosition();
+}
+
+chell_state_t Chell::getState() {
+    return gameState;
+}
+
+void Chell::reachCake() {
+    gameState = REACHED_CAKE_C;
+}
+
+void Chell::finish() {
+    gameState = FINISHED_C;
+    body->SetActive(false);
 }

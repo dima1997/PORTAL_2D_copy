@@ -7,7 +7,7 @@
 
 
 #include <list>
-#include <vector>
+#include <map>
 #include <Box2D/Dynamics/b2World.h>
 #include "model/chell.h"
 #include "map.h"
@@ -35,11 +35,17 @@ private:
     std::list<EnergyEmitter> emitters;
     std::list<EnergyReceiver> receivers;
     std::list<EnergyBall> balls;
+    std::list<Cake> cakes;
+    std::map<uint8_t, std::reference_wrapper<Switchable>> switchables;
+    std::map<uint8_t, std::reference_wrapper<MovableBody>> movables;
     ContactListener contactListener;
     ContactFilter contactFilter;
-    Cake cake;
     int numberOfPlayers;
     bool finished;
+    bool gameEnded(bool won, std::list<std::shared_ptr<Event>> &events);
+    void processMoveEvents(std::list<std::shared_ptr<Event>> &events);
+    void processSwitchEvents(std::list<std::shared_ptr<Event>> &events);
+    void processChellEvents(bool won, std::list<std::shared_ptr<Event>> &events);
 public:
     explicit World(Map &map);
     bool hasFinished();

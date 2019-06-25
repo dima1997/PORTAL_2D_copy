@@ -32,7 +32,7 @@ public:
     explicit Map(uint8_t map_id);
     uint8_t getPlayersNumber();
     uint32_t getPlayerId(uint8_t i);
-    Cake loadCake(b2World &world);
+    std::list<Cake> loadCakes(b2World &world);
     std::list<Block> loadBlocks(b2World &world);
     std::list<Rock> loadRocks(b2World &world);
     std::list<Chell> loadChells(b2World &world);

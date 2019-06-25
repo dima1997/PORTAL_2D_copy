@@ -15,6 +15,7 @@
 #include <blocking_queue.h>
 
 #include <memory>
+#include "client_action/client_action.h"
 
 typedef enum player_state {WAITING_P, RECEIVING_P, FINISHED_P, ERROR_P} player_state_t;
 
@@ -25,7 +26,7 @@ private:
     std::thread outThread;
     std::thread inThread;
     BlockingQueue<std::shared_ptr<Event>> outQueue;
-    ThreadSafeQueue<std::unique_ptr<GameAction>> &inQueue;
+    ThreadSafeQueue<std::unique_ptr<ClientAction>> &inQueue;
     std::mutex mutex;
     player_state_t state;
     void setState(player_state_t state);
@@ -33,7 +34,7 @@ private:
     void recvGameActions();
     void start();
 public:
-    Player(uint32_t id, Connector &connector, ThreadSafeQueue<std::unique_ptr<GameAction>> &inQueue);
+    Player(uint32_t id, Connector &connector, ThreadSafeQueue<std::unique_ptr<ClientAction>> &inQueue);
     Player(Player &&other) noexcept;
     ~Player();
     bool stillRecvMsgs();
