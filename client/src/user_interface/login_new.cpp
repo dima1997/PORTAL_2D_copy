@@ -36,6 +36,9 @@ void LoginNew::config_new_game() {
     QLineEdit* lineGameName = findChild<QLineEdit*>("lineGameName");
     QString gameNameQStr = lineGameName->text();
     std::string gameName = gameNameQStr.toUtf8().constData();
+    if (gameName == ""){
+        gameName = "New game";
+    }
     this->connector << (uint8_t) mapId;
     this->connector << gameName;
     uint8_t status;
