@@ -6,7 +6,7 @@
 # Atencion los valores modulizadores de color RGB van de 1 a 255
 # (No poner 0, en cuyo caso, el programara levantara error.)
 
-player_number: 3
+player_number: 1
 sections: 
     [
         background,
@@ -64,20 +64,20 @@ blocks_metal:
             {id: 14, xCoord: -7.5, yCoord: 14.5},
             {id: 15, xCoord: -7.5, yCoord: 15.5},
             # Techo
-            {id: 16, xCoord: -6.5, yCoord: 15.5},
-            {id: 17, xCoord: -5.5, yCoord: 15.5},
-            {id: 18, xCoord: -4.5, yCoord: 15.5},
-            {id: 19, xCoord: -3.5, yCoord: 15.5},
-            {id: 20, xCoord: -2.5, yCoord: 15.5},
-            {id: 21, xCoord: -1.5, yCoord: 15.5},
-            {id: 22, xCoord: -0.5, yCoord: 15.5},
-            {id: 23, xCoord: 0.5, yCoord: 15.5},
-            {id: 24, xCoord: 1.5, yCoord: 15.5},
-            {id: 25, xCoord: 2.5, yCoord: 15.5},
-            {id: 26, xCoord: 3.5, yCoord: 15.5},
-            {id: 27, xCoord: 4.5, yCoord: 15.5},
-            {id: 28, xCoord: 5.5, yCoord: 15.5},
-            {id: 29, xCoord: 6.5, yCoord: 15.5},
+            {id: 16, xCoord: -6.5, yCoord: 20.5},
+            {id: 17, xCoord: -5.5, yCoord: 20.5},
+            {id: 18, xCoord: -4.5, yCoord: 20.5},
+            {id: 19, xCoord: -3.5, yCoord: 20.5},
+            {id: 20, xCoord: -2.5, yCoord: 20.5},
+            {id: 21, xCoord: -1.5, yCoord: 20.5},
+            {id: 22, xCoord: -0.5, yCoord: 20.5},
+            {id: 23, xCoord: 0.5, yCoord: 20.5},
+            {id: 24, xCoord: 1.5, yCoord: 20.5},
+            {id: 25, xCoord: 2.5, yCoord: 20.5},
+            {id: 26, xCoord: 3.5, yCoord: 20.5},
+            {id: 27, xCoord: 4.5, yCoord: 20.5},
+            {id: 28, xCoord: 5.5, yCoord: 20.5},
+            {id: 29, xCoord: 6.5, yCoord: 20.5},
             # Pared derecha
             {id: 30, xCoord: 7.5, yCoord: 15.5},
             {id: 31, xCoord: 7.5, yCoord: 14.5},
@@ -111,50 +111,50 @@ blocks_metal:
             {id: 58, xCoord: -5.5, yCoord: 0.5},
             {id: 59, xCoord: -6.5, yCoord: 0.5},
             # Piso 1
-            {id: 60, xCoord: 6.5, yCoord: 3.5},
-            {id: 61, xCoord: 5.5, yCoord: 3.5},
-            {id: 62, xCoord: 4.5, yCoord: 3.5},
-            {id: 63, xCoord: 3.5, yCoord: 3.5},
-            {id: 64, xCoord: 2.5, yCoord: 3.5},
-            {id: 65, xCoord: 1.5, yCoord: 3.5},
-            {id: 66, xCoord: 0.5, yCoord: 3.5},
-            {id: 67, xCoord: -0.5, yCoord: 3.5},
-            {id: 68, xCoord: -1.5, yCoord: 3.5},
-            {id: 69, xCoord: -2.5, yCoord: 3.5},
-            {id: 70, xCoord: -3.5, yCoord: 3.5},
-            {id: 71, xCoord: -4.5, yCoord: 3.5},
-            {id: 72, xCoord: -5.5, yCoord: 3.5},
-            {id: 73, xCoord: -6.5, yCoord: 3.5},
+            #{id: 60, xCoord: 6.5, yCoord: 5.5},
+            #{id: 61, xCoord: 5.5, yCoord: 5.5},
+            #{id: 62, xCoord: 4.5, yCoord: 5.5},
+            #{id: 63, xCoord: 3.5, yCoord: 5.5},
+            {id: 64, xCoord: 2.5, yCoord: 5.5},
+            {id: 65, xCoord: 1.5, yCoord: 5.5},
+            {id: 66, xCoord: 0.5, yCoord: 5.5},
+            {id: 67, xCoord: -0.5, yCoord: 5.5},
+            {id: 68, xCoord: -1.5, yCoord: 5.5},
+            {id: 69, xCoord: -2.5, yCoord: 5.5},
+            {id: 70, xCoord: -3.5, yCoord: 5.5},
+            {id: 71, xCoord: -4.5, yCoord: 5.5},
+            {id: 72, xCoord: -5.5, yCoord: 5.5},
+            {id: 73, xCoord: -6.5, yCoord: 5.5},
             # Piso 2
-            {id: 74, xCoord: 6.5, yCoord: 6.5},
-            {id: 75, xCoord: 5.5, yCoord: 6.5},
-            {id: 76, xCoord: 4.5, yCoord: 6.5},
-            {id: 77, xCoord: 3.5, yCoord: 6.5},
-            {id: 78, xCoord: 2.5, yCoord: 6.5},
-            {id: 79, xCoord: 1.5, yCoord: 6.5},
-            {id: 80, xCoord: 0.5, yCoord: 6.5},
-            {id: 81, xCoord: -0.5, yCoord: 6.5},
-            {id: 82, xCoord: -1.5, yCoord: 6.5},
-            {id: 83, xCoord: -2.5, yCoord: 6.5},
-            {id: 84, xCoord: -3.5, yCoord: 6.5},
-            {id: 85, xCoord: -4.5, yCoord: 6.5},
-            {id: 86, xCoord: -5.5, yCoord: 6.5},
-            {id: 87, xCoord: -6.5, yCoord: 6.5},
+            {id: 74, xCoord: 6.5, yCoord: 10.5},
+            {id: 75, xCoord: 5.5, yCoord: 10.5},
+            {id: 76, xCoord: 4.5, yCoord: 10.5},
+            {id: 77, xCoord: 3.5, yCoord: 10.5},
+            {id: 78, xCoord: 2.5, yCoord: 10.5},
+            {id: 79, xCoord: 1.5, yCoord: 10.5},
+            {id: 80, xCoord: 0.5, yCoord: 10.5},
+            {id: 81, xCoord: -0.5, yCoord: 10.5},
+            {id: 82, xCoord: -1.5, yCoord: 10.5},
+            {id: 83, xCoord: -2.5, yCoord: 10.5},
+            #{id: 84, xCoord: -3.5, yCoord: 10.5},
+            #{id: 85, xCoord: -4.5, yCoord: 10.5},
+            #{id: 86, xCoord: -5.5, yCoord: 10.5},
+            #{id: 87, xCoord: -6.5, yCoord: 10.5},
             # Piso 3
-            {id: 88, xCoord: 6.5, yCoord: 9.5},
-            {id: 89, xCoord: 5.5, yCoord: 9.5},
-            {id: 90, xCoord: 4.5, yCoord: 9.5},
-            {id: 91, xCoord: 3.5, yCoord: 9.5},
-            {id: 92, xCoord: 2.5, yCoord: 9.5},
-            {id: 93, xCoord: 1.5, yCoord: 9.5},
-            {id: 94, xCoord: 0.5, yCoord: 9.5},
-            {id: 95, xCoord: -0.5, yCoord: 9.5},
-            {id: 96, xCoord: -1.5, yCoord: 9.5},
-            {id: 97, xCoord: -2.5, yCoord: 9.5},
-            {id: 98, xCoord: -3.5, yCoord: 9.5},
-            {id: 99, xCoord: -4.5, yCoord: 9.5},
-            {id: 100, xCoord: -5.5, yCoord: 9.5},
-            {id: 101, xCoord: -6.5, yCoord: 9.5}
+            #{id: 88, xCoord: 6.5, yCoord: 15.5},
+            #{id: 89, xCoord: 5.5, yCoord: 15.5},
+            #{id: 90, xCoord: 4.5, yCoord: 15.5},
+            #{id: 91, xCoord: 3.5, yCoord: 15.5},
+            {id: 92, xCoord: 2.5, yCoord: 15.5},
+            {id: 93, xCoord: 1.5, yCoord: 15.5},
+            {id: 94, xCoord: 0.5, yCoord: 15.5},
+            {id: 95, xCoord: -0.5, yCoord: 15.5},
+            {id: 96, xCoord: -1.5, yCoord: 15.5},
+            {id: 97, xCoord: -2.5, yCoord: 15.5},
+            {id: 98, xCoord: -3.5, yCoord: 15.5},
+            {id: 99, xCoord: -4.5, yCoord: 15.5},
+            {id: 100, xCoord: -5.5, yCoord: 15.5},
+            {id: 101, xCoord: -6.5, yCoord: 15.5}
         ]
 blocks_acid:
     width: 1
@@ -165,33 +165,62 @@ blocks_rock:
     width: 1
     height: 1
     id_coordinates:
-        []
+        [
+            {id: 102, xCoord: -7.5, yCoord: 16.5},
+            {id: 103, xCoord: -7.5, yCoord: 17.5},
+            {id: 104, xCoord: -7.5, yCoord: 18.5},
+            {id: 105, xCoord: -7.5, yCoord: 19.5},
+            {id: 106, xCoord: -7.5, yCoord: 20.5},
+            {id: 107, xCoord: 7.5, yCoord: 16.5},
+            {id: 108, xCoord: 7.5, yCoord: 17.5},
+            {id: 109, xCoord: 7.5, yCoord: 18.5},
+            {id: 110, xCoord: 7.5, yCoord: 19.5},
+            {id: 111, xCoord: 7.5, yCoord: 20.5},
+        ]
+doors_one:
+    width: 1.0
+    height: 2.0
+    id_coordinates:
+       - id: 112
+         number: 1
+         xCoord: 0.5
+         yCoord: 2.0
+         conditions:
+             - [{cond_id: 114,  condition: true}, {cond_id: 115,  condition: true}]
+buttons:
+    width: 2
+    height: 0.5
+    id_coordinates:
+        [
+            {id: 114, xCoord: -3.0, yCoord: 1.25, door_ids: [112]},
+            {id: 115, xCoord: 3.0, yCoord: 1.25, door_ids: [112]}
+        ]
 chells:
     width: 1
     height: 1.5
     id_coordinates: 
         [
-             {id: 102, xCoord: 0, yCoord: 1.75, redMod: 255, greenMod: 1, blueMod: 1},
-             {id: 103, xCoord: 1, yCoord: 1.75, redMod: 1, greenMod: 1, blueMod: 255},
-             {id: 104, xCoord: -1, yCoord: 1.75, redMod: 1, greenMod: 255, blueMod: 1}
+             {id: 120, xCoord: -5.5, yCoord: 1.75, redMod: 255, greenMod: 1, blueMod: 1}
+             #{id: 103, xCoord: 1, yCoord: 1.75, redMod: 1, greenMod: 1, blueMod: 255},
+             #{id: 104, xCoord: -1, yCoord: 1.75, redMod: 1, greenMod: 255, blueMod: 1}
         ]
 portals_blue:
     width: 1.5
     height: 1.5
     id_coordinates: 
         [
-            {id: 105, xCoord: 1000, yCoord: 1000},
-            {id: 106, xCoord: 2000, yCoord: 2000},
-            {id: 107, xCoord: 3000, yCoord: 3000}
+            {id: 121, xCoord: 1000, yCoord: 1000},
+            #{id: 106, xCoord: 2000, yCoord: 2000},
+            #{id: 107, xCoord: 3000, yCoord: 3000}
         ]
 portals_orange:
     width: 1.5
     height: 1.5
     id_coordinates: 
         [
-            {id: 108, xCoord: 4000, yCoord: 4000},
-            {id: 109, xCoord: 5000, yCoord: 5000},
-            {id: 110, xCoord: 6000, yCoord: 6000}
+            {id: 122, xCoord: 4000, yCoord: 4000},
+            #{id: 109, xCoord: 5000, yCoord: 5000},
+            #{id: 110, xCoord: 6000, yCoord: 6000}
         ]
 pin_tools:
     width: 1
@@ -199,25 +228,17 @@ pin_tools:
     id_coordinates:
         # Recomendacion: Usar los mismo colores de las Chells que son propietarios de cada pin tool
         [
-            {id: 111, xCoord: 1000, yCoord: 1000, redMod: 255, greenMod: 1, blueMod: 1, chell_id: 102},
-            {id: 112, xCoord: 2000, yCoord: 2000, redMod: 1, greenMod: 1, blueMod: 255, chell_id: 103},
-            {id: 113, xCoord: 2000, yCoord: 2000, redMod: 1, greenMod: 255, blueMod: 1, chell_id: 104}
+            {id: 303, xCoord: 1000, yCoord: 1000, redMod: 255, greenMod: 1, blueMod: 1, chell_id: 102},
+            #{id: 112, xCoord: 2000, yCoord: 2000, redMod: 1, greenMod: 1, blueMod: 255, chell_id: 103},
+            #{id: 113, xCoord: 2000, yCoord: 2000, redMod: 1, greenMod: 255, blueMod: 1, chell_id: 104}
         ]
-doors_one:
-    width: 1.0
-    height: 2.0
-    id_coordinates:
-        
+
 energy_balls_green:
     width: 0.5
     height: 0.5
     id_coordinates:
         []
-buttons:
-    width: 2
-    height: 0.5
-    id_coordinates:
-        []
+
 rocks_one:
     width: 1.0
     height: 1.0
