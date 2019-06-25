@@ -9,7 +9,7 @@
 #include "body.h"
 #include "switchable.h"
 
-class Cake: public Body, public Switchable {
+class Cake: public Body {
 private:
     void customizeBody() override;
     int reachedNumber;
@@ -19,7 +19,6 @@ public:
     ~Cake() override;
     body_type_t getBodyType() override;
     void reach();
-    bool wasReached();
 };
 
 
