@@ -27,7 +27,7 @@ void Cake::reach() {
     ++reachedNumber;
 }
 
-Cake::Cake(const Cake &other): Body(other) {}
+Cake::Cake(const Cake &other): Body(other), reachedNumber(0) {}
 
 Cake::~Cake() = default;
 
