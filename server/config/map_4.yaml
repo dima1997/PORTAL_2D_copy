@@ -186,14 +186,21 @@ doors_one:
          xCoord: 0.5
          yCoord: 2.0
          conditions:
-             - [{cond_id: 114,  condition: true}, {cond_id: 115,  condition: true}]
+             - [{cond_id: 116,  condition: true}]
+             - [{cond_id: 117,  condition: true}]
+       - id: 113
+         number: 1
+         xCoord: -3.5
+         yCoord: 17.0
+         conditions:
+             - [{cond_id: 116,  condition: true}, {cond_id: 117,  condition: true}]
 buttons:
     width: 2
     height: 0.5
     id_coordinates:
         [
-            {id: 114, xCoord: -3.0, yCoord: 1.25, door_ids: [112]},
-            {id: 115, xCoord: 3.0, yCoord: 1.25, door_ids: [112]}
+            {id: 116, xCoord: -3.0, yCoord: 1.25, door_ids: [112]},
+            {id: 117, xCoord: 6.0, yCoord: 1.25, door_ids: [112]}
         ]
 chells:
     width: 1
@@ -228,7 +235,7 @@ pin_tools:
     id_coordinates:
         # Recomendacion: Usar los mismo colores de las Chells que son propietarios de cada pin tool
         [
-            {id: 303, xCoord: 1000, yCoord: 1000, redMod: 255, greenMod: 1, blueMod: 1, chell_id: 102},
+            {id: 123, xCoord: 1000, yCoord: 1000, redMod: 255, greenMod: 1, blueMod: 1, chell_id: 102},
             #{id: 112, xCoord: 2000, yCoord: 2000, redMod: 1, greenMod: 1, blueMod: 255, chell_id: 103},
             #{id: 113, xCoord: 2000, yCoord: 2000, redMod: 1, greenMod: 255, blueMod: 1, chell_id: 104}
         ]
@@ -243,7 +250,9 @@ rocks_one:
     width: 1.0
     height: 1.0
     id_coordinates:
-        []
+        [
+            {id: 140, xCoord: 0.5, yCoord: 6.5},
+        ]
 rocks_two:
     width: 1.0
     height: 1.0
@@ -280,7 +289,9 @@ rocks_eight:
     id_coordinates:
         []
 barriers:
-    []
+    [
+        {id: 150, xCoord: -1, yCoord: 8, width: 0.25, height: 5},
+    ]
 triangles_botom_left:
     width: 1
     height: 1

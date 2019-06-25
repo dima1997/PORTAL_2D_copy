@@ -18,6 +18,7 @@
 #include "client_action/throw_right_action.h"
 #include "client_action/throw_left_action.h"
 #include "client_action/kill_action.h"
+#include "client_action/reset_portal_action.h"
 #include <protocol/event/object_moves_event.h>
 #include <portal_exception.h>
 #include <protocol/event/player_dies_event.h>
@@ -104,7 +105,7 @@ void Player::recvGameActions() {
                     ptrAction = std::unique_ptr<ClientAction>(new ThrowLeftAction(id));
                     break;
                 case reset_portals:
-                    ptrAction = std::unique_ptr<ClientAction>(new QuitGameAction(id));
+                    ptrAction = std::unique_ptr<ClientAction>(new ResetPortalAction(id));
                     break;
                 case kill:
                     ptrAction = std::unique_ptr<ClientAction>(new KillAction(id));

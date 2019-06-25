@@ -37,7 +37,7 @@ file(GLOB server_files
         "${SERVER_FOLDER}/game/client_action/kill_action.cpp"
         "${SERVER_FOLDER}/game/client_action/stop_move_action.cpp"
         "${SERVER_FOLDER}/game/client_action/grab_rock_action.cpp"
-        "${SERVER_FOLDER}/game/client_action/reset_portal_action.cpp"
+        "${SERVER_FOLDER}/game/client_action/reset_portals_action.cpp"
         "${SERVER_FOLDER}/game/model/body.cpp"
         "${SERVER_FOLDER}/game/model/block.cpp"
         "${SERVER_FOLDER}/game/model/chell.cpp"

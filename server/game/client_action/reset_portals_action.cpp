@@ -7,7 +7,7 @@
 ResetPortalAction::ResetPortalAction(uint8_t playerId) : ClientAction(playerId) {}
 
 void ResetPortalAction::_execute(World &world) {
-    world.getChell(playerId).throwRock(THROW_RIGHT);
+    world.getChell(playerId).resetPortals(); //
 }
 
 ResetPortalAction::~ResetPortalAction() = default;
