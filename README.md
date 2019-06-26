@@ -25,7 +25,9 @@ El server se inica ejecutando el comando (por terminal):
 	./PORTAL-server  
   
 El Cliente se inicia ejecutando el comando (por terminal):  
-	./PORTAL line  
+	./PORTAL -c (interfaz por comando de linea)  
+	./PORTAl -v (interfaz por ventanas QT)
+	./PORTAL <ip> <port> <command> <id> (forma rapida, leer manual de usuario)
 
 ## Controles del juego (Jugador)
 
